@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buzzer-Round</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f8fc;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+        header {
+            background-color: #0056b3;
+            color: white;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            width: 85%;
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            color: #0056b3;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        .question {
+            font-size: 1.6em;
+            margin: 25px 0;
+        }
+        .image-question {
+            margin: 20px 0;
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+        }
+        .options {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .option {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .option:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .option.correct {
+            background-color: #28a745 !important;
+        }
+        .option.incorrect {
+            background-color: #dc3545 !important;
+        }
+        .scoreboard {
+            margin-top: 25px;
+            font-size: 1.3em;
+            color: #0056b3;
+            font-weight: bold;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            width: 250px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transform: translateY(-50%);
+            display: none;
+            z-index: 1000;
+        }
+        .popup h2 {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: #0056b3;
+        }
+        .popup .team-buttons {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .popup button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        .popup button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+     Buzzer Round
+</header>
+
+<div class="container">
+    <div class="question" id="question"></div>
+    <img id="image" class="image-question" src="" alt="" style="display: none;">
+    <div class="options" id="options"></div>
+    <div id="scoreboard" class="scoreboard">
+        Scoreboard: Team A: 0 | Team B: 0 | Team C: 0
+    </div>
+</div>
+
+<div id="popup" class="popup">
+    <h2 id="popup-message">Correct! Select the team to award the point.</h2>
+    <div class="team-buttons" id="popup-buttons"></div>
+</div>
+
+<script>
+    const tieBreakerQuestions = [
+        {
+            question: "What is this spice called?",
+            image: "clove.png",
+            options: ["Cardamom", "Clove", "Cinnamon", "Nutmeg"],
+            correct: "Clove"
+        },
+        {
+            question: "What is this activity called?",
+            image: "rock.png",
+            options: ["Hiking", "Rock Climbing", "trekking", "rock trekking"],
+            correct: "Rock Climbing"
+        },
+        {
+            question: "What is this activity called?",
+            image: "knit.png",
+            options: ["Knitting", "Sewing", "Weaving", "Embroidery"],
+            correct: "Knitting"
+        },
+    {
+        question: "What is the synonym of 'vivid'?",
+        options: ["Dull", "Lively", "Sad", "Ordinary"],
+        correct: "Lively"
+    },
+    {
+        question: "What is the antonym of 'ancient'?",
+        options: ["Old", "Historic", "Modern", "Classic"],
+        correct: "Modern"
+    },
+    {
+        question: "Which of these is a correct form of 'to be' in the past tense?",
+        options: ["Is", "Are", "Was", "Will"],
+        correct: "Was"
+    },
+    {
+        question: "Which of the following words means 'to analyze critically'?",
+        options: ["Ignore", "Critique", "Enhance", "Simplify"],
+        correct: "Critique"
+    },
+    {
+        question: "What is the plural form of 'mouse'?",
+        options: ["Mouses", "Mouse", "Mice", "Meese"],
+        correct: "Mice"
+    },
+    {
+        question: "Which of the following is the correct spelling?",
+        options: ["Recieve", "Receive", "Receeve", "Reiceve"],
+        correct: "Receive"
+    },
+    {
+        question: "What is the meaning of the word 'persevere'?",
+        options: ["Give up easily", "Persist despite difficulties", "To avoid", "Be lazy"],
+        correct: "Persist despite difficulties"
+    },
+    {
+        question: "Which sentence uses the word 'affect' correctly?",
+        options: [
+            "The weather will affect the crops.",
+            "She has a positive affect on her friends.",
+            "The affect of the storm was severe.",
+            "The weather had no affect."
+        ],
+        correct: "The weather will affect the crops."
+    },
+    {
+        question: "What is the correct comparative form of 'little'?",
+        options: ["Littler", "Less", "Lesser", "Small"],
+        correct: "Less"
+    }
+
+
+
+    ];
+
+    let currentQuestionIndex = 0;
+    let scores = { A: 0, B: 0, C: 0 };
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const imageEl = document.getElementById("image");
+    const scoreboardEl = document.getElementById("scoreboard");
+    const popup = document.getElementById("popup");
+    const popupMessage = document.getElementById("popup-message");
+    const popupButtons = document.getElementById("popup-buttons");
+
+    function loadQuestion() {
+        const currentQuestion = tieBreakerQuestions[currentQuestionIndex];
+        questionEl.textContent = currentQuestion.question;
+        imageEl.style.display = currentQuestion.image ? "block" : "none";
+        imageEl.src = currentQuestion.image || "";
+        optionsEl.innerHTML = "";
+
+        currentQuestion.options.forEach(option => {
+            const button = document.createElement("button");
+            button.className = "option";
+            button.textContent = option;
+            button.addEventListener("click", () => handleAnswer(option, button));
+            optionsEl.appendChild(button);
+        });
+    }
+
+    function handleAnswer(selectedOption, button) {
+        const currentQuestion = tieBreakerQuestions[currentQuestionIndex];
+        const correct = selectedOption === currentQuestion.correct;
+
+        if (correct) {
+            button.classList.add("correct");
+            popupMessage.textContent = "Correct! Select the team to award the point.";
+            showPopup();
+        } else {
+            button.classList.add("incorrect");
+            popupMessage.textContent = "Incorrect! No points awarded.";
+            setTimeout(nextQuestion, 2000);
+        }
+    }
+
+    function showPopup() {
+        popup.style.display = "block";
+        popupButtons.innerHTML = "";
+
+        ["A", "B", "C"].forEach(team => {
+            const button = document.createElement("button");
+            button.textContent = `Team ${team}`;
+            button.addEventListener("click", () => awardPoint(team));
+            popupButtons.appendChild(button);
+        });
+    }
+
+    function awardPoint(team) {
+        scores[team]++;
+        updateScoreboard();
+        popup.style.display = "none";
+        nextQuestion();
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < tieBreakerQuestions.length) {
+            loadQuestion();
+        } else {
+            alert("The quiz is over!");
+        }
+    }
+
+    function updateScoreboard() {
+        scoreboardEl.textContent = `Scoreboard: Team A: ${scores.A} | Team B: ${scores.B} | Team C: ${scores.C}`;
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,729 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game ROUND-1</title>
+    <style>
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Container Styling */
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 85%;
+            max-width: 800px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            color: #2a9d8f;
+            margin-bottom: 10px;
+        }
+
+        .question {
+            font-size: 1.6em;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        /* Options Styling */
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .option {
+            background-color: #0288d1;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .option:hover {
+            background-color: #0277bd;
+            transform: scale(1.05);
+        }
+
+        .option.correct {
+            background-color: #4caf50 !important;
+        }
+
+        .option.wrong {
+            background-color: #f44336 !important;
+        }
+
+        .option.disabled {
+            background-color: #d3d3d3;
+            cursor: not-allowed;
+        }
+
+        /* Lifelines */
+        .lifelines {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .lifeline-button {
+            background-color: #f39c12;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .lifeline-button:disabled {
+            background-color: #d3d3d3;
+            cursor: not-allowed;
+        }
+
+        .timer {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        .timer-bar {
+            height: 20px;
+            background-color: #0288d1;
+            border-radius: 10px;
+            width: 100%;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .timer-bar-fill {
+            height: 100%;
+            width: 100%;
+            background-color: #0077b6;
+        }
+
+        /* Team Turn Styling */
+        .team-turn {
+            font-size: 1.5em;
+            color: #0288d1;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Scoreboard */
+        .scoreboard {
+            font-size: 1.2em;
+            color: #0288d1;
+            margin-top: 20px;
+        }
+
+        /* Next Button Styling */
+        .next-button {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #2a9d8f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .next-button:hover {
+            background-color: #21867a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ENGLISH QUIZ</h1>
+        <div id="team-turn" class="team-turn">Team A's Turn</div>
+
+        <div class="question">
+            <span id="question">Loading question...</span>
+        </div>
+
+        <div class="options" id="options">
+            <!-- Options will appear dynamically -->
+        </div>
+
+        <div class="lifelines">
+            <button id="lifeline-call" class="lifeline-button">Call</button>
+            <button id="lifeline-5050" class="lifeline-button">50:50</button>
+            <button id="lifeline-skip" class="lifeline-button">Skip</button>
+        </div>
+
+        <div class="timer">
+            <div id="timer">Time: 35s</div>
+            <div class="timer-bar">
+                <div id="timer-bar-fill" class="timer-bar-fill"></div>
+            </div>
+        </div>
+
+        <div id="scoreboard" class="scoreboard">Score: Team A: 0 | Team B: 0 | Team C: 0</div>
+
+        <button id="next-button" class="next-button">Next Question</button>
+    </div>
+
+    <script>
+        const questions = [
+    {
+        question: "(ROUND-1)   The other landed outside a __ ashram, a little distance away.",
+        options: ["a) rishi's", "b) guruji's", "c) anath's", "d) none of these"],
+        answer: "a) rishi's"
+    },
+    {
+        question: "He became famous for his wisdom and __ nature.",
+        options: ["a) lovely nature", "b) helping nature", "c) friendly nature", "d) all of these"],
+        answer: "c) friendly nature"
+    },
+    {
+        question: "The giant waves that rolled through the Indian Ocean killed more than ___ people in a dozen countries.",
+        options: ["a) 2,10,000", "b) 1,50,000", "c) 1,25,000", "d) 2,00,000"],
+        answer: "b) 1,50,000"
+    },
+    {
+        question: "When did the deadly tsunami occur?",
+        options: ["a) 12th January, 2006", "b) 26th April, 2004", "c) 2nd November, 2006", "d) 26th December, 2004"],
+        answer: "d) 26th December, 2004"
+    },
+    {
+        question: "What is Nintendo?",
+        options: ["a) Arcade game", "b) Video game", "c) Book", "d) Magazine"],
+        answer: "b) Video game"
+    },
+    {
+        question: "A __ story retold from Taro's reward.",
+        options: ["a) Japanese story", "b) American story", "c) Russian story", "d) Indian story"],
+        answer: "a) Japanese story"
+    },
+    {
+        question: "Who says to Paati, 'I will leave for our Paddu Mama's house if she knows we have a cat'?",
+        options: ["a) Lalli says to Paati", "b) Ravi says to Paati", "c) Amma says to Paati", "d) Mridu says to Paati"],
+        answer: "c) Amma says to Paati"
+    },
+    {
+        question: "Who is the author of 'Three Questions'?",
+        options: ["a) Leo Tolstoy", "b) Mildred Bowers Armstrong", "c) Vasantha Surya", "d) Leo Williams"],
+        answer: "a) Leo Tolstoy"
+    },
+    {
+        question: "Who said, whistling, 'That's my camel'?",
+        options: ["a) Camel", "b) Hump", "c) Ox", "d) Djinn"],
+        answer: "d) Djinn"
+    },
+    {
+        question: "Who said to the girl that looking at his bundle, she would run away from home?",
+        options: ["a) Chey", "b) Velu", "c) Aiy", "d) Raju"],
+        answer: "b) Velu"
+    },
+    {
+        question: "Who is the author of 'Golu Grows a Nose'?",
+        options: ["a) Axel Manthe", "b) Dhan Gopal Mukerji", "c) Rudyard Kipling", "d) Zakir Husain"],
+        answer: "c) Rudyard Kipling"
+    },
+    {
+        question: "Name the insect which is the wisest among most of them.",
+        options: ["a) Housefly", "b) Ant", "c) Mosquito", "d) Cockroach"],
+        answer: "b) Ant"
+    },
+    {
+        question: "(ROUND-2)   I ___ best in the morning. (Find the correct verb for simple present)",
+        options: ["a) working", "b) work", "c) works", "d) worked"],
+        answer: "b) work"
+    },
+    {
+        question: "Do you know anyone ___ parent is a lawyer? (Find the correct pronoun)",
+        options: ["a) whose", "b) who", "c) whom", "d) that"],
+        answer: "a) whose"
+    },
+    {
+        question: "Dogs are (Find the comparative degree) ______ than rabbits.",
+        options: ["a) very intelligent", "b) less intelligent", "c) most intelligent", "d) more intelligent"],
+        answer: "d) more intelligent"
+    },
+    {
+        question: "I ___ (need) a pencil to complete the crossword. (Find the past tense)",
+        options: ["a) wish", "b) want", "c) needed", "d) need"],
+        answer: "c) needed"
+    },
+    {
+        question: "She ___ sit for hours listening to the radio. (Find the appropriate modal)",
+        options: ["a) would", "b) shall", "c) will", "d) should"],
+        answer: "a) would"
+    },
+    {
+        question: "Shweta plays the guitar. (Convert into passive voice)",
+        options: ["a) Shweta played the guitar.", "b) The guitar is played by her.", "c) The guitar is playing by her.", "d) The guitar is played by Shweta."],
+        answer: "d) The guitar is played by Shweta."
+    },
+    {
+        question: "'Who was the first female astronaut?' (Identify the sentence type)",
+        options: ["a) Assertive", "b) Interrogative", "c) Comparative", "d) Exclamatory"],
+        answer: "b) Interrogative"
+    },
+    {
+        question: "We ___ enter the water park as we had no passes. (Find the correct modal verb)",
+        options: ["a) shouldn't", "b) mayn't", "c) mightn't", "d) couldn't"],
+        answer: "d) couldn't"
+    },
+    {
+        question: "She ___ her homework when she went out to play. (Find the past perfect verb)",
+        options: ["a) had already done", "b) has done already", "c) have already done", "d) had been already done"],
+        answer: "a) had already done"
+    },
+    {
+        question: "The girls have won the match. (Change into negative)",
+        options: ["a) The girls have won the match.", "b) The girls have not won the match.", "c) The girls has not won the match.", "d) The girls has won the match."],
+        answer: "b) The girls have not won the match."
+    },
+    {
+        question: "You are making noise. (Change into interrogative)",
+        options: ["a) Noise made by you?", "b) Are you making noise?", "c) Are you make noise?", "d) You make a noise?"],
+        answer: "b) Are you making noise?"
+    },
+    {
+        question: "Which of the following sentences is in the future tense?",
+        options: ["a) I will go to the market tomorrow.", "b) I went to the market yesterday.", "c) I am going to the market now.", "d) I have been to the market."],
+        answer: "a) I will go to the market tomorrow."
+    },
+    {
+    question: "(ROUND-3)   What is the synonym of 'happy'?",
+    options: [
+      "a) Sad", 
+      "b) Angry", 
+      "c) Joyful", 
+      "d) Tired"
+    ],
+    answer: "c) Joyful"
+  },
+  {
+    question: "What is the antonym of 'strong'?",
+    options: [
+      "a) Weak", 
+      "b) Tall", 
+      "c) Fast", 
+      "d) Bright"
+    ],
+    answer: "a) Weak"
+  },
+  {
+    question: "What is the synonym of 'brave'?",
+    options: [
+      "a) Scared", 
+      "b) Cowardly", 
+      "c) Fearless", 
+      "d) Nervous"
+    ],
+    answer: "c) Fearless"
+  },
+  {
+    question: "What is the antonym of 'near'?",
+    options: [
+      "a) Close", 
+      "b) Far", 
+      "c) Short", 
+      "d) Quick"
+    ],
+    answer: "b) Far"
+  },
+  {
+    question: "What is the synonym of 'clean'?",
+    options: [
+      "a) Dirty", 
+      "b) Neat", 
+      "c) Messy", 
+      "d) Long"
+    ],
+    answer: "b) Neat"
+  },
+  {
+    question: "What is the antonym of 'soft'?",
+    options: [
+      "a) Rough", 
+      "b) Hard", 
+      "c) Warm", 
+      "d) Cold"
+    ],
+    answer: "b) Hard"
+  },
+  {
+    question: "He is playing football. (Change into interrogative)",
+    options: [
+        "a) Is he play football?", 
+        "b) Does he playing football?", 
+        "c) Is he playing football?", 
+        "d) He is playing football?"
+    ],
+    answer: "c) Is he playing football?"
+},
+
+  {
+    question: "What does 'burning the midnight oil' mean?",
+    options: [
+      "a) Studying late at night", 
+      "b) Cooking food", 
+      "c) Feeling tired", 
+      "d) Having a party"
+    ],
+    answer: "a) Studying late at night"
+  },
+  {
+    question: "What does the phrasal verb 'bring up' mean?",
+    options: [
+      "a) To take something back", 
+      "b) To raise a topic or question", 
+      "c) To carry something heavy", 
+      "d) To leave something behind"
+    ],
+    answer: "b) To raise a topic or question"
+  },
+  {
+    question: "What does the idiom 'a piece of cake' mean?",
+    options: [
+      "a) A delicious dessert", 
+      "b) A difficult task", 
+      "c) Something very easy", 
+      "d) A snack"
+    ],
+    answer: "c) Something very easy"
+  },
+  {
+    question: "What does the phrasal verb 'run out of' mean?",
+    options: [
+      "a) To finish something completely", 
+      "b) To run in circles", 
+      "c) To lose your energy", 
+      "d) To stop suddenly"
+    ],
+    answer: "a) To finish something completely"
+  },
+  {
+    question: "What does the idiom 'cost an arm and a leg' mean?",
+    options: [
+      "a) Something very expensive", 
+      "b) Something very cheap", 
+      "c) Something very light", 
+      "d) Something that is broken"
+    ],
+    answer: "a) Something very expensive"
+  },
+  {
+    question: "(ROUND-4)   What does the phrasal verb 'look after' mean?",
+    options: [
+      "a) To ignore", 
+      "b) To care for someone or something", 
+      "c) To stare at", 
+      "d) To leave behind"
+    ],
+    answer: "b) To care for someone or something"
+  },
+  {
+    question: "Which sentence is correct?",
+    options: [
+      "a) She go to school every day.", 
+      "b) She goes to school every day.", 
+      "c) She going to school every day.", 
+      "d) She gone to school every day."
+    ],
+    answer: "b) She goes to school every day."
+  },
+  {
+    question: "Which of these is a correct question?",
+    options: [
+      "a) Where you are going?", 
+      "b) Where is you going?", 
+      "c) Where are you going?", 
+      "d) Where going are you?"
+    ],
+    answer: "c) Where are you going?"
+  },
+  {
+    question: "Which word is a conjunction?",
+    options: [
+      "a) And", 
+      "b) Quickly", 
+      "c) Blue", 
+      "d) Smile"
+    ],
+    answer: "a) And"
+  },
+  {
+    question: "Which sentence is in the past tense?",
+    options: [
+      "a) She is playing tennis.", 
+      "b) She played tennis.", 
+      "c) She playing tennis.", 
+      "d) She will play tennis."
+    ],
+    answer: "b) She played tennis."
+  },
+  {
+    question: "Which of the following is a correct plural form?",
+    options: [
+      "a) Childs", 
+      "b) Children", 
+      "c) Childes", 
+      "d) Childer"
+    ],
+    answer: "b) Children"
+  },
+  {
+    question: "Which sentence is a question?",
+    options: [
+      "a) She likes to read.", 
+      "b) Do you like to read?", 
+      "c) She is reading a book.", 
+      "d) She reads every day."
+    ],
+    answer: "b) Do you like to read?"
+  },
+  {
+    question: "What is the longest word in the English language without a vowel?",
+    options: [
+      "a) Rhythm", 
+      "b) Strength", 
+      "c) Crypt", 
+      "d) Wrongs"
+    ],
+    answer: "a) Rhythm"
+  },
+  {
+    question: "Which of these words is the longest English word?",
+    options: [
+      "a) Supercalifragilisticexpialidocious", 
+      "b) Pneumonoultramicroscopicsilicovolcanoconiosis", 
+      "c) Hippopotomonstrosesquipedaliophobia", 
+      "d) Floccinaucinihilipilification"
+    ],
+    answer: "b) Pneumonoultramicroscopicsilicovolcanoconiosis"
+  },
+  {
+    question: "What does the word 'bibliophile' mean?",
+    options: [
+      "a) A person who loves books", 
+      "b) A person who loves movies", 
+      "c) A person who loves music", 
+      "d) A person who loves art"
+    ],
+    answer: "a) A person who loves books"
+  },
+  {
+    question: "Which letter is silent in the word 'knight'?",
+    options: [
+      "a) K", 
+      "b) N", 
+      "c) I", 
+      "d) G"
+    ],
+    answer: "a) K"
+  },
+  {
+    question: "What is the term for words that sound the same but have different meanings?",
+    options: [
+      "a) Synonyms", 
+      "b) Antonyms", 
+      "c) Homophones", 
+      "d) Homonyms"
+    ],
+    answer: "c) Homophones"
+  },
+  {
+    question: "QUIZ ENDED",
+    options: [
+      "a) QUIZ ENDED", 
+      "b) QUIZ ENDED", 
+      "c) QUIZ ENDED", 
+      "d) QUIZ ENDED"
+    ],
+    answer: "b) QUIZ ENDED"
+  }
+];
+    
+
+
+
+        let currentQuestionIndex = 0;
+        let currentTeam = "A";
+        let timeLeft = 35;
+        let timerInterval;
+        let scores = { "A": 0, "B": 0, "C": 0 };
+
+        const usedLifelines = {
+            A: { call: false, "5050": false, skip: false },
+            B: { call: false, "5050": false, skip: false },
+            C: { call: false, "5050": false, skip: false }
+        };
+
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+        const timerEl = document.getElementById("timer");
+        const timerBarFill = document.getElementById("timer-bar-fill");
+        const teamTurnEl = document.getElementById("team-turn");
+        const scoreboardEl = document.getElementById("scoreboard");
+        const nextButton = document.getElementById("next-button");
+
+        const lifelineCall = document.getElementById("lifeline-call");
+        const lifeline5050 = document.getElementById("lifeline-5050");
+        const lifelineSkip = document.getElementById("lifeline-skip");
+
+        function loadQuestion() {
+            const question = questions[currentQuestionIndex];
+            questionEl.textContent = question.question;
+            optionsEl.innerHTML = "";
+
+            question.options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.classList.add("option");
+                button.addEventListener("click", () => handleAnswer(option, button));
+                optionsEl.appendChild(button);
+            });
+
+            resetTimer();
+            updateLifelines();
+            nextButton.style.display = "none";
+        }
+
+        function resetTimer() {
+            timeLeft = 35;
+            timerEl.textContent = `Time: ${timeLeft}s`;
+            timerBarFill.style.width = "100%";
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerEl.textContent = `Time: ${timeLeft}s`;
+                timerBarFill.style.width = `${(timeLeft / 35) * 100}%`;
+                if (timeLeft === 0) {
+                    clearInterval(timerInterval);
+                    alert("Time's up! Switching to the next team.");
+                    switchTeam(); // Automatically switch team and load the next question
+                }
+            }, 1000);
+        }
+
+        function handleAnswer(selectedOption, button) {
+            const question = questions[currentQuestionIndex];
+            clearInterval(timerInterval);
+
+            if (selectedOption === question.answer) {
+                button.classList.add("correct");
+                scores[currentTeam]++;
+            } else {
+                button.classList.add("wrong");
+                highlightCorrectAnswer(question.answer);
+            }
+
+            document.querySelectorAll(".option").forEach(opt => (opt.disabled = true));
+            nextButton.style.display = "block"; // Show the Next Question button
+            updateScoreboard(); // Update the scoreboard after answering
+        }
+
+        function highlightCorrectAnswer(answer) {
+            const options = document.querySelectorAll(".option");
+            options.forEach(option => {
+                if (option.textContent === answer) {
+                    option.classList.add("correct");
+                }
+            });
+        }
+
+        function switchTeam() {
+    // Increment the question index to move to the next question
+    currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+
+    // Switch to the next team
+    currentTeam = currentTeam === "A" ? "B" : currentTeam === "B" ? "C" : "A";
+    teamTurnEl.textContent = `Team ${currentTeam}'s Turn`;
+    
+    // Load the next question
+    loadQuestion();
+}
+
+
+        function updateScoreboard() {
+            scoreboardEl.textContent = `Score: Team A: ${scores.A} | Team B: ${scores.B} | Team C: ${scores.C}`;
+        }
+
+        function updateLifelines() {
+            lifelineCall.disabled = usedLifelines[currentTeam].call;
+            lifeline5050.disabled = usedLifelines[currentTeam]["5050"];
+            lifelineSkip.disabled = usedLifelines[currentTeam].skip;
+        }
+
+        // Lifeline buttons
+        lifelineCall.addEventListener("click", () => {
+            alert("CALL AN EXPERT!");
+            usedLifelines[currentTeam].call = true;
+            updateLifelines();
+        });
+
+        lifeline5050.addEventListener("click", () => {
+    alert("50:50 Lifeline!");
+
+    // Disable 50:50 lifeline button
+    usedLifelines[currentTeam]["5050"] = true;
+    updateLifelines();
+
+    const question = questions[currentQuestionIndex];
+    const correctAnswer = question.answer;
+    const options = Array.from(document.querySelectorAll(".option"));
+
+    // Filter out the correct option
+    const incorrectOptions = options.filter(option => option.textContent !== correctAnswer);
+
+    // Randomly pick two incorrect options to disable
+    const optionsToDisable = [];
+    while (optionsToDisable.length < 2) {
+        const randomIndex = Math.floor(Math.random() * incorrectOptions.length);
+        const option = incorrectOptions[randomIndex];
+
+        // Ensure the option isn't already disabled
+        if (!optionsToDisable.includes(option)) {
+            optionsToDisable.push(option);
+        }
+    }
+
+    // Disable the selected incorrect options
+    optionsToDisable.forEach(option => {
+        option.classList.add("disabled");
+        option.disabled = true;
+    });
+});
+
+
+        lifelineSkip.addEventListener("click", () => {
+            alert("Skipping the question!");
+            usedLifelines[currentTeam].skip = true;
+            switchTeam();
+            updateLifelines();
+        });
+
+        nextButton.addEventListener("click", switchTeam);
+
+        loadQuestion();
+    </script>
+</body>
+</html>

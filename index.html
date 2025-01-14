@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My coding Journey</title>
+    <title>My Coding Journey</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -91,18 +91,28 @@
         .project-button:hover {
             background-color: #4da68c; /* Darker green on hover */
         }
+        .live-age {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            background-color: #333333; 
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            color: #5bc0aa;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>My Coding Journey</h1>
         <ul>
-            <li><span class="highlight">Age:</span> 15 years old</li>
+            <li><span class="highlight">Age:</span> <span id="age">Calculating...</span></li>
             <li><span class="highlight">Location:</span> Surat, India</li>
             <li><span class="highlight">Education:</span> Currently studying in 11th grade, Commerce stream</li>
             <li><span class="highlight">Passion:</span> Curious about <span class="highlight">computers, coding, animation,</span> and <span class="highlight">editing</span></li>
             <li><span class="highlight">Hobbies:</span> Exploring new technologies, <span class="highlight">Swimming</span> (District-level swimmer)</li>
         </ul>
+        <div class="live-age" id="live-age">Calculating your live age...</div>
         <p class="story">
             As a district-level swimmer, I have learned the values of <span class="highlight">discipline, dedication,</span> and <span class="highlight">hard work</span>. My journey in the pool has taught me to push my limits and strive for excellence. Alongside my passion for swimming, I have also developed a keen interest in technology. 
             <br><br>
@@ -120,5 +130,32 @@
             <p>&copy; 2024 Mangukiya Ved. All rights reserved.</p>
         </div>
     </div>
+
+    <script>
+        function calculateAge(birthDate) {
+            const now = new Date();
+            const diff = now - birthDate;
+            const ageDate = new Date(diff);
+            return {
+                years: ageDate.getUTCFullYear() - 1970,
+                months: ageDate.getUTCMonth(),
+                days: ageDate.getUTCDate() - 1,
+                hours: now.getHours(),
+                minutes: now.getMinutes(),
+                seconds: now.getSeconds()
+            };
+        }
+
+        function updateAge() {
+            const birthDate = new Date(2009, 0, 8, 5, 0, 0); // 8 Jan 2009, 5:00 AM
+            const age = calculateAge(birthDate);
+            document.getElementById('age').textContent = `${age.years} years`;
+            document.getElementById('live-age').textContent = 
+                `Live Age: ${age.years} years, ${age.months} months, ${age.days} days, ` +
+                `${age.hours} hours, ${age.minutes} minutes, ${age.seconds} seconds`;
+        }
+
+        setInterval(updateAge, 1000); // Update every second
+    </script>
 </body>
 </html>

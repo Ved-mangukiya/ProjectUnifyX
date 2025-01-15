@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Secret Language Converter</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #282c34; /* Darker background */
+            color: #ffffff; /* White text color */
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #61dafb; /* Light blue color for title */
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #3c4043; /* Darker container background */
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #61dafb; /* Light blue border */
+            border-radius: 10px; /* Rounded corners for textarea */
+            background-color: #474c52; /* Darker input field */
+            color: #ffffff; /* White text color in textarea */
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #61dafb; /* Light blue button */
+            color: #282c34; /* Dark text color for contrast */
+            border: none;
+            border-radius: 10px; /* Rounded corners for buttons */
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #4fa3b7; /* Darker blue on hover */
+        }
+        .output {
+            background-color: #3c4043; /* Darker output area */
+            padding: 10px;
+            border-radius: 10px; /* Rounded corners for output */
+            margin-top: 20px;
+            min-height: 50px; /* Minimum height for output area */
+            text-align: left; /* Align text to the left */
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #ccc; /* Lighter text color for footer */
+            padding: 20px;
+            background-color: #3c4043; /* Footer background */
+            border-radius: 10px; /* Rounded corners for footer */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+        }
+        .btn-inline {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Emoji Secret Language Converter</h1>
+        <textarea id="inputText" placeholder="Enter text or secret emoji code here..."></textarea>
+        <br>
+        <button class="btn-inline" onclick="convertToEmoji()">Convert to Emoji</button>
+        <button class="btn-inline" onclick="convertToText()">Convert to Text</button>
+        <button class="btn-inline" onclick="copyToClipboard()">Copy Output</button>
+        <button class="btn-inline" onclick="pasteFromClipboard()">Paste</button>
+        <div class="output">
+            <h3>Output:</h3>
+            <p id="outputText"></p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Coding Languages Used: HTML, CSS, and JavaScript</p>
+            <p>&copy; <span id="currentYear"></span> Mangukiya Ved. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const emojiMapping = {
+            a: '🌟', b: '🍀', c: '🔥', d: '🌈', e: '🍓', f: '🍌', g: '🎨', h: '🚀', 
+            i: '🎲', j: '🦄', k: '🌺', l: '🧊', m: '🦋', n: '🐢', o: '🎯', p: '🍉', 
+            q: '🍩', r: '🍕', s: '🧁', t: '🍒', u: '🥑', v: '🌵', w: '🍍', x: '🎧', 
+            y: '🎸', z: '🧀', '1': '🌊', '2': '🔮', '3': '🧡', '4': '🌌', '5': '💫', 
+            '6': '🌙', '7': '🦜', '8': '🐙', '9': '🦓', ' ': '🌀'
+        };
+        const reverseMapping = Object.fromEntries(Object.entries(emojiMapping).map(([k, v]) => [v, k]));
+
+        function convertToEmoji() {
+            const text = document.getElementById('inputText').value.toLowerCase();
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                result += emojiMapping[char] || '';
+            }
+            document.getElementById('outputText').innerText = result;
+        }
+
+        function convertToText() {
+            const emojiText = document.getElementById('inputText').value.trim();
+            let result = '';
+            for (let i = 0; i < emojiText.length; i += 2) {
+                const emoji = emojiText[i] + (emojiText[i + 1] || '');
+                result += reverseMapping[emoji] || '';
+            }
+            document.getElementById('outputText').innerText = result;
+        }
+
+        function copyToClipboard() {
+            const outputText = document.getElementById('outputText').innerText; // Get the output text
+            navigator.clipboard.writeText(outputText).then(() => {
+                alert('Copied to clipboard: ' + outputText);
+            }).catch(err => {
+                alert('Failed to copy: ' + err);
+            });
+        }
+
+        function pasteFromClipboard() {
+            navigator.clipboard.readText().then(text => {
+                document.getElementById('inputText').value = text;
+            }).catch(err => {
+                alert('Failed to paste: ' + err);
+            });
+        }
+
+        // Display current year dynamically
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

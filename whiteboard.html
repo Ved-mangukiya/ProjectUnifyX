@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Whiteboard</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #282c34;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        h1 {
+            margin: 20px 0;
+            font-size: 2.5rem;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+            background-color: #3a3f47;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .controls input, .controls button, .controls select {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        canvas {
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .controls button {
+            background-color: #6c757d;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .controls button:hover {
+            background-color: #5a6268;
+        }
+
+        .controls input[type="color"] {
+            cursor: pointer;
+        }
+
+        .thickness-preview {
+            width: 60px;
+            height: 10px;
+            background-color: #000;
+            border-radius: 5px;
+        }
+
+        /* New styles for additional tools */
+        .tool-button {
+            position: relative;
+        }
+
+        .tool-button::after {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #3a3f47;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .tool-button:hover::after {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #333;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Advanced Whiteboard</h1>
+    <div class="controls">
+        <button onclick="clearCanvas()">Clear</button>
+        <button onclick="setTool('pen')" class="tool-button" data-title="Pen">Pen</button>
+        <button onclick="setTool('eraser')" class="tool-button" data-title="Eraser">Eraser</button>
+        <button onclick="setTool('line')" class="tool-button" data-title="Line">Line</button>
+        <button onclick="setTool('square')" class="tool-button" data-title="Square">Square</button>
+        <button onclick="setTool('circle')" class="tool-button" data-title="Circle">Circle</button>
+        <button onclick="setTool('triangle')" class="tool-button" data-title="Triangle">Triangle</button>
+        <button onclick="downloadCanvas()" class="tool-button" data-title="Download">Download PNG</button>
+        <button onclick="undo()" class="tool-button" data-title="Undo">Undo</button>
+        <button onclick="redo()" class="tool-button" data-title="Redo">Redo</button>
+        <label for="color">Color: </label>
+        <input type="color" id="color" value="#000000">
+        <label for="size">Size: </label>
+        <input type="range" id="size" min="1" max="20" value="5" oninput="updateThicknessPreview()">
+        <div class="thickness-preview" id="thickness-preview"></div>
+    </div>
+    <canvas id="whiteboard" width="800" height="600"></canvas>
+
+    <footer>
+        <p>&copy; <span id="footer-year"></span> Mangukiya Ved. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Wait for the DOM content to be fully loaded before executing the script
+        document.addEventListener("DOMContentLoaded", function() {
+            // Set the current year dynamically
+            const footerYear = document.getElementById('footer-year');
+            footerYear.textContent = new Date().getFullYear();
+        });
+
+        const canvas = document.getElementById('whiteboard');
+        const ctx = canvas.getContext('2d');
+        const undoStack = [];
+        const redoStack = [];
+        let drawing = false;
+        let tool = 'pen';
+        let startX, startY;
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseleave', stopDrawing);
+
+        function startDrawing(e) {
+            drawing = true;
+            [startX, startY] = [e.offsetX, e.offsetY];
+            if (tool === 'pen' || tool === 'eraser') {
+                draw(e); // Draw a dot on the first click
+            }
+        }
+
+        function stopDrawing() {
+            if (drawing) {
+                undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+                redoStack.length = 0; // Clear redo stack on new action
+            }
+            drawing = false;
+            ctx.beginPath();
+        }
+
+        function draw(e) {
+            if (!drawing) return;
+
+            ctx.lineWidth = document.getElementById('size').value;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = tool === 'eraser' ? '#ffffff' : document.getElementById('color').value;
+
+            if (tool === 'pen' || tool === 'eraser') {
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(e.offsetX, e.offsetY);
+            } else if (tool === 'line') {
+                ctx.putImageData(undoStack[undoStack.length - 1], 0, 0);
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+                ctx.closePath();
+            } else if (tool === 'square') {
+                ctx.putImageData(undoStack[undoStack.length - 1], 0, 0);
+                const width = e.offsetX - startX;
+                const height = e.offsetY - startY;
+                ctx.strokeRect(startX, startY, width, height);
+            } else if (tool === 'circle') {
+                ctx.putImageData(undoStack[undoStack.length - 1], 0, 0);
+                const radius = Math.sqrt(Math.pow(e.offsetX - startX, 2) + Math.pow(e.offsetY - startY, 2));
+                ctx.beginPath();
+                ctx.arc(startX, startY, radius, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.closePath();
+            } else if (tool === 'triangle') {
+                ctx.putImageData(undoStack[undoStack.length - 1], 0, 0);
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.lineTo(startX * 2 - e.offsetX, e.offsetY);
+                ctx.closePath();
+                ctx.stroke();
+            }
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            undoStack.length = 0; // Clear the undo history
+            redoStack.length = 0; // Clear the redo history
+        }
+
+        function setTool(selectedTool) {
+            tool = selectedTool;
+        }
+
+        function undo() {
+            if (undoStack.length > 0) {
+                redoStack.push(undoStack.pop());
+                ctx.putImageData(undoStack[undoStack.length - 1], 0, 0);
+            }
+        }
+
+        function redo() {
+            if (redoStack.length > 0) {
+                const imgData = redoStack.pop();
+                undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+                ctx.putImageData(imgData, 0, 0);
+            }
+        }
+
+        function downloadCanvas() {
+            const link = document.createElement('a');
+            link.download = 'whiteboard.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        function updateThicknessPreview() {
+            const preview = document.getElementById('thickness-preview');
+            const size = document.getElementById('size').value;
+            preview.style.height = size + 'px';
+        }
+
+        // Store initial canvas state for undo
+        undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        // Store initial canvas state for undo
+        undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+
+        // Allow users to change the color and line thickness dynamically
+        document.getElementById('color').addEventListener('input', function() {
+            ctx.strokeStyle = this.value;
+        });
+
+        document.getElementById('size').addEventListener('input', function() {
+            ctx.lineWidth = this.value;
+            updateThicknessPreview(); // Update the thickness preview
+        });
+
+        // Functions to handle keyboard shortcuts for tools
+        document.addEventListener('keydown', function(event) {
+            switch (event.key) {
+                case 'p': setTool('pen'); break;
+                case 'e': setTool('eraser'); break;
+                case 'l': setTool('line'); break;
+                case 's': setTool('square'); break;
+                case 'c': setTool('circle'); break;
+                case 't': setTool('triangle'); break;
+                case 'z': undo(); break;
+                case 'y': redo(); break;
+                case 'd': downloadCanvas(); break;
+                case 'r': clearCanvas(); break;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explanation</title>
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #333, #111);
+      font-family: 'Courier New', Courier, monospace;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      width: 90%;
+      max-width: 800px;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+
+    /* Title */
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: powderblue;
+      text-shadow: 0 0 5px powderblue, 0 0 10px powderblue;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px powderblue, 0 0 10px powderblue;
+      }
+      to {
+        text-shadow: 0 0 10px powderblue, 0 0 20px powderblue;
+      }
+    }
+
+    /* Project List */
+    .project {
+      width: 100%;
+      margin: 10px 0;
+      background: #222;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 10px;
+      text-align: left;
+      transition: all 0.3s ease-in-out;
+      overflow: hidden;
+    }
+
+    .project.active {
+      background: #333;
+      border: 1px solid powderblue;
+      transform: scale(1.05);
+    }
+
+    .project-description {
+      display: none;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      line-height: 1.4;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .project.active .project-description {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Explanation</h1>
+    <p>Click on a project to view its details:</p>
+    <div id="projects">
+      <div class="project" onclick="toggleProject(this)">
+        <strong>Calculator:</strong>
+        <div class="project-description">
+          A simple calculator and percentage finder.
+        </div>
+      </div>
+      <div class="project" onclick="toggleProject(this)">
+        <strong>Countdown Timer:</strong>
+        <div class="project-description">
+          Allow users to set and run a timer.
+        </div>
+      </div>
+      <div class="project" onclick="toggleProject(this)">
+        <strong>Expense Tracker:</strong>
+        <div class="project-description">
+          Enable tracking expenses with initial amount entry and Excel download.
+        </div>
+      </div>
+      <div class="project" onclick="toggleProject(this)">
+        <strong>Number Guessing Game:</strong>
+        <div class="project-description">
+          A game to guess numbers with hints (too high/low).
+        </div>
+      </div>
+      <div class="project" onclick="toggleProject(this)">
+        <strong>QR Code Maker:</strong>
+        <div class="project-description">
+          Generate QR codes and simulate scanning with a camera (limitations explained).
+        </div>
+      </div>
+      <div class="project" onclick="toggleProject(this)">
+        <strong>Text to Emoji Converter:</strong>
+        <div class="project-description">
+          Convert text to emojis and reverse with copy-paste functionality.
+        </div>
+      </div>
+      <div class="project" onclick="toggleProject(this)">
+        <strong>Secret Code Converter:</strong>
+        <div class="project-description">
+          AES encryption/decryption with user-friendly features.
+        </div>
+      </div>
+      <div class="project" onclick="toggleProject(this)">
+        <strong>Text to Secret Numbers:</strong>
+        <div class="project-description">
+          Encode/Decode using numbers, similar to emojis.
+        </div>
+      </div>
+      <div class="project" onclick="toggleProject(this)">
+        <strong>English Quiz:</strong>
+        <div class="project-description">
+          A quiz game inspired by Kaun Banega Crorepati, I made it for my personal use.(school use)
+        </div>
+      </div>
+      <div class="project" onclick="toggleProject(this)">
+        <strong>Advanced Whiteboard:</strong>
+        <div class="project-description">
+          Feature-rich whiteboard with various tools and themes.
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <span>&copy;</span> <span id="currentYear"></span> Mangukiya Ved. All rights reserved.
+    </div>
+  </div>
+
+  <script>
+    // Function to toggle project descriptions
+    function toggleProject(selectedProject) {
+      const projects = document.querySelectorAll('.project');
+      projects.forEach((project) => {
+        if (project !== selectedProject) {
+          project.classList.remove('active');
+        }
+      });
+      selectedProject.classList.toggle('active');
+    }
+
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

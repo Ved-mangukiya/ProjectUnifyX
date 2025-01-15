@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2a2a2a; /* Dark background */
+            color: #ffffff; /* Light text */
+        }
+        .container {
+            max-width: 1000px; /* Increased width for better spacing */
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1e1e1e; /* Darker container */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-wrap: wrap; /* Allow cards to wrap */
+            justify-content: center; /* Center the cards */
+            gap: 20px; /* Space between cards */
+        }
+        .project-card {
+            background-color: #333333; /* Card background */
+            border-radius: 10px;
+            padding: 20px;
+            width: 220px; /* Fixed width for cards */
+            text-align: center;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .project-card:hover {
+            transform: scale(1.05); /* Enlarge on hover */
+        }
+        .project-title {
+            font-size: 1.2rem;
+            color: #5bc0aa; /* Bright green for project title */
+            margin: 10px 0;
+        }
+        .project-icon {
+            font-size: 40px; /* Icon size */
+            margin-bottom: 10px;
+        }
+        .last-updated {
+            font-size: 0.9rem;
+            color: #cccccc; /* Light grey for last updated date */
+        }
+        .project-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #5bc0aa; /* Button color */
+            color: white; /* Button text color */
+            border: none;
+            border-radius: 5px;
+            text-decoration: none; /* Remove underline */
+            transition: background-color 0.3s;
+        }
+        .project-button:hover {
+            background-color: #4da99c; /* Darker button color on hover */
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 10px 0;
+            color: #888888; /* Light grey for footer */
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="project-card">
+            <div class="project-icon">🧮</div>
+            <div class="project-title">Calculator</div>
+            <div class="last-updated">Last Updated: 2024-04-12</div>
+            <a href="calculator.html" class="project-button">View Project</a>
+        </div>
+
+        <div class="project-card">
+            <div class="project-icon">⏳</div>
+            <div class="project-title">Countdown Timer</div>
+            <div class="last-updated">Last Updated: 2024-05-21</div>
+            <a href="countdown_timer.html" class="project-button">View Project</a>
+        </div>
+
+        <div class="project-card">
+            <div class="project-icon">💸</div>
+            <div class="project-title">Expense Tracker</div>
+            <div class="last-updated">Last Updated: 2024-06-15</div>
+            <a href="Expense_Tracker.html" class="project-button">View Project</a>
+        </div>
+
+        <div class="project-card">
+            <div class="project-icon">🎲</div>
+            <div class="project-title">Number Guessing Game</div>
+            <div class="last-updated">Last Updated: 2024-07-18</div>
+            <a href="number_guessing_game.html" class="project-button">View Project</a>
+        </div>
+
+        <div class="project-card">
+            <div class="project-icon">📱</div>
+            <div class="project-title">QR Code Maker</div>
+            <div class="last-updated">Last Updated: 2024-08-05</div>
+            <a href="QR_code_maker.html" class="project-button">View Project</a>
+        </div>
+
+        <div class="project-card">
+            <div class="project-icon">😀</div>
+            <div class="project-title">Text to Emoji Converter</div>
+            <div class="last-updated">Last Updated: 2024-09-10</div>
+            <a href="Text_to_emoji_language_converter.html" class="project-button">View Project</a>
+        </div>
+
+        <div class="project-card">
+            <div class="project-icon">🔐</div>
+            <div class="project-title">Secret Code Converter</div>
+            <div class="last-updated">Last Updated: 2024-10-22</div>
+            <a href="text_to_secret_code_converter.html" class="project-button">View Project</a>
+        </div>
+
+        <div class="project-card">
+            <div class="project-icon">🔢</div>
+            <div class="project-title">Text to Secret Numbers</div>
+            <div class="last-updated">Last Updated: 2024-11-03</div>
+            <a href="Text_to_secret_numbers.html" class="project-button">View Project</a>
+        </div>
+
+        <div class="project-card">
+            <div class="project-icon">📖</div>
+            <div class="project-title">English Quiz</div>
+            <div class="last-updated">Last Updated: 2024-11-18</div>
+            <a href="https://ved-mangukiya.github.io/English-Quiz/" class="project-button">View Project</a>
+        </div>
+
+        <div class="project-card">
+            <div class="project-icon">🎨</div>
+            <div class="project-title">Advanced Whiteboard</div>
+            <div class="last-updated">Last Updated: 2024-12-15</div>
+            <a href="whiteboard.html" class="project-button">View Project</a>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; <span id="currentYear"></span> Mangukiya Ved. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Dynamically update the current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

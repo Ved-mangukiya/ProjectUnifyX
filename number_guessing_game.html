@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Guessing Game</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #222;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #fff;
+            margin: 20px 0;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            outline: none;
+            background-color: #444;
+            color: #fff;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .attempts {
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        .reset {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .reset-btn {
+            padding: 10px 15px;
+            background-color: #2196F3;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .reset-btn:hover {
+            background-color: #1E88E5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Guess the Number!</h1>
+    <p style="color: white;">Guess a number between 1 and 100.</p>
+
+    <input type="number" id="guessInput" placeholder="Enter your guess" min="1" max="100">
+    <button class="btn" onclick="makeGuess()">Guess</button>
+    <div class="message" id="message"></div>
+    <div class="attempts" id="attempts"></div>
+    <button class="reset-btn reset" onclick="resetGame()">Play Again</button>
+</div>
+
+<script>
+    let randomNumber;
+    let attempts;
+
+    function startGame() {
+        randomNumber = Math.floor(Math.random() * 100) + 1; // Random number between 1 and 100
+        attempts = 0;
+        document.getElementById("message").innerText = "";
+        document.getElementById("attempts").innerText = "";
+        document.getElementById("guessInput").value = "";
+        document.querySelector(".reset").style.display = "none";
+    }
+
+    function makeGuess() {
+        const guess = Number(document.getElementById("guessInput").value);
+        attempts++;
+
+        if (guess < 1 || guess > 100) {
+            document.getElementById("message").innerText = "Please enter a number between 1 and 100.";
+            return;
+        }
+
+        if (guess === randomNumber) {
+            document.getElementById("message").innerText = "Congratulations! You guessed the number!";
+            document.querySelector(".reset").style.display = "block";
+            document.getElementById("attempts").innerText = `You guessed it in ${attempts} attempts.`;
+        } else if (guess < randomNumber) {
+            document.getElementById("message").innerText = "Too low! Try again.";
+        } else {
+            document.getElementById("message").innerText = "Too high! Try again.";
+        }
+
+        document.getElementById("attempts").innerText = `Attempts: ${attempts}`;
+    }
+
+    function resetGame() {
+        startGame();
+    }
+
+    // Start the game when the page loads
+    window.onload = function() {
+        startGame();
+        const currentYear = new Date().getFullYear();
+        document.getElementById('footerYear').textContent = currentYear;
+    };
+</script>
+
+<footer>
+    <div style="text-align: center; color: white;">
+        <p>&copy; <span id="footerYear"></span> Mangukiya Ved. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

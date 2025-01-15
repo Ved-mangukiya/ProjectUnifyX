@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #282c34;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .timer {
+            font-size: 48px;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        input[type="number"], input[type="button"] {
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input[type="number"] {
+            width: 100px;
+            text-align: center;
+        }
+        input[type="button"] {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Countdown Timer</h1>
+<div class="timer" id="timerDisplay">00:00:00</div>
+
+<input type="number" id="minutesInput" placeholder="Minutes" min="0">
+<input type="number" id="secondsInput" placeholder="Seconds" min="0" max="59">
+<input type="button" id="startButton" value="Start Timer">
+<input type="button" id="stopButton" value="Stop Timer" style="display:none;">
+
+<audio id="alarmSound" src="beep.wav.wav"></audio>
+
+<script>
+    let timer;
+    let isTimerRunning = false;
+
+    function formatTime(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    }
+
+    document.getElementById('startButton').addEventListener('click', function() {
+        if (isTimerRunning) return;
+
+        const minutes = parseInt(document.getElementById('minutesInput').value) || 0;
+        const seconds = parseInt(document.getElementById('secondsInput').value) || 0;
+
+        let totalTime = (minutes * 60) + seconds;
+
+        if (totalTime <= 0) {
+            alert('Please set a valid time.');
+            return;
+        }
+
+        isTimerRunning = true;
+        document.getElementById('startButton').style.display = 'none';
+        document.getElementById('stopButton').style.display = 'inline';
+
+        timer = setInterval(function() {
+            if (totalTime <= 0) {
+                clearInterval(timer);
+                isTimerRunning = false;
+                document.getElementById('timerDisplay').textContent = '00:00:00';
+
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        document.getElementById('alarmSound').play();
+                    }, i * 1000);
+                }
+
+                alert('Time is up!');
+                document.getElementById('startButton').style.display = 'inline';
+                document.getElementById('stopButton').style.display = 'none';
+                return;
+            }
+            totalTime--;
+            document.getElementById('timerDisplay').textContent = formatTime(totalTime);
+        }, 1000);
+    });
+
+    document.getElementById('stopButton').addEventListener('click', function() {
+        clearInterval(timer);
+        isTimerRunning = false;
+        document.getElementById('timerDisplay').textContent = '00:00:00';
+        document.getElementById('startButton').style.display = 'inline';
+        document.getElementById('stopButton').style.display = 'none';
+    });
+
+    // Dynamically set the current year in the footer
+    window.onload = function() {
+        const currentYear = new Date().getFullYear();
+        document.getElementById('footerText').innerHTML = `&copy; ${currentYear} Mangukiya Ved. All rights reserved.`;
+    };
+</script>
+
+<div class="footer">
+    <p id="footerText"></p>
+</div>
+
+</body>
+</html>

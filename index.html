@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Coding Journey</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2a2a2a; /* Dark background */
+            color: #ffffff; /* Light text */
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1e1e1e; /* Darker container */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        h1 {
+            text-align: center;
+            color: #5bc0aa; /* Bright green for headers */
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #333333; /* Slightly lighter dark for list items */
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+        .highlight {
+            font-weight: bold;
+            color: #5bc0aa; /* Bright green for highlights */
+        }
+        .story {
+            margin-top: 20px;
+            font-style: italic;
+            color: #cccccc; /* Lighter grey for the story */
+        }
+        .quote {
+            font-style: italic;
+            color: #aaaaaa; /* Medium grey for quotes */
+            text-align: center;
+            margin-top: 20px;
+            border-top: 1px solid #444;
+            padding-top: 15px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #888888; /* Light grey for footer */
+            font-size: 0.9rem;
+        }
+        .header-image {
+            width: 100%;
+            border-radius: 10px;
+            filter: brightness(0.8); /* Slightly darker image for contrast */
+        }
+        .skills {
+            margin-top: 20px;
+            background-color: #444444; /* Dark grey for skills section */
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Space between buttons */
+            margin-top: 20px;
+        }
+        .project-button {
+            display: inline-block;
+            width: 200px;
+            padding: 10px;
+            background-color: #5bc0aa; /* Bright green for button */
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        .project-button:hover {
+            background-color: #4da68c; /* Darker green on hover */
+        }
+        .live-age {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            background-color: #333333; 
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            color: #5bc0aa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Coding Journey</h1>
+        <ul>
+            <li><span class="highlight">Age:</span> <span id="age">Calculating...</span></li>
+            <li><span class="highlight">Location:</span> Surat, India</li>
+            <li><span class="highlight">Education:</span> Currently studying in 11th grade, Commerce stream</li>
+            <li><span class="highlight">Passion:</span> Curious about <span class="highlight">computers, coding, animation,</span> and <span class="highlight">editing</span></li>
+            <li><span class="highlight">Hobbies:</span> Exploring new technologies, <span class="highlight">Swimming</span> (District-level swimmer)</li>
+        </ul>
+        <div class="live-age" id="live-age">Calculating your live age...</div>
+        <p class="story">
+            As a district-level swimmer, I have learned the values of <span class="highlight">discipline, dedication,</span> and <span class="highlight">hard work</span>. My journey in the pool has taught me to push my limits and strive for excellence. Alongside my passion for swimming, I have also developed a keen interest in technology. 
+            <br><br>
+            My favorite project has been creating a website for <span class="highlight">AES encryption</span>, which allows users to convert any text into AES encrypted text and reverse it. This project not only challenged my coding skills but also sparked my interest in <span class="highlight">cybersecurity</span> and data protection.
+        </p>
+        <p class="story">
+            Looking ahead, I aim to stick to my passion for coding and technology while continuing to excel in swimming. I believe that maintaining a balance between my academic pursuits and athletic endeavors will help me achieve my goals.
+        </p>
+        <p class="quote">"RRR Reset-Restart-Refocus"</p>
+
+        <div class="button-container">
+            <button class="project-button" onclick="window.location.href='projects.html'">View My Projects</button>
+            <button class="project-button" onclick="window.location.href='explanation.html'">Explanation</button>
+            <button class="project-button" onclick="window.location.href='Copyright and legal Terms.html'">Terms and Conditions</button>
+        </div>
+
+        <div class="footer">
+            <p>Thank you for taking the time to learn about me!</p>
+            <p>&copy; <span id="current-year"></span> Mangukiya Ved. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        function calculateAge(birthDate) {
+            const now = new Date();
+            const diff = now - birthDate;
+            const ageDate = new Date(diff);
+            return {
+                years: ageDate.getUTCFullYear() - 1970,
+                months: ageDate.getUTCMonth(),
+                days: ageDate.getUTCDate() - 1,
+                hours: now.getHours(),
+                minutes: now.getMinutes(),
+                seconds: now.getSeconds()
+            };
+        }
+
+        function updateAge() {
+            const birthDate = new Date(2009, 0, 8, 5, 0, 0); // 8 Jan 2009, 5:00 AM
+            const age = calculateAge(birthDate);
+            document.getElementById('age').textContent = `${age.years} years`;
+            document.getElementById('live-age').textContent = 
+                `Live Age: ${age.years} years, ${age.months} months, ${age.days} days, ` +
+                `${age.hours} hours, ${age.minutes} minutes, ${age.seconds} seconds`;
+        }
+
+        setInterval(updateAge, 1000); // Update every second
+
+        // Automatically update the copyright year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

@@ -143,6 +143,13 @@
             <div class="last-updated">Last Updated: 2024-12-15</div>
             <a href="whiteboard.html" class="project-button">View Project</a>
         </div>
+
+        <div class="project-card">
+            <div class="project-icon">💱</div>
+            <div class="project-title">Currency Exchange</div>
+            <div class="last-updated">Last Updated: 2025-01-26</span></div>
+            <a href="CurrencyEXC.html" class="project-button">View Project</a>
+        </div>
     </div>
     <footer>
         <p>&copy; <span id="currentYear"></span> Mangukiya Ved. All rights reserved.</p>
@@ -151,6 +158,11 @@
     <script>
         // Dynamically update the current year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Set today's date in the Currency Exchange card
+        const today = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('todayDate').textContent = today.toLocaleDateString('en-US', options);
     </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Coding Journey</title>
+    <title style="letter-spacing: 2px;">ProjectUnifyX</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -28,6 +28,7 @@
             text-align: center;
             color: #5bc0aa; /* Bright green for headers */
             margin-bottom: 20px;
+            letter-spacing: 3px; /* Added letter-spacing for space between characters */
         }
         ul {
             list-style-type: none;
@@ -109,30 +110,39 @@
 </head>
 <body>
     <div class="container">
-        <h1>My Coding Journey</h1>
+        <h1>Project UnifyX</h1>
         <ul>
+            <li><span class="highlight">Name:</span> Ved Mangukiya</li>
             <li><span class="highlight">Age:</span> <span id="age">Calculating...</span></li>
-            <li><span class="highlight">Location:</span> Surat, India</li>
+            <li><span class="highlight">Residence:</span> Surat, India</li> 
             <li><span class="highlight">Education:</span> Currently studying in 11th grade, Commerce stream</li>
             <li><span class="highlight">Passion:</span> Curious about <span class="highlight">computers, coding, animation,</span> and <span class="highlight">editing</span></li>
             <li><span class="highlight">Hobbies:</span> Exploring new technologies, <span class="highlight">Swimming</span> (District-level swimmer)</li>
         </ul>
         <div class="live-age" id="live-age">Calculating Mangukiya Ved's live age...</div>
+        
         <p class="story">
-            As a district-level swimmer, I have learned the values of <span class="highlight">discipline, dedication,</span> and <span class="highlight">hard work</span>. My journey in the pool has taught me to push my limits and strive for excellence. Alongside my passion for swimming, I have also developed a keen interest in technology. 
+            <strong>This website is part of the <span class="highlight">ProjectUnifyX</span> concept,</strong> an all-in-one super website that integrates essential services like <span class="highlight">food delivery, social media,</span> and other necessary apps, without requiring frequent updates or heavy storage space. Unlike other super apps, <span class="highlight">ProjectUnifyX</span> allows for <span class="highlight">seamless updates</span> directly on the website without the need for additional installations or updates from the user.
             <br><br>
-            My favorite project has been creating a website for <span class="highlight">AES encryption</span>, which allows users to convert any text into AES encrypted text and reverse it. This project not only challenged my coding skills but also sparked my interest in <span class="highlight">cybersecurity</span> and data protection.
+            <strong>The core idea behind this website is to create a platform where users can access:</strong>
+            <ul>
+                <li><span class="highlight">Everything they need in one place</span></li>
+                <li><span class="highlight">No need for separate apps</span> that take up valuable space</li>
+                <li><span class="highlight">Auto-updates</span> its code for a better and streamlined user experience</li>
+                <li><span class="highlight">No installation required</span> for most services</li>
+            </ul>
+            <br>
+            One of the most significant advantages of ProjectUnifyX is its ability to offer <span class="highlight">real-time content updates</span>. As opposed to conventional apps that require users to download updates from stores, ProjectUnifyX instantly updates its features on the web, ensuring users always have the latest tools and services. Additionally, the platform supports <span class="highlight">cloud synchronization</span>, meaning users don't need to worry about losing their data across devices. All data is stored securely in the cloud, ensuring a seamless experience, no matter the device or location.
+            <br><br>
+            <strong>This website concept also promotes a <span class="highlight">leaner, more efficient experience</span>. By eliminating the need for multiple apps cluttering devices and consuming valuable storage space, ProjectUnifyX helps users save both storage and time. Whether it's accessing social media platforms, ordering food, or interacting with other necessary services, everything is accessible via this one unified platform.</strong> 
         </p>
-        <p class="story">
-            Looking ahead, I aim to stick to my passion for coding and technology while continuing to excel in swimming. I believe that maintaining a balance between my academic pursuits and athletic endeavors will help me achieve my goals.
-        </p>
+        
         <p class="quote">"RRR: Reset. Restart. Repeat. Guess some things never change."</p>
 
         <div class="button-container">
             <button class="project-button" onclick="window.location.href='projects.html'">View My Projects</button>
             <button class="project-button" onclick="window.location.href='explanation.html'">Explanation</button>
             <button class="project-button" onclick="window.location.href='Copyright and Legal Terms.html'">Terms and Conditions</button>
-
         </div>
 
         <div class="footer">
@@ -159,7 +169,7 @@
         function updateAge() {
             const birthDate = new Date(2009, 0, 8, 5, 0, 0); // 8 Jan 2009, 5:00 AM
             const age = calculateAge(birthDate);
-            document.getElementById('age').textContent = `${age.years} years`;
+            document.getElementById('age').textContent = `${age.years} years`; // Removed duplicate live age display
             document.getElementById('live-age').textContent = 
                 `Live Age: ${age.years} years, ${age.months} months, ${age.days} days, ` +
                 `${age.hours} hours, ${age.minutes} minutes, ${age.seconds} seconds`;

@@ -4,139 +4,148 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, orientation=portrait">
     <title>Expense Tracker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
         body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #1c1c1c; /* Dark background */
-            color: #ffffff; /* White text for contrast */
+            background-color: #1c1c1c;
+            color: #ffffff;
             padding: 20px;
             max-width: 900px;
             margin: auto;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
         }
+
         .container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #2e2e2e; /* Darker container color */
-            border-radius: 10px;
+            background-color: #2a2a2a;
             padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+
         h1 {
-            background-color: #0d4e94; /* Button color */
             color: white;
-            padding: 10px;
+            background: #5bc0aa;
+            padding: 10px 20px;
             border-radius: 8px;
             text-align: center;
             width: 100%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin: 0; /* Remove margin */
         }
+
         input, button {
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #555; /* Border color for input */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             width: 100%;
-            transition: border 0.3s;
-            background-color: #444; /* Input background */
-            color: #ffffff; /* Input text color */
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            margin: 8px 0;
+            transition: 0.3s;
         }
-        input:focus, button:focus {
-            border: 1px solid #0d4e94; /* Highlight color */
-            outline: none;
-        }
+
         button {
             cursor: pointer;
-            background-color: #0d4e94; /* Button action color */
+            background-color: #5bc0aa;
             color: white;
+            font-weight: bold;
+            transition: 0.3s;
         }
+
+        button:hover {
+            background-color: #48a892;
+        }
+
         table {
             width: 100%;
-            border-collapse: collapse;
             margin-top: 20px;
-            overflow-x: auto;
+            border-collapse: collapse;
         }
-        table, th, td {
-            border: 1px solid #555; /* Border color for table */
-            font-size: 14px;
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #555;
         }
+
         th {
-            padding: 8px;
-            text-align: left;
-            background-color: #0d4e94; /* Header color */
+            background-color: #5bc0aa;
             color: white;
         }
+
         td {
-            padding: 8px;
-            text-align: left;
-            background-color: #2e2e2e; /* Cell color */
+            background-color: #2e2e2e;
         }
-        #enter-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 12px;
-            background-color: #0d4e94; /* Enter button color */
-            color: white;
-            border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-        #download-btn {
-            position: fixed;
-            bottom: 60px; /* Adjusted the position to avoid overlap with Enter button */
-            left: 20px;
-            background-color: #0d4e94; /* Download button color */
-            color: white;
-            border: none;
-            padding: 8px; /* Made the button smaller */
-            font-size: 14px; /* Smaller text size for mobile users */
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
+
         .delete-btn {
-            background-color: #0d4e94; /* Delete button color */
-            color: white;
+            background-color: #ff4f4f;
+            padding: 6px 12px;
+            border-radius: 6px;
             border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
+            cursor: pointer;
+            color: white;
         }
+
         #balance-display {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             position: fixed;
             top: 20px;
             right: 20px;
-            background-color: #444; /* Background for balance display */
+            background-color: #444;
             padding: 10px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        #wallet-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-        .author-details {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 16px;
-            color: #ccc; /* Light gray for author details */
-            font-style: italic;
-        }
+
+        #enter-button {
+    position: fixed;
+    bottom: 20px;
+    right: 00px;
+    left: 00px;
+    padding: 14px;
+    background-color: #48a892;  /* Different shade */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+#download-btn {
+    position: fixed;
+    bottom: 70px;  /* Moved higher */
+    right: 0px;
+    left: 0px;
+    padding: 8px 12px;
+    background-color: #5b8dc0; /* Different blue tone */
+    color: white;
+    font-size: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
         @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
-            table, th, td {
-                font-size: 12px;
+
+            table {
+                font-size: 14px;
             }
+
             h1 {
-                font-size: 20px;
+                font-size: 22px;
+            }
+
+            #balance-display {
+                font-size: 18px;
             }
         }
     </style>
@@ -163,8 +172,7 @@
                 <th>Delete</th>
             </tr>
         </thead>
-        <tbody id="expense-table-body">
-        </tbody>
+        <tbody id="expense-table-body"></tbody>
         <tfoot>
             <tr>
                 <td colspan="4"><strong>Total:</strong></td>
@@ -174,7 +182,7 @@
         </tfoot>
     </table>
 
-    <button id="download-btn">Download Data to Excel</button>
+    <button id="download-btn">Download Excel</button>
 </div>
 
 <p id="balance-display" style="display: none;">Balance: ₹0</p>
@@ -183,7 +191,6 @@
 
 <script>
     let balance = 0;
-    let serialNo = 1;
     let totalExpense = 0;
 
     document.getElementById('confirm-wallet').addEventListener('click', function () {
@@ -201,8 +208,8 @@
         const amountPerItem = parseFloat(prompt("Enter amount per item:")) || 0;
         const productName = prompt("Enter product name:");
         const quantity = parseInt(prompt("Enter quantity:")) || 1;
-
         const totalAmount = amountPerItem * quantity;
+
         if (balance >= totalAmount) {
             balance -= totalAmount;
             updateBalanceDisplay();
@@ -214,7 +221,7 @@
             const newRow = document.createElement('tr');
 
             newRow.innerHTML = `
-                <td>${serialNo}</td>
+                <td></td>
                 <td>₹${amountPerItem.toFixed(2)}</td>
                 <td>${productName}</td>
                 <td>${quantity}</td>
@@ -222,23 +229,26 @@
                 <td><button class="delete-btn">Delete</button></td>
             `;
             tableBody.appendChild(newRow);
+            updateSrNumbers();
 
             newRow.querySelector('.delete-btn').addEventListener('click', function () {
-                const rowAmount = parseFloat(newRow.querySelector('td:nth-child(5)').textContent.replace('₹', ''));
-                balance += rowAmount;
+                balance += totalAmount;
                 updateBalanceDisplay();
-
-                totalExpense -= rowAmount;
+                totalExpense -= totalAmount;
                 updateTotalExpense();
-
                 newRow.remove();
+                updateSrNumbers();
             });
-
-            serialNo++;
         } else {
             alert("Not enough balance!");
         }
     });
+
+    function updateSrNumbers() {
+        document.querySelectorAll("#expense-table-body tr").forEach((row, index) => {
+            row.cells[0].textContent = index + 1;
+        });
+    }
 
     function updateBalanceDisplay() {
         document.getElementById('balance-display').textContent = `Balance: ₹${balance.toFixed(2)}`;
@@ -249,36 +259,11 @@
     }
 
     document.getElementById('download-btn').addEventListener('click', function () {
-        let tableData = [['Sr No', 'Amount', 'Product Name', 'Quantity', 'Total Expense']];
-        const rows = document.querySelectorAll('#expense-table-body tr');
-        rows.forEach(row => {
-            let rowData = [];
-            row.querySelectorAll('td').forEach(cell => rowData.push(cell.textContent.replace('₹', '')));
-            tableData.push(rowData);
-        });
-
-        let csvContent = "data:text/csv;charset=utf-8," 
-            + tableData.map(e => e.join(",")).join("\n");
-
-        let encodedUri = encodeURI(csvContent);
-        let link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "expenses.csv");
-        document.body.appendChild(link); 
-        link.click();
-        document.body.removeChild(link);
+        let table = document.querySelector("table");
+        let wb = XLSX.utils.table_to_book(table);
+        XLSX.writeFile(wb, "Expense_Tracker.xlsx");
     });
-
-    // Wait until the page is fully loaded to update the year
-    window.onload = function() {
-        const currentYear = new Date().getFullYear();
-        document.getElementById('current-year').textContent = currentYear;
-    };
 </script>
-
-<div style="text-align: center;">
-    <p>&copy; <span id="current-year"></span> Mangukiya Ved. All rights reserved.</p>
-</div>
 
 </body>
 </html>

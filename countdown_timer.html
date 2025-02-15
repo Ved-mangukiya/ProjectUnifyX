@@ -2,53 +2,102 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Countdown Timer</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        
         body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #282c34;
-            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #222, #444);
+            color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        .timer {
-            font-size: 48px;
-            margin: 20px 0;
-            padding: 20px;
-            background-color: #444;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        input[type="number"], input[type="button"] {
-            padding: 10px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        input[type="number"] {
-            width: 100px;
             text-align: center;
         }
-        input[type="button"] {
-            background-color: #007bff;
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .timer {
+            font-size: 3rem;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .controls-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .toggle-controls {
+            padding: 12px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            background: #007bff;
             color: white;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: 0.3s;
         }
-        input[type="button"]:hover {
-            background-color: #0056b3;
+        .toggle-controls:hover {
+            background: #0056b3;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+        }
+        .controls.active {
+            max-height: 300px;
+            opacity: 1;
+            transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
+        }
+        input[type="number"], button {
+            padding: 12px;
+            margin: 8px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            outline: none;
+            text-align: center;
+        }
+        input[type="number"] {
+            width: 80px;
+            background: white;
+            color: black;
+            font-weight: bold;
+        }
+        button {
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, opacity 0.3s;
+        }
+        .start { background: #28a745; color: white; }
+        .pause { background: #ffc107; color: black; display: none; }
+        .reset { background: #dc3545; color: white; }
+        .stop-sound { background: #007bff; color: white; display: none; }
+        button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
         }
         .footer {
             margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -57,82 +106,116 @@
 <h1>Countdown Timer</h1>
 <div class="timer" id="timerDisplay">00:00:00</div>
 
-<input type="number" id="minutesInput" placeholder="Minutes" min="0">
-<input type="number" id="secondsInput" placeholder="Seconds" min="0" max="59">
-<input type="button" id="startButton" value="Start Timer">
-<input type="button" id="stopButton" value="Stop Timer" style="display:none;">
+<div class="controls-container">
+    <button class="toggle-controls" id="toggleControls">Show Controls</button>
+    <div class="controls" id="controlPanel">
+        <input type="number" id="hoursInput" placeholder="Hours" min="0" max="23">
+        <input type="number" id="minutesInput" placeholder="Minutes" min="0" max="59">
+        <input type="number" id="secondsInput" placeholder="Seconds" min="0" max="59">
+        
+        <div>
+            <button class="start" id="startButton">Start</button>
+            <button class="pause" id="pauseButton">Pause</button>
+            <button class="reset" id="resetButton">Reset</button>
+            <button class="stop-sound" id="stopSoundButton">Stop Sound</button>
+        </div>
+    </div>
+</div>
 
-<audio id="alarmSound" src="beep.wav.wav"></audio>
+<audio id="alarmSound" src="timerbeeps.mp3"></audio>
+
+<p class="footer" id="footerText"></p>
 
 <script>
-    let timer;
-    let isTimerRunning = false;
+    let timer, totalSeconds, isRunning = false, isPaused = false;
 
     function formatTime(seconds) {
         const hours = Math.floor(seconds / 3600);
         const minutes = Math.floor((seconds % 3600) / 60);
         const remainingSeconds = seconds % 60;
-
         return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
     }
 
-    document.getElementById('startButton').addEventListener('click', function() {
-        if (isTimerRunning) return;
+    function startTimer() {
+        if (isRunning) return;
 
-        const minutes = parseInt(document.getElementById('minutesInput').value) || 0;
-        const seconds = parseInt(document.getElementById('secondsInput').value) || 0;
+        let hours = Math.min(parseInt(document.getElementById('hoursInput').value) || 0, 23);
+        let minutes = Math.min(parseInt(document.getElementById('minutesInput').value) || 0, 59);
+        let seconds = Math.min(parseInt(document.getElementById('secondsInput').value) || 0, 59);
 
-        let totalTime = (minutes * 60) + seconds;
+        totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
 
-        if (totalTime <= 0) {
-            alert('Please set a valid time.');
+        if (totalSeconds <= 0) {
+            alert("Please enter a valid time!");
             return;
         }
 
-        isTimerRunning = true;
+        isRunning = true;
         document.getElementById('startButton').style.display = 'none';
-        document.getElementById('stopButton').style.display = 'inline';
+        document.getElementById('pauseButton').style.display = 'inline';
 
-        timer = setInterval(function() {
-            if (totalTime <= 0) {
+        timer = setInterval(() => {
+            if (totalSeconds <= 0) {
                 clearInterval(timer);
-                isTimerRunning = false;
-                document.getElementById('timerDisplay').textContent = '00:00:00';
+                isRunning = false;
+                document.getElementById('timerDisplay').textContent = "00:00:00";
+                
+                document.getElementById('alarmSound').play();
+                document.getElementById('stopSoundButton').style.display = 'inline';
 
-                for (let i = 0; i < 10; i++) {
-                    setTimeout(() => {
-                        document.getElementById('alarmSound').play();
-                    }, i * 1000);
+                if (navigator.vibrate) {
+                    navigator.vibrate([500, 300, 500]);
                 }
 
-                alert('Time is up!');
-                document.getElementById('startButton').style.display = 'inline';
-                document.getElementById('stopButton').style.display = 'none';
                 return;
             }
-            totalTime--;
-            document.getElementById('timerDisplay').textContent = formatTime(totalTime);
+            totalSeconds--;
+            document.getElementById('timerDisplay').textContent = formatTime(totalSeconds);
         }, 1000);
-    });
+    }
 
-    document.getElementById('stopButton').addEventListener('click', function() {
+    function pauseTimer() {
+        if (!isRunning) return;
         clearInterval(timer);
-        isTimerRunning = false;
-        document.getElementById('timerDisplay').textContent = '00:00:00';
+        isRunning = false;
+        isPaused = true;
+        document.getElementById('startButton').textContent = 'Resume';
         document.getElementById('startButton').style.display = 'inline';
-        document.getElementById('stopButton').style.display = 'none';
+        document.getElementById('pauseButton').style.display = 'none';
+    }
+
+    function resetTimer() {
+        clearInterval(timer);
+        isRunning = false;
+        isPaused = false;
+        document.getElementById('timerDisplay').textContent = "00:00:00";
+        document.getElementById('startButton').textContent = 'Start';
+        document.getElementById('startButton').style.display = 'inline';
+        document.getElementById('pauseButton').style.display = 'none';
+        document.getElementById('stopSoundButton').style.display = 'none';
+        document.getElementById('alarmSound').pause();
+        document.getElementById('alarmSound').currentTime = 0;
+    }
+
+    function stopAlarmSound() {
+        document.getElementById('alarmSound').pause();
+        document.getElementById('alarmSound').currentTime = 0;
+        document.getElementById('stopSoundButton').style.display = 'none';
+    }
+
+    document.getElementById('toggleControls').addEventListener('click', () => {
+        const panel = document.getElementById('controlPanel');
+        panel.classList.toggle("active");
+        document.getElementById('toggleControls').textContent = panel.classList.contains("active") ? "Hide Controls" : "Show Controls";
     });
 
-    // Dynamically set the current year in the footer
-    window.onload = function() {
-        const currentYear = new Date().getFullYear();
-        document.getElementById('footerText').innerHTML = `&copy; ${currentYear} Mangukiya Ved. All rights reserved.`;
-    };
-</script>
+    document.getElementById('footerText').textContent = `© ${new Date().getFullYear()} Mangukiya Ved. All rights reserved.`;
 
-<div class="footer">
-    <p id="footerText"></p>
-</div>
+    document.getElementById('startButton').addEventListener('click', startTimer);
+    document.getElementById('pauseButton').addEventListener('click', pauseTimer);
+    document.getElementById('resetButton').addEventListener('click', resetTimer);
+    document.getElementById('stopSoundButton').addEventListener('click', stopAlarmSound);
+</script>
 
 </body>
 </html>

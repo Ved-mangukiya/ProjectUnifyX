@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title style="letter-spacing: 2px;">ProjectUnifyX</title>
+    <title>ProjectUnifyX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="favicon.png" type="image/png">
     <style>
         body {
@@ -25,13 +26,29 @@
         .container:hover {
             transform: translateY(-5px);
         }
+
         h1 {
-            text-align: center;
-            color: #5bc0aa; /* Bright green for headers */
+            font-family: 'Cinzel Decorative', serif; /* Apply Cinzel Decorative font */
+            text-align: center; /* Center the title */
+            font-size: 1.9rem; /* Adjust size as needed */
+            letter-spacing: 2px;
+            color: #5bc0aa;
             margin-bottom: 20px;
-            letter-spacing: 3px; /* Added letter-spacing for space between characters */
-            font-size: 2rem; /* Increased font size */
+            padding: 10px;
+            background-color: #333333; /* Dark background behind text */
+            border-radius: 10px;
         }
+
+        h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #5bc0aa;
+            margin-bottom: 20px;
+            background-color: #333333;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
         ul {
             list-style-type: none;
             padding: 0;
@@ -142,7 +159,7 @@
         </div>
 
         <!-- Website Details Section -->
-        <h1>Project UnifyX</h1>
+        <h1>Project Unify X</h1>
         <p class="story">
             <strong>This website is part of the <span class="highlight">ProjectUnifyX</span> concept,</strong> an all-in-one super website that integrates essential services like <span class="highlight">food delivery, social media,</span> and other necessary apps, without requiring frequent updates or heavy storage space. Unlike other super apps, ProjectUnifyX allows for <span class="highlight">seamless updates</span> directly on the website without the need for additional installations or updates from the user.
             <br><br>
@@ -160,7 +177,7 @@
         </p>
 
         <!-- Developer Details Section -->
-        <h2 class="highlight">Developer Info</h2>
+        <h2>Developer Info</h2>
         <ul>
             <li><span class="highlight">Name:</span> Ved Mangukiya</li>
             <li><span class="highlight">Age:</span> <span id="live-age-box">Calculating age...</span></li>
@@ -192,20 +209,15 @@
             return {
                 years: ageDate.getUTCFullYear() - 1970,
                 months: ageDate.getUTCMonth(),
-                days: ageDate.getUTCDate() - 1,
+                days: ageDate.getUTCDate()
             };
         }
 
-        function updateAge() {
-            const birthDate = new Date(2009, 0, 8, 5, 0, 0); // 8 Jan 2009, 5:00 AM
-            const age = calculateAge(birthDate);
-            document.getElementById('live-age-box').textContent = `${age.years} years, ${age.months} months, ${age.days} days`;
-        }
+        const birthDate = new Date('2009-01-08');
+        const age = calculateAge(birthDate);
+        document.getElementById('live-age-box').innerHTML = `${age.years} years, ${age.months} months, ${age.days} days`;
 
-        setInterval(updateAge, 1000); // Update every second
-
-        // Automatically update the copyright year
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.getElementById('current-year').innerHTML = new Date().getFullYear();
     </script>
 </body>
 </html>

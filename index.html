@@ -159,16 +159,16 @@
         </div>
 
         <!-- Website Details Section -->
-        <h1>Project Unify X</h1>
+        <h1 id="dynamic-header">Project Unify X</h1>
         <p class="story">
-            <strong>This website is part of the <span class="highlight">ProjectUnifyX</span> concept,</strong> an all-in-one super website that integrates essential services like <span class="highlight">food delivery, social media,</span> and other necessary tools, without requiring frequent updates or heavy storage space. Unlike other super apps, ProjectUnifyX allows for <span class="highlight">seamless updates</span> directly on the website without the need for additional installations or updates from the user.
+            <strong>This website is part of the <span class="highlight">ProjectUnifyX</span> concept,</strong> an all-in-one super website that integrates essential services like <span class="highlight">food delivery, social media,</span> and other necessary apps, without requiring frequent updates or heavy storage space. Unlike other super apps, ProjectUnifyX allows for <span class="highlight">seamless updates</span> directly on the website without the need for additional installations or updates from the user.
             <br><br>
             <strong>The core idea behind this website is to create a platform where users can access:</strong>
             <ul>
                 <li><span class="highlight">Everything they need in one place</span></li>
                 <li><span class="highlight">No need for separate apps</span> that take up valuable space</li>
                 <li><span class="highlight">Auto-updates</span> its code for a better and streamlined user experience</li>
-                <li><span class="highlight">No installation required</span> for most services</li>
+                <li><span class="highlight">No installation required</span> for any services</li>
             </ul>
             <br>
             One of the most significant advantages of ProjectUnifyX is its ability to offer <span class="highlight">real-time content updates</span>. As opposed to conventional apps that require users to download updates from stores, ProjectUnifyX instantly updates its features on the web, ensuring users always have the latest tools and services. Additionally, the platform supports <span class="highlight">cloud synchronization</span>, meaning users don't need to worry about losing their data across devices. All data is stored securely in the cloud, ensuring a seamless experience, no matter the device or location.
@@ -202,22 +202,84 @@
     </div>
 
     <script>
+        const headers = [
+    'Project Unify X',
+    'United We Stand',
+    'Project Unify X',
+    'Innovation Ahead',
+    'Project Unify X',
+    'Simplify Your Life',
+    'Project Unify X',
+    'Seamless Updates',
+    'Project Unify X',
+    'Digital Harmony',
+    'Project Unify X',
+    'Empower Your Web',
+    'Project Unify X',
+    'Unify Your World',
+    'Project Unify X',
+    'Efficiency First',
+    'Project Unify X',
+    'One Click Power',
+    'Project Unify X',
+    'Innovate and Grow',
+    'Project Unify X',
+    'Next Gen Connect',
+    'Project Unify X',
+    'All in One Hub X',
+    'Project Unify X',
+    'Unite the Future',
+    'Project Unify X',
+    'Tech Redefined X',
+    'Project Unify X',
+    'Connect with Ease',
+    'Project Unify X',
+    'Unified Success',
+    'Project Unify X',
+    'Power Your Life X',
+    'Project Unify X',
+    'Tech at Fingertips',
+    'Project Unify X',
+    'Unlock Potential',
+    'Project Unify X',
+    'Endless Solutions',
+    'Project Unify X',
+    'Future at Ease X',
+    'Project Unify X',
+    'Smart Digital Hub'
+];
+
+
+        let index = 0;
+        const headerElement = document.getElementById("dynamic-header");
+
+        setInterval(() => {
+            headerElement.textContent = headers[index];
+            index = (index + 1) % headers.length;
+        }, 1400); 
+
         function calculateAge(birthDate) {
-            const now = new Date();
-            const diff = now - birthDate;
-            const ageDate = new Date(diff);
-            return {
-                years: ageDate.getUTCFullYear() - 1970,
-                months: ageDate.getUTCMonth(),
-                days: ageDate.getUTCDate()
-            };
-        }
+    const now = new Date();
+    const diff = now - birthDate;
+    const ageDate = new Date(diff);
 
-        const birthDate = new Date('2009-01-08');
-        const age = calculateAge(birthDate);
-        document.getElementById('live-age-box').innerHTML = `${age.years} years, ${age.months} months, ${age.days} days`;
+    const years = ageDate.getUTCFullYear() - 1970;
+    const months = ageDate.getUTCMonth();
+    const days = ageDate.getUTCDate() - 1;  // Subtract 1 as Date starts from 1
 
-        document.getElementById('current-year').innerHTML = new Date().getFullYear();
+    return {
+        years: years,
+        months: months,
+        days: days
+    };
+}
+
+const birthDate = new Date('2009-01-08');
+const age = calculateAge(birthDate);
+document.getElementById('live-age-box').textContent = `${age.years} years, ${age.months} months, ${age.days} days`;
+
+document.getElementById('current-year').textContent = new Date().getFullYear();
+
     </script>
 </body>
 </html>

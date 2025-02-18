@@ -30,6 +30,7 @@
             color: #5bc0aa; /* Bright green for headers */
             margin-bottom: 20px;
             letter-spacing: 3px; /* Added letter-spacing for space between characters */
+            font-size: 2rem; /* Increased font size */
         }
         ul {
             list-style-type: none;
@@ -107,23 +108,43 @@
             text-align: center;
             color: #5bc0aa;
         }
+        /* Styling for the logo */
+        .logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: block;
+            overflow: hidden;
+            border: 5px solid #5bc0aa;
+        }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .age-box {
+            font-size: 1.5rem;
+            background-color: #333333;
+            color: #5bc0aa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Logo Section -->
+        <div class="logo">
+            <img src="favicon.png" alt="Project UnifyX Logo">
+        </div>
+
+        <!-- Website Details Section -->
         <h1>Project UnifyX</h1>
-        <ul>
-            <li><span class="highlight">Name:</span> Ved Mangukiya</li>
-            <li><span class="highlight">Age:</span> <span id="age">Calculating...</span></li>
-            <li><span class="highlight">Residence:</span> Surat, India</li> 
-            <li><span class="highlight">Education:</span> Currently studying in 11th grade, Commerce stream</li>
-            <li><span class="highlight">Passion:</span> Curious about <span class="highlight">computers, coding, animation,</span> and <span class="highlight">editing</span></li>
-            <li><span class="highlight">Hobbies:</span> Exploring new technologies, <span class="highlight">Swimming</span> (District-level swimmer)</li>
-        </ul>
-        <div class="live-age" id="live-age">Calculating Mangukiya Ved's live age...</div>
-        
         <p class="story">
-            <strong>This website is part of the <span class="highlight">ProjectUnifyX</span> concept,</strong> an all-in-one super website that integrates essential services like <span class="highlight">food delivery, social media,</span> and other necessary apps, without requiring frequent updates or heavy storage space. Unlike other super apps, <span class="highlight">ProjectUnifyX</span> allows for <span class="highlight">seamless updates</span> directly on the website without the need for additional installations or updates from the user.
+            <strong>This website is part of the <span class="highlight">ProjectUnifyX</span> concept,</strong> an all-in-one super website that integrates essential services like <span class="highlight">food delivery, social media,</span> and other necessary apps, without requiring frequent updates or heavy storage space. Unlike other super apps, ProjectUnifyX allows for <span class="highlight">seamless updates</span> directly on the website without the need for additional installations or updates from the user.
             <br><br>
             <strong>The core idea behind this website is to create a platform where users can access:</strong>
             <ul>
@@ -135,9 +156,20 @@
             <br>
             One of the most significant advantages of ProjectUnifyX is its ability to offer <span class="highlight">real-time content updates</span>. As opposed to conventional apps that require users to download updates from stores, ProjectUnifyX instantly updates its features on the web, ensuring users always have the latest tools and services. Additionally, the platform supports <span class="highlight">cloud synchronization</span>, meaning users don't need to worry about losing their data across devices. All data is stored securely in the cloud, ensuring a seamless experience, no matter the device or location.
             <br><br>
-            <strong>This website concept also promotes a <span class="highlight">leaner, more efficient experience</span>. By eliminating the need for multiple apps cluttering devices and consuming valuable storage space, ProjectUnifyX helps users save both storage and time. Whether it's accessing social media platforms, ordering food, or interacting with other necessary services, everything is accessible via this one unified platform.</strong> 
+            <strong>This website concept also promotes a <span class="highlight">leaner, more efficient experience</span>. By eliminating the need for multiple apps cluttering devices and consuming valuable storage space, ProjectUnifyX helps users save both storage and time. Whether it's accessing social media platforms, ordering food, or interacting with other necessary services, everything is accessible via this one unified platform.</strong>
         </p>
-        
+
+        <!-- Developer Details Section -->
+        <h2 class="highlight">Developer Info</h2>
+        <ul>
+            <li><span class="highlight">Name:</span> Ved Mangukiya</li>
+            <li><span class="highlight">Age:</span> <span id="live-age-box">Calculating age...</span></li>
+            <li><span class="highlight">Residence:</span> Surat, India</li> 
+            <li><span class="highlight">Education:</span> Currently studying in 11th grade, Commerce stream</li>
+            <li><span class="highlight">Passion:</span> Curious about <span class="highlight">computers, coding, animation,</span> and <span class="highlight">editing</span></li>
+            <li><span class="highlight">Hobbies:</span> Exploring new technologies, <span class="highlight">Swimming</span> (District-level swimmer)</li>
+        </ul>
+
         <p class="quote">"RRR: Reset. Restart. Repeat. Guess some things never change."</p>
 
         <div class="button-container">
@@ -161,19 +193,13 @@
                 years: ageDate.getUTCFullYear() - 1970,
                 months: ageDate.getUTCMonth(),
                 days: ageDate.getUTCDate() - 1,
-                hours: now.getHours(),
-                minutes: now.getMinutes(),
-                seconds: now.getSeconds()
             };
         }
 
         function updateAge() {
             const birthDate = new Date(2009, 0, 8, 5, 0, 0); // 8 Jan 2009, 5:00 AM
             const age = calculateAge(birthDate);
-            document.getElementById('age').textContent = `${age.years} years`; // Removed duplicate live age display
-            document.getElementById('live-age').textContent = 
-                `Live Age: ${age.years} years, ${age.months} months, ${age.days} days, ` +
-                `${age.hours} hours, ${age.minutes} minutes, ${age.seconds} seconds`;
+            document.getElementById('live-age-box').textContent = `${age.years} years, ${age.months} months, ${age.days} days`;
         }
 
         setInterval(updateAge, 1000); // Update every second

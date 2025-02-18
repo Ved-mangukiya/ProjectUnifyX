@@ -56,7 +56,6 @@
             background-color: #5bc0aa;
             color: white;
             font-weight: bold;
-            transition: 0.3s;
         }
 
         button:hover {
@@ -105,31 +104,31 @@
         }
 
         #enter-button {
-    position: fixed;
-    bottom: 20px;
-    right: 00px;
-    left: 00px;
-    padding: 14px;
-    background-color: #48a892;  /* Different shade */
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-}
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            padding: 14px;
+            background-color: #48a892;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
 
-#download-btn {
-    position: fixed;
-    bottom: 70px;  /* Moved higher */
-    right: 0px;
-    left: 0px;
-    padding: 8px 12px;
-    background-color: #5b8dc0; /* Different blue tone */
-    color: white;
-    font-size: 12px;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-}
+        #download-btn {
+            position: fixed;
+            bottom: 70px;
+            left: 0;
+            right: 0;
+            padding: 8px 12px;
+            background-color: #5b8dc0;
+            color: white;
+            font-size: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
 
         @media (max-width: 768px) {
             body {
@@ -192,9 +191,11 @@
 <script>
     let balance = 0;
     let totalExpense = 0;
+    let initialWallet = 0;
 
     document.getElementById('confirm-wallet').addEventListener('click', function () {
-        balance = parseFloat(document.getElementById('wallet').value) || 0;
+        initialWallet = parseFloat(document.getElementById('wallet').value) || 0;
+        balance = initialWallet;
         if (balance > 0) {
             document.getElementById('balance-display').style.display = 'block';
             updateBalanceDisplay();
@@ -259,10 +260,25 @@
     }
 
     document.getElementById('download-btn').addEventListener('click', function () {
-        let table = document.querySelector("table");
-        let wb = XLSX.utils.table_to_book(table);
-        XLSX.writeFile(wb, "Expense_Tracker.xlsx");
+    let data = [
+        ["Initial Wallet Amount", `₹${initialWallet.toFixed(2)}`],
+        ["Sr No", "Amount", "Product Name", "Quantity", "Total Expense"]
+    ];
+
+    document.querySelectorAll("#expense-table-body tr").forEach(row => {
+        let rowData = [...row.children].slice(0, 5).map(cell => cell.textContent);
+        data.push(rowData);
     });
+
+    data.push(["Total Expenses", "", "", "", `₹${totalExpense.toFixed(2)}`]);
+    data.push(["Remaining Balance", `₹${balance.toFixed(2)}`]);
+
+    let ws = XLSX.utils.aoa_to_sheet(data);
+    let wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Expenses");
+    XLSX.writeFile(wb, "Expense_Tracker.xlsx");
+});
+
 </script>
 
 </body>

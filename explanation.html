@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Explanation</title>
+  <title>Tools Information</title>
   <style>
     /* General Styles */
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #000000, #000000);
-      font-family: 'Poppins', sans-serif;
+      background: #1a1a1a;
+      font-family: 'Nunito', sans-serif;
       color: #fff;
       display: flex;
       justify-content: center;
@@ -20,182 +20,185 @@
 
     .container {
       text-align: center;
-      width: 90%;
-      max-width: 800px;
-      background: rgba(15, 15, 30, 0.95);
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(225, 255, 248, 0.4);
+      width: 95%;
+      max-width: 850px;
+      background: #222;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
     }
 
     /* Title */
     h1 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      color: #ffffff;
-      text-shadow: 0 0 8px #000000, 0 0 15px #ffffff;
-      animation: glow 1.5s infinite alternate;
-    }
-
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 8px #000000, 0 0 15px #ffffff;
-      }
-      to {
-        text-shadow: 0 0 15px #000000, 0 0 25px #ffffff;
-      }
+      font-size: 2.3rem;
+      margin-bottom: 15px;
+      color: #af9643;
     }
 
     /* Project List */
+    .projects-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
     .project {
       width: 100%;
-      margin: 12px 0;
-      background: #222;
+      background: #333;
       color: #fff;
-      border: 2px solid transparent;
-      border-radius: 10px;
-      cursor: pointer;
-      padding: 12px;
+      border-radius: 12px;
+      padding: 15px;
       text-align: left;
       transition: all 0.3s ease-in-out;
-      position: relative;
-      overflow: hidden;
+      border-left: 6px solid #9c4c4c;
     }
 
     .project:hover {
-      background: #333;
-      border-color: #5bc0aa;
-      transform: scale(1.03);
+      background: #3d3d3d;
     }
 
-    .project.active {
-      background: #1e1e2f;
-      border-color: #5bc0aa;
-      transform: scale(1.05);
+    .project strong {
+      font-size: 1.2rem;
+      color: #4682B4;
     }
 
     .project-description {
-      display: none;
-      font-size: 0.9rem;
-      margin-top: 10px;
-      line-height: 1.4;
-      color: #bbb;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-
-    .project.active .project-description {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      font-size: 0.95rem;
+      margin-top: 5px;
+      color: #d3d3d3;
     }
 
     /* Footer */
     .footer {
-      margin-top: 25px;
+      margin-top: 20px;
       font-size: 0.85rem;
-      color: #aaa;
+      color: #fcfcfc;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .container {
+        width: 90%;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Project Explanations</h1>
-    <p>Click on a project to view its details:</p>
+    <h1>Tools Information</h1>
 
-    <div id="projects">
-      <div class="project" onclick="toggleProject(this)">
-        <strong>Calculator:</strong>
-        <div class="project-description">
-          A simple calculator and percentage finder.
-        </div>
+    <div class="projects-container">
+      <div class="project"><strong>Calculator</strong>
+        <div class="project-description">A simple calculator and percentage finder.</div>
       </div>
       
-      <div class="project" onclick="toggleProject(this)">
-        <strong>Countdown Timer:</strong>
-        <div class="project-description">
-          Allows users to set and run a timer.
-        </div>
+      <div class="project"><strong>Countdown Timer</strong>
+        <div class="project-description">Allows users to set and run a timer.</div>
       </div>
       
-      <div class="project" onclick="toggleProject(this)">
-        <strong>Expense Tracker:</strong>
-        <div class="project-description">
-          Enables tracking expenses with an initial amount entry.
-        </div>
-      </div>
-      
-      <div class="project" onclick="toggleProject(this)">
-        <strong>Number Guessing Game:</strong>
-        <div class="project-description">
-          A fun game where you guess numbers with hints (too high/low).
-        </div>
-      </div>
-      
-      <div class="project" onclick="toggleProject(this)">
-        <strong>QR Code Maker:</strong>
-        <div class="project-description">
-          Generate QR codes and simulate scanning.
-        </div>
-      </div>
-      
-      <div class="project" onclick="toggleProject(this)">
-        <strong>Text to Emoji Converter:</strong>
-        <div class="project-description">
-          Converts text into emojis and allows reversing it back.
-        </div>
-      </div>
-      
-      <div class="project" onclick="toggleProject(this)">
-        <strong>Secret Code Converter:</strong>
-        <div class="project-description">
-          AES encryption/decryption for secure messages.
-        </div>
-      </div>
-      
-      <div class="project" onclick="toggleProject(this)">
-        <strong>Text to Secret Numbers:</strong>
-        <div class="project-description">
-          Encodes/decodes messages using numbers instead of letters.
-        </div>
-      </div>
-      
-      <div class="project" onclick="toggleProject(this)">
-        <strong>English Quiz:</strong>
-        <div class="project-description">
-          A quiz game inspired by **Kaun Banega Crorepati** for school practice.
-        </div>
-      </div>
-      
-      <div class="project" onclick="toggleProject(this)">
-        <strong>Advanced Whiteboard:</strong>
-        <div class="project-description">
-          A feature-rich whiteboard with tools, themes, and an improved UI.
-        </div>
+      <div class="project"><strong>Expense Tracker</strong>
+        <div class="project-description">Enables tracking expenses with an initial amount entry.</div>
       </div>
 
-      <div class="project" onclick="toggleProject(this)">
-        <strong>Currency Exchange:</strong>
+      <div class="project"><strong>Number Guessing Game</strong>
+        <div class="project-description">A fun game where you guess numbers with hints (too high/low).</div>
+      </div>
+      
+      <div class="project"><strong>QR Code Maker</strong>
+        <div class="project-description">Generate QR codes and simulate scanning.</div>
+      </div>
+      
+      <div class="project"><strong>Text to Emoji Converter</strong>
+        <div class="project-description">Converts text into emojis and allows reversing it back.</div>
+      </div>
+      
+      <div class="project"><strong>Secret Code Converter</strong>
+        <div class="project-description">AES encryption/decryption for secure messages.</div>
+      </div>
+      
+      <div class="project"><strong>Text to Secret Numbers</strong>
+        <div class="project-description">Encodes/decodes messages using numbers instead of letters.</div>
+      </div>
+      
+      <div class="project"><strong>English Quiz</strong>
+        <div class="project-description">A quiz game inspired by **Kaun Banega Crorepati** for school practice.</div>
+      </div>
+      
+      <div class="project"><strong>Advanced Whiteboard</strong>
+        <div class="project-description">A feature-rich whiteboard with tools, themes, and an improved UI.</div>
+      </div>
+
+      <div class="project"><strong>Currency Exchange</strong>
         <div class="project-description">
           A tool to convert currency values between different countries.  
-          - Supports real-time exchange rates 
-          - User-friendly design with a clean interface.  
-          - Handles different currency formats.  
+          - Supports real-time exchange rates  
+          - User-friendly design with a clean interface  
+          - Handles different currency formats  
         </div>
       </div>
-      <div class="project" onclick="toggleProject(this)">
-        <strong>More site coming soon</strong>
-        <div class="project-description">
-         Till then enjoy the above projects.
-        </div>
+      
+      <div class="project"><strong>Area Converter</strong>
+        <div class="project-description">Convert different area units easily.</div>
+      </div>
+
+      <div class="project"><strong>Data Converter</strong>
+        <div class="project-description">Convert KB, MB, GB, and other data units.</div>
+      </div>
+
+      <div class="project"><strong>Discount Calculator</strong>
+        <div class="project-description">Calculate price discounts and final amounts.</div>
+      </div>
+
+      <div class="project"><strong>GST Calculator</strong>
+        <div class="project-description">Calculate GST for different rates.</div>
+      </div>
+
+      <div class="project"><strong>Home Loan Calculator</strong>
+        <div class="project-description">Helps you calculate EMI for home loans.</div>
+      </div>
+
+      <div class="project"><strong>Investment Calculator</strong>
+        <div class="project-description">Calculate your investments and returns.</div>
+      </div>
+
+      <div class="project"><strong>Length Converter</strong>
+        <div class="project-description">Convert between meters, kilometers, feet, inches, etc.</div>
+      </div>
+
+      <div class="project"><strong>Loan Calculator</strong>
+        <div class="project-description">Helps in calculating loan payments.</div>
+      </div>
+
+      <div class="project"><strong>Mass Converter</strong>
+        <div class="project-description">Convert kilograms, grams, pounds, etc.</div>
+      </div>
+
+      <div class="project"><strong>Power Converter</strong>
+        <div class="project-description">Convert watt, kilowatt, horsepower, etc.</div>
+      </div>
+
+      <div class="project"><strong>Pressure Converter</strong>
+        <div class="project-description">Convert pressure units like bar, psi, pascal.</div>
+      </div>
+
+      <div class="project"><strong>Speed Converter</strong>
+        <div class="project-description">Convert speed between km/h, mph, m/s, etc.</div>
+      </div>
+
+      <div class="project"><strong>Temperature Converter</strong>
+        <div class="project-description">Convert Celsius, Fahrenheit, and Kelvin.</div>
+      </div>
+
+      <div class="project"><strong>Time Converter</strong>
+        <div class="project-description">Convert time units like seconds, minutes, hours.</div>
+      </div>
+
+      <div class="project"><strong>Volume Converter</strong>
+        <div class="project-description">Convert between liters, milliliters, cubic meters, etc.</div>
       </div>
     </div>
 
@@ -205,17 +208,6 @@
   </div>
 
   <script>
-    // Function to toggle project descriptions
-    function toggleProject(selectedProject) {
-      const projects = document.querySelectorAll('.project');
-      projects.forEach((project) => {
-        if (project !== selectedProject) {
-          project.classList.remove('active');
-        }
-      });
-      selectedProject.classList.toggle('active');
-    }
-
     // Set current year in footer
     document.getElementById('currentYear').textContent = new Date().getFullYear();
   </script>

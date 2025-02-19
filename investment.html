@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Calculator</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #333;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 450px;
+            background: #444;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        /* Investment Type Buttons */
+        .mode-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            width: 48%;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            background: #af9643;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .mode-btn:hover, .mode-btn.active {
+            background: #756323;
+            transform: scale(1.05);
+        }
+
+        /* Input Fields */
+        input, select, button {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #555;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        input:hover, button:hover, select:hover {
+            background: #666;
+        }
+
+        .calculate-btn {
+            background: #af9643;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .calculate-btn:hover {
+            background: #8f7b32;
+            transform: scale(1.05);
+        }
+
+        .clear-btn {
+            background: #b65d5d;
+        }
+
+        .clear-btn:hover {
+            background: #9e4c4c;
+        }
+
+        /* Duration Section */
+        .duration {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .duration select {
+            width: 48%;
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Investment Calculator</h2>
+
+        <!-- Investment Type Selection -->
+        <div class="mode-buttons">
+            <button class="mode-btn active" onclick="setMode('onetime')">One-Time</button>
+            <button class="mode-btn" onclick="setMode('recurring')">Recurring</button>
+        </div>
+
+        <!-- Inputs -->
+        <input type="number" id="investmentAmount" placeholder="Enter Investment Amount">
+        <input type="number" id="interestRate" placeholder="Enter Annual Interest Rate (%)">
+
+        <!-- Duration Selection -->
+        <div class="duration">
+            <select id="years">
+                <option value="0">Years</option>
+                <script>
+                    for (let i = 1; i <= 50; i++) {
+                        document.write(`<option value="${i}">${i}</option>`);
+                    }
+                </script>
+            </select>
+            <select id="months">
+                <option value="0">Months</option>
+                <script>
+                    for (let i = 1; i <= 12; i++) {
+                        document.write(`<option value="${i}">${i}</option>`);
+                    }
+                </script>
+            </select>
+        </div>
+
+        <!-- Buttons -->
+        <button class="calculate-btn" onclick="calculateInvestment()">Calculate</button>
+        <button class="clear-btn" onclick="clearFields()">Clear</button>
+
+        <!-- Results -->
+        <input type="text" id="finalAmount" placeholder="Final Maturity Amount" readonly>
+
+        <p class="footer" id="footerYear"></p>
+    </div>
+
+    <script>
+        let investmentMode = "onetime"; // Default mode
+
+        function setMode(mode) {
+            investmentMode = mode;
+            document.querySelectorAll(".mode-btn").forEach(btn => btn.classList.remove("active"));
+            event.target.classList.add("active");
+        }
+
+        function calculateInvestment() {
+            let amount = parseFloat(document.getElementById("investmentAmount").value);
+            let rate = parseFloat(document.getElementById("interestRate").value);
+            let years = parseInt(document.getElementById("years").value);
+            let months = parseInt(document.getElementById("months").value);
+
+            if (isNaN(amount) || isNaN(rate) || (years === 0 && months === 0)) {
+                alert("Please enter a valid amount, interest rate, and duration.");
+                return;
+            }
+
+            let time = years + (months / 12);
+            let maturityAmount = 0;
+
+            if (investmentMode === "onetime") {
+                // Compound Interest Formula: A = P (1 + r/n)^(nt)
+                maturityAmount = amount * Math.pow(1 + (rate / 100), time);
+            } else {
+                // Recurring Investment Formula: A = P * [(1 + r/n)^nt - 1] / (r/n)
+                let monthlyRate = rate / (100 * 12);
+                let totalMonths = (years * 12) + months;
+                maturityAmount = amount * ((Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate);
+            }
+
+            document.getElementById("finalAmount").value = maturityAmount.toFixed(2);
+        }
+
+        function clearFields() {
+            document.getElementById("investmentAmount").value = "";
+            document.getElementById("interestRate").value = "";
+            document.getElementById("years").value = "0";
+            document.getElementById("months").value = "0";
+            document.getElementById("finalAmount").value = "";
+        }
+
+        document.getElementById("footerYear").innerHTML = `© ${new Date().getFullYear()} Mangukiya Ved. All rights reserved.`;
+    </script>
+</body>
+</html>

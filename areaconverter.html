@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Converter</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #222;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 420px;
+            background: #333;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 22px;
+            text-transform: uppercase;
+        }
+
+        /* Converter Layout */
+        .converter {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Input, Select, and Button Styles */
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #555;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effects */
+        select:hover, input:hover {
+            background: #666;
+        }
+
+        /* Convert Button */
+        button {
+            background: #bfa04d;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #448bdb;
+            transform: scale(1.05);
+        }
+
+        /* Output Field */
+        input[readonly] {
+            background: #666;
+            border: none;
+            color: #58a6ff;
+            font-weight: bold;
+        }
+
+        /* Clear Button */
+        .clear-btn {
+            background: #b65d5d;
+        }
+
+        .clear-btn:hover {
+            background: #b84c4c;
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Area Converter</h2>
+        <div class="converter">
+            <input type="number" id="inputValue" placeholder="Enter value">
+            
+            <select id="fromUnit">
+                <option value="km2">Square Kilometer (km²)</option>
+                <option value="ha">Hectare (ha)</option>
+                <option value="a">Are (a)</option>
+                <option value="m2">Square Meter (m²)</option>
+                <option value="dm2">Square Decimeter (dm²)</option>
+                <option value="mm2">Square Millimeter (mm²)</option>
+                <option value="um2">Square Micron (μm²)</option>
+                <option value="ac">Acre (ac)</option>
+                <option value="mile2">Square Mile (mi²)</option>
+                <option value="yd2">Square Yard (yd²)</option>
+                <option value="ft2">Square Foot (ft²)</option>
+                <option value="in2">Square Inch (in²)</option>
+                <option value="rd2">Square Road (rd²)</option>
+                <option value="qing">Qing (qing)</option>
+                <option value="mu">Mu (mu)</option>
+                <option value="chi2">Square Chi (chi²)</option>
+                <option value="cun2">Square Cun (cun²)</option>
+                <option value="gongli2">Square Kilometer (gongli²)</option>
+            </select>
+
+            <select id="toUnit">
+                <option value="km2">Square Kilometer (km²)</option>
+                <option value="ha">Hectare (ha)</option>
+                <option value="a">Are (a)</option>
+                <option value="m2">Square Meter (m²)</option>
+                <option value="dm2">Square Decimeter (dm²)</option>
+                <option value="mm2">Square Millimeter (mm²)</option>
+                <option value="um2">Square Micron (μm²)</option>
+                <option value="ac">Acre (ac)</option>
+                <option value="mile2">Square Mile (mi²)</option>
+                <option value="yd2">Square Yard (yd²)</option>
+                <option value="ft2">Square Foot (ft²)</option>
+                <option value="in2">Square Inch (in²)</option>
+                <option value="rd2">Square Road (rd²)</option>
+                <option value="qing">Qing (qing)</option>
+                <option value="mu">Mu (mu)</option>
+                <option value="chi2">Square Chi (chi²)</option>
+                <option value="cun2">Square Cun (cun²)</option>
+                <option value="gongli2">Square Kilometer (gongli²)</option>
+            </select>
+
+            <button onclick="convertArea()">Convert</button>
+            <button class="clear-btn" onclick="clearFields()">Clear</button>
+            <input type="text" id="outputValue" placeholder="Converted value" readonly>
+        </div>
+        <p class="footer" id="footerYear"></p>
+    </div>
+
+    <script>
+        const conversionRates = {
+            km2: 1, ha: 100, a: 10000, m2: 1e6, dm2: 1e8, mm2: 1e12, um2: 1e18,
+            ac: 247.105, mile2: 0.3861, yd2: 1.196e6, ft2: 1.076e7, in2: 1.55e9, rd2: 30.25,
+            qing: 15, mu: 1500, chi2: 9000000, cun2: 900000000, gongli2: 1
+        };
+
+        function convertArea() {
+            let input = parseFloat(document.getElementById("inputValue").value);
+            let fromUnit = document.getElementById("fromUnit").value;
+            let toUnit = document.getElementById("toUnit").value;
+            if (!isNaN(input)) {
+                let convertedValue = input * (conversionRates[toUnit] / conversionRates[fromUnit]);
+                document.getElementById("outputValue").value = convertedValue.toFixed(6) + " " + toUnit;
+            }
+        }
+
+        function clearFields() {
+            document.getElementById("inputValue").value = "";
+            document.getElementById("outputValue").value = "";
+        }
+
+        document.getElementById("footerYear").innerHTML = `© ${new Date().getFullYear()} Mangukiya Ved. All rights reserved.`;
+    </script>
+</body>
+</html>

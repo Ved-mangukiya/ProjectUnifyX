@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Loan Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #333;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 420px;
+            background: #444;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 22px;
+            text-transform: uppercase;
+        }
+
+        .loan-calculator {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        label {
+            text-align: left;
+            font-size: 14px;
+            color: #ddd;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #555;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        select:hover, input:hover {
+            background: #666;
+        }
+
+        button {
+            background: #d1b65d;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #bfa04d;
+            transform: scale(1.05);
+        }
+
+        input[readonly] {
+            background: #666;
+            color: #d1b65d;
+            font-weight: bold;
+        }
+
+        .clear-btn {
+            background: #b65d5d;
+        }
+
+        .clear-btn:hover {
+            background: #9e4c4c;
+        }
+
+        .footer {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Home Loan Calculator</h2>
+        <div class="loan-calculator">
+            <label for="loanAmount">Loan Amount (₹10K multiples)</label>
+            <input type="number" id="loanAmount" placeholder="Enter amount (e.g., 50 for ₹500,000)" oninput="calculateEMI()">
+            
+            <label for="repaymentMethod">Repayment Method</label>
+            <select id="repaymentMethod" onchange="calculateEMI()">
+                <option value="equal">Equal Installments</option>
+                <option value="decreasing">Decreasing Installments</option>
+            </select>
+
+            <label for="loanTenure">Loan Tenure (Years)</label>
+            <select id="loanTenure" onchange="calculateEMI()">
+                <option value="">Select tenure</option>
+                <script>
+                    for (let i = 1; i <= 30; i++) {
+                        document.write(`<option value="${i}">${i} Years</option>`);
+                    }
+                </script>
+            </select>
+
+            <label for="interestRate">Interest Rate (%)</label>
+            <input type="number" id="interestRate" placeholder="Enter interest rate (e.g., 7.5)" oninput="calculateEMI()">
+
+            <button onclick="calculateEMI()">Calculate</button>
+            <button class="clear-btn" onclick="clearFields()">Clear</button>
+            
+            <label>Monthly EMI</label>
+            <input type="text" id="monthlyEMI" readonly>
+
+            <label>Total Interest Paid</label>
+            <input type="text" id="totalInterest" readonly>
+
+            <label>Total Payment (Principal + Interest)</label>
+            <input type="text" id="totalPayment" readonly>
+        </div>
+        <p class="footer" id="footerYear"></p>
+    </div>
+
+    <script>
+        function calculateEMI() {
+            let loanAmount = parseFloat(document.getElementById("loanAmount").value) * 10000;
+            let tenure = parseInt(document.getElementById("loanTenure").value) * 12;
+            let interestRate = parseFloat(document.getElementById("interestRate").value) / 100 / 12;
+            let repaymentMethod = document.getElementById("repaymentMethod").value;
+
+            if (isNaN(loanAmount) || isNaN(tenure) || isNaN(interestRate)) {
+                document.getElementById("monthlyEMI").value = "";
+                document.getElementById("totalInterest").value = "";
+                document.getElementById("totalPayment").value = "";
+                return;
+            }
+
+            let monthlyEMI, totalInterest, totalPayment;
+
+            if (repaymentMethod === "equal") {
+                let emi = (loanAmount * interestRate * Math.pow(1 + interestRate, tenure)) /
+                          (Math.pow(1 + interestRate, tenure) - 1);
+                totalPayment = emi * tenure;
+                totalInterest = totalPayment - loanAmount;
+                monthlyEMI = emi.toFixed(2);
+            } else {
+                let principalPerMonth = loanAmount / tenure;
+                let firstMonthInterest = loanAmount * interestRate;
+                let firstMonthEMI = principalPerMonth + firstMonthInterest;
+                let lastMonthEMI = principalPerMonth + ((loanAmount / tenure) * interestRate);
+                monthlyEMI = `${firstMonthEMI.toFixed(2)} to ${lastMonthEMI.toFixed(2)}`;
+                totalInterest = (firstMonthInterest * (tenure / 2)).toFixed(2);
+                totalPayment = (loanAmount + parseFloat(totalInterest)).toFixed(2);
+            }
+
+            document.getElementById("monthlyEMI").value = `₹ ${monthlyEMI}`;
+            document.getElementById("totalInterest").value = `₹ ${totalInterest}`;
+            document.getElementById("totalPayment").value = `₹ ${totalPayment}`;
+        }
+
+        function clearFields() {
+            document.getElementById("loanAmount").value = "";
+            document.getElementById("repaymentMethod").value = "equal";
+            document.getElementById("loanTenure").value = "";
+            document.getElementById("interestRate").value = "";
+            document.getElementById("monthlyEMI").value = "";
+            document.getElementById("totalInterest").value = "";
+            document.getElementById("totalPayment").value = "";
+        }
+
+        document.getElementById("footerYear").innerHTML = `© ${new Date().getFullYear()} Mangukiya Ved. All rights reserved.`;
+    </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discount Calculator</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #333;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 450px;
+            background: #444444;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        /* Input Fields */
+        input, button {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #555;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+        }
+
+        input:hover {
+            background: #666;
+        }
+
+        /* Discount Buttons */
+        .discount-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .discount-buttons button {
+            width: 22%;
+            background: #af9643;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .discount-buttons button:hover {
+            background: #8f7b32;
+            transform: scale(1.05);
+        }
+
+        /* Buttons */
+        .calculate-btn {
+            background: #4682B4; /* Aesthetic Blue */
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .calculate-btn:hover {
+            background: #366a93;
+        }
+
+        .clear-btn {
+            background: #b65d5d; /* Light Red */
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .clear-btn:hover {
+            background: #9c4c4c;
+        }
+
+        /* Results */
+        .result-box {
+            background: #383636;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .result-box p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Discount Calculator</h2>
+
+        <!-- Inputs -->
+        <input type="number" id="originalPrice" placeholder="Enter Original Price">
+        <input type="number" id="discountPercent" placeholder="Enter Discount %">
+
+        <!-- Quick Discount Buttons -->
+        <div class="discount-buttons">
+            <button onclick="setDiscount(5)">5%</button>
+            <button onclick="setDiscount(10)">10%</button>
+            <button onclick="setDiscount(20)">20%</button>
+            <button onclick="setDiscount(50)">50%</button>
+        </div>
+
+        <!-- Buttons -->
+        <button class="calculate-btn" onclick="calculateDiscount()">Calculate</button>
+        <button class="clear-btn" onclick="clearFields()">Clear</button>
+
+        <!-- Results -->
+        <div class="result-box">
+            <p>Final Price: ₹<span id="finalPrice">0</span></p>
+            <p>You Save: ₹<span id="discountAmount">0</span></p>
+        </div>
+
+        <p class="footer" id="footerYear"></p>
+    </div>
+
+    <script>
+        function calculateDiscount() {
+            let originalPrice = parseFloat(document.getElementById("originalPrice").value);
+            let discountPercent = parseFloat(document.getElementById("discountPercent").value);
+
+            if (isNaN(originalPrice) || isNaN(discountPercent) || originalPrice <= 0 || discountPercent < 0) {
+                alert("Please enter a valid price and discount percentage.");
+                return;
+            }
+
+            let discountAmount = (originalPrice * discountPercent) / 100;
+            let finalPrice = originalPrice - discountAmount;
+
+            document.getElementById("finalPrice").innerText = finalPrice.toFixed(2);
+            document.getElementById("discountAmount").innerText = discountAmount.toFixed(2);
+        }
+
+        function setDiscount(percent) {
+            document.getElementById("discountPercent").value = percent;
+            calculateDiscount();
+        }
+
+        function clearFields() {
+            document.getElementById("originalPrice").value = "";
+            document.getElementById("discountPercent").value = "";
+            document.getElementById("finalPrice").innerText = "0";
+            document.getElementById("discountAmount").innerText = "0";
+        }
+
+        document.getElementById("footerYear").innerHTML = `© ${new Date().getFullYear()} Mangukiya Ved. All rights reserved.`;
+    </script>
+</body>
+</html>

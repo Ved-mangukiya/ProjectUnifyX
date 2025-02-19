@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Calculator</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #333;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 450px;
+            background: #444;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        /* Input Fields */
+        input, select, button {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #555;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        input:hover, button:hover, select:hover {
+            background: #666;
+        }
+
+        .calculate-btn {
+            background: #af9643;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .calculate-btn:hover {
+            background: #8f7b32;
+            transform: scale(1.05);
+        }
+
+        .clear-btn {
+            background: #b65d5d;
+        }
+
+        .clear-btn:hover {
+            background: #9e4c4c;
+        }
+
+        /* Duration Section */
+        .duration {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .duration select {
+            width: 48%;
+        }
+
+        /* Results */
+        .result-box {
+            background: #383737;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .result-box p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Loan Calculator</h2>
+
+        <!-- Inputs -->
+        <input type="number" id="loanAmount" placeholder="Enter Loan Amount">
+        <input type="number" id="interestRate" placeholder="Enter Annual Interest Rate (%)">
+
+        <!-- Duration Selection -->
+        <div class="duration">
+            <select id="years">
+                <option value="0">Years</option>
+                <script>
+                    for (let i = 1; i <= 50; i++) {
+                        document.write(`<option value="${i}">${i}</option>`);
+                    }
+                </script>
+            </select>
+            <select id="months">
+                <option value="0">Months</option>
+                <script>
+                    for (let i = 1; i <= 12; i++) {
+                        document.write(`<option value="${i}">${i}</option>`);
+                    }
+                </script>
+            </select>
+        </div>
+
+        <!-- Buttons -->
+        <button class="calculate-btn" onclick="calculateLoan()">Calculate</button>
+        <button class="clear-btn" onclick="clearFields()">Clear</button>
+
+        <!-- Results -->
+        <div class="result-box">
+            <p>Monthly EMI: ₹<span id="emiResult">0</span></p>
+            <p>Total Interest: ₹<span id="totalInterest">0</span></p>
+            <p>Total Payment: ₹<span id="totalPayment">0</span></p>
+        </div>
+
+        <p class="footer" id="footerYear"></p>
+    </div>
+
+    <script>
+        function calculateLoan() {
+            let principal = parseFloat(document.getElementById("loanAmount").value);
+            let annualRate = parseFloat(document.getElementById("interestRate").value);
+            let years = parseInt(document.getElementById("years").value);
+            let months = parseInt(document.getElementById("months").value);
+
+            if (isNaN(principal) || isNaN(annualRate) || (years === 0 && months === 0)) {
+                alert("Please enter a valid loan amount, interest rate, and duration.");
+                return;
+            }
+
+            let totalMonths = (years * 12) + months;
+            let monthlyRate = (annualRate / 100) / 12;
+
+            let emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / 
+                      (Math.pow(1 + monthlyRate, totalMonths) - 1);
+
+            let totalPayment = emi * totalMonths;
+            let totalInterest = totalPayment - principal;
+
+            document.getElementById("emiResult").innerText = emi.toFixed(2);
+            document.getElementById("totalInterest").innerText = totalInterest.toFixed(2);
+            document.getElementById("totalPayment").innerText = totalPayment.toFixed(2);
+        }
+
+        function clearFields() {
+            document.getElementById("loanAmount").value = "";
+            document.getElementById("interestRate").value = "";
+            document.getElementById("years").value = "0";
+            document.getElementById("months").value = "0";
+            document.getElementById("emiResult").innerText = "0";
+            document.getElementById("totalInterest").innerText = "0";
+            document.getElementById("totalPayment").innerText = "0";
+        }
+
+        document.getElementById("footerYear").innerHTML = `© ${new Date().getFullYear()} Mangukiya Ved. All rights reserved.`;
+    </script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Converter</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #333;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 420px;
+            background: #444;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 22px;
+            text-transform: uppercase;
+        }
+
+        /* Converter Layout */
+        .converter {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Input, Select, and Button Styles */
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #555;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effects */
+        select:hover, input:hover {
+            background: #666;
+        }
+
+        /* Convert Button */
+        button {
+            background: #d1b65d;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #bfa04d;
+            transform: scale(1.05);
+        }
+
+        /* Output Field */
+        input[readonly] {
+            background: #666;
+            border: none;
+            color: #d1b65d;
+            font-weight: bold;
+        }
+
+        /* Clear Button */
+        .clear-btn {
+            background: #b65d5d;
+        }
+
+        .clear-btn:hover {
+            background: #9e4c4c;
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Power Converter</h2>
+        <div class="converter">
+            <input type="number" id="inputValue" placeholder="Enter power value">
+
+            <select id="fromUnit">
+                <option value="W">Watt (W)</option>
+                <option value="kW">Kilowatt (kW)</option>
+                <option value="MW">Megawatt (MW)</option>
+                <option value="EW">Exawatt (EW)</option>
+                <option value="J/s">Joule/Second (J/s)</option>
+                <option value="hp">Imperial Horsepower (hp)</option>
+                <option value="PS">Metric Horsepower (PS)</option>
+                <option value="kg.m/s">Kilogram-Meter/Second (kg.m/s)</option>
+                <option value="kcal/s">Kilocalorie/Second (kcal/s)</option>
+                <option value="Btu/s">British Thermal Unit/Second (Btu/s)</option>
+                <option value="ft.lb/s">Foot-Pound/Second (ft.lb/s)</option>
+                <option value="N.m/s">Newton-Meter/Second (N.m/s)</option>
+                <option value="mW">Milliwatt (mW)</option>
+                <option value="dBm">Decibel-Milliwatts (dBm)</option>
+            </select>
+
+            <select id="toUnit">
+                <option value="W">Watt (W)</option>
+                <option value="kW">Kilowatt (kW)</option>
+                <option value="MW">Megawatt (MW)</option>
+                <option value="EW">Exawatt (EW)</option>
+                <option value="J/s">Joule/Second (J/s)</option>
+                <option value="hp">Imperial Horsepower (hp)</option>
+                <option value="PS">Metric Horsepower (PS)</option>
+                <option value="kg.m/s">Kilogram-Meter/Second (kg.m/s)</option>
+                <option value="kcal/s">Kilocalorie/Second (kcal/s)</option>
+                <option value="Btu/s">British Thermal Unit/Second (Btu/s)</option>
+                <option value="ft.lb/s">Foot-Pound/Second (ft.lb/s)</option>
+                <option value="N.m/s">Newton-Meter/Second (N.m/s)</option>
+                <option value="mW">Milliwatt (mW)</option>
+                <option value="dBm">Decibel-Milliwatts (dBm)</option>
+            </select>
+
+            <button onclick="convertPower()">Convert</button>
+            <button class="clear-btn" onclick="clearFields()">Clear</button>
+            <input type="text" id="outputValue" placeholder="Converted power" readonly>
+        </div>
+        <p class="footer" id="footerYear"></p>
+    </div>
+
+    <script>
+        function convertPower() {
+            let input = parseFloat(document.getElementById("inputValue").value);
+            let fromUnit = document.getElementById("fromUnit").value;
+            let toUnit = document.getElementById("toUnit").value;
+
+            // Conversion factors (relative to Watt)
+            let conversionFactors = {
+                "W": 1,
+                "kW": 1000,
+                "MW": 1e6,
+                "EW": 1e18,
+                "J/s": 1,
+                "hp": 745.7,
+                "PS": 735.5,
+                "kg.m/s": 9.80665,
+                "kcal/s": 4184,
+                "Btu/s": 1055.06,
+                "ft.lb/s": 1.35582,
+                "N.m/s": 1,
+                "mW": 0.001,
+                "dBm": 0.001
+            };
+
+            // Perform conversion
+            let result = input * (conversionFactors[fromUnit] / conversionFactors[toUnit]);
+            document.getElementById("outputValue").value = result.toFixed(4) + " " + toUnit;
+        }
+
+        function clearFields() {
+            document.getElementById("inputValue").value = "";
+            document.getElementById("outputValue").value = "";
+        }
+
+        document.getElementById("footerYear").innerHTML = `© ${new Date().getFullYear()} Mangukiya Ved. All rights reserved.`;
+    </script>
+</body>
+</html>

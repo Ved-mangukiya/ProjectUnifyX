@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Converter</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #333;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 420px;
+            background: #444;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 22px;
+            text-transform: uppercase;
+        }
+
+        /* Converter Layout */
+        .converter {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Input, Select, and Button Styles */
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #555;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effects */
+        select:hover, input:hover {
+            background: #666;
+        }
+
+        /* Convert Button */
+        button {
+            background: #d1b65d;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #bfa04d;
+            transform: scale(1.05);
+        }
+
+        /* Output Field */
+        input[readonly] {
+            background: #666;
+            border: none;
+            color: #d1b65d;
+            font-weight: bold;
+        }
+
+        /* Clear Button */
+        .clear-btn {
+            background: #b65d5d;
+        }
+
+        .clear-btn:hover {
+            background: #9e4c4c;
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Speed Converter</h2>
+        <div class="converter">
+            <input type="number" id="inputValue" placeholder="Enter speed">
+            
+            <select id="fromUnit">
+                <option value="c">Lightspeed (c)</option>
+                <option value="Ma">Mach (Ma)</option>
+                <option value="m/s">Meter per second (m/s)</option>
+                <option value="km/h">Kilometer per hour (km/h)</option>
+                <option value="km/s">Kilometer per second (km/s)</option>
+                <option value="kn">Knot (kn)</option>
+                <option value="mph">Mile per hour (mph)</option>
+                <option value="fps">Foot per second (fps)</option>
+                <option value="ips">Inch per second (ips)</option>
+                <option value="eo">Earth’s Orbital Speed (eo)</option>
+                <option value="hg">Horse Gallop Speed (hg)</option>
+                <option value="cs">Cheetah Sprint (cs)</option>
+            </select>
+
+            <select id="toUnit">
+                <option value="c">Lightspeed (c)</option>
+                <option value="Ma">Mach (Ma)</option>
+                <option value="m/s">Meter per second (m/s)</option>
+                <option value="km/h">Kilometer per hour (km/h)</option>
+                <option value="km/s">Kilometer per second (km/s)</option>
+                <option value="kn">Knot (kn)</option>
+                <option value="mph">Mile per hour (mph)</option>
+                <option value="fps">Foot per second (fps)</option>
+                <option value="ips">Inch per second (ips)</option>
+                <option value="eo">Earth’s Orbital Speed (eo)</option>
+                <option value="hg">Horse Gallop Speed (hg)</option>
+                <option value="cs">Cheetah Sprint (cs)</option>
+            </select>
+
+            <button onclick="convertSpeed()">Convert</button>
+            <button class="clear-btn" onclick="clearFields()">Clear</button>
+            <input type="text" id="outputValue" placeholder="Converted speed" readonly>
+        </div>
+        <p class="footer" id="footerYear"></p>
+    </div>
+
+    <script>
+        function convertSpeed() {
+            let input = parseFloat(document.getElementById("inputValue").value);
+            let fromUnit = document.getElementById("fromUnit").value;
+            let toUnit = document.getElementById("toUnit").value;
+            let conversionFactors = {
+                "c": 299792458,
+                "Ma": 343,
+                "m/s": 1,
+                "km/h": 0.277778,
+                "km/s": 1000,
+                "kn": 0.514444,
+                "mph": 0.44704,
+                "fps": 0.3048,
+                "ips": 0.0254,
+                "eo": 29780,
+                "hg": 24.4444,
+                "cs": 33.3333
+            };
+
+            let result = input * conversionFactors[fromUnit] / conversionFactors[toUnit];
+            document.getElementById("outputValue").value = result.toFixed(4) + " " + toUnit;
+        }
+
+        function clearFields() {
+            document.getElementById("inputValue").value = "";
+            document.getElementById("outputValue").value = "";
+        }
+
+        document.getElementById("footerYear").innerHTML = `© ${new Date().getFullYear()} Mangukiya Ved. All rights reserved.`;
+    </script>
+</body>
+</html>

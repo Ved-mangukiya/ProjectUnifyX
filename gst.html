@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GST Calculator</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #333;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 420px;
+            background: #444;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 22px;
+            text-transform: uppercase;
+        }
+
+        /* Converter Layout */
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Input and Buttons */
+        input, button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #555;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        input:hover, button:hover {
+            background: #666;
+        }
+
+        /* GST Buttons */
+        .gst-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .gst-btn {
+            width: 19%;
+            background: #af9643;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .gst-btn:hover, .gst-btn.active {
+            background: #7c692b;
+            transform: scale(1.05);
+        }
+
+        /* Convert Button */
+        .calculate-btn {
+            background: #5d85d1;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .calculate-btn:hover {
+            background: #4c76b6;
+            transform: scale(1.05);
+        }
+
+        /* Clear Button */
+        .clear-btn {
+            background: #b65d5d;
+        }
+
+        .clear-btn:hover {
+            background: #9e4c4c;
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>GST Calculator</h2>
+        <div class="calculator">
+            <input type="number" id="originalPrice" placeholder="Enter Original Price">
+            
+            <div class="gst-buttons">
+                <button class="gst-btn" onclick="selectGST(3)">3%</button>
+                <button class="gst-btn" onclick="selectGST(5)">5%</button>
+                <button class="gst-btn" onclick="selectGST(12)">12%</button>
+                <button class="gst-btn" onclick="selectGST(18)">18%</button>
+                <button class="gst-btn" onclick="selectGST(28)">28%</button>
+            </div>
+
+            <input type="number" id="customGST" placeholder="Enter Custom GST %" oninput="clearActiveButtons()">
+
+            <button class="calculate-btn" onclick="calculateGST()">Calculate GST</button>
+            <button class="clear-btn" onclick="clearFields()">Clear</button>
+
+            <input type="text" id="finalPrice" placeholder="Final Price (After GST)" readonly>
+            <input type="text" id="cgstSgst" placeholder="CGST/SGST Breakdown" readonly>
+        </div>
+        <p class="footer" id="footerYear"></p>
+    </div>
+
+    <script>
+        let selectedGST = 0;
+
+        function selectGST(value) {
+            selectedGST = value;
+            document.getElementById("customGST").value = "";  // Clear custom input
+
+            // Remove active class from all buttons
+            document.querySelectorAll(".gst-btn").forEach(btn => btn.classList.remove("active"));
+
+            // Add active class to the clicked button
+            event.target.classList.add("active");
+        }
+
+        function clearActiveButtons() {
+            selectedGST = 0;
+            document.querySelectorAll(".gst-btn").forEach(btn => btn.classList.remove("active"));
+        }
+
+        function calculateGST() {
+            let originalPrice = parseFloat(document.getElementById("originalPrice").value);
+            let customGST = parseFloat(document.getElementById("customGST").value);
+            
+            let gstRate = selectedGST || customGST;
+            
+            if (isNaN(originalPrice) || isNaN(gstRate)) {
+                alert("Please enter a valid price and GST rate.");
+                return;
+            }
+
+            let gstAmount = (originalPrice * gstRate) / 100;
+            let finalPrice = originalPrice + gstAmount;
+            let cgstSgst = gstAmount / 2;  // CGST and SGST are split equally
+
+            document.getElementById("finalPrice").value = finalPrice.toFixed(2);
+            document.getElementById("cgstSgst").value = `CGST: ${cgstSgst.toFixed(2)} | SGST: ${cgstSgst.toFixed(2)}`;
+        }
+
+        function clearFields() {
+            document.getElementById("originalPrice").value = "";
+            document.getElementById("customGST").value = "";
+            document.getElementById("finalPrice").value = "";
+            document.getElementById("cgstSgst").value = "";
+            clearActiveButtons();
+        }
+
+        document.getElementById("footerYear").innerHTML = `© ${new Date().getFullYear()} Mangukiya Ved. All rights reserved.`;
+    </script>
+</body>
+</html>

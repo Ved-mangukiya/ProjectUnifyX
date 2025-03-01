@@ -2,284 +2,1591 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProjectUnifyX</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Added for responsive display -->
+    <title>ProjectUnifyX - The All-In-One Super Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="favicon.png" type="image/png">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --primary: #5bc0aa;
+            --primary-dark: #4da68c;
+            --dark-bg: #1a1a1a;
+            --darker-bg: #121212;
+            --card-bg: #222222;
+            --text-light: #ffffff;
+            --text-muted: #aaaaaa;
+            --accent: #ff6b6b;
+            --glow: rgba(91, 192, 170, 0.5);
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #2a2a2a; /* Dark background */
-            color: #ffffff; /* Light text */
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #1e1e1e; /* Darker container */
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s;
-        }
-        .container:hover {
-            transform: translateY(-5px);
+            box-sizing: border-box;
+            scroll-behavior: smooth;
         }
 
-        h1 {
-            font-family: 'Cinzel Decorative', serif; /* Apply Cinzel Decorative font */
-            text-align: center; /* Center the title */
-            font-size: 1.9rem; /* Adjust size as needed */
-            letter-spacing: 2px;
-            color: #5bc0aa;
-            margin-bottom: 20px;
-            padding: 10px;
-            background-color: #333333; /* Dark background behind text */
-            border-radius: 10px;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        h2 {
-            text-align: center;
-            font-size: 1.8rem;
-            color: #5bc0aa;
-            margin-bottom: 20px;
-            background-color: #333333;
-            padding: 10px;
-            border-radius: 10px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            background-color: #333333; /* Slightly lighter dark for list items */
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
-        }
-        .highlight {
-            font-weight: bold;
-            color: #5bc0aa; /* Bright green for highlights */
-        }
-        .story {
-            margin-top: 20px;
-            font-style: italic;
-            color: #cccccc; /* Lighter grey for the story */
-        }
-        .quote {
-            font-style: italic;
-            color: #aaaaaa; /* Medium grey for quotes */
-            text-align: center;
-            margin-top: 20px;
-            border-top: 1px solid #444;
-            padding-top: 15px;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #888888; /* Light grey for footer */
-            font-size: 0.9rem;
-        }
-        .header-image {
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            border-radius: 10px;
-            filter: brightness(0.8); /* Slightly darker image for contrast */
-        }
-        .skills {
-            margin-top: 20px;
-            background-color: #444444; /* Dark grey for skills section */
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .button-container {
+            height: 100%;
+            background-color: var(--darker-bg);
             display: flex;
             justify-content: center;
-            gap: 20px; /* Space between buttons */
-            margin-top: 20px;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
         }
-        .project-button {
-            display: inline-block;
-            width: 200px;
-            padding: 10px;
-            background-color: #5bc0aa; /* Bright green for button */
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            text-align: center;
-            transition: background-color 0.3s;
+
+        .preloader.fade-out {
+            opacity: 0;
+            pointer-events: none;
         }
-        .project-button:hover {
-            background-color: #4da68c; /* Darker green on hover */
-        }
-        .live-age {
-            font-size: 1.2rem;
-            margin-top: 20px;
-            background-color: #333333; 
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            color: #5bc0aa;
-        }
-        /* Styling for the logo */
-        .logo {
+
+        .preloader-logo {
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            margin: 0 auto;
-            display: block;
-            overflow: hidden;
-            border: 5px solid #5bc0aa;
+            border: 3px solid var(--primary);
+            animation: pulse 1.5s infinite alternate;
+            box-shadow: 0 0 30px var(--glow);
         }
-        .logo img {
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 var(--glow);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 20px 10px rgba(91, 192, 170, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(91, 192, 170, 0);
+            }
+        }
+
+        .scrollbar-track {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 10px;
+            height: 100%;
+            background: var(--darker-bg);
+            z-index: 100;
+        }
+
+        .scrollbar-thumb {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background: var(--primary);
+            border-radius: 5px;
+            transition: height 0.2s ease-out;
+        }
+
+        header {
+            padding: 20px 5%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 15px 5%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid var(--primary);
+        }
+
+        .header-logo h3 {
+            font-family: 'Cinzel Decorative', serif;
+            color: var(--primary);
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(18, 18, 18, 0.95)), url('pattern.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 30%, var(--darker-bg));
+            z-index: 0;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: var(--primary);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            padding: 0 20px;
+            max-width: 1000px;
+        }
+
+        .hero-logo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            overflow: hidden;
+            border: 5px solid var(--primary);
+            box-shadow: 0 0 30px var(--glow);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+                box-shadow: 0 0 30px var(--glow);
+            }
+            50% {
+                transform: translateY(-15px);
+                box-shadow: 0 15px 40px var(--glow);
+            }
+            100% {
+                transform: translateY(0);
+                box-shadow: 0 0 30px var(--glow);
+            }
+        }
+
+        .hero-logo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        .age-box {
+
+        h1 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-light);
+            text-shadow: 0 0 15px rgba(91, 192, 170, 0.5);
+            position: relative;
+            display: inline-block;
+        }
+
+        .animated-text {
+            display: block;
+            color: var(--primary);
+            height: 50px;
+            overflow: hidden;
+            margin-top: 10px;
+            position: relative;
+            text-shadow: 0 0 10px rgba(91, 192, 170, 0.5);
+        }
+
+        .animated-text-wrapper {
+            animation: darkSlide 20s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Cinzel Decorative', serif;
+        }
+
+        .animated-text-wrapper div {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            font-size: 1.8rem;
+            line-height: 50px;
+            color: #3ee7cb;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        @keyframes darkSlide {
+            0%, 10% { transform: translateY(0); }
+            10%, 20% { transform: translateY(-50px); }
+            20%, 30% { transform: translateY(-100px); }
+            30%, 40% { transform: translateY(-150px); }
+            40%, 50% { transform: translateY(-200px); }
+            50%, 60% { transform: translateY(-250px); }
+            60%, 70% { transform: translateY(-300px); }
+            70%, 80% { transform: translateY(-350px); }
+            80%, 90% { transform: translateY(-400px); }
+            90%, 100% { transform: translateY(-450px); }
+            100% { transform: translateY(-500px); }
+        }
+
+        .hero-desc {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s 0.8s forwards;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--dark-bg);
+            box-shadow: 0 5px 15px rgba(91, 192, 170, 0.4);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(91, 192, 170, 0.6);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s;
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--dark-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(91, 192, 170, 0.4);
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        .scroll-down:hover {
+            opacity: 1;
+            color: var(--primary);
+        }
+
+        .scroll-down span {
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .scroll-down svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-5px) translateX(-50%);
+            }
+        }
+
+        .section {
+            padding: 100px 5%;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 3px;
+            background: var(--primary);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .concept-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .concept-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(91, 192, 170, 0.1);
+        }
+
+        .concept-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary);
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: var(--primary);
+            transition: height 0.3s ease;
+        }
+
+        .concept-card:hover::before {
+            height: 100%;
+        }
+
+        .concept-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(91, 192, 170, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--primary);
             font-size: 1.5rem;
-            background-color: #333333;
-            color: #5bc0aa;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover .concept-icon {
+            background: var(--primary);
+            color: var(--dark-bg);
+            transform: scale(1.1);
+        }
+
+        .concept-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .concept-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 15px;
+            transition: all 0.5s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(91, 192, 170, 0.3), transparent);
+            z-index: 1;
+        }
+
+        .about-content {
+            padding: 30px;
+        }
+
+        .about-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-family: 'Cinzel Decorative', serif;
+        }
+
+        .about-text {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .about-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .about-list li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .about-list .icon {
+            color: var(--primary);
+            margin-right: 15px;
+            min-width: 24px;
+        }
+
+        .about-list-text {
+            color: var(--text-muted);
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(91, 192, 170, 0.1), transparent 70%);
+            transform: scale(0);
+            z-index: -1;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card:hover::before {
+            transform: scale(1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(91, 192, 170, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            background: var(--primary);
+            color: var(--dark-bg);
+            transform: rotateY(180deg);
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .feature-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .dev-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .dev-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('pattern.png');
+            background-size: cover;
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        .dev-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dev-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+            margin-right: 20px;
+        }
+
+        .dev-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dev-title {
+            flex: 1;
+        }
+
+        .dev-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .dev-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .dev-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dev-item {
+    display: flex;
+    align-items: center; /* Aligns icon and text vertically */
+    margin-bottom: 20px;
+}
+
+.dev-icon {
+    margin-right: 15px; /* Space between icon and label */
+    min-width: 24px; /* Ensures consistent icon width */
+    color: var(--primary); /* For non-SVG icons, if needed */
+}
+
+.dev-icon svg {
+    vertical-align: middle; /* Aligns SVG vertically with text */
+    width: 24px; /* Match your SVG size */
+    height: 24px; /* Match your SVG size */
+}
+
+.dev-label {
+    font-weight: 600;
+    margin-right: 10px;
+    color: var(--text-light);
+}
+
+.dev-value {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between text and icon */
+    color: var(--text-muted);
+}
+
+.age-text {
+    display: inline-block; /* Ensures text behaves as a block-level element for alignment */
+}
+
+.dev-value svg,
+.age-value svg {
+    vertical-align: middle; /* Aligns SVG vertically with text */
+    width: 24px; /* Match your SVG size */
+    height: 24px; /* Match your SVG size */
+}
+
+        .quote-container {
+            text-align: center;
+            margin-top: 50px;
+            position: relative;
+            z-index: 1;
+            padding: 30px;
+            background: rgba(91, 192, 170, 0.05);
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .quote::before, .quote::after {
+            content: '"';
+            font-size: 2rem;
+            color: var(--primary);
+            opacity: 0.5;
+        }
+
+        .quote-author {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .age-container {
+            margin-top: 30px;
+            background: rgba(91, 192, 170, 0.05);
+            border-radius: 15px;
             padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .age-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .age-label {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .age-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: inline-block;
+            background: rgba(91, 192, 170, 0.1);
+            padding: 10px 20px;
             border-radius: 10px;
             margin-top: 10px;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, rgba(91, 192, 170, 0.1), rgba(18, 18, 18, 0.9)), url('pattern.png');
+            background-size: cover;
             text-align: center;
+            padding: 100px 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .cta-desc {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .footer {
+            background-color: var(--darker-bg);
+            padding: 60px 5% 30px;
+            position: relative;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid var(--primary);
+        }
+
+        .footer-logo-text {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .footer-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(91, 192, 170, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: var(--primary);
+            color: var(--dark-bg);
+            transform: translateY(-5px);
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .footer-links .icon {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .footer-copyright {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-bg);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(91, 192, 170, 0.4);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .hero-logo {
+                width: 150px;
+                height: 150px;
+            }
+
+            .section {
+                padding: 70px 5%;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .dev-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .dev-avatar {
+                margin: 0 auto 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Logo Section -->
-        <div class="logo">
-            <img src="wlogo.png" alt="Project UnifyX Logo">
-        </div>
-
-        <!-- Website Details Section -->
-        <h1 id="dynamic-header">Project Unify X</h1>
-        <p class="story">
-            <strong>This website is part of the <span class="highlight">ProjectUnifyX</span> concept,</strong> an all-in-one super website that integrates essential services like <span class="highlight">food delivery, social media,</span> and other necessary apps, without requiring frequent updates or heavy storage space. Unlike other super apps, ProjectUnifyX allows for <span class="highlight">seamless updates</span> directly on the website without the need for additional installations or updates from the user.
-            <br><br>
-            <strong>The core idea behind this website is to create a platform where users can access:</strong>
-            <ul>
-                <li><span class="highlight">Every needed things available at one spot</span></li>
-                <li><span class="highlight">No need for separate apps</span> that take up valuable space</li>
-                <li><span class="highlight">Auto-updates</span> its code for a better and streamlined user experience</li>
-                <li><span class="highlight">No installation required</span> for any services</li>
-            </ul>
-            <br>
-            One of the most significant advantages of ProjectUnifyX is its ability to offer <span class="highlight">real-time content updates</span>. As opposed to conventional apps that require users to download updates from stores, ProjectUnifyX instantly updates its features on the web, ensuring users always have the latest tools and services. Additionally, the platform supports <span class="highlight">cloud synchronization</span>, meaning users don't need to worry about losing their data across devices. All data is stored securely in the cloud, ensuring a seamless experience, no matter the device or location.
-            <br><br>
-            <strong>This website concept also promotes a <span class="highlight">leaner, more efficient experience</span>. By eliminating the need for multiple apps cluttering devices and consuming valuable storage space, ProjectUnifyX helps users save both storage and time. Whether it's accessing social media platforms, ordering food, or interacting with other necessary services, everything is accessible via this one unified platform.</strong>
-        </p>
-
-        <!-- Developer Details Section -->
-        <h2>Developer Info</h2>
-        <ul>
-            <li><span class="highlight">Name:</span> Ved Mangukiya</li>
-            <li><span class="highlight">Age:</span> <span id="live-age-box">Calculating age...</span></li>
-            <li><span class="highlight">Residence:</span> Surat, India</li> 
-            <li><span class="highlight">Education:</span> Currently studying in 11th grade, Commerce stream</li>
-            <li><span class="highlight">Passion:</span> Curious about <span class="highlight">computers, coding, animation,</span> and <span class="highlight">editing</span></li>
-            <li><span class="highlight">Hobbies:</span> Exploring new technologies, <span class="highlight">Swimming</span> (District-level swimmer)</li>
-        </ul>
-
-        <p class="quote">"RRR: Reset. Restart. Repeat. Guess some things never change."</p>
-
-        <div class="button-container">
-            <button class="project-button" onclick="window.location.href='AllTools.html'">Explore All Tools</button>
-            <button class="project-button" onclick="window.location.href='explanation.html'">Explanation</button>
-            <button class="project-button" onclick="window.location.href='Copyright and Legal Terms.html'">Terms and Conditions</button>
-        </div>
-
-        <div class="footer">
-            <p>Thank you for taking the time to learn about me!</p>
-            <p>&copy; <span id="current-year"></span> Mangukiya Ved. All rights reserved.</p>
-        </div>
+    <!-- Preloader -->
+    <div class="preloader">
+        <img src="wlogo.png" alt="ProjectUnifyX Logo" class="preloader-logo">
     </div>
 
+    <!-- Custom Scrollbar -->
+    <div class="scrollbar-track">
+        <div class="scrollbar-thumb"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="header-logo">
+            <img src="wlogo.png" alt="ProjectUnifyX Logo">
+            <h3>ProjectUnifyX</h3>
+        </div>
+        <div class="nav-links">
+            <a href="#concept">Concept</a>
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="#developer">Developer</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="particles" id="particles"></div>
+        <div class="hero-content">
+            <div class="hero-logo">
+                <img src="wlogo.png" alt="Project UnifyX Logo">
+            </div>
+            <h1>
+                Project Unify X
+                <div class="animated-text">
+                    <div class="animated-text-wrapper">
+                        <div>United in Shadow</div>
+                        <div>Efficient Mastery</div>
+                        <div>Dark Innovation</div>
+                        <div>Digital Dominion</div>
+                        <div>Timeless Sync</div>
+                        <div>Unified Eclipse</div>
+                        <div>Classic Power</div>
+                        <div>Tech Ascendancy</div>
+                        <div>Seamless Void</div>
+                        <div>Eternal Potential</div>
+                    </div>
+                </div>
+            </h1>
+            <p class="hero-desc">An all-in-one super platform that integrates essential services without requiring frequent updates or heavy storage space. Access everything you need in one place with seamless updates and cloud synchronization.</p>
+            <div class="hero-buttons">
+                <a href="#concept" class="btn btn-primary">Explore Concept</a>
+                <a href="#features" class="btn btn-outline">See Features</a>
+            </div>
+        </div>
+        <div class="scroll-down" id="scroll-down">
+            <span>Scroll Down</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </div>
+    </section>
+
+    <!-- Concept Section -->
+    <section class="section" id="concept">
+        <h2 class="section-title">Our Concept</h2>
+        <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-muted);">
+            ProjectUnifyX is a revolutionary approach to web services integration, allowing users to access everything they need from a single platform.
+        </p>
+        <div class="concept-container">
+            <div class="concept-card" data-aos="fade-up">
+                <div class="concept-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                </div>
+                <h3 class="concept-title">All-in-One Platform</h3>
+                <p class="concept-desc">Access every needed service at one spot - from food delivery to social media and more, without installing separate apps.</p>
+            </div>
+            <div class="concept-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="concept-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 12a11.05 11.05 0 0 0-22 0zm-5 7a3 3 0 0 1-6 0v-7"></path></svg>
+                </div>
+                <h3 class="concept-title">Space Efficient</h3>
+                <p class="concept-desc">No need for separate apps that take up valuable storage space on your devices. Everything runs streamlined in one place.</p>
+            </div>
+            <div class="concept-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="concept-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6m0 0H15m6 0l-9 9M3 22v-6m0 0h6m-6 0l9-9"></path></svg>
+                </div>
+                <h3 class="concept-title">Auto-Updates</h3>
+                <p class="concept-desc">The platform automatically updates its code for a better and streamlined user experience, without requiring manual updates.</p>
+            </div>
+            <div class="concept-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="concept-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                </div>
+                <h3 class="concept-title">Cloud Synchronization</h3>
+                <p class="concept-desc">All your data is stored securely in the cloud, ensuring a seamless experience across all your devices without loss of information.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <h2 class="section-title">About ProjectUnifyX</h2>
+        <div class="about-container">
+            <div class="about-image" data-aos="fade-right">
+                <img src="concept illustration.png" alt="ProjectUnifyX Concept Illustration">
+            </div>
+            <div class="about-content" data-aos="fade-left">
+                <h3 class="about-title">Our Vision</h3>
+                <p class="about-text">
+                    <strong>ProjectUnifyX is an <span class="highlight">all-in-one super website</span></strong> that integrates essential services like food delivery, social media, and other necessary apps, without requiring frequent updates or heavy storage space.
+                </p>
+                <p class="about-text">
+                    Unlike other super apps, ProjectUnifyX allows for <span class="highlight">seamless updates</span> directly on the website without the need for additional installations or updates from the user.
+                </p>
+                <ul class="about-list">
+                    <li>
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </span>
+                        <span class="about-list-text">Real-time content updates without app store downloads</span>
+                    </li>
+                    <li>
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </span>
+                        <span class="about-list-text">Secure cloud synchronization across all your devices</span>
+                    </li>
+                    <li>
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </span>
+                        <span class="about-list-text">Leaner, more efficient experience saving both storage and time</span>
+                    </li>
+                    <li>
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </span>
+                        <span class="about-list-text">Unified access to all essential services in one platform</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <h2 class="section-title">Key Features</h2>
+        <div class="features-container">
+            <div class="feature-card" data-aos="zoom-in">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                </div>
+                <h3 class="feature-title">Unified Interface</h3>
+                <p class="feature-desc">Access all your essential services through a single, intuitive interface designed for maximum efficiency.</p>
+            </div>
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m8 17 4 4 4-4"></path></svg>
+                </div>
+                <h3 class="feature-title">Real-time Updates</h3>
+                <p class="feature-desc">Instantly receive platform updates without needing to download or install anything from app stores.</p>
+            </div>
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                </div>
+                <h3 class="feature-title">Zero Installation</h3>
+                <p class="feature-desc">No downloads required for any services. Everything runs directly in your browser, saving precious storage space.</p>
+            </div>
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <h3 class="feature-title">Time Efficient</h3>
+                <p class="feature-desc">Save time by avoiding the need to switch between multiple apps or wait for updates to download and install.</p>
+            </div>
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </div>
+                <h3 class="feature-title">User-Centric Design</h3>
+                <p class="feature-desc">Carefully crafted with users in mind, ensuring an intuitive experience across all integrated services.</p>
+            </div>
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="500">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+                <h3 class="feature-title">Enhanced Security</h3>
+                <p class="feature-desc">Built with security in mind, ensuring your data remains protected across all integrated services.</p>
+            </div>
+        </div>
+    </section>
+
+   <!-- Developer Section  -->
+<section class="section" id="developer">
+    <h2 class="section-title">Developer Info</h2>
+    <div class="dev-container">
+        <div class="dev-header">
+            <div class="dev-avatar">
+                <img src="ved1.png.jpg" alt="Ved Mangukiya">
+            </div>
+            <div class="dev-title">
+                <h3 class="dev-name">Ved Mangukiya</h3>
+                <p class="dev-subtitle">Creator of ProjectUnifyX</p>
+            </div>
+        </div>
+        <div class="dev-info">
+            <div>
+                <div class="dev-item">
+                    <span class="dev-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5bc0aa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </span>
+                    <div>
+                        <span class="dev-label">Residence:</span>
+                        <span class="dev-value">Surat, India</span>
+                    </div>
+                </div>
+                <div class="dev-item">
+                    <span class="dev-icon">
+                        <svg fill="#5bc0aa" height="196px" width="196px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-14.69 -14.69 519.02 519.02" xml:space="preserve" stroke="#5bc0aa" stroke-width="14.199704999999998"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M460.656,132.911c-58.7-122.1-212.2-166.5-331.8-104.1c-9.4,5.2-13.5,16.6-8.3,27c5.2,9.4,16.6,13.5,27,8.3 c99.9-52,227.4-14.9,276.7,86.3c65.4,134.3-19,236.7-87.4,274.6c-93.1,51.7-211.2,17.4-267.6-70.7l69.3,14.5 c10.4,2.1,21.8-4.2,23.9-15.6c2.1-10.4-4.2-21.8-15.6-23.9l-122.8-25c-20.6-2-25,16.6-23.9,22.9l15.6,123.8 c1,10.4,9.4,17.7,19.8,17.7c12.8,0,20.8-12.5,19.8-23.9l-6-50.5c57.4,70.8,170.3,131.2,307.4,68.2 C414.856,432.511,548.256,314.811,460.656,132.911z"></path> </g> </g></svg>
+                    </span>
+                    <div>
+                        <span class="dev-label">Age:</span>
+                        <span class="dev-value" id="live-age"><span class="age-text">Calculating...</span> <svg fill="#5bc0aa" height="24px" width="24px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-489.64 -489.64 1468.92 1468.92" xml:space="preserve" transform="rotate(0)" stroke="#5bc0aa" stroke-width="29.3787"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M460.656,132.911c-58.7-122.1-212.2-166.5-331.8-104.1c-9.4,5.2-13.5,16.6-8.3,27c5.2,9.4,16.6,13.5,27,8.3 c99.9-52,227.4-14.9,276.7,86.3c65.4,134.3-19,236.7-87.4,274.6c-93.1,51.7-211.2,17.4-267.6-70.7l69.3,14.5 c10.4,2.1,21.8-4.2,23.9-15.6c2.1-10.4-4.2-21.8-15.6-23.9l-122.8-25c-20.6-2-25,16.6-23.9,22.9l15.6,123.8 c1,10.4,9.4,17.7,19.8,17.7c12.8,0,20.8-12.5,19.8-23.9l-6-50.5c57.4,70.8,170.3,131.2,307.4,68.2 C414.856,432.511,548.256,314.811,460.656,132.911z"></path> </g> </g></svg></span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="dev-item">
+                    <span class="dev-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                    </span>
+                    <div>
+                        <span class="dev-label">Education:</span>
+                        <span class="dev-value">Currently studying in 11th grade, Commerce stream</span>
+                    </div>
+                </div>
+                <div class="dev-item">
+                    <span class="dev-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>
+                    </span>
+                    <div>
+                        <span class="dev-label">Passion:</span>
+                        <span class="dev-value">Curious about computers, coding, animation, and editing</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="dev-item">
+                    <span class="dev-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    </span>
+                    <div>
+                        <span class="dev-label">Hobbies:</span>
+                        <span class="dev-value">Exploring new technologies, Swimming (District-level swimmer)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="quote-container">
+            <p class="quote">RRR: Reset. Restart. Realign. The Code Endures.</p>
+            <p class="quote-author">- My Philosophy</p>
+        </div>
+        <div class="age-container">
+            <p class="age-label">Current Age:</p>
+            <p class="age-value" id="detailed-age"><span class="age-text">Calculating...</span> <svg fill="#5bc0aa" height="24px" width="24px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-489.64 -489.64 1468.92 1468.92" xml:space="preserve" transform="rotate(0)" stroke="#5bc0aa" stroke-width="29.3787"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M460.656,132.911c-58.7-122.1-212.2-166.5-331.8-104.1c-9.4,5.2-13.5,16.6-8.3,27c5.2,9.4,16.6,13.5,27,8.3 c99.9-52,227.4-14.9,276.7,86.3c65.4,134.3-19,236.7-87.4,274.6c-93.1,51.7-211.2,17.4-267.6-70.7l69.3,14.5 c10.4,2.1,21.8-4.2,23.9-15.6c2.1-10.4-4.2-21.8-15.6-23.9l-122.8-25c-20.6-2-25,16.6-23.9,22.9l15.6,123.8 c1,10.4,9.4,17.7,19.8,17.7c12.8,0,20.8-12.5,19.8-23.9l-6-50.5c57.4,70.8,170.3,131.2,307.4,68.2 C414.856,432.511,548.256,314.811,460.656,132.911z"></path> </g> </g></svg></p>
+        </div>
+    </div>
+</section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <h2 class="cta-title">Ready to Experience ProjectUnifyX?</h2>
+        <p class="cta-desc">Explore our tools and discover how ProjectUnifyX can transform your digital experience.</p>
+        <div class="btn-container">
+            <a href="AllTools.html" class="btn btn-primary">Explore All Tools</a>
+            <a href="explanation.html" class="btn btn-outline">Learn More</a>
+            <a href="Copyright and Legal Terms.html" class="btn btn-outline">Terms & Conditions</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">
+                    <img src="wlogo.png" alt="ProjectUnifyX Logo">
+                    <span class="footer-logo-text">ProjectUnifyX</span>
+                </div>
+                <p class="footer-desc">
+                    An all-in-one super platform that integrates essential services without requiring frequent updates or heavy storage space.
+                </p>
+                <div class="footer-social">
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li>
+                        <a href="#home">
+                            <span class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </span>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#concept">
+                            <span class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </span>
+                            Concept
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#about">
+                            <span class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </span>
+                            About
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#features">
+                            <span class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </span>
+                            Features
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Tools</h4>
+                <ul class="footer-links">
+                    <li>
+                        <a href="AllTools.html">
+                            <span class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </span>
+                            All Tools
+                        </a>
+                    </li>
+                    <li>
+                        <a href="explanation.html">
+                            <span class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </span>
+                            Learn More
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Copyright and Legal Terms.html">
+                            <span class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </span>
+                            Terms & Conditions
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Contact</h4>
+                <ul class="footer-links">
+                    <li>
+                        <a href="mailto:vedmangukiya05@gmail.com">
+                            <span class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            </span>
+                            Email Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#developer">
+                            <span class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            </span>
+                            Developer Info
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            © <span id="current-year"></span> ProjectUnifyX. All Rights Reserved. Designed by Ved Mangukiya.
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="back-to-top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </div>
+
+    <!-- JavaScript -->
     <script>
-        const headers = [
-    'Project Unify X',
-    'United We Stand',
-    'Project Unify X',
-    'Innovation Ahead',
-    'Project Unify X',
-    'Simplify Your Life',
-    'Project Unify X',
-    'Seamless Updates',
-    'Project Unify X',
-    'Digital Harmony',
-    'Project Unify X',
-    'Empower Your Web',
-    'Project Unify X',
-    'Unify Your World',
-    'Project Unify X',
-    'Efficiency First',
-    'Project Unify X',
-    'One Click Power',
-    'Project Unify X',
-    'Innovate and Grow',
-    'Project Unify X',
-    'Next Gen Connect',
-    'Project Unify X',
-    'All in One Hub X',
-    'Project Unify X',
-    'Unite the Future',
-    'Project Unify X',
-    'Tech Redefined X',
-    'Project Unify X',
-    'Connect with Ease',
-    'Project Unify X',
-    'Unified Success',
-    'Project Unify X',
-    'Power Your Life X',
-    'Project Unify X',
-    'Tech at Fingertips',
-    'Project Unify X',
-    'Unlock Potential',
-    'Project Unify X',
-    'Endless Solutions',
-    'Project Unify X',
-    'Future at Ease X',
-    'Project Unify X',
-    'Smart Digital Hub'
-];
+        // Preloader
+        window.addEventListener('load', () => {
+            const preloader = document.querySelector('.preloader');
+            preloader.classList.add('fade-out');
+            setTimeout(() => preloader.remove(), 500);
+        });
 
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
 
-        let index = 0;
-        const headerElement = document.getElementById("dynamic-header");
+        // Custom Scrollbar
+        const scrollbarThumb = document.querySelector('.scrollbar-thumb');
+        window.addEventListener('scroll', () => {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            const thumbHeight = (window.innerHeight / document.documentElement.scrollHeight) * 100;
+            scrollbarThumb.style.height = `${thumbHeight}%`;
+            scrollbarThumb.style.top = `${scrolled}%`;
+        });
 
-        setInterval(() => {
-            headerElement.textContent = headers[index];
-            index = (index + 1) % headers.length;
-        }, 2100); 
+        // Particles Animation
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.width = `${Math.random() * 5 + 2}px`;
+            particle.style.height = particle.style.width;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.animation = `float ${Math.random() * 10 + 5}s infinite ease-in-out`;
+            particlesContainer.appendChild(particle);
+        }
 
-        function calculateAge(birthDate) {
-    const now = new Date();
-    const diff = now - birthDate;
-    const ageDate = new Date(diff);
+        // Back to Top Button
+        const backToTop = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
-    const years = ageDate.getUTCFullYear() - 1970;
-    const months = ageDate.getUTCMonth();
-    const days = ageDate.getUTCDate() - 1;  // Subtract 1 as Date starts from 1
+        // Calculate Age (Updated for January 8, 2009, 5 AM)
+        const birthDate = new Date('2009-01-08T05:00:00');
+        const today = new Date();
+        const liveAgeElement = document.getElementById('live-age');
+        const detailedAgeElement = document.getElementById('detailed-age');
 
-    return {
-        years: years,
-        months: months,
-        days: days
-    };
-}
+        function calculateAge() {
+            let years = today.getFullYear() - birthDate.getFullYear();
+            let months = today.getMonth() - birthDate.getMonth();
+            let days = today.getDate() - birthDate.getDate();
 
-const birthDate = new Date('2009-01-08');
-const age = calculateAge(birthDate);
-document.getElementById('live-age-box').textContent = `${age.years} years, ${age.months} months, ${age.days} days`;
+            if (days < 0) {
+                months--;
+                days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
 
-document.getElementById('current-year').textContent = new Date().getFullYear();
+            liveAgeElement.textContent = `${years} Years  `;
+            detailedAgeElement.textContent = `${years} Years, ${months} Months, ${days} Days  `;
+        }
 
+        calculateAge();
+        setInterval(calculateAge, 86400000); // Update daily
+
+        // Automatically update copyright year
+        const currentYearElement = document.getElementById('current-year');
+        currentYearElement.textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

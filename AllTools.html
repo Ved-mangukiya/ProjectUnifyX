@@ -2,141 +2,698 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tools</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Tools Hub - A collection of online calculators, converters, financial tools, and utility applications">
+    <meta name="keywords" content="calculator, converter, financial tools, utility tools, cryptography">
+    <meta name="author" content="Mangukiya Ved">
+    <meta name="theme-color" content="#303030">
+    <title>Tools Hub</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --dark-bg: #303030;
+            --darker-bg: #262626;
+            --button-bg: #666666;
+            --highlight: #e57373;
+            --accent: #e6c662;
+            --text: #ffffff;
+            --secondary-text: #cccccc;
+            --card-radius: 12px;
+            --button-radius: 8px;
+        }
+        
+        * {
             margin: 0;
             padding: 0;
-            background-color: #2a2a2a; /* Dark background */
-            color: #ffffff; /* Light text */
-            text-align: center;
+            box-sizing: border-box;
         }
-        h1 {
-            margin-top: 30px;
-            font-size: 2rem;
-            color: #5bc0aa;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #1e1e1e; /* Darker container */
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--darker-bg);
+            color: var(--text);
+            min-height: 100vh;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
+            flex-direction: column;
+            overflow-x: hidden;
         }
-        .tool-card {
-            background-color: #333333; /* Card background */
-            border-radius: 10px;
-            padding: 20px;
-            width: 220px;
+        
+        .header {
+            padding: 2rem 1rem 1rem;
             text-align: center;
-            transition: transform 0.3s;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
         }
-        .tool-card:hover {
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            width: 100px;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
             transform: scale(1.05);
         }
-        .tool-title {
-            font-size: 1.2rem;
-            color: #5bc0aa; /* Bright green */
-            margin: 10px 0;
-        }
-        .tool-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-        .last-updated {
-            font-size: 0.9rem;
-            color: #cccccc;
-        }
-        .tool-button {
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--highlight), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #5bc0aa;
-            color: white;
+        }
+        
+        .search-bar {
+            background-color: var(--dark-bg);
+            max-width: 600px;
+            margin: 1.5rem auto;
+            border-radius: 30px;
+            padding: 0.7rem 1.5rem;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .search-bar:focus-within {
+            box-shadow: 0 4px 20px rgba(229, 115, 115, 0.25);
+        }
+        
+        .search-icon {
+            font-size: 1.2rem;
+            margin-right: 0.8rem;
+            color: var(--secondary-text);
+        }
+        
+        .search-input {
+            background: transparent;
             border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s;
+            color: var(--text);
+            font-size: 1rem;
+            width: 100%;
+            outline: none;
+            height: 32px;
         }
-        .tool-button:hover {
-            background-color: #4da99c;
+        
+        .search-input::placeholder {
+            color: var(--secondary-text);
         }
-        footer {
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem 3rem;
+            flex: 1;
+        }
+        
+        .category {
+            background-color: var(--dark-bg);
+            border-radius: var(--card-radius);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+        }
+        
+        .category-header {
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.2s ease;
+            user-select: none;
+        }
+        
+        .category-header:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .category-title {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .category-icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+        }
+        
+        .arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .arrow.down {
+            transform: rotate(90deg);
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.2rem;
+            padding: 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .tools-grid.expanded {
+            max-height: 2000px;
+        }
+        
+        .tool-card {
+            background-color: var(--button-bg);
+            border-radius: var(--button-radius);
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--highlight), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+        
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+            line-height: 1;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tool-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
             text-align: center;
-            margin-top: 30px;
-            padding: 10px 0;
-            color: #888888;
+        }
+        
+        .last-updated {
+            font-size: 0.8rem;
+            color: var(--secondary-text);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .tool-button {
+            background-color: var(--accent);
+            color: #333;
+            font-weight: 600;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: var(--button-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            width: 100%;
+            text-align: center;
+            margin-top: auto;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+        }
+        
+        .tool-button:hover {
+            background-color: #d6b95a;
+            transform: translateY(-2px);
+        }
+        
+        .tool-button:active {
+            transform: translateY(1px);
+            background-color: #c4a94b;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--secondary-text);
+            font-size: 1.2rem;
+            display: none;
+        }
+        
+        .featured {
+            position: relative;
+        }
+        
+        .featured::after {
+            content: 'New';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--highlight);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            z-index: 1;
+        }
+        
+        footer {
+            margin-top: auto;
+            padding: 2rem;
+            text-align: center;
+            color: var(--secondary-text);
             font-size: 0.9rem;
+            background-color: var(--darker-bg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .category {
+            animation: fadeIn 0.5s forwards;
+            opacity: 0;
+        }
+        
+        .category:nth-child(1) { animation-delay: 0.1s; }
+        .category:nth-child(2) { animation-delay: 0.2s; }
+        .category:nth-child(3) { animation-delay: 0.3s; }
+        .category:nth-child(4) { animation-delay: 0.4s; }
+        .category:nth-child(5) { animation-delay: 0.5s; }
+        
+        /* Responsive design improvements */
+        @media (min-width: 1200px) {
+            .tools-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (min-width: 992px) and (max-width: 1199px) {
+            .tools-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (min-width: 768px) and (max-width: 991px) {
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+                gap: 1rem;
+                padding: 1.2rem;
+            }
+            
+            .category-header {
+                padding: 1rem;
+            }
+            
+            .category-title {
+                font-size: 1.1rem;
+                gap: 0.5rem;
+            }
+            
+            .tool-card {
+                padding: 1rem;
+            }
+            
+            .tool-icon {
+                font-size: 2rem;
+                height: 36px;
+            }
+            
+            .tool-title {
+                font-size: 0.95rem;
+            }
+            
+            .tool-button {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+                min-height: 36px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.75rem 2rem;
+            }
+            
+            .header {
+                padding: 1.5rem 0.75rem 0.75rem;
+            }
+            
+            .logo {
+                width: 80px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .search-bar {
+                margin: 1rem auto;
+                padding: 0.5rem 1rem;
+            }
+            
+            .search-input {
+                font-size: 0.9rem;
+                height: 30px;
+            }
+            
+            .category {
+                margin-bottom: 1rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.75rem;
+                padding: 0.75rem;
+            }
+            
+            .tool-card {
+                padding: 0.75rem;
+            }
+            
+            .featured::after {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.4rem;
+                top: 5px;
+                right: 5px;
+            }
+        }
+        
+        /* Touch device optimizations */
+        @media (hover: none) {
+            .category:hover {
+                transform: none;
+            }
+            
+            .tool-card:hover {
+                transform: none;
+            }
+            
+            .tool-button:hover {
+                transform: none;
+                background-color: var(--accent);
+            }
+        }
+        
+        /* Fix for iOS Safari viewport height issue */
+        @supports (-webkit-touch-callout: none) {
+            body, html {
+                height: -webkit-fill-available;
+            }
+            
+            body {
+                min-height: -webkit-fill-available;
+            }
         }
     </style>
 </head>
 <body>
-
-    <h1>All Tools</h1>
+    <div class="header">
+        <div class="logo-container">
+            <img src="wlogo.png" alt="Tools Logo" class="logo">
+        </div>
+        <h1>Tools Hub</h1>
+        
+        <div class="search-bar">
+            <div class="search-icon">🔍</div>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search for tools...">
+        </div>
+    </div>
     
-    <div class="container"></div>
-
+    <div class="container" id="categoryContainer">
+        <!-- Categories will be generated here -->
+    </div>
+    
+    <div class="no-results" id="noResults">
+        No tools match your search. Try a different keyword.
+    </div>
+    
     <footer>
         <p>&copy; <span id="currentYear"></span> Mangukiya Ved. All rights reserved.</p>
     </footer>
-
+    
     <script>
+        // Tool data with simplified categories
         const tools = [
-            { icon: "- +", title: "Calculator", link: "calculator.html", date: "2024-04-12" },
-            { icon: "⏳", title: "Countdown Timer", link: "countdown_timer.html", date: "2025-02-16" },
-            { icon: "💸", title: "Expense Tracker", link: "Expense_Tracker.html", date: "2025-02-18" },
-            { icon: "🎲", title: "Number Guessing Game", link: "number_guessing_game.html", date: "2024-07-18" },
-            { icon: "📱", title: "QR Code Maker", link: "QR_code_maker.html", date: "2024-08-05" },
-            { icon: "😀", title: "Text to Emoji Converter", link: "Text_to_emoji_language_converter.html", date: "2024-09-10" },
-            { icon: "🔐", title: "Secret Code Converter", link: "text_to_secret_code_converter.html", date: "2024-10-22" },
-            { icon: "🔢", title: "Text to Secret Number", link: "Text_to_secret_numbers.html", date: "2024-11-03" },
-            { icon: "📖", title: "English Quiz", link: "https://ved-mangukiya.github.io/English-Quiz/", date: "2024-11-27" },
-            { icon: "🎨", title: "Advanced Whiteboard", link: "whiteboard.html", date: "2024-12-15" },
-            { icon: "💱", title: "Currency Exchange", link: "CurrencyEXC.html", date: "2025-01-26" },
-            { icon: "📏", title: "Area Converter", link: "areaconverter.html", date: "2025-02-19" },
-            { icon: "📊", title: "Data Converter", link: "dataconverter.html", date: "2025-02-19" },
-            { icon: "💰", title: "Discount Calculator", link: "discount.html", date: "2025-02-19" },
-            { icon: "📝", title: "GST Calculator", link: "gst.html", date: "2025-02-19" },
-            { icon: "🏠", title: "Home Loan Calculator", link: "homeloan.html", date: "2025-02-19" },
-            { icon: "📈", title: "Investment Calculator", link: "investment.html", date: "2025-02-19" },
-            { icon: "📏", title: "Length Converter", link: "lengthconverter.html", date: "2025-02-19" },
-            { icon: "💵", title: "Loan Calculator", link: "loan.html", date: "2025-02-19" },
-            { icon: "⚖️", title: "Mass Converter", link: "massconverter.html", date: "2025-02-19" },
-            { icon: "⚡", title: "Power Converter", link: "powerconverter.html", date: "2025-02-19" },
-            { icon: "🗜", title: "Pressure Converter", link: "pressureconverter.html", date: "2025-02-19" },
-            { icon: "🚀", title: "Speed Converter", link: "speedconverter.html", date: "2025-02-19" },
-            { icon: "🌡️", title: "Temperature Converter", link: "tempretureconverter.html", date: "2025-02-19" },
-            { icon: "⏳", title: "Time Converter", link: "timeconverter.html", date: "2025-02-19" },
-            { icon: "📦", title: "Volume Converter", link: "volumeconverter.html", date: "2025-02-19" },
+            // Calculators Category
+            { icon: "- +", title: "Calculator", link: "calculator.html", date: "2024-04-12", category: "Calculators", featured: true },
+            { icon: "💰", title: "Discount Calculator", link: "discount.html", date: "2025-02-19", category: "Calculators" },
+            { icon: "📝", title: "GST Calculator", link: "gst.html", date: "2025-02-19", category: "Calculators" },
+            { icon: "💱", title: "Currency Exchange", link: "CurrencyEXC.html", date: "2025-01-26", category: "Calculators" },
+            
+            // Financial Tools Category
+            { icon: "💸", title: "Expense Tracker", link: "Expense_Tracker.html", date: "2025-02-18", category: "Financial Tools", featured: true },
+            { icon: "🏠", title: "Home Loan Calculator", link: "homeloan.html", date: "2025-02-19", category: "Financial Tools" },
+            { icon: "📈", title: "Investment Calculator", link: "investment.html", date: "2025-02-19", category: "Financial Tools" },
+            { icon: "💵", title: "Loan Calculator", link: "loan.html", date: "2025-02-19", category: "Financial Tools" },
+            
+            // Converters Category
+            { icon: "📏", title: "Area Converter", link: "areaconverter.html", date: "2025-02-19", category: "Converters" },
+            { icon: "📊", title: "Data Converter", link: "dataconverter.html", date: "2025-02-19", category: "Converters" },
+            { icon: "📏", title: "Length Converter", link: "lengthconverter.html", date: "2025-02-19", category: "Converters" },
+            { icon: "⚖️", title: "Mass Converter", link: "massconverter.html", date: "2025-02-19", category: "Converters" },
+            { icon: "⚡", title: "Power Converter", link: "powerconverter.html", date: "2025-02-19", category: "Converters" },
+            { icon: "🗜", title: "Pressure Converter", link: "pressureconverter.html", date: "2025-02-19", category: "Converters" },
+            { icon: "🚀", title: "Speed Converter", link: "speedconverter.html", date: "2025-02-19", category: "Converters" },
+            { icon: "🌡️", title: "Temperature Converter", link: "tempretureconverter.html", date: "2025-02-19", category: "Converters" },
+            { icon: "⏳", title: "Time Converter", link: "timeconverter.html", date: "2025-02-19", category: "Converters" },
+            { icon: "📦", title: "Volume Converter", link: "volumeconverter.html", date: "2025-02-19", category: "Converters" },
+            
+            // Cryptography Tools Category
+            { icon: "🔐", title: "Secret Code Generator", link: "text_to_secret_code_converter.html", date: "2024-10-22", category: "Cryptography Tools", featured: true },
+            { icon: "🔢", title: "Text to Secret Number", link: "Text_to_secret_numbers.html", date: "2024-11-03", category: "Cryptography Tools" },
+            { icon: "😀", title: "Text to Emoji Cipher", link: "Text_to_emoji_language_converter.html", date: "2024-09-10", category: "Cryptography Tools" },
+            
+            // Utility Tools Category
+            { icon: "⏳", title: "Countdown Timer", link: "countdown_timer.html", date: "2025-02-16", category: "Utility Tools" },
+            { icon: "🎨", title: "Advanced Whiteboard", link: "whiteboard.html", date: "2024-12-15", category: "Utility Tools", featured: true },
+            { icon: "🎲", title: "Number Guessing Game", link: "number_guessing_game.html", date: "2024-07-18", category: "Utility Tools" },
+            { icon: "📱", title: "QR Code Maker", link: "QR_code_maker.html", date: "2024-08-05", category: "Utility Tools" },
+            { icon: "📖", title: "English Quiz", link: "https://ved-mangukiya.github.io/English-Quiz/", date: "2024-11-27", category: "Utility Tools" }
         ];
 
-        const container = document.querySelector(".container");
+        // Category icons
+        const categoryIcons = {
+            "Calculators": "🧮",
+            "Financial Tools": "💹",
+            "Converters": "🔄",
+            "Cryptography Tools": "🔒",
+            "Utility Tools": "🛠️"
+        };
 
-        tools.forEach(tool => {
-            const toolCard = document.createElement("div");
-            toolCard.classList.add("tool-card");
+        // Organize tools by category
+        function organizeByCategory() {
+            const categories = {};
+            tools.forEach(tool => {
+                if (!categories[tool.category]) {
+                    categories[tool.category] = [];
+                }
+                categories[tool.category].push(tool);
+            });
+            return categories;
+        }
 
-            toolCard.innerHTML = `
-                <div class="tool-icon">${tool.icon}</div>
-                <div class="tool-title">${tool.title}</div>
-                <div class="last-updated">Last Updated: ${tool.date}</div>
-                <a href="${tool.link}" class="tool-button">Use Tool</a>
-            `;
+        // Generate category containers and tool cards
+        function generateCategories() {
+            const categories = organizeByCategory();
+            const container = document.getElementById("categoryContainer");
+            container.innerHTML = '';
+            
+            // Create DOM elements for each category
+            Object.keys(categories).forEach((categoryName, categoryIndex) => {
+                const categoryTools = categories[categoryName];
+                
+                const categoryDiv = document.createElement("div");
+                categoryDiv.classList.add("category");
+                categoryDiv.dataset.category = categoryName;
+                
+                const categoryHeader = document.createElement("div");
+                categoryHeader.classList.add("category-header");
+                categoryHeader.setAttribute("role", "button");
+                categoryHeader.setAttribute("aria-expanded", categoryIndex === 0 ? "true" : "false");
+                categoryHeader.setAttribute("tabindex", "0");
+                
+                const categoryTitle = document.createElement("div");
+                categoryTitle.classList.add("category-title");
+                categoryTitle.innerHTML = `<span class="category-icon">${categoryIcons[categoryName]}</span> ${categoryName}`;
+                
+                const arrow = document.createElement("div");
+                arrow.classList.add("arrow");
+                arrow.innerHTML = "›";
+                arrow.setAttribute("aria-hidden", "true");
+                
+                categoryHeader.appendChild(categoryTitle);
+                categoryHeader.appendChild(arrow);
+                
+                const toolsGrid = document.createElement("div");
+                toolsGrid.classList.add("tools-grid");
+                
+                // Make the first category expanded by default
+                if (categoryIndex === 0) {
+                    toolsGrid.classList.add("expanded");
+                    arrow.classList.add("down");
+                }
+                
+                // Add click event to toggle category
+                categoryHeader.addEventListener("click", () => {
+                    toolsGrid.classList.toggle("expanded");
+                    arrow.classList.toggle("down");
+                    categoryHeader.setAttribute("aria-expanded", 
+                        toolsGrid.classList.contains("expanded") ? "true" : "false");
+                });
+                
+                // Add keyboard support
+                categoryHeader.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        categoryHeader.click();
+                    }
+                });
+                
+                // Create tool cards for this category
+                categoryTools.forEach((tool) => {
+                    const toolCard = document.createElement("div");
+                    toolCard.classList.add("tool-card");
+                    if (tool.featured) {
+                        toolCard.classList.add("featured");
+                    }
+                    
+                    const toolLink = document.createElement("a");
+                    toolLink.href = tool.link;
+                    toolLink.classList.add("tool-button");
+                    toolLink.textContent = "Use Tool";
+                    toolLink.setAttribute("aria-label", `Use ${tool.title}`);
+                    
+                    toolCard.innerHTML = `
+                        <div class="tool-icon">${tool.icon}</div>
+                        <div class="tool-title">${tool.title}</div>
+                        <div class="last-updated">Updated: ${tool.date}</div>
+                    `;
+                    
+                    toolCard.appendChild(toolLink);
+                    toolsGrid.appendChild(toolCard);
+                });
+                
+                categoryDiv.appendChild(categoryHeader);
+                categoryDiv.appendChild(toolsGrid);
+                container.appendChild(categoryDiv);
+            });
+        }
 
-            container.appendChild(toolCard);
+        // Filter tools based on search input
+        function filterTools() {
+            const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            const categories = document.querySelectorAll(".category");
+            const noResults = document.getElementById("noResults");
+            let foundAny = false;
+            
+            categories.forEach(category => {
+                const toolCards = category.querySelectorAll(".tool-card");
+                let foundInCategory = false;
+                
+                toolCards.forEach(card => {
+                    const toolTitle = card.querySelector(".tool-title").textContent.toLowerCase();
+                    if (toolTitle.includes(searchTerm)) {
+                        card.style.display = "flex";
+                        foundInCategory = true;
+                        foundAny = true;
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+                
+                // Show/hide the entire category based on results
+                if (foundInCategory) {
+                    category.style.display = "block";
+                    // Ensure the category is expanded if it contains matching tools
+                    category.querySelector(".tools-grid").classList.add("expanded");
+                    category.querySelector(".arrow").classList.add("down");
+                    category.querySelector(".category-header").setAttribute("aria-expanded", "true");
+                } else {
+                    category.style.display = "none";
+                }
+            });
+            
+            // Show/hide the "no results" message
+            noResults.style.display = foundAny ? "none" : "block";
+        }
+
+        // Detect if device is touch-enabled
+        function isTouchDevice() {
+            return (('ontouchstart' in window) ||
+                (navigator.maxTouchPoints > 0) ||
+                (navigator.msMaxTouchPoints > 0));
+        }
+
+        // Initialize the page
+        window.addEventListener("DOMContentLoaded", () => {
+            generateCategories();
+            
+            // Setup search functionality
+            document.getElementById("searchInput").addEventListener("input", filterTools);
+            
+            // Set current year in footer
+            document.getElementById("currentYear").textContent = new Date().getFullYear();
+            
+            // Add touch device class if needed
+            if (isTouchDevice()) {
+                document.body.classList.add('touch-device');
+            }
         });
-
-        // Dynamically update the footer year
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
-
 </body>
 </html>

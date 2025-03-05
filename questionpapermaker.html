@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1e1e2e">
+    <title>Question Paper Maker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3d3868;
+            --primary-dark: #6a5acd;
+            --secondary: #ff6b6b;
+            --secondary-dark: #ff5252;
+            --bg-dark: #1a1a2e;
+            --bg-light: #242438;
+            --text-light: #f5f5f5;
+            --text-dim: #b3b3cc;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        header {
+            background: var(--primary);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary-dark);
+        }
+        
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .main-container {
+            background: var(--bg-light);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        h1, h2 {
+            text-align: center;
+            margin: 0;
+            padding: 10px 0;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dim);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #3a3a5a;
+            background: #2a2a40;
+            color: var(--text-light);
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+    
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(123, 104, 238, 0.3);
+        }
+    
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .btn-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(123, 104, 238, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--secondary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #3d8b40;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn-info {
+            background: var(--info);
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+        }
+        
+        .file-input-container {
+            position: relative;
+            margin-bottom: 15px;
+            background: #2a2a40;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+        }
+        
+        .file-input-label:hover {
+            background: #32324a;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .file-input-label i {
+            font-size: 24px;
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .stats-container {
+            background: #2a2a40;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat {
+            display: inline-block;
+            margin: 0 15px;
+            font-size: 1.1rem;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-left: 5px;
+        }
+        
+        .question-list {
+            margin-top: 30px;
+        }
+        
+        .question-container {
+            background: #2a2a40;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .question-container:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .question-container img {
+            max-width: 100%;
+            margin-left: 0;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .question-number {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-right: 8px;
+        }
+        
+        .question-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            flex-grow: 1;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: #333;
+            width: 100%;
+        }
+        
+        .options-container {
+            margin-top: 15px;
+            display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        .options-container.show {
+            display: block;
+        }
+        
+        .options-container.hide {
+            animation: slideUp 0.3s ease-in;
+        }
+        
+        @keyframes slideDown {
+            from { max-height: 0; opacity: 0; }
+            to { max-height: 200px; opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { max-height: 200px; opacity: 1; }
+            to { max-height: 0; opacity: 0; }
+        }
+        
+        .mcq-option-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border: 1px solid #3a3a5a;
+            background: #2a2a40;
+            color: var(--text-light);
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .mcq-option-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(123, 104, 238, 0.3);
+        }
+        
+        .mcq-option-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+        
+        .btn-group {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-delete { background: var(--danger); }
+        .btn-delete:hover { background: #d32f2f; }
+        .btn-crop { background: var(--info); }
+        .btn-crop:hover { background: #1976d2; }
+        .btn-rotate { background: var(--success); }
+        .btn-rotate:hover { background: #3d8b40; }
+        .btn-move { background: var(--warning); cursor: move; }
+        .btn-move:hover { background: #f57c00; }
+        .btn-add-options { background: var(--info); }
+        .btn-add-options:hover { background: #1976d2; }
+        
+        .pdf-selection-modal, .options-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .pdf-selection-content, .options-modal-content {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .pdf-page {
+            margin: 10px 0;
+            border: 1px solid #3a3a5a;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+        
+        .pdf-page:hover {
+            border-color: var(--primary);
+        }
+        
+        .pdf-page img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        
+        .pdf-page.selected {
+            border-color: var(--success);
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
+        .crop-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .crop-content {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .crop-title {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+        
+        .crop-image-container {
+            max-height: 60vh;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .crop-image-container img {
+            max-width: 100%;
+        }
+        
+        .crop-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .preview-container {
+            background: white;
+            padding: 20mm;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+            color: black;
+            display: none;
+            position: relative;
+            width: 210mm;
+            min-height: 297mm;
+            box-sizing: border-box;
+        }
+        
+        .paper-header table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15mm;
+            border: 2px solid #000;
+            font-size: 12pt;
+        }
+        
+        .paper-header th {
+            background: #d3d3d3;
+            font-weight: bold;
+            padding: 8px;
+            border: 1px solid #999;
+            text-align: center;
+            color: black;
+        }
+        
+        .paper-header td {
+            padding: 8px;
+            border: 1px solid #999;
+            text-align: center;
+            color: black;
+        }
+        
+        @media (max-width: 600px) {
+            .paper-header table {
+                font-size: 0.8rem;
+            }
+            .paper-header th, .paper-header td {
+                padding: 5px;
+            }
+        }
+        
+        .paper-content {
+            font-size: 11pt;
+            line-height: 1.5;
+            color: black;
+        }
+        
+        .paper-question {
+            margin-bottom: 10mm;
+            break-inside: avoid;
+            page-break-inside: avoid;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: background 0.3s ease;
+        }
+        
+        .paper-question:hover {
+            background: #f5f5f5;
+        }
+        
+        .paper-question img {
+            max-width: 100%;
+            margin-left: 0;
+            vertical-align: middle;
+        }
+        
+        .mcq-option-line {
+            margin-left: 20px;
+            margin-bottom: 8px;
+            color: black;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+        
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+    
+        .loader {
+            --path: #ffffff;
+            --dot: #5628EE;
+            --duration: 3s;
+            width: 44px;
+            height: 44px;
+            position: relative;
+        }
+        
+        .loader:before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            position: absolute;
+            display: block;
+            background: var(--dot);
+            top: 37px;
+            left: 19px;
+            transform: translate(-18px, -18px);
+            animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+        
+        .loader svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .loader svg rect,
+        .loader svg polygon,
+        .loader svg circle {
+            fill: none;
+            stroke: var(--path);
+            stroke-width: 10px;
+            stroke-linejoin: round;
+            stroke-linecap: round;
+        }
+        
+        .loader svg polygon {
+            stroke-dasharray: 145 (221 - 145) 145 (221 - 145);
+            stroke-dashoffset: 0;
+            animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+        
+        .loader svg rect {
+            stroke-dasharray: (256 / 4 * 3) (256 / 4) (256 / 4 * 3) (256 / 4);
+            stroke-dashoffset: 0;
+            animation: pathRect 3s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+        
+        .loader svg circle {
+            stroke-dasharray: (200 / 4 * 3) (200 / 4) (200 / 4 * 3) (200 / 4);
+            stroke-dashoffset: 75;
+            animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+        
+        .loader.triangle {
+            width: 48px;
+        }
+        
+        .loader.triangle:before {
+            left: 21px;
+            transform: translate(-10px, -18px);
+            animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+    
+        @keyframes pathTriangle {
+            33% { stroke-dashoffset: 74; }
+            66% { stroke-dashoffset: 147; }
+            100% { stroke-dashoffset: 221; }
+        }
+    
+        @keyframes dotTriangle {
+            33% { transform: translate(0, 0); }
+            66% { transform: translate(10px, -18px); }
+            100% { transform: translate(-10px, -18px); }
+        }
+    
+        @keyframes pathRect {
+            25% { stroke-dashoffset: 64; }
+            50% { stroke-dashoffset: 128; }
+            75% { stroke-dashoffset: 192; }
+            100% { stroke-dashoffset: 256; }
+        }
+    
+        @keyframes dotRect {
+            25% { transform: translate(0, 0); }
+            50% { transform: translate(18px, -18px); }
+            75% { transform: translate(0, -36px); }
+            100% { transform: translate(-18px, -18px); }
+        }
+    
+        @keyframes pathCircle {
+            25% { stroke-dashoffset: 125; }
+            50% { stroke-dashoffset: 175; }
+            75% { stroke-dashoffset: 225; }
+            100% { stroke-dashoffset: 275; }
+        }
+    
+        .loader {
+            display: inline-block;
+            margin: 0 16px;
+        }
+        
+        #notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: none;
+            transform: translateY(100px);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        #notification.show {
+            transform: translateY(0);
+            display: block;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #3a3a5a;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            font-size: 16px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .tab:hover { color: var(--primary); }
+        .tab.active { color: var(--primary); }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    
+        .template-container {
+            margin-top: 20px;
+            background: #2a2a40;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .template-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+        
+        .template-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .template-btn {
+            background: #3a3a5a;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 15px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .template-btn:hover {
+            background: var(--primary);
+        }
+        
+        .question-filter {
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .btn-container { flex-direction: column; }
+            .btn { width: 100%; }
+            .header-content h1 { font-size: 1.8rem; }
+            .header-content h2 { font-size: 1.2rem; }
+            .preview-container { width: 100%; min-height: auto; }
+            .question-container img, .paper-question img { max-width: 100%; }
+            .question-container { padding: 10px; }
+            .btn-group { position: static; margin-top: 10px; justify-content: flex-end; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Question Paper Maker</h1>
+            <h2>By Mangukiya Ved</h2>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-container">
+            <div class="tabs">
+                <button class="tab active" data-tab="setup">Setup Paper</button>
+                <button class="tab" data-tab="questions">Add Questions</button>
+                <button class="tab" data-tab="preview">Preview</button>
+            </div>
+            
+            <div class="tab-content active" id="setup-tab">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="subject">Subject:</label>
+                        <input type="text" id="subject" placeholder="Enter subject name" required maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="chapter">Chapter/Topic:</label>
+                        <input type="text" id="chapter" placeholder="Enter chapter or topic" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="marks">Total Marks:</label>
+                        <input type="number" id="marks" min="1" placeholder="Enter total marks" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">Duration:</label>
+                        <input type="text" id="duration" placeholder="e.g., 1 hour 30 minutes" required pattern="[0-9]+\s*(hours?|minutes?)(?:\s*[0-9]+\s*minutes?)?">
+                    </div>
+                    <div class="form-group">
+                        <label for="examDate">Exam Date:</label>
+                        <input type="date" id="examDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="paperType">Paper Type:</label>
+                        <select id="paperType" required>
+                            <option value="short">Short/Long Questions</option>
+                            <option value="mcq">Multiple Choice Questions (MCQs)</option>
+                            <option value="mixed">Mixed Format</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="template-container">
+                    <div class="template-title">Quick Templates:</div>
+                    <div class="template-options">
+                        <button class="template-btn" onclick="loadTemplate('STATISTICS')">STATISTICS</button>
+                        <button class="template-btn" onclick="loadTemplate('ECONOMICS')">ECONOMICS</button>
+                        <button class="template-btn" onclick="loadTemplate('A/C')">A/C</button>
+                        <button class="template-btn" onclick="loadTemplate('COMPUTER')">COMPUTER</button>
+                    </div>
+                </div>
+                <div class="btn-container">
+                    <button class="btn btn-primary" onclick="switchTab('questions')">
+                        <i class="fas fa-arrow-right"></i> Next: Add Questions
+                    </button>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="questions-tab">
+                <div class="form-group">
+                    <label for="text-question">Enter Text Question:</label>
+                    <textarea id="text-question" placeholder="Type your question here..." required maxlength="1000"></textarea>
+                </div>
+                <div class="form-group" id="mcq-options-container" style="display: none;">
+                    <label>Answer Options:</label>
+                    <div id="mcq-options" class="mcq-options-container">
+                        <div class="mcq-option-label">A:</div>
+                        <input type="text" class="mcq-option-input" required maxlength="50"> <div class="mcq-option-label">B:</div><input type="text" class="mcq-option-input" required maxlength="50"><div class="mcq-option-label">C:</div><input type="text" class="mcq-option-input" maxlength="50"><div class="mcq-option-label">D:</div><input type="text" class="mcq-option-input" maxlength="50">
+                    </div>
+                </div>
+                <div class="btn-container">
+                    <button class="btn btn-primary" onclick="addTextQuestion()">
+                        <i class="fas fa-plus"></i> Add Question
+                    </button>
+                </div>
+                <div class="file-input-container">
+                    <label class="file-input-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        Upload PNG/JPEG/PDF Questions
+                        <input type="file" id="file-input" class="file-input" multiple accept=".png, .jpg, .jpeg, .pdf">
+                    </label>
+                </div>
+                <div class="question-filter">
+                    <label for="question-type-filter">Filter Questions:</label>
+                    <select id="question-type-filter" onchange="filterQuestions()">
+                        <option value="all">All</option>
+                        <option value="text">Text</option>
+                        <option value="image">Image</option>
+                    </select>
+                </div>
+                <div class="stats-container">
+                    <div class="stat">Total Questions: <span id="question-count" class="stat-value">0</span></div>
+                    <div class="stat">Total Marks: <span id="total-marks" class="stat-value">0</span></div>
+                </div>
+                <div class="btn-container">
+                    <button class="btn btn-secondary" onclick="switchTab('setup')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="btn btn-danger" onclick="clearAllQuestions()">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                    <button class="btn btn-primary" onclick="switchTab('preview')">
+                        <i class="fas fa-eye"></i> Preview Paper
+                    </button>
+                </div>
+                <div id="question-list" class="question-list"></div>
+            </div>
+            
+            <div class="tab-content" id="preview-tab">
+                <div class="btn-container">
+                    <button class="btn btn-secondary" onclick="switchTab('questions')">
+                        <i class="fas fa-arrow-left"></i> Back to Questions
+                    </button>
+                    <button class="btn btn-success" onclick="generateQuestionPaper()">
+                        <i class="fas fa-file-alt"></i> Generate Paper
+                    </button>
+                    <button class="btn btn-info" onclick="downloadPDF()">
+                        <i class="fas fa-file-pdf"></i> Download PDF
+                    </button>
+                    <button class="btn btn-info" onclick="downloadPNG()">
+                        <i class="fas fa-file-image"></i> Download PNG
+                    </button>
+                    <button class="btn btn-warning" onclick="printPaper()">
+                        <i class="fas fa-print"></i> Print Paper
+                    </button>
+                </div>
+                <div id="paper-preview" class="preview-container"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="crop-modal" class="crop-modal">
+        <div class="crop-content">
+            <div class="crop-title">Crop Image</div>
+            <div class="crop-image-container">
+                <img id="crop-image">
+            </div>
+            <div class="crop-actions">
+                <button class="btn btn-primary" onclick="saveCroppedImage()">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button class="btn btn-secondary" onclick="closeCrop()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="pdf-selection-modal" class="pdf-selection-modal">
+        <div class="pdf-selection-content">
+            <div class="crop-title">Select PDF Pages for Questions</div>
+            <div id="pdf-pages"></div>
+            <div class="crop-actions">
+                <button class="btn btn-primary" onclick="saveSelectedPDFPages()">
+                    <i class="fas fa-save"></i> Save Selected
+                </button>
+                <button class="btn btn-secondary" onclick="closePDFSelection()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="options-modal" class="options-modal">
+        <div class="options-modal-content">
+            <div class="crop-title">Add Options</div>
+            <div class="mcq-options-modal">
+                <div class="form-group">
+                    <label class="mcq-option-label">A:</label>
+                    <input type="text" class="mcq-option-input" id="optionA" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label class="mcq-option-label">B:</label>
+                    <input type="text" class="mcq-option-input" id="optionB" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label class="mcq-option-label">C:</label>
+                    <input type="text" class="mcq-option-input" id="optionC" maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label class="mcq-option-label">D:</label>
+                    <input type="text" class="mcq-option-input" id="optionD" maxlength="50">
+                </div>
+            </div>
+            <div class="crop-actions">
+                <button class="btn btn-primary" onclick="saveOptions()">
+                    <i class="fas fa-save"></i> Submit
+                </button>
+                <button class="btn btn-secondary" onclick="closeOptionsModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="loading" class="loading">
+        <div class="loader">
+            <svg viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="32"></circle>
+            </svg>
+        </div>
+        <div class="loader triangle">
+            <svg viewBox="0 0 86 80">
+                <polygon points="43 8 79 72 7 72"></polygon>
+            </svg>
+        </div>
+        <div class="loader">
+            <svg viewBox="0 0 80 80">
+                <rect x="8" y="8" width="64" height="64"></rect>
+            </svg>
+        </div>
+    </div>
+    
+    <div id="notification">Notification message</div>
+    
+    <footer>
+        <p>Question Paper Generator v4.5 | SHREE SWAMINARAYAN GURUKUL SURAT</p>
+    </footer>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+        let questions = [], cropper, cropIndex, dragSrcEl = null, currentIndex = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('paperType').addEventListener('change', toggleMCQOptions);
+            document.getElementById('file-input').addEventListener('change', handleFileUpload);
+            document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => switchTab(tab.getAttribute('data-tab'))));
+            toggleMCQOptions();
+            updateStats();
+            validateInputs();
+            autoSave();
+            setInterval(autoSave, 300000);
+        });
+
+        function validateInputs() {
+            const inputs = document.querySelectorAll('input[required], textarea[required], select[required]');
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    if (!input.value.trim()) {
+                        input.style.borderColor = 'var(--danger)';
+                    } else {
+                        input.style.borderColor = '#3a3a5a';
+                    }
+                });
+            });
+        }
+
+        function toggleMCQOptions() {
+            const paperType = document.getElementById('paperType').value;
+            document.getElementById('mcq-options-container').style.display = (paperType === 'mcq' || paperType === 'mixed') ? 'block' : 'none';
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+            if (tabId === 'questions') renderQuestionList();
+            if (tabId === 'preview') generateQuestionPaper();
+        }
+
+        function addTextQuestion() {
+            const text = document.getElementById('text-question').value.trim();
+            const paperType = document.getElementById('paperType').value;
+
+            if (!text) {
+                showNotification('Please fill all required fields', 'error');
+                return;
+            }
+
+            if (text.length > 1000) {
+                showNotification('Question text too long (max 1000 characters)', 'error');
+                return;
+            }
+
+            let question = { type: 'text', question: text, options: [], isMCQ: false };
+            if (paperType === 'mcq' || paperType === 'mixed') {
+                question.isMCQ = true; // Default to MCQ, options added via dialog
+            }
+
+            questions.push(question);
+            document.getElementById('text-question').value = '';
+            renderQuestionList();
+            updateStats();
+            showNotification('Question added successfully');
+            autoSave();
+        }
+
+        async function handleFileUpload(event) {
+            const files = event.target.files;
+            if (!files.length) return;
+            showLoading();
+
+            for (const file of files) {
+                if (file.type === 'application/pdf') {
+                    try {
+                        const pdfUrl = URL.createObjectURL(file);
+                        const loadingTask = pdfjsLib.getDocument({ url: pdfUrl });
+                        const pdf = await loadingTask.promise;
+                        const numPages = pdf.numPages;
+                        const pagesContainer = document.getElementById('pdf-pages');
+                        pagesContainer.innerHTML = '';
+
+                        for (let i = 1; i <= numPages; i++) {
+                            const page = await pdf.getPage(i);
+                            const viewport = page.getViewport({ scale: 2 });
+                            const canvas = document.createElement('canvas');
+                            const context = canvas.getContext('2d');
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+                            await page.render({ canvasContext: context, viewport }).promise;
+                            const imgData = canvas.toDataURL('image/png');
+
+                            const pageDiv = document.createElement('div');
+                            pageDiv.classList.add('pdf-page');
+                            pageDiv.innerHTML = `<img src="${imgData}" alt="Page ${i}"><p>Page ${i}</p>`;
+                            pageDiv.onclick = () => pageDiv.classList.toggle('selected');
+                            pagesContainer.appendChild(pageDiv);
+                        }
+
+                        document.getElementById('pdf-selection-modal').style.display = 'flex';
+                        hideLoading();
+                    } catch (error) {
+                        console.error('PDF Processing Error:', error);
+                        showNotification('Error processing PDF. Please ensure the file is a valid PDF and try again.', 'error');
+                        hideLoading();
+                    }
+                } else if (['image/png', 'image/jpeg'].includes(file.type)) {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        questions.push({ type: 'image', src: reader.result, options: [], isMCQ: false });
+                        renderQuestionList();
+                        updateStats();
+                        showNotification('Image question added successfully');
+                        autoSave();
+                    };
+                    reader.readAsDataURL(file);
+                    hideLoading();
+                } else {
+                    showNotification('Only PNG, JPG, JPEG, or PDF files are allowed', 'error');
+                    hideLoading();
+                }
+            }
+            event.target.value = '';
+        }
+
+        function saveSelectedPDFPages() {
+            const selectedPages = document.querySelectorAll('.pdf-page.selected');
+            if (selectedPages.length === 0) {
+                showNotification('Please select at least one page', 'error');
+                return;
+            }
+
+            selectedPages.forEach(page => {
+                const imgSrc = page.querySelector('img').src;
+                questions.push({ type: 'image', src: imgSrc, options: [], isMCQ: false });
+            });
+
+            renderQuestionList();
+            updateStats();
+            closePDFSelection();
+            showNotification('Selected PDF pages added as questions');
+            autoSave();
+        }
+
+        function closePDFSelection() {
+            document.getElementById('pdf-selection-modal').style.display = 'none';
+            document.getElementById('pdf-pages').innerHTML = '';
+        }
+
+        function openOptionsModal(index) {
+            currentIndex = index;
+            document.getElementById('optionA').value = questions[index].options[0]?.text || '';
+            document.getElementById('optionB').value = questions[index].options[1]?.text || '';
+            document.getElementById('optionC').value = questions[index].options[2]?.text || '';
+            document.getElementById('optionD').value = questions[index].options[3]?.text || '';
+            document.getElementById('options-modal').style.display = 'flex';
+        }
+
+        function saveOptions() {
+            if (!currentIndex && currentIndex !== 0) return;
+            const optionA = document.getElementById('optionA').value.trim();
+            const optionB = document.getElementById('optionB').value.trim();
+            const optionC = document.getElementById('optionC').value.trim();
+            const optionD = document.getElementById('optionD').value.trim();
+
+            questions[currentIndex].isMCQ = true;
+            questions[currentIndex].options = [
+                { label: 'A', text: optionA },
+                { label: 'B', text: optionB },
+                { label: 'C', text: optionC },
+                { label: 'D', text: optionD }
+            ].filter(opt => opt.text);
+
+            if (questions[currentIndex].options.length < 2) {
+                showNotification('Please add at least two options for MCQ', 'error');
+                return;
+            }
+
+            closeOptionsModal();
+            renderQuestionList();
+            updateStats();
+            showNotification('Options added successfully');
+            autoSave();
+        }
+
+        function closeOptionsModal() {
+            document.getElementById('options-modal').style.display = 'none';
+            document.getElementById('optionA').value = '';
+            document.getElementById('optionB').value = '';
+            document.getElementById('optionC').value = '';
+            document.getElementById('optionD').value = '';
+            currentIndex = null;
+        }
+
+        function renderQuestionList() {
+            const list = document.getElementById('question-list');
+            const filter = document.getElementById('question-type-filter').value;
+            list.innerHTML = '';
+
+            if (questions.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: var(--text-dim);">No questions added yet.</p>';
+                return;
+            }
+
+            let filteredQuestions = questions;
+            if (filter !== 'all') {
+                filteredQuestions = questions.filter(q => q.type === filter);
+            }
+
+            filteredQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question-container');
+                questionDiv.setAttribute('data-index', index);
+                questionDiv.draggable = true;
+
+                questionDiv.addEventListener('dragstart', handleDragStart);
+                questionDiv.addEventListener('dragover', handleDragOver);
+                questionDiv.addEventListener('dragenter', handleDragEnter);
+                questionDiv.addEventListener('dragleave', handleDragLeave);
+                questionDiv.addEventListener('drop', handleDrop);
+                questionDiv.addEventListener('dragend', handleDragEnd);
+
+                const questionContent = document.createElement('div');
+                questionContent.classList.add('question-content');
+                if (q.type === 'image') {
+                    questionContent.innerHTML = `<span class="question-number">Q${index + 1}.</span><img src="${q.src}" alt="Question Image">`;
+                } else {
+                    questionContent.innerHTML = `<span class="question-number">Q${index + 1}.</span><span class="question-text">${q.question}</span>`;
+                }
+                questionDiv.appendChild(questionContent);
+
+                const btnGroup = document.createElement('div');
+                btnGroup.classList.add('btn-group');
+
+                const moveBtn = document.createElement('button');
+                moveBtn.innerHTML = '<i class="fas fa-grip-lines"></i>';
+                moveBtn.classList.add('action-btn', 'btn-move');
+                moveBtn.title = 'Drag to reorder';
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                deleteBtn.classList.add('action-btn', 'btn-delete');
+                deleteBtn.title = 'Delete question';
+                deleteBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    if (confirm('Are you sure you want to delete this question?')) {
+                        deleteQuestion(index);
+                    }
+                };
+
+                const cropBtn = document.createElement('button');
+                cropBtn.innerHTML = '<i class="fas fa-crop-alt"></i>';
+                cropBtn.classList.add('action-btn', 'btn-crop');
+                cropBtn.title = 'Crop image';
+                cropBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    if (q.type === 'image') openCrop(q.src, index);
+                };
+
+                const rotateBtn = document.createElement('button');
+                rotateBtn.innerHTML = '<i class="fas fa-redo"></i>';
+                rotateBtn.classList.add('action-btn', 'btn-rotate');
+                rotateBtn.title = 'Rotate image';
+                rotateBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    if (q.type === 'image') rotateImage(index);
+                };
+
+                const addOptionsBtn = document.createElement('button');
+                addOptionsBtn.innerHTML = '<i class="fas fa-plus"></i>';
+                addOptionsBtn.classList.add('action-btn', 'btn-add-options');
+                addOptionsBtn.title = 'Add Options';
+                addOptionsBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    openOptionsModal(index);
+                };
+
+                btnGroup.appendChild(moveBtn);
+                btnGroup.appendChild(deleteBtn);
+                if (q.type === 'image') {
+                    btnGroup.appendChild(cropBtn);
+                    btnGroup.appendChild(rotateBtn);
+                    btnGroup.appendChild(addOptionsBtn);
+                } else {
+                    btnGroup.appendChild(addOptionsBtn);
+                }
+
+                questionDiv.appendChild(btnGroup);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.classList.add('options-container');
+                if (q.isMCQ && q.options) {
+                    optionsContainer.innerHTML = `
+                        <div>${q.options.map(opt => `<div class="mcq-option-line">${opt.label}: ${opt.text || ''}</div>`).join(' ')}</div>
+                    `;
+                }
+                questionDiv.appendChild(optionsContainer);
+
+                list.appendChild(questionDiv);
+            });
+        }
+
+        function filterQuestions() {
+            renderQuestionList();
+        }
+
+        function deleteQuestion(index) {
+            questions.splice(index, 1);
+            renderQuestionList();
+            updateStats();
+            showNotification('Question deleted');
+            autoSave();
+        }
+
+        function clearAllQuestions() {
+            if (questions.length === 0) return;
+            if (confirm('Are you sure you want to clear all questions?')) {
+                questions = [];
+                renderQuestionList();
+                updateStats();
+                showNotification('All questions cleared');
+                autoSave();
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('question-count').textContent = questions.length;
+            document.getElementById('total-marks').textContent = 'N/A'; // No marks anymore
+        }
+
+        function openCrop(src, index) {
+            cropIndex = index;
+            const image = document.getElementById('crop-image');
+            image.src = src;
+            document.getElementById('crop-modal').style.display = 'flex';
+            image.onload = () => {
+                if (cropper) cropper.destroy();
+                cropper = new Cropper(image, { aspectRatio: NaN, viewMode: 1, dragMode: 'move', autoCropArea: 0.8, zoomable: true });
+            };
+        }
+
+        function saveCroppedImage() {
+            if (!cropper) return;
+            const canvas = cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096, fillColor: '#fff' });
+            if (canvas) {
+                questions[cropIndex].src = canvas.toDataURL('image/jpeg');
+                closeCrop();
+                renderQuestionList();
+                showNotification('Image cropped successfully');
+                autoSave();
+            }
+        }
+
+        function closeCrop() {
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            document.getElementById('crop-modal').style.display = 'none';
+        }
+
+        function rotateImage(index) {
+            showLoading();
+            const img = new Image();
+            img.src = questions[index].src;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = img.height;
+                canvas.height = img.width;
+                ctx.translate(canvas.width / 2, canvas.height / 2);
+                ctx.rotate(Math.PI / 2);
+                ctx.drawImage(img, -img.width / 2, -img.height / 2);
+                questions[index].src = canvas.toDataURL('image/jpeg');
+                renderQuestionList();
+                hideLoading();
+                showNotification('Image rotated successfully');
+                autoSave();
+            };
+        }
+
+        function generateQuestionPaper() {
+            const preview = document.getElementById('paper-preview');
+            const subject = document.getElementById('subject').value.trim() || 'Subject';
+            const chapter = document.getElementById('chapter').value.trim() || '';
+            const marks = document.getElementById('marks').value || 'XX';
+            const duration = document.getElementById('duration').value.trim() || '60 minutes';
+            const examDate = document.getElementById('examDate').value ? new Date(document.getElementById('examDate').value).toLocaleDateString() : new Date().toLocaleDateString();
+            const paperType = document.getElementById('paperType').value;
+
+            if (!questions.length || !subject || !marks || !duration || !examDate) {
+                showNotification('Please fill all required fields and add at least one question', 'error');
+                switchTab('questions');
+                return;
+            }
+
+            let paperHTML = `
+                <div class="paper-header">
+                    <table>
+                        <tr>
+                            <th colspan="2">Shree Swaminarayan Gurukul Surat</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2">${subject} - ${chapter ? chapter : 'No Topic'} Question Paper</th>
+                        </tr>
+                        <tr>
+                            <td>Subject: ${subject}</td>
+                            <td>Chapter/Topic: ${chapter || 'N/A'}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Marks: ${marks}</td>
+                            <td>Duration: ${duration}</td>
+                        </tr>
+                        <tr>
+                            <td>Exam Date: ${examDate}</td>
+                            <td>Paper Type: ${paperType === 'mcq' ? 'Multiple Choice Questions' : paperType === 'mixed' ? 'Mixed Format' : 'Short/Long Answer'}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="paper-content">
+            `;
+            questions.forEach((q, i) => {
+                paperHTML += `
+                    <div class="paper-question">
+                        <b>Q${i + 1}.</b> 
+                        ${q.type === 'image' ? `<img src="${q.src}" alt="Question ${i + 1}">` : q.question}
+                        ${q.isMCQ && q.options ? `
+                            <div style="margin-top: 10px;">
+                                ${q.options.map(opt => `<div class="mcq-option-line">${opt.label}: ${opt.text || ''}</div>`).join(' ')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            paperHTML += `</div>`;
+            preview.innerHTML = paperHTML;
+            preview.style.display = 'block';
+            showNotification('Question paper generated successfully');
+        }
+
+        async function downloadPDF() {
+            if (!questions.length) {
+                showNotification('Please add at least one question', 'error');
+                return;
+            }
+            showLoading();
+            const preview = document.getElementById('paper-preview');
+            if (preview.style.display !== 'block') generateQuestionPaper();
+
+            // Use A4 dimensions in mm for consistent desktop-like output on mobile
+            const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const margin = 10;
+            let yPos = margin;
+
+            // Generate header only on the first page
+            const header = preview.querySelector('.paper-header');
+            const headerCanvas = await html2canvas(header, { 
+                scale: 2, 
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                width: pageWidth * 2.83465, // Convert mm to pixels (1mm = 2.83465px at 72 DPI)
+                height: pageHeight * 2.83465
+            });
+            const headerImg = headerCanvas.toDataURL('image/jpeg', 1.0);
+            const headerHeight = headerCanvas.height * ((pageWidth - 2 * margin) / headerCanvas.width);
+            pdf.addImage(headerImg, 'JPEG', margin, yPos, pageWidth - 2 * margin, headerHeight);
+            yPos += headerHeight + 5;
+
+            // Generate all questions sequentially without page breaks
+            const questionsDiv = preview.querySelector('.paper-content');
+            const questionElems = questionsDiv.querySelectorAll('.paper-question');
+            
+            for (let i = 0; i < questionElems.length; i++) {
+                const question = questionElems[i];
+                const canvas = await html2canvas(question, { 
+                    scale: 2, 
+                    useCORS: true,
+                    backgroundColor: '#ffffff',
+                    width: pageWidth * 2.83465, // Ensure consistent A4 scaling
+                    height: pageHeight * 2.83465
+                });
+                const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                const imgWidth = pageWidth - 2 * margin;
+                const imgHeight = canvas.height * (imgWidth / canvas.width);
+
+                if (yPos + imgHeight > pageHeight - margin) {
+                    pdf.addPage();
+                    yPos = margin;
+                }
+
+                pdf.addImage(imgData, 'JPEG', margin, yPos, imgWidth, imgHeight);
+                yPos += imgHeight + 5;
+
+                if (i === questionElems.length - 1) {
+                    pdf.setFontSize(8);
+                    pdf.text(`Page ${pdf.internal.getNumberOfPages()} | © ${new Date().getFullYear()} Mangukiya Ved`, pageWidth / 2, pageHeight - 5, { align: 'center' });
+                }
+            }
+
+            // Force desktop-like A4 PDF download on mobile
+            pdf.save(`${document.getElementById('subject').value || 'Subject'}_QuestionPaper.pdf`, { returnPromise: true })
+                .then(() => {
+                    hideLoading();
+                    showNotification('PDF downloaded successfully');
+                })
+                .catch(error => {
+                    console.error('PDF Download Error:', error);
+                    showNotification('Error downloading PDF', 'error');
+                    hideLoading();
+                });
+        }
+
+        async function downloadPNG() {
+            if (!questions.length) return showNotification('Please add at least one question', 'error');
+            showLoading();
+            const preview = document.getElementById('paper-preview');
+            if (preview.style.display !== 'block') generateQuestionPaper();
+            const canvas = await html2canvas(preview, { scale: 2, useCORS: true });
+            canvas.toBlob(blob => {
+                saveAs(blob, `${document.getElementById('subject').value || 'Subject'}_QuestionPaper.png`);
+                hideLoading();
+                showNotification('PNG downloaded successfully');
+            });
+        }
+
+        function printPaper() {
+            const preview = document.getElementById('paper-preview');
+            if (preview.style.display !== 'block') generateQuestionPaper();
+            window.print();
+            showNotification('Printing initiated');
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.backgroundColor = type === 'success' ? 'var(--success)' : 'var(--danger)';
+            notification.classList.add('show');
+            setTimeout(() => notification.classList.remove('show'), 3000);
+        }
+
+        function showLoading() { document.getElementById('loading').style.display = 'flex'; }
+        function hideLoading() { document.getElementById('loading').style.display = 'none'; }
+
+        function handleDragStart(e) {
+            this.classList.add('dragging');
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            this.classList.add('over');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('over');
+        }
+
+        function handleDrop(e) {
+            e.stopPropagation();
+            if (dragSrcEl !== this) {
+                const sourceIndex = parseInt(dragSrcEl.getAttribute('data-index'));
+                const targetIndex = parseInt(this.getAttribute('data-index'));
+                const temp = questions[sourceIndex];
+                questions.splice(sourceIndex, 1);
+                questions.splice(targetIndex, 0, temp);
+                renderQuestionList();
+                showNotification('Question reordered');
+                autoSave();
+            }
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            document.querySelectorAll('.question-container').forEach(item => {
+                item.classList.remove('dragging', 'over');
+            });
+        }
+
+        function loadTemplate(template) {
+            const templates = {
+                'STATISTICS': { subject: 'STATISTICS', marks: '25', duration: '45 minutes', paperType: 'mixed' },
+                'ECONOMICS': { subject: 'ECONOMICS', marks: '25', duration: '45 minutes', paperType: 'mixed' },
+                'A/C': { subject: 'A/C', marks: '25', duration: '45 minutes', paperType: 'mixed' },
+                'COMPUTER': { subject: 'COMPUTER', marks: '25', duration: '45 minutes', paperType: 'mcq' }
+            };
+            const data = templates[template] || {};
+            document.getElementById('subject').value = data.subject || '';
+            document.getElementById('marks').value = data.marks || '';
+            document.getElementById('duration').value = data.duration || '';
+            document.getElementById('paperType').value = data.paperType || 'short';
+            toggleMCQOptions();
+            showNotification(`${template} template loaded`);
+        }
+
+        function autoSave() {
+            localStorage.setItem('questions', JSON.stringify(questions));
+            showNotification('Questions auto-saved');
+        }
+    </script>
+</body>
+</html>

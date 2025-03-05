@@ -14,15 +14,64 @@
         }
 
         body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #333333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            color: #ffffff;
-            overflow: auto;
-        }
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #333333;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* Keep this to ensure at least full height */
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px;
+    background-color: #454545;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 800px;
+    justify-content: center;
+}
+
+canvas {
+    background: #ffffff;
+    border: 2px solid #666;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    touch-action: none;
+    width: 100%; /* Make canvas responsive */
+    max-width: 800px; /* Maximum width */
+    height: auto; /* Let height adjust */
+    aspect-ratio: 4 / 3; /* Maintain 800x600 ratio */
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    .controls {
+        padding: 10px;
+        gap: 5px;
+    }
+    .controls button {
+        padding: 8px;
+        min-width: 60px;
+        font-size: 0.8em;
+    }
+    canvas {
+        max-width: 95%;
+        height: auto;
+    }
+    .page-title {
+        font-size: 1rem;
+    }
+}
 
         h1 {
             color: #d1b65c;
@@ -161,7 +210,7 @@
     </div>
     <div class="page-info" id="pageInfo">Page 1 of 1</div>
     <div class="page-title" id="pageTitle">Page 1</div>
-    <canvas id="whiteboard" width="800" height="600"></canvas>
+    <canvas id="whiteboard"></canvas>
     <footer>
         <p>© <span id="footer-year"></span> Mangukiya Ved. All rights reserved.</p>
     </footer>

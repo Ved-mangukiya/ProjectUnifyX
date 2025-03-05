@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riddle Quiz for Audience</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 36px;
+      background-color: #ffcc00;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .question {
+      margin: 20px 0;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: none;
+      border-left: 10px solid #ffcc00;
+    }
+
+    .options {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .option {
+      padding: 15px;
+      margin: 10px 0;
+      background-color: #e0e0e0;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      font-size: 18px;
+    }
+
+    .option:hover {
+      background-color: #bbb;
+    }
+
+    .correct {
+      background-color: #28a745; /* Green */
+      color: white;
+    }
+
+    .incorrect {
+      background-color: #dc3545; /* Red */
+      color: white;
+    }
+
+    .next-button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    .next-button:hover {
+      background-color: #0056b3;
+    }
+
+    .completed {
+      display: none;
+      font-size: 20px;
+      color: #28a745;
+    }
+
+    img {
+      width: 300px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .question-container {
+      margin-top: 30px;
+      padding: 15px;
+      background-color: #f7f7f7;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Riddle Quiz for Audience</h1>
+
+  <div class="question-container">
+    <div class="question" id="question1">
+      <h3>1. What comes once in a minute, twice in a moment, but never in a thousand years?</h3>
+      <ul class="options">
+        <li class="option" onclick="checkAnswer(1, 'A')">A. A second</li>
+        <li class="option" onclick="checkAnswer(1, 'B')">B. The letter 'M'</li>
+        <li class="option" onclick="checkAnswer(1, 'C')">C. The letter 'C'</li>
+        <li class="option" onclick="checkAnswer(1, 'D')">D. The sun</li>
+      </ul>
+      <button class="next-button" onclick="nextQuestion(2)">Next</button>
+    </div>
+
+    <div class="question" id="question2">
+      <h3>2. What has keys but can’t open locks?</h3>
+      <ul class="options">
+        <li class="option" onclick="checkAnswer(2, 'A')">A. A piano</li>
+        <li class="option" onclick="checkAnswer(2, 'B')">B. A map</li>
+        <li class="option" onclick="checkAnswer(2, 'C')">C. A diary</li>
+        <li class="option" onclick="checkAnswer(2, 'D')">D. A computer</li>
+      </ul>
+      <button class="next-button" onclick="nextQuestion(3)">Next</button>
+    </div>
+
+    <div class="question" id="question3">
+      <h3>3. What has a heart that doesn’t beat?</h3>
+      <ul class="options">
+        <li class="option" onclick="checkAnswer(3, 'A')">A. A machine</li>
+        <li class="option" onclick="checkAnswer(3, 'B')">B. A clock</li>
+        <li class="option" onclick="checkAnswer(3, 'C')">C. An artichoke</li>
+        <li class="option" onclick="checkAnswer(3, 'D')">D. A tree</li>
+      </ul>
+      <button class="next-button" onclick="nextQuestion(4)">Next</button>
+    </div>
+
+    <div class="question" id="question4">
+      <h3>4. What can travel around the world while staying in the corner?</h3>
+      <ul class="options">
+        <li class="option" onclick="checkAnswer(4, 'A')">A. A stamp</li>
+        <li class="option" onclick="checkAnswer(4, 'B')">B. A letter</li>
+        <li class="option" onclick="checkAnswer(4, 'C')">C. A cloud</li>
+        <li class="option" onclick="checkAnswer(4, 'D')">D. A shadow</li>
+      </ul>
+      <button class="next-button" onclick="nextQuestion(5)">Next</button>
+    </div>
+
+    <div class="question" id="question5">
+      <h3>5. What belongs to you, but others use it more than you do?</h3>
+      <ul class="options">
+        <li class="option" onclick="checkAnswer(5, 'A')">A. Your name</li>
+        <li class="option" onclick="checkAnswer(5, 'B')">B. Your mouth</li>
+        <li class="option" onclick="checkAnswer(5, 'C')">C. Your work</li>
+        <li class="option" onclick="checkAnswer(5, 'D')">D. Your time</li>
+      </ul>
+      <button class="next-button" onclick="nextQuestion(6)">Next</button>
+    </div>
+
+    <div class="question" id="question6">
+      <h3>6. <strong>What is shown in the image?</strong></h3>
+      <img src="card.png" alt="Cardamom Image">
+      <ul class="options">
+        <li class="option" onclick="checkAnswer(6, 'A')">A. Cinnamon</li>
+        <li class="option" onclick="checkAnswer(6, 'B')">B. Clove</li>
+        <li class="option" onclick="checkAnswer(6, 'C')">C. Nutmeg</li>
+        <li class="option" onclick="checkAnswer(6, 'D')">D. Cardamom</li>
+      </ul>
+      <button class="next-button" onclick="showCompletedMessage()">Finish</button>
+    </div>
+
+    <div class="completed" id="completedMessage">
+      <h2>Thank you for participating! We have completed the quiz.</h2>
+    </div>
+  </div>
+
+  <script>
+    const answers = {
+      1: 'B',  // Correct answer for question 1
+      2: 'A',  // Correct answer for question 2
+      3: 'C',  // Correct answer for question 3
+      4: 'A',  // Correct answer for question 4
+      5: 'A',  // Correct answer for question 5
+      6: 'D',  // Correct answer for question 6 (Cardamom)
+    };
+
+    let currentQuestion = 1;
+
+    // Function to show and hide questions
+    function nextQuestion(nextQuestionNumber) {
+      // Hide current question
+      document.querySelector(`#question${currentQuestion}`).style.display = 'none';
+      // Show next question
+      currentQuestion = nextQuestionNumber;
+      document.querySelector(`#question${currentQuestion}`).style.display = 'block';
+    }
+
+    // Function to check the answer for each question
+    function checkAnswer(questionNumber, selectedOption) {
+      const correctAnswer = answers[questionNumber];
+      const selectedOptionElement = document.querySelector(`#question${questionNumber} .option:nth-child(${getOptionIndex(selectedOption)})`);
+      const options = document.querySelectorAll(`#question${questionNumber} .option`);
+
+      // Reset the styles
+      options.forEach(option => {
+        option.classList.remove('correct', 'incorrect');
+      });
+
+      if (selectedOption === correctAnswer) {
+        selectedOptionElement.classList.add('correct');
+      } else {
+        selectedOptionElement.classList.add('incorrect');
+        // Show the correct answer
+        const correctOptionElement = document.querySelector(`#question${questionNumber} .option:nth-child(${getOptionIndex(correctAnswer)})`);
+        correctOptionElement.classList.add('correct');
+      }
+
+      // Disable further clicks
+      options.forEach(option => {
+        option.style.pointerEvents = 'none';
+      });
+    }
+
+    // Get option index (A=1, B=2, C=3, D=4)
+    function getOptionIndex(option) {
+      const options = ['A', 'B', 'C', 'D'];
+      return options.indexOf(option) + 1;
+    }
+
+    // Show the completion message
+    function showCompletedMessage() {
+      document.querySelector(`#question${currentQuestion}`).style.display = 'none';
+      document.getElementById('completedMessage').style.display = 'block';
+    }
+
+    // Show the first question when page loads
+    document.querySelector(`#question${currentQuestion}`).style.display = 'block';
+  </script>
+</body>
+</html>

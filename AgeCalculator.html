@@ -1,0 +1,4254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <meta name="description" content="Age Calculator">
+  <meta name="keywords" content="HTML, CSS, JavaScript">
+  <meta name="author" content="Ved Mangukiya">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Color Palette */
+            --primary-color: #d1b65c;
+            --secondary-color: #b55c5c;
+            --accent-color: #ff6b6b;
+            --background-dark: #333333;
+            --text-dark: #e9ecef;
+
+            /* Typography */
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --font-accent: 'Roboto', Arial, sans-serif;
+
+            /* Transitions */
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) transparent;
+        }
+
+        *::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 20px;
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            background-color: var(--background-dark);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .input-section {
+            background-color: #454545;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #545454;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #545454;
+            color: var(--text-dark);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px #545454;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            transition: all var(--transition-speed) ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+        }
+
+        .results-section {
+            background-color: #454545;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .detailed-section {
+            margin-top: 15px;
+            background-color: #545454;
+            border-radius: 6px;
+            padding: 15px;
+            font-size: 0.9rem;
+        }
+
+        .text-center { text-align: center; }
+        .mt-15 { margin-top: 15px; }
+        .mb-15 { margin-bottom: 15px; }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background-color: var(--primary-color);
+            margin: 15px 0;
+            opacity: 0.3;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate-fade {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h1, h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 15px;
+        }
+
+        li {
+            margin: 5px 0;
+            position: relative;
+        }
+
+        li:before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            left: -10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .app-container {
+                grid-template-columns: 1fr 1fr;
+                padding: 20px;
+                gap: 20px;
+            }
+
+            .input-section, .results-section {
+                padding: 25px;
+            }
+
+            h1, h2 {
+                font-size: 1.8rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            .footer {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="input-section">
+            <h1 class="text-center mb-15">Age Calculator</h1>
+            
+            <form id="ageCalculatorForm">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" class="form-input" placeholder="Enter your first name">
+                </div>
+
+                <div class="form-group">
+                    <label for="birthDate">Date of Birth</label>
+                    <input type="date" id="birthDate" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="birthTime">Time of Birth (Optional)</label>
+                    <input type="time" id="birthTime" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label for="birthCountry">Country of Birth</label>
+                    <select id="birthCountry" class="form-input">
+                        <option value="">Select Country</option>
+                    </select>
+                </div>
+
+                <div class="text-center mt-15">
+                    <button type="button" class="btn btn-primary" onclick="calculateAge()">
+                        Calculate Age
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                        Reset
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="results-section">
+            <h2 class="text-center">Your Age Details</h2>
+            <div id="ageResults" class="animate-fade">
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <span id="copyright"></span>
+    </footer>
+
+    <script>
+        // Configuration and Data Structures
+        const CONFIG = {
+    historicalEvents: {
+        "01-01": [
+            "1801: The United Kingdom of Great Britain and Ireland is formed.",
+            "1863: The Emancipation Proclamation takes effect in the U.S.",
+            "1901: The Commonwealth of Australia is established."
+        ],
+        "01-02": [
+            "1492: The Reconquista ends as Granada falls to Ferdinand and Isabella of Spain.",
+            "1839: Louis Daguerre takes the first photograph of the Moon.",
+            "1971: A ban on cigarette advertising begins on U.S. television."
+        ],
+        "01-03": [
+            "1521: Martin Luther is excommunicated by Pope Leo X.",
+            "1777: George Washington defeats the British at the Battle of Princeton.",
+            "1959: Alaska becomes the 49th U.S. state."
+        ],
+        "01-04": [
+    "1643: Isaac Newton is born in Woolsthorpe, England.",
+    "1885: The first successful appendectomy is performed in the U.S.",
+    "2010: The Burj Khalifa, the world’s tallest building, opens in Dubai."
+],
+"01-05": [
+    "1914: Ford Motor Company announces an eight-hour workday and $5 daily wage.",
+    "1933: Construction begins on the Golden Gate Bridge in San Francisco.",
+    "1975: The Khmer Rouge captures Phnom Penh, beginning the Cambodian genocide."
+],
+"01-06": [
+    "1412: Joan of Arc is born in Domrémy, France.",
+    "1838: Samuel Morse demonstrates the telegraph for the first time.",
+    "2021: The U.S. Capitol is stormed by rioters during election certification."
+],
+"01-07": [
+    "1610: Galileo Galilei discovers the first three moons of Jupiter.",
+    "1785: The first successful hot air balloon flight across the English Channel occurs.",
+    "1927: The first transatlantic telephone call is made from New York to London."
+],
+"01-08": [
+    "1790: George Washington delivers the first State of the Union address.",
+    "1889: Herman Hollerith patents the tabulating machine, precursor to the computer.",
+    "1982: AT&T is broken up into smaller companies, ending its telephone monopoly."
+],
+"01-09": [
+    "1349: The Basel Massacre sees hundreds of Jews killed during the Black Death.",
+    "1908: Simone de Beauvoir, French existentialist philosopher, is born.",
+    "2007: Steve Jobs introduces the first iPhone at a keynote address."
+],
+"01-10": [
+    "1776: Thomas Paine publishes 'Common Sense,' advocating American independence.",
+    "1861: Florida secedes from the Union, joining the Confederacy.",
+    "1946: The first United Nations General Assembly meets in London."
+],
+"01-11": [
+    "1569: The first recorded lottery in England is held to raise funds.",
+    "1908: Grand Canyon National Monument is established by Theodore Roosevelt.",
+    "1973: The American League adopts the designated hitter rule in baseball."
+],
+"01-12": [
+    "1628: Charles Perrault, author of fairy tales like Cinderella, is born.",
+    "1910: A massive coal mine explosion kills 96 in Trinidad, Colorado.",
+    "2010: A 7.0 magnitude earthquake devastates Haiti, killing over 200,000."
+],
+"01-13": [
+    "1842: The sole survivor of a British retreat from Kabul reaches Jalalabad.",
+    "1915: An earthquake in Avezzano, Italy, kills nearly 30,000 people.",
+    "1968: Johnny Cash performs his famous concert at Folsom Prison."
+],
+"01-14": [
+    "1539: Spain annexes Cuba under conquistador Diego Velázquez.",
+    "1784: The U.S. ratifies the Treaty of Paris, ending the Revolutionary War.",
+    "1954: Marilyn Monroe marries Joe DiMaggio in San Francisco."
+],
+"01-15": [
+    "1759: The British Museum opens to the public in London.",
+    "1975: Portugal grants independence to Angola after years of colonial rule.",
+    "2009: US Airways Flight 1549 lands safely on the Hudson River."
+],
+"01-16": [
+    "1547: Ivan the Terrible is crowned the first Tsar of Russia.",
+    "1920: Prohibition begins in the U.S. with the 18th Amendment.",
+    "1991: Operation Desert Storm begins with airstrikes against Iraq."
+],
+"01-17": [
+    "1706: Benjamin Franklin is born in Boston, Massachusetts.",
+    "1945: Soviet forces liberate Auschwitz concentration camp.",
+    "1994: The Northridge earthquake strikes Los Angeles, killing 57."
+],
+"01-18": [
+    "1486: King Henry VII of England marries Elizabeth of York.",
+    "1919: The Paris Peace Conference begins, leading to the Treaty of Versailles.",
+    "1977: Scientists identify a previously unknown bacterium, Legionella."
+],
+"01-19": [
+    "1809: Edgar Allan Poe is born in Boston, Massachusetts.",
+    "1883: The first electric lighting system using overhead wires begins in Roselle, NJ.",
+    "1983: Apple introduces the Lisa, one of the first personal computers with a GUI."
+],
+"01-20": [
+    "1265: The first English Parliament with elected representatives meets.",
+    "1937: Franklin D. Roosevelt is inaugurated for his second term as U.S. President.",
+    "1981: Iran releases 52 American hostages minutes after Reagan’s inauguration."
+],
+"01-21": [
+    "1793: King Louis XVI of France is executed by guillotine during the Revolution.",
+    "1924: Vladimir Lenin, leader of the Soviet Union, dies.",
+    "1976: The Concorde begins commercial supersonic flights."
+],
+"01-22": [
+    "1689: The Convention Parliament begins to restore the English monarchy.",
+    "1901: Queen Victoria of the United Kingdom dies after a 63-year reign.",
+    "1973: The U.S. Supreme Court legalizes abortion in Roe v. Wade."
+],
+"01-23": [
+    "1571: The Royal Exchange in London, a precursor to modern stock markets, opens.",
+    "1849: Elizabeth Blackwell becomes the first female doctor in the U.S.",
+    "1960: The bathyscaphe Trieste reaches the bottom of the Mariana Trench."
+],
+"01-24": [
+    "1848: Gold is discovered at Sutter’s Mill, sparking the California Gold Rush.",
+    "1935: The first canned beer goes on sale in Richmond, Virginia.",
+    "1984: Apple launches the Macintosh, revolutionizing personal computing."
+],
+"01-25": [
+    "1533: Henry VIII secretly marries Anne Boleyn, his second wife.",
+    "1915: Alexander Graham Bell makes the first transcontinental telephone call.",
+    "1949: The first Emmy Awards ceremony is held in Los Angeles."
+],
+"01-26": [
+    "1788: The First Fleet arrives in Australia, establishing a British colony.",
+    "1837: Michigan becomes the 26th U.S. state.",
+    "1950: India becomes a republic with its constitution taking effect."
+],
+"01-27": [
+    "1593: The Vatican opens an investigation into Galileo Galilei’s heliocentrism.",
+    "1880: Thomas Edison patents the electric incandescent lamp.",
+    "1945: Soviet troops liberate Auschwitz-Birkenau concentration camp."
+],
+"01-28": [
+    "1813: Jane Austen’s 'Pride and Prejudice' is first published.",
+    "1986: The Space Shuttle Challenger explodes 73 seconds after launch.",
+    "2011: The Egyptian Revolution begins with massive protests in Cairo."
+],
+"01-29": [
+    "1861: Kansas is admitted as the 34th U.S. state, free of slavery.",
+    "1886: Karl Benz patents the first successful gasoline-driven automobile.",
+    "2002: George W. Bush delivers his 'Axis of Evil' State of the Union address."
+],
+"01-30": [
+    "1649: King Charles I of England is executed for treason.",
+    "1933: Adolf Hitler is appointed Chancellor of Germany.",
+    "1948: Mahatma Gandhi is assassinated in New Delhi."
+],
+"01-31": [
+    "1865: The U.S. House passes the 13th Amendment, abolishing slavery.",
+    "1917: Germany announces unrestricted submarine warfare in World War I.",
+    "1950: President Truman approves development of the hydrogen bomb."
+],
+"02-01": [
+    "1887: Hollywood is founded as a community in Los Angeles, California.",
+    "1953: India inaugurates its first passenger train between Bombay and Thane.",
+    "2003: Space Shuttle Columbia disintegrates upon re-entry, killing all seven astronauts."
+],
+"02-02": [
+    "1653: New Amsterdam is incorporated, later renamed New York City.",
+    "1943: The Battle of Stalingrad ends with a Soviet victory in World War II.",
+    "1988: India launches its first remote sensing satellite, IRS-1A."
+],
+"02-03": [
+    "1468: Johannes Gutenberg, inventor of the printing press, dies.",
+    "1913: The 16th Amendment to the U.S. Constitution, allowing income tax, is ratified.",
+    "1959: Buddy Holly, Ritchie Valens, and The Big Bopper die in a plane crash."
+],
+"02-04": [
+    "1789: George Washington is unanimously elected as the first U.S. President.",
+    "1948: Ceylon (now Sri Lanka) gains independence from Britain.",
+    "2004: Facebook is launched by Mark Zuckerberg and his college roommates."
+],
+"02-05": [
+    "1917: Mexico adopts its current constitution during the Mexican Revolution.",
+    "1971: Apollo 14 lands on the Moon, with Alan Shepard hitting golf balls on its surface.",
+    "1994: The Markale massacre occurs in Sarajevo during the Bosnian War."
+],
+"02-06": [
+    "1685: King James II of England ascends the throne.",
+    "1952: Queen Elizabeth II becomes monarch of the United Kingdom.",
+    "2012: India’s Agni-IV missile is successfully test-fired, enhancing its defense capabilities."
+],
+"02-07": [
+    "1497: Vasco da Gama departs Portugal to find a sea route to India.",
+    "1812: Charles Dickens, renowned English novelist, is born.",
+    "1992: The Maastricht Treaty is signed, establishing the European Union."
+],
+"02-08": [
+    "1587: Mary, Queen of Scots, is executed for treason.",
+    "1910: The Boy Scouts of America is founded.",
+    "1960: India’s Queen Elizabeth II begins her first official visit to the country."
+],
+"02-09": [
+    "1773: William Henry Harrison, future U.S. President, is born.",
+    "1943: The Battle of Guadalcanal ends with an Allied victory in World War II.",
+    "1971: Satchel Paige becomes the first Negro League player elected to the Baseball Hall of Fame."
+],
+"02-10": [
+    "1763: The Treaty of Paris ends the Seven Years’ War.",
+    "1840: Queen Victoria of the United Kingdom marries Prince Albert.",
+    "1996: IBM’s Deep Blue defeats chess champion Garry Kasparov in a match."
+],
+"02-11": [
+    "1809: Robert Fulton patents the steamboat in the United States.",
+    "1937: A sit-down strike ends at General Motors, strengthening U.S. labor unions.",
+    "2011: Hosni Mubarak resigns as Egypt’s president amid the Arab Spring."
+],
+"02-12": [
+    "1809: Abraham Lincoln, 16th U.S. President, is born.",
+    "1914: The groundbreaking ceremony for the Lincoln Memorial is held in Washington, D.C.",
+    "2001: NEAR Shoemaker becomes the first spacecraft to land on an asteroid."
+],
+"02-13": [
+    "1633: Galileo Galilei arrives in Rome for his trial by the Inquisition.",
+    "1880: Thomas Edison discovers the Edison Effect, aiding electrical development.",
+    "1945: Allied forces begin the controversial bombing of Dresden in World War II."
+],
+"02-14": [
+    "270: Saint Valentine is martyred, leading to the modern Valentine’s Day.",
+    "1876: Alexander Graham Bell applies for a patent for the telephone.",
+    "1989: India’s INSAT-1B satellite is launched, boosting telecommunications."
+],
+"02-15": [
+    "1564: Galileo Galilei, Italian astronomer, is born.",
+    "1898: The USS Maine explodes in Havana, sparking the Spanish-American War.",
+    "1971: The United Kingdom decimalizes its currency, replacing shillings and pence."
+],
+"02-16": [
+    "1923: Howard Carter unseals Tutankhamun’s burial chamber in Egypt.",
+    "1959: Fidel Castro becomes Premier of Cuba after overthrowing Batista.",
+    "2005: The Kyoto Protocol, aimed at reducing greenhouse gases, takes effect."
+],
+"02-17": [
+    "1600: Giordano Bruno is burned at the stake for heresy in Rome.",
+    "1864: The Confederate submarine H.L. Hunley sinks a Union ship, a wartime first.",
+    "2013: India successfully tests its Agni-V missile with a 5,000-km range."
+],
+"02-18": [
+    "1516: Mary I of England, known as Bloody Mary, is born.",
+    "1930: Pluto is discovered by Clyde Tombaugh at Lowell Observatory.",
+    "1954: The first Church of Scientology is established in Los Angeles."
+],
+"02-19": [
+    "1473: Nicolaus Copernicus, who proposed heliocentrism, is born.",
+    "1942: Japanese forces intern U.S. citizens of Japanese descent during WWII.",
+    "1986: The Soviet Union launches the Mir space station."
+],
+"02-20": [
+    "1727: Isaac Newton presents his theory of gravity to the Royal Society.",
+    "1962: John Glenn becomes the first American to orbit Earth.",
+    "1986: India’s Rakesh Sharma returns from space aboard Soyuz T-11."
+],
+"02-21": [
+    "1848: Karl Marx and Friedrich Engels publish 'The Communist Manifesto.'",
+    "1916: The Battle of Verdun begins, one of World War I’s longest battles.",
+    "1965: Malcolm X is assassinated in New York City."
+],
+"02-22": [
+    "1732: George Washington, first U.S. President, is born.",
+    "1819: Spain cedes Florida to the United States via the Adams-Onís Treaty.",
+    "1997: Scientists announce the cloning of Dolly the Sheep."
+],
+"02-23": [
+    "1455: The Gutenberg Bible, the first major book printed with movable type, is published.",
+    "1836: The Battle of the Alamo begins in Texas.",
+    "1945: U.S. Marines raise the flag on Iwo Jima during World War II."
+],
+"02-24": [
+    "1582: Pope Gregory XIII announces the Gregorian calendar reform.",
+    "1803: The U.S. Supreme Court establishes judicial review in Marbury v. Madison.",
+    "1989: Ayatollah Khomeini issues a fatwa against Salman Rushdie."
+],
+"02-25": [
+    "1836: Samuel Colt patents the revolver, revolutionizing firearms.",
+    "1919: Oregon becomes the first U.S. state to tax gasoline.",
+    "1948: The Communist Party takes control of Czechoslovakia."
+],
+"02-26": [
+    "1815: Napoleon Bonaparte escapes exile from Elba.",
+    "1935: Adolf Hitler orders the creation of the Luftwaffe, violating the Treaty of Versailles.",
+    "1993: A bomb explodes in the World Trade Center garage, killing six."
+],
+"02-27": [
+    "1807: Poet Henry Wadsworth Longfellow is born in Portland, Maine.",
+    "1933: The Reichstag fire in Berlin is blamed on communists, aiding Nazi power.",
+    "2010: An 8.8 magnitude earthquake strikes Chile, triggering a tsunami."
+],
+"02-28": [
+    "1784: John Wesley charters the Methodist Church.",
+    "1953: James Watson and Francis Crick discover the structure of DNA.",
+    "1983: The final episode of M*A*S*H airs, setting a TV viewership record."
+],
+"02-29": [
+    "1504: Christopher Columbus uses a lunar eclipse to convince Jamaican natives for supplies.",
+    "1940: Hattie McDaniel becomes the first African American to win an Oscar.",
+    "1988: India’s INSAT-1C satellite is launched, enhancing weather forecasting."
+],
+"03-01": [
+    "1872: Yellowstone becomes the world’s first national park in the United States.",
+    "1932: The Lindbergh baby is kidnapped, sparking a massive investigation.",
+    "1954: India’s first general elections conclude, strengthening its democracy."
+],
+"03-02": [
+    "1791: The first long-distance semaphore telegraph line opens in France.",
+    "1836: Texas declares independence from Mexico, forming the Republic of Texas.",
+    "1962: Wilt Chamberlain scores 100 points in a single NBA game."
+],
+"03-03": [
+    "1845: Florida becomes the 27th U.S. state.",
+    "1913: Thousands of women march in Washington, D.C., for suffrage rights.",
+    "1931: 'The Star-Spangled Banner' is adopted as the U.S. national anthem."
+],
+"03-04": [
+    "1789: The U.S. Constitution goes into effect with the first Congress meeting.",
+    "1933: Franklin D. Roosevelt is inaugurated, promising a New Deal.",
+    "1991: India launches Operation Cactus to thwart a coup in the Maldives."
+],
+"03-05": [
+    "1770: The Boston Massacre occurs, escalating tensions before the American Revolution.",
+    "1946: Winston Churchill delivers his 'Iron Curtain' speech, marking the Cold War’s start.",
+    "1970: The Nuclear Non-Proliferation Treaty enters into force."
+],
+"03-06": [
+    "1475: Michelangelo, Italian artist and sculptor, is born.",
+    "1836: The Alamo falls to Mexican forces after a 13-day siege.",
+    "1986: India’s INS Viraat aircraft carrier is commissioned into the navy."
+],
+"03-07": [
+    "1876: Alexander Graham Bell is granted a patent for the telephone.",
+    "1965: Civil rights marchers are attacked on Bloody Sunday in Selma, Alabama.",
+    "1989: Iran breaks diplomatic relations with Britain over 'The Satanic Verses.'"
+],
+"03-08": [
+    "1702: Queen Anne becomes the monarch of England, Scotland, and Ireland.",
+    "1917: The February Revolution begins in Russia, leading to the Tsar’s abdication.",
+    "1971: Joe Frazier defeats Muhammad Ali in the 'Fight of the Century.'"
+],
+"03-09": [
+    "1841: The U.S. Supreme Court rules in favor of the Amistad mutineers.",
+    "1959: The Barbie doll debuts at the American International Toy Fair.",
+    "2011: India’s Agni-II missile is successfully test-fired."
+],
+"03-10": [
+    "1629: King Charles I dissolves the English Parliament, ruling alone for 11 years.",
+    "1876: Alexander Graham Bell makes the first successful telephone call.",
+    "2006: NASA’s Mars Reconnaissance Orbiter enters orbit around Mars."
+],
+"03-11": [
+    "1708: Queen Anne withholds royal assent from a bill, the last monarch to do so.",
+    "1941: The U.S. passes the Lend-Lease Act to aid Allies in World War II.",
+    "2011: A 9.0 magnitude earthquake and tsunami devastate Japan."
+],
+"03-12": [
+    "1894: Coca-Cola is sold in bottles for the first time.",
+    "1930: Mahatma Gandhi begins the Salt March to protest British salt taxes in India.",
+    "1993: A series of bomb blasts rock Bombay (Mumbai), killing over 250."
+],
+"03-13": [
+    "1781: Astronomer William Herschel discovers the planet Uranus.",
+    "1881: Tsar Alexander II of Russia is assassinated by a bomb.",
+    "2013: Pope Francis is elected as the 266th pope of the Catholic Church."
+],
+"03-14": [
+    "1794: Eli Whitney patents the cotton gin, revolutionizing agriculture.",
+    "1879: Albert Einstein is born in Ulm, Germany.",
+    "1964: Jack Ruby is convicted of murdering Lee Harvey Oswald."
+],
+"03-15": [
+    "44 BC: Julius Caesar is assassinated on the Ides of March.",
+    "1917: Tsar Nicholas II abdicates, ending the Romanov dynasty in Russia.",
+    "1985: The first internet domain name, symbolics.com, is registered."
+],
+"03-16": [
+    "1521: Ferdinand Magellan reaches the Philippines during his circumnavigation.",
+    "1968: The My Lai Massacre occurs during the Vietnam War.",
+    "2003: Rachel Corrie, an American activist, is killed by an Israeli bulldozer."
+],
+"03-17": [
+    "461: Saint Patrick, patron saint of Ireland, dies.",
+    "1845: The rubber band is patented by Stephen Perry in England.",
+    "1992: A referendum in South Africa ends apartheid policies."
+],
+"03-18": [
+    "1850: American Express is founded by Henry Wells and William Fargo.",
+    "1965: Cosmonaut Alexei Leonov performs the first spacewalk.",
+    "1970: India’s first nuclear submarine, INS Arihant, begins conceptual design."
+],
+"03-19": [
+    "1279: The Song Dynasty ends with a Mongol victory at the Battle of Yamen.",
+    "1932: The Sydney Harbour Bridge opens in Australia.",
+    "2003: The U.S. and allies begin the invasion of Iraq."
+],
+"03-20": [
+    "1602: The Dutch East India Company is established.",
+    "1852: Harriet Beecher Stowe’s 'Uncle Tom’s Cabin' is published.",
+    "1985: Libby Riddles becomes the first woman to win the Iditarod sled race."
+],
+"03-21": [
+    "1800: The papacy moves to Rome permanently with Pope Pius VII.",
+    "1963: Alcatraz Federal Penitentiary closes after 29 years.",
+    "2019: India shoots down a satellite, joining the space superpower club."
+],
+"03-22": [
+    "1638: Anne Hutchinson is banished from Massachusetts Bay Colony for heresy.",
+    "1765: The British Parliament passes the Stamp Act, taxing American colonies.",
+    "1995: Cosmonaut Valeri Polyakov returns after a record 437 days in space."
+],
+"03-23": [
+    "1775: Patrick Henry delivers his 'Give me liberty or give me death' speech.",
+    "1919: Benito Mussolini founds the Fascist Party in Italy.",
+    "2001: The Russian Mir space station is deorbited and crashes into the Pacific."
+],
+"03-24": [
+    "1603: Queen Elizabeth I of England dies, ending the Tudor dynasty.",
+    "1944: Allied POWs escape from Stalag Luft III in the 'Great Escape.'",
+    "1989: The Exxon Valdez oil spill pollutes Alaska’s Prince William Sound."
+],
+"03-25": [
+    "1306: Robert the Bruce becomes King of Scots, later winning independence.",
+    "1911: The Triangle Shirtwaist Factory fire in New York kills 146 workers.",
+    "1957: The Treaty of Rome establishes the European Economic Community."
+],
+"03-26": [
+    "1812: The Boston Gazette coins the term 'gerrymander' for political redistricting.",
+    "1971: East Pakistan declares independence, becoming Bangladesh after a war.",
+    "1997: The Heaven’s Gate cult commits mass suicide in California."
+],
+"03-27": [
+    "1513: Spanish explorer Juan Ponce de León sights Florida.",
+    "1964: The Great Alaska Earthquake, magnitude 9.2, strikes the U.S.",
+    "1977: Two Boeing 747s collide on a runway in Tenerife, killing 583."
+],
+"03-28": [
+    "1854: The Crimean War escalates as Britain and France declare war on Russia.",
+    "1939: The Spanish Civil War ends with Franco’s victory.",
+    "1979: The Three Mile Island nuclear accident occurs in Pennsylvania."
+],
+"03-29": [
+    "1461: The Battle of Towton, a decisive Yorkist victory, occurs in the Wars of the Roses.",
+    "1871: The Royal Albert Hall opens in London.",
+    "1951: Julius and Ethel Rosenberg are convicted of espionage for the Soviet Union."
+],
+"03-30": [
+    "1842: Anesthesia is used for the first time in surgery by Crawford Long.",
+    "1867: The U.S. purchases Alaska from Russia for $7.2 million.",
+    "1981: President Ronald Reagan is shot in an assassination attempt."
+],
+"03-31": [
+    "1492: Spain’s Ferdinand and Isabella order the expulsion of Jews.",
+    "1889: The Eiffel Tower is officially opened in Paris.",
+    "1991: The Warsaw Pact, a Soviet-led military alliance, is dissolved."
+],
+"04-01": [
+    "1865: The Battle of Five Forks marks a turning point in the American Civil War.",
+    "1976: Apple Computer Company is founded by Steve Jobs, Steve Wozniak, and Ronald Wayne.",
+    "2001: The Netherlands becomes the first country to legalize same-sex marriage."
+],
+"04-02": [
+    "1513: Spanish explorer Juan Ponce de León lands in Florida.",
+    "1917: U.S. President Woodrow Wilson asks Congress to declare war on Germany.",
+    "1982: Argentina invades the Falkland Islands, starting the Falklands War."
+],
+"04-03": [
+    "1860: The Pony Express begins its first mail delivery in the United States.",
+    "1948: The Marshall Plan is signed, aiding European recovery after World War II.",
+    "1996: The Unabomber, Ted Kaczynski, is arrested by the FBI."
+],
+"04-04": [
+    "1581: Francis Drake is knighted by Queen Elizabeth I after circumnavigating the globe.",
+    "1968: Martin Luther King Jr. is assassinated in Memphis, Tennessee.",
+    "1975: Microsoft is founded by Bill Gates and Paul Allen."
+],
+"04-05": [
+    "1614: Pocahontas marries English colonist John Rolfe in Virginia.",
+    "1951: Julius and Ethel Rosenberg are sentenced to death for espionage.",
+    "1991: India launches its economic liberalization policies under P.V. Narasimha Rao."
+],
+"04-06": [
+    "1320: The Declaration of Arbroath asserts Scotland’s independence.",
+    "1896: The first modern Olympic Games open in Athens, Greece.",
+    "1909: Robert Peary and Matthew Henson claim to reach the North Pole."
+],
+"04-07": [
+    "1795: France adopts the metric system as its official measurement standard.",
+    "1948: The World Health Organization (WHO) is established by the United Nations.",
+    "2001: NASA launches the Mars Odyssey orbiter to study the Martian surface."
+],
+"04-08": [
+    "563 BC: Gautama Buddha, founder of Buddhism, is traditionally born in Lumbini (now Nepal).",
+    "1820: The Venus de Milo statue is discovered on the island of Milos.",
+    "1974: Hank Aaron breaks Babe Ruth’s home run record with his 715th."
+],
+"04-09": [
+    "1413: Henry V is crowned King of England.",
+    "1865: Confederate General Robert E. Lee surrenders at Appomattox, ending the Civil War.",
+    "2003: U.S. forces topple Saddam Hussein’s statue in Baghdad."
+],
+"04-10": [
+    "1815: Mount Tambora erupts in Indonesia, the largest volcanic eruption in recorded history.",
+    "1912: The Titanic sets sail on its maiden voyage from Southampton.",
+    "1970: Paul McCartney announces the breakup of The Beatles."
+],
+"04-11": [
+    "1689: William III and Mary II are crowned joint monarchs of England.",
+    "1814: Napoleon Bonaparte is exiled to Elba after abdicating the French throne.",
+    "1961: The trial of Adolf Eichmann begins in Jerusalem."
+],
+"04-12": [
+    "1606: The Union Jack is adopted as the national flag of Great Britain.",
+    "1961: Yuri Gagarin becomes the first human in space aboard Vostok 1.",
+    "1981: The Space Shuttle Columbia launches, the first reusable spacecraft."
+],
+"04-13": [
+    "1598: The Edict of Nantes grants religious tolerance to French Protestants.",
+    "1919: The Jallianwala Bagh massacre occurs in Amritsar, India, killing hundreds.",
+    "1975: A bus massacre in Lebanon sparks the Lebanese Civil War."
+],
+"04-14": [
+    "1865: Abraham Lincoln is shot by John Wilkes Booth at Ford’s Theatre.",
+    "1912: The Titanic strikes an iceberg, sinking early the next morning.",
+    "1931: Spain becomes a republic after King Alfonso XIII abdicates."
+],
+"04-15": [
+    "1452: Leonardo da Vinci is born in Vinci, Italy.",
+    "1920: The Sacco and Vanzetti robbery and murder case begins in Massachusetts.",
+    "2013: The Boston Marathon bombing kills 3 and injures hundreds."
+],
+"04-16": [
+    "1746: The Battle of Culloden ends the Jacobite Rising in Scotland.",
+    "1947: Texas City disaster: A ship explosion kills over 500 people.",
+    "2007: The Virginia Tech shooting leaves 32 dead in the deadliest U.S. school shooting."
+],
+"04-17": [
+    "1397: Geoffrey Chaucer recites 'The Canterbury Tales' for the first time.",
+    "1961: The Bay of Pigs invasion of Cuba by U.S.-backed exiles fails.",
+    "1970: Apollo 13 safely returns to Earth after a near-disastrous mission."
+],
+"04-18": [
+    "1506: Construction begins on St. Peter’s Basilica in Rome.",
+    "1906: The San Francisco earthquake devastates the city, killing over 3,000.",
+    "1983: A suicide bombing at the U.S. Embassy in Beirut kills 63."
+],
+"04-19": [
+    "1775: The Battles of Lexington and Concord start the American Revolutionary War.",
+    "1993: The Waco Siege ends with a deadly fire, killing 76 Branch Davidians.",
+    "1995: The Oklahoma City bombing kills 168 in a domestic terrorist attack."
+],
+"04-20": [
+    "1653: Oliver Cromwell dissolves the Rump Parliament in England.",
+    "1889: Adolf Hitler is born in Braunau am Inn, Austria.",
+    "2010: The Deepwater Horizon oil rig explodes, causing a massive oil spill."
+],
+"04-21": [
+    "753 BC: Romulus traditionally founds Rome, according to legend.",
+    "1836: The Battle of San Jacinto secures Texas independence from Mexico.",
+    "1989: Nintendo releases the Game Boy, revolutionizing portable gaming."
+],
+"04-22": [
+    "1500: Portuguese explorer Pedro Álvares Cabral lands in Brazil.",
+    "1970: The first Earth Day is celebrated worldwide.",
+    "1994: India conducts its first successful test of the Prithvi missile."
+],
+"04-23": [
+    "1014: Irish King Brian Boru defeats the Vikings at the Battle of Clontarf.",
+    "1616: William Shakespeare dies in Stratford-upon-Avon.",
+    "1985: Coca-Cola introduces New Coke, later reverting due to backlash."
+],
+"04-24": [
+    "1800: The Library of Congress is established in the United States.",
+    "1916: The Easter Rising begins in Ireland against British rule.",
+    "1990: The Hubble Space Telescope is launched into orbit."
+],
+"04-25": [
+    "1792: The guillotine is first used during the French Revolution.",
+    "1859: Construction begins on the Suez Canal, connecting the Mediterranean and Red Seas.",
+    "1953: Watson and Crick publish their discovery of DNA’s double-helix structure."
+],
+"04-26": [
+    "1478: The Pazzi conspiracy fails to assassinate Lorenzo de’ Medici in Florence.",
+    "1986: The Chernobyl nuclear disaster occurs in the Soviet Union.",
+    "2000: Vermont becomes the first U.S. state to legalize civil unions."
+],
+"04-27": [
+    "1667: John Milton sells the copyright to 'Paradise Lost' for £10.",
+    "1960: Togo gains independence from France.",
+    "1994: South Africa holds its first multiracial elections, ending apartheid."
+],
+"04-28": [
+    "1789: The Mutiny on the Bounty occurs against Captain William Bligh.",
+    "1945: Benito Mussolini is executed by Italian partisans.",
+    "2004: The Abu Ghraib prisoner abuse scandal is revealed by CBS News."
+],
+"04-29": [
+    "1429: Joan of Arc enters Orléans, turning the tide of the Hundred Years’ War.",
+    "1992: The Los Angeles riots begin after the Rodney King verdict.",
+    "2011: Prince William marries Catherine Middleton in a globally watched ceremony."
+],
+"04-30": [
+    "1789: George Washington is inaugurated as the first U.S. President.",
+    "1803: The Louisiana Purchase is completed, doubling U.S. territory.",
+    "1975: The Fall of Saigon ends the Vietnam War as North Vietnam takes the city."
+],
+"05-01": [
+    "1707: The Act of Union unites England and Scotland into Great Britain.",
+    "1886: The Haymarket Riot in Chicago strengthens the U.S. labor movement.",
+    "1960: India’s Maharashtra and Gujarat states are formed under the Bombay Reorganization Act."
+],
+"05-02": [
+    "1611: The King James Bible is published for the first time.",
+    "1945: Soviet troops capture Berlin, effectively ending World War II in Europe.",
+    "2011: Osama bin Laden is killed by U.S. Navy SEALs in Pakistan."
+],
+"05-03": [
+    "1469: Niccolò Machiavelli, author of 'The Prince,' is born in Florence.",
+    "1937: Margaret Mitchell wins the Pulitzer Prize for 'Gone with the Wind.'",
+    "1978: The first spam email is sent by a DEC marketing representative."
+],
+"05-04": [
+    "1493: Pope Alexander VI divides the New World between Spain and Portugal.",
+    "1979: Margaret Thatcher becomes the first female U.K. Prime Minister.",
+    "1994: Israel and the PLO sign the Gaza-Jericho Agreement for Palestinian autonomy."
+],
+"05-05": [
+    "1821: Napoleon Bonaparte dies in exile on Saint Helena.",
+    "1862: Cinco de Mayo: Mexican forces defeat the French at the Battle of Puebla.",
+    "1961: Alan Shepard becomes the first American in space aboard Freedom 7."
+],
+"05-06": [
+    "1527: The Sack of Rome by mutinous troops devastates the city.",
+    "1889: The Eiffel Tower opens to the public during the Paris Exposition.",
+    "1937: The Hindenburg airship bursts into flames, killing 36 people."
+],
+"05-07": [
+    "1429: Joan of Arc leads the French to victory at the Siege of Orléans.",
+    "1915: The RMS Lusitania is sunk by a German U-boat, killing 1,198.",
+    "1945: Germany surrenders unconditionally to the Allies, ending WWII in Europe."
+],
+"05-08": [
+    "1541: Hernando de Soto reaches the Mississippi River during his expedition.",
+    "1886: Pharmacist John Pemberton first sells Coca-Cola in Atlanta.",
+    "1970: The Beatles release their final album, 'Let It Be.'"
+],
+"05-09": [
+    "1502: Christopher Columbus departs Spain on his fourth voyage to the New World.",
+    "1945: Victory in Europe (V-E) Day is celebrated as WWII ends in Europe.",
+    "2012: India successfully test-fires the Agni-V missile with a 5,000-km range."
+],
+"05-10": [
+    "1773: The Tea Act is passed by British Parliament, leading to the Boston Tea Party.",
+    "1871: The Treaty of Frankfurt ends the Franco-Prussian War.",
+    "1994: Nelson Mandela is inaugurated as South Africa’s first Black president."
+],
+"05-11": [
+    "330: Constantinople is dedicated as the new capital of the Roman Empire.",
+    "1857: The Indian Rebellion begins with the Sepoy Mutiny in Meerut.",
+    "1981: Bob Marley, reggae legend, dies of cancer in Miami."
+],
+"05-12": [
+    "1364: Jagiellonian University, one of Europe’s oldest, is founded in Poland.",
+    "1932: The body of the kidnapped Lindbergh baby is found in New Jersey.",
+    "2008: A 7.9 magnitude earthquake strikes Sichuan, China, killing over 69,000."
+],
+"05-13": [
+    "1607: Jamestown, the first permanent English settlement in America, is founded.",
+    "1846: The U.S. declares war on Mexico, beginning the Mexican-American War.",
+    "1981: Pope John Paul II survives an assassination attempt in Vatican City."
+],
+"05-14": [
+    "1796: Edward Jenner administers the first smallpox vaccine.",
+    "1948: Israel declares independence, sparking the Arab-Israeli War.",
+    "1973: Skylab, the first U.S. space station, is launched into orbit."
+],
+"05-15": [
+    "1252: Pope Innocent IV issues a papal bull authorizing the torture of heretics.",
+    "1928: Mickey Mouse debuts in the cartoon 'Plane Crazy.'",
+    "1975: India annexes Sikkim, making it the 22nd state of the union."
+],
+"05-16": [
+    "1770: Marie Antoinette marries Louis XVI of France.",
+    "1920: Joan of Arc is canonized as a saint by the Catholic Church.",
+    "1960: The first working laser is demonstrated by Theodore Maiman."
+],
+"05-17": [
+    "1792: The New York Stock Exchange is founded under the Buttonwood Agreement.",
+    "1954: The U.S. Supreme Court rules against segregation in Brown v. Board of Education.",
+    "1992: The WHO removes homosexuality from its list of mental disorders."
+],
+"05-18": [
+    "332: Constantine the Great announces free bread for citizens of Constantinople.",
+    "1804: Napoleon Bonaparte is proclaimed Emperor of the French.",
+    "1980: Mount St. Helens erupts in Washington, killing 57 people."
+],
+"05-19": [
+    "1536: Anne Boleyn, second wife of Henry VIII, is executed for treason.",
+    "1890: Ho Chi Minh, Vietnamese revolutionary leader, is born.",
+    "1962: Marilyn Monroe sings 'Happy Birthday' to President John F. Kennedy."
+],
+"05-20": [
+    "1498: Vasco da Gama arrives in Calicut, India, establishing a direct maritime route.",
+    "1873: Levi Strauss and Jacob Davis patent blue jeans with copper rivets.",
+    "1932: Amelia Earhart becomes the first woman to fly solo across the Atlantic."
+],
+"05-21": [
+    "1881: The American Red Cross is founded by Clara Barton.",
+    "1927: Charles Lindbergh completes the first solo transatlantic flight.",
+    "1991: Rajiv Gandhi, former Indian Prime Minister, is assassinated by a suicide bomber."
+],
+"05-22": [
+    "1455: The Wars of the Roses begin with the First Battle of St Albans.",
+    "1843: The first major wagon train departs for Oregon via the Oregon Trail.",
+    "2017: A terrorist bombing at an Ariana Grande concert in Manchester kills 22."
+],
+"05-23": [
+    "1430: Joan of Arc is captured by the Burgundians near Compiègne.",
+    "1934: Bonnie and Clyde are ambushed and killed by police in Louisiana.",
+    "1992: The Italian anti-mafia judge Giovanni Falcone is assassinated."
+],
+"05-24": [
+    "1543: Nicolaus Copernicus dies, having published his heliocentric theory.",
+    "1844: Samuel Morse sends the first telegraph message: 'What hath God wrought?'",
+    "1883: The Brooklyn Bridge opens to traffic in New York City."
+],
+"05-25": [
+    "1521: The Diet of Worms declares Martin Luther an outlaw and heretic.",
+    "1961: President Kennedy announces the U.S. goal to land a man on the Moon.",
+    "1977: 'Star Wars: Episode IV – A New Hope' is released in theaters."
+],
+"05-26": [
+    "1647: Alse Young becomes the first person executed for witchcraft in colonial America.",
+    "1897: Bram Stoker’s 'Dracula' is first published.",
+    "1972: The U.S. and Soviet Union sign the Anti-Ballistic Missile Treaty."
+],
+"05-27": [
+    "1703: Saint Petersburg is founded by Tsar Peter the Great of Russia.",
+    "1930: The Chrysler Building opens as the world’s tallest building in New York.",
+    "1941: The German battleship Bismarck is sunk by the British Navy."
+],
+"05-28": [
+    "1830: The U.S. Congress passes the Indian Removal Act, leading to the Trail of Tears.",
+    "1937: Volkswagen is founded by the Nazi government in Germany.",
+    "1987: Mathias Rust lands a plane in Moscow’s Red Square, evading Soviet defenses."
+],
+"05-29": [
+    "1453: Constantinople falls to the Ottoman Empire, ending the Byzantine Empire.",
+    "1919: Einstein’s theory of general relativity is confirmed during a solar eclipse.",
+    "1953: Edmund Hillary and Tenzing Norgay summit Mount Everest."
+],
+"05-30": [
+    "1431: Joan of Arc is burned at the stake for heresy in Rouen, France.",
+    "1854: The Kansas-Nebraska Act is signed, escalating tensions over slavery.",
+    "1911: The first Indianapolis 500 auto race is held."
+],
+"05-31": [
+    "1790: The U.S. passes its first copyright law.",
+    "1889: The Johnstown Flood kills over 2,200 in Pennsylvania after a dam failure.",
+    "1970: A massive earthquake in Peru kills over 70,000 people."
+],
+"06-01": [
+    "1495: Friar John Cor records the first known batch of Scotch whisky.",
+    "1938: Superman debuts in Action Comics #1.",
+    "1980: CNN launches as the first 24-hour news channel."
+],
+"06-02": [
+    "1851: Maine becomes the first U.S. state to enact a prohibition law.",
+    "1953: Queen Elizabeth II is crowned at Westminster Abbey.",
+    "2014: Telangana becomes India’s 29th state after splitting from Andhra Pradesh."
+],
+"06-03": [
+    "1621: The Dutch West India Company receives a charter for New Netherland.",
+    "1965: Ed White performs the first U.S. spacewalk during Gemini 4.",
+    "1989: The Tiananmen Square protests are violently suppressed in Beijing."
+],
+"06-04": [
+    "1783: The Montgolfier brothers demonstrate the first hot air balloon flight.",
+    "1942: The Battle of Midway begins, a turning point in the Pacific War.",
+    "1984: Operation Blue Star begins at the Golden Temple in Amritsar, India."
+],
+"06-05": [
+    "1883: The first Orient Express train departs from Paris to Istanbul.",
+    "1967: The Six-Day War begins between Israel and Arab nations.",
+    "1981: The CDC reports the first cases of AIDS in the United States."
+],
+"06-06": [
+    "1665: The Second Anglo-Dutch War begins with the Battle of Lowestoft.",
+    "1944: D-Day: Allied forces invade Normandy during World War II.",
+    "1971: India launches its first satellite, Aryabhata, into orbit."
+],
+"06-07": [
+    "1494: Spain and Portugal sign the Treaty of Tordesillas, dividing the New World.",
+    "1892: Homer Plessy is arrested, leading to the Plessy v. Ferguson case.",
+    "1981: Israel bombs Iraq’s Osirak nuclear reactor."
+],
+"06-08": [
+    "632: Prophet Muhammad dies in Medina, marking a turning point in Islamic history.",
+    "1789: James Madison proposes the U.S. Bill of Rights.",
+    "1968: James Earl Ray is arrested for assassinating Martin Luther King Jr."
+],
+"06-09": [
+    "68: Roman Emperor Nero commits suicide, ending the Julio-Claudian dynasty.",
+    "1934: Donald Duck debuts in Disney’s 'The Wise Little Hen.'",
+    "1973: Secretariat wins the Triple Crown at the Belmont Stakes."
+],
+"06-10": [
+    "1692: Bridget Bishop is hanged in the Salem witch trials.",
+    "1940: Italy declares war on France and the U.K. during World War II.",
+    "2003: NASA launches the Spirit rover to Mars."
+],
+"06-11": [
+    "1509: Henry VIII marries Catherine of Aragon, his first wife.",
+    "1962: Three prisoners escape from Alcatraz, their fate unknown.",
+    "1987: Margaret Thatcher wins a third term as U.K. Prime Minister."
+],
+"06-12": [
+    "1665: New Amsterdam becomes New York under English control.",
+    "1987: Ronald Reagan challenges Gorbachev to 'tear down this wall' in Berlin.",
+    "1994: Nicole Brown Simpson and Ron Goldman are murdered, leading to O.J. Simpson’s trial."
+],
+"06-13": [
+    "1373: The Anglo-Portuguese Alliance is formalized, the oldest active treaty.",
+    "1966: The U.S. Supreme Court rules on Miranda rights in Miranda v. Arizona.",
+    "2018: India withdraws from hosting the 2022 Commonwealth Games."
+],
+"06-14": [
+    "1775: The Continental Army is established by the Second Continental Congress.",
+    "1940: Nazi Germany occupies Paris during World War II.",
+    "1982: The Falklands War ends with Argentina’s surrender."
+],
+"06-15": [
+    "1215: King John signs the Magna Carta, limiting royal power in England.",
+    "1844: Charles Goodyear patents the vulcanization of rubber.",
+    "1991: Mount Pinatubo erupts in the Philippines, one of the century’s largest eruptions."
+],
+"06-16": [
+    "1858: Abraham Lincoln delivers his 'House Divided' speech.",
+    "1903: Ford Motor Company is incorporated by Henry Ford.",
+    "1963: Valentina Tereshkova becomes the first woman in space."
+],
+"06-17": [
+    "1579: Francis Drake claims California for England as 'Nova Albion.'",
+    "1885: The Statue of Liberty arrives in New York Harbor.",
+    "1972: The Watergate break-in occurs, leading to Nixon’s resignation."
+],
+"06-18": [
+    "1812: The U.S. declares war on Britain, starting the War of 1812.",
+    "1815: Napoleon is defeated at the Battle of Waterloo.",
+    "1983: Sally Ride becomes the first American woman in space."
+],
+"06-19": [
+    "1865: Juneteenth: Slaves in Texas are informed of emancipation.",
+    "1910: The first Father’s Day is celebrated in Spokane, Washington.",
+    "1964: The Civil Rights Act of 1964 passes the U.S. Senate."
+],
+"06-20": [
+    "451: The Battle of the Catalaunian Plains halts Attila the Hun’s advance.",
+    "1837: Queen Victoria ascends to the British throne.",
+    "1975: 'Jaws,' directed by Steven Spielberg, is released."
+],
+"06-21": [
+    "1788: New Hampshire ratifies the U.S. Constitution, making it the ninth state.",
+    "1948: The Manchester Baby, the world’s first stored-program computer, runs.",
+    "2004: SpaceShipOne completes the first privately funded human spaceflight."
+],
+"06-22": [
+    "1633: Galileo Galilei is forced to recant his heliocentric theory.",
+    "1941: Operation Barbarossa: Nazi Germany invades the Soviet Union.",
+    "1986: Diego Maradona scores the 'Hand of God' goal in the World Cup."
+],
+"06-23": [
+    "1868: Christopher Latham Sholes patents the typewriter.",
+    "2016: The U.K. votes to leave the European Union in the Brexit referendum.",
+    "2020: India bans TikTok and other Chinese apps amid border tensions."
+],
+"06-24": [
+    "1314: Robert the Bruce defeats the English at the Battle of Bannockburn.",
+    "1948: The Berlin Blockade begins, escalating Cold War tensions.",
+    "2010: Julia Gillard becomes Australia’s first female Prime Minister."
+],
+"06-25": [
+    "1678: Elena Cornaro Piscopia becomes the first woman to earn a Ph.D.",
+    "1950: The Korean War begins with North Korea’s invasion of the South.",
+    "2009: Michael Jackson, the King of Pop, dies in Los Angeles."
+],
+"06-26": [
+    "1284: The Pied Piper legend is dated to this day in Hamelin, Germany.",
+    "1945: The United Nations Charter is signed in San Francisco.",
+    "2000: The Human Genome Project announces a rough draft of the human genome."
+],
+"06-27": [
+    "1844: Joseph Smith, founder of Mormonism, is killed by a mob.",
+    "1954: The world’s first nuclear power plant opens in Obninsk, Soviet Union.",
+    "1985: Route 66 is officially decommissioned as a U.S. highway."
+],
+"06-28": [
+    "1914: Archduke Franz Ferdinand is assassinated, sparking World War I.",
+    "1919: The Treaty of Versailles is signed, ending World War I.",
+    "1969: The Stonewall Riots begin, marking a turning point for LGBTQ+ rights."
+],
+"06-29": [
+    "1613: The Globe Theatre in London burns down during a performance.",
+    "1974: Isabel Perón becomes the first female president of Argentina.",
+    "2007: Apple releases the first iPhone, revolutionizing smartphones."
+],
+"06-30": [
+    "1859: Charles Blondin crosses Niagara Falls on a tightrope.",
+    "1908: The Tunguska Event, a massive explosion, occurs in Siberia.",
+    "1934: The Night of the Long Knives consolidates Hitler’s power in Germany."
+],
+"07-01": [
+    "1863: The Battle of Gettysburg begins, a pivotal moment in the American Civil War.",
+    "1898: The Battle of San Juan Hill occurs during the Spanish-American War.",
+    "1960: Somalia gains independence from Italy and Britain."
+],
+"07-02": [
+    "1776: The Continental Congress votes for independence from Britain.",
+    "1900: The first Zeppelin flight takes place in Germany.",
+    "1964: President Lyndon B. Johnson signs the Civil Rights Act into law."
+],
+"07-03": [
+    "1608: Samuel de Champlain founds Quebec City, Canada.",
+    "1863: The Battle of Gettysburg ends with a Union victory.",
+    "1988: The USS Vincennes shoots down Iran Air Flight 655, killing 290."
+],
+"07-04": [
+    "1776: The United States declares independence from Britain.",
+    "1826: John Adams and Thomas Jefferson both pass away.",
+    "1863: The Siege of Vicksburg ends during the American Civil War."
+],
+"07-05": [
+    "1811: Venezuela declares independence from Spain.",
+    "1946: The bikini is introduced at a fashion show in Paris.",
+    "1996: Dolly the Sheep, the first cloned mammal, is born."
+],
+"07-06": [
+    "1348: Pope Clement VI issues a bull protecting Jews during the Black Death.",
+    "1885: Louis Pasteur successfully tests his rabies vaccine.",
+    "1957: Althea Gibson becomes the first Black tennis player to win Wimbledon."
+],
+"07-07": [
+    "1456: Joan of Arc is posthumously acquitted of heresy.",
+    "1937: The Marco Polo Bridge Incident sparks the Second Sino-Japanese War.",
+    "2005: Terrorist bombings strike London’s public transport, killing 52."
+],
+"07-08": [
+    "1497: Vasco da Gama sets sail from Lisbon to find a sea route to India.",
+    "1776: The Liberty Bell rings to summon citizens to hear the Declaration of Independence.",
+    "2011: The Space Shuttle Atlantis launches on NASA’s final shuttle mission."
+],
+"07-09": [
+    "1875: The Bombay Stock Exchange, India’s first stock exchange, is established.",
+    "1944: The Battle of Saipan ends with a U.S. victory in World War II.",
+    "1955: The Russell-Einstein Manifesto warns against nuclear weapons."
+],
+"07-10": [
+    "138: Emperor Hadrian dies, succeeded by Antoninus Pius.",
+    "1925: The Scopes Monkey Trial begins, debating evolution in schools.",
+    "1962: Telstar, the first communications satellite, is launched."
+],
+"07-11": [
+    "1302: The Battle of the Golden Spurs sees Flemish forces defeat the French.",
+    "1804: Aaron Burr fatally wounds Alexander Hamilton in a duel.",
+    "1979: Skylab, the U.S. space station, re-enters Earth’s atmosphere."
+],
+"07-12": [
+    "1543: Henry VIII marries his sixth wife, Catherine Parr.",
+    "1862: The Medal of Honor is authorized by the U.S. Congress.",
+    "1962: The Rolling Stones perform their first concert in London."
+],
+"07-13": [
+    "1793: French revolutionary Jean-Paul Marat is assassinated in his bath.",
+    "1985: Live Aid concerts raise funds for Ethiopian famine relief.",
+    "2016: Theresa May becomes U.K. Prime Minister after David Cameron’s resignation."
+],
+"07-14": [
+    "1789: The storming of the Bastille marks the start of the French Revolution.",
+    "1865: The first successful ascent of the Matterhorn is made.",
+    "1969: The U.S. begins withdrawing troops from Vietnam."
+],
+"07-15": [
+    "1099: Jerusalem is captured during the First Crusade.",
+    "1799: The Rosetta Stone is discovered in Egypt by French soldiers.",
+    "2006: Twitter is publicly launched as a social media platform."
+],
+"07-16": [
+    "622: The Islamic calendar begins with the Hijra of Muhammad.",
+    "1945: The first atomic bomb is tested in Alamogordo, New Mexico.",
+    "1969: Apollo 11 launches, aiming to land humans on the Moon."
+],
+"07-17": [
+    "1453: The French defeat the English at the Battle of Castillon, ending the Hundred Years’ War.",
+    "1918: Tsar Nicholas II and his family are executed by the Bolsheviks.",
+    "1955: Disneyland opens in Anaheim, California."
+],
+"07-18": [
+    "64: The Great Fire of Rome begins, lasting six days.",
+    "1925: Adolf Hitler publishes 'Mein Kampf,' outlining his ideology.",
+    "1976: Nadia Comăneci scores the first perfect 10 in Olympic gymnastics."
+],
+"07-19": [
+    "1545: The Mary Rose, Henry VIII’s warship, sinks off England’s coast.",
+    "1848: The Seneca Falls Convention, the first women’s rights convention, begins.",
+    "1980: The Summer Olympics open in Moscow, boycotted by many nations."
+],
+"07-20": [
+    "1304: The Siege of Stirling Castle ends with an English victory.",
+    "1969: Apollo 11 lands on the Moon; Neil Armstrong takes 'one small step.'",
+    "1974: Turkey invades Cyprus, leading to the island’s division."
+],
+"07-21": [
+    "356 BC: The Temple of Artemis, a Wonder of the Ancient World, is destroyed.",
+    "1861: The First Battle of Bull Run occurs in the American Civil War.",
+    "1983: The lowest temperature ever (-89.2°C) is recorded at Vostok Station, Antarctica."
+],
+"07-22": [
+    "1298: The Battle of Falkirk sees Edward I defeat William Wallace.",
+    "1933: Wiley Post completes the first solo flight around the world.",
+    "2004: India’s Mangalyaan mission begins development, aiming for Mars."
+],
+"07-23": [
+    "1829: William Austin Burt patents the first typewriter, the 'typographer.'",
+    "1967: The Detroit Riot begins, one of the deadliest in U.S. history.",
+    "1984: Vanessa Williams resigns as Miss America after a scandal."
+],
+"07-24": [
+    "1534: Jacques Cartier claims Quebec for France.",
+    "1911: Hiram Bingham rediscovers Machu Picchu in Peru.",
+    "1969: Apollo 11 safely returns to Earth after the Moon landing."
+],
+"07-25": [
+    "306: Constantine I is proclaimed Roman Emperor by his troops.",
+    "1909: Louis Blériot makes the first airplane flight across the English Channel.",
+    "1978: The world’s first 'test-tube baby,' Louise Brown, is born."
+],
+"07-26": [
+    "1775: The U.S. postal system is established by the Continental Congress.",
+    "1945: The Potsdam Conference begins, shaping post-WWII Europe.",
+    "1990: The Americans with Disabilities Act is signed into law."
+],
+"07-27": [
+    "1830: The July Revolution begins in France, overthrowing Charles X.",
+    "1921: Frederick Banting and Charles Best isolate insulin.",
+    "1953: The Korean War armistice is signed, ending active conflict."
+],
+"07-28": [
+    "1540: Thomas Cromwell is executed on orders of Henry VIII.",
+    "1914: Austria-Hungary declares war on Serbia, starting World War I.",
+    "1932: U.S. troops disperse the Bonus Army in Washington, D.C."
+],
+"07-29": [
+    "1588: The Spanish Armada is defeated by the English navy.",
+    "1958: NASA is established by the U.S. government.",
+    "1981: Prince Charles marries Lady Diana Spencer in a global broadcast."
+],
+"07-30": [
+    "762: Baghdad is founded by Caliph Al-Mansur as the Abbasid capital.",
+    "1863: Henry Ford, automobile pioneer, is born.",
+    "1966: England wins the FIFA World Cup, defeating West Germany."
+],
+"07-31": [
+    "1498: Christopher Columbus discovers Trinidad on his third voyage.",
+    "1703: Daniel Defoe is pilloried for seditious libel.",
+    "1971: Apollo 15 astronauts become the first to ride the Lunar Rover."
+],
+"08-01": [
+    "1834: Slavery is abolished throughout the British Empire.",
+    "1914: Germany declares war on Russia, marking the start of World War I.",
+    "1981: MTV launches, airing its first music video, 'Video Killed the Radio Star.'"
+],
+"08-02": [
+    "1776: The Declaration of Independence is formally signed by Congress.",
+    "1870: The Tower Subway, the world’s first underground railway, opens in London.",
+    "1990: Iraq invades Kuwait, triggering the Gulf War."
+],
+"08-03": [
+    "1492: Christopher Columbus sets sail from Spain on his first voyage.",
+    "1914: Germany declares war on France in World War I.",
+    "1958: The USS Nautilus becomes the first submarine to reach the North Pole."
+],
+"08-04": [
+    "1693: Dom Pérignon allegedly invents champagne (date disputed).",
+    "1944: Anne Frank and her family are arrested by the Gestapo in Amsterdam.",
+    "1977: The U.S. Department of Energy is established."
+],
+"08-05": [
+    "1583: Sir Humphrey Gilbert claims Newfoundland for England.",
+    "1962: Marilyn Monroe is found dead in her Los Angeles home.",
+    "2019: India revokes Article 370, changing Jammu and Kashmir’s special status."
+],
+"08-06": [
+    "1806: The Holy Roman Empire is dissolved by Emperor Francis II.",
+    "1945: The U.S. drops an atomic bomb on Hiroshima, Japan.",
+    "1991: Tim Berners-Lee releases the first website, launching the World Wide Web."
+],
+"08-07": [
+    "1782: George Washington creates the Purple Heart medal.",
+    "1947: Thor Heyerdahl’s Kon-Tiki completes its Pacific journey.",
+    "1998: U.S. embassies in Kenya and Tanzania are bombed by al-Qaeda."
+],
+"08-08": [
+    "1588: The English defeat the Spanish Armada off Gravelines.",
+    "1963: The Great Train Robbery occurs in England, stealing £2.6 million.",
+    "1974: Richard Nixon announces his resignation amid the Watergate scandal."
+],
+"08-09": [
+    "48 BC: Julius Caesar defeats Pompey at the Battle of Pharsalus.",
+    "1945: The U.S. drops an atomic bomb on Nagasaki, Japan.",
+    "1965: Singapore becomes independent from Malaysia."
+],
+"08-10": [
+    "1519: Ferdinand Magellan departs Seville on his circumnavigation voyage.",
+    "1846: The Smithsonian Institution is established by the U.S. Congress.",
+    "1990: The Magellan spacecraft begins mapping Venus."
+],
+"08-11": [
+    "3114 BC: The Mayan Long Count calendar begins (traditional date).",
+    "1960: Chad gains independence from France.",
+    "2014: Robin Williams, actor and comedian, dies by suicide."
+],
+"08-12": [
+    "30 BC: Cleopatra VII commits suicide, ending the Ptolemaic dynasty.",
+    "1851: Isaac Singer patents the sewing machine.",
+    "1981: IBM releases the IBM PC, standardizing personal computing."
+],
+"08-13": [
+    "1521: Spanish conquistadors capture Tenochtitlán, ending the Aztec Empire.",
+    "1961: Construction of the Berlin Wall begins in East Germany.",
+    "2004: The Athens Summer Olympics open."
+],
+"08-14": [
+    "1040: King Duncan I of Scotland is killed by Macbeth (historical basis).",
+    "1947: Pakistan gains independence from Britain, a day before India.",
+    "2003: A massive blackout affects the northeastern U.S. and Canada."
+],
+"08-15": [
+    "1769: Napoleon Bonaparte is born in Corsica.",
+    "1947: India gains independence from British rule.",
+    "1969: The Woodstock music festival begins in New York."
+],
+"08-16": [
+    "1819: The Peterloo Massacre occurs in Manchester, England.",
+    "1896: Gold is discovered in the Klondike, sparking the Gold Rush.",
+    "1977: Elvis Presley, the King of Rock and Roll, dies."
+],
+"08-17": [
+    "1661: The Peace of Oliva ends the First Northern War.",
+    "1945: Indonesia declares independence from the Netherlands.",
+    "1999: A 7.6 magnitude earthquake strikes Izmit, Turkey, killing over 17,000."
+],
+"08-18": [
+    "1227: Genghis Khan, Mongol Empire founder, dies.",
+    "1920: The 19th Amendment grants U.S. women the right to vote.",
+    "1966: The Battle of Long Tan occurs during the Vietnam War."
+],
+"08-19": [
+    "14: Roman Emperor Augustus dies, succeeded by Tiberius.",
+    "1934: Adolf Hitler becomes Führer of Germany in a referendum.",
+    "1991: A coup attempt against Mikhail Gorbachev fails in the Soviet Union."
+],
+"08-20": [
+    "1858: Charles Darwin first publishes his theory of evolution.",
+    "1940: Leon Trotsky is assassinated in Mexico City.",
+    "1968: The Soviet Union invades Czechoslovakia to crush the Prague Spring."
+],
+"08-21": [
+    "1680: Pueblo Indians revolt against Spanish rule in New Mexico.",
+    "1959: Hawaii becomes the 50th U.S. state.",
+    "1991: Latvia declares independence from the Soviet Union."
+],
+"08-22": [
+    "1485: The Battle of Bosworth Field ends the Wars of the Roses.",
+    "1851: The yacht America wins the first America’s Cup race.",
+    "2007: The Storm botnet sends out a record number of spam emails."
+],
+"08-23": [
+    "1305: William Wallace is executed by the English for treason.",
+    "1926: Silent film star Rudolph Valentino dies at age 31.",
+    "1939: The Nazi-Soviet Pact is signed, shocking the world."
+],
+"08-24": [
+    "79: Mount Vesuvius erupts, burying Pompeii and Herculaneum.",
+    "1814: British troops burn Washington, D.C., during the War of 1812.",
+    "1991: Ukraine declares independence from the Soviet Union."
+],
+"08-25": [
+    "1609: Galileo Galilei demonstrates his first telescope in Venice.",
+    "1944: Paris is liberated from Nazi occupation by Allied forces.",
+    "1989: Voyager 2 flies by Neptune, sending back stunning images."
+],
+"08-26": [
+    "1346: The Battle of Crécy sees English longbows defeat French knights.",
+    "1789: The Declaration of the Rights of Man is issued in France.",
+    "1920: The 19th Amendment is certified, securing U.S. women’s suffrage."
+],
+"08-27": [
+    "1859: The first commercial oil well is drilled in Pennsylvania.",
+    "1883: Krakatoa erupts, causing global climate changes.",
+    "1962: NASA launches Mariner 2, the first spacecraft to visit Venus."
+],
+"08-28": [
+    "1833: The Slavery Abolition Act receives royal assent in Britain.",
+    "1963: Martin Luther King Jr. delivers his 'I Have a Dream' speech.",
+    "1996: Charles and Diana, Prince and Princess of Wales, divorce."
+],
+"08-29": [
+    "1533: Atahualpa, the last Inca emperor, is executed by the Spanish.",
+    "1949: The Soviet Union tests its first atomic bomb.",
+    "2005: Hurricane Katrina devastates New Orleans and the Gulf Coast."
+],
+"08-30": [
+    "30 BC: Cleopatra’s death marks the end of Ptolemaic Egypt.",
+    "1918: Lenin survives an assassination attempt in Moscow.",
+    "1963: The Moscow-Washington hotline is established."
+],
+"08-31": [
+    "1888: Jack the Ripper’s first victim, Mary Ann Nichols, is found in London.",
+    "1997: Princess Diana dies in a car crash in Paris.",
+    "2006: Edvard Munch’s 'The Scream' is recovered after being stolen."
+],
+"09-01": [
+    "1859: The first Pullman sleeping car is introduced on a U.S. railroad.",
+    "1939: Nazi Germany invades Poland, beginning World War II.",
+    "1985: The wreck of the Titanic is discovered by Robert Ballard."
+],
+"09-02": [
+    "31 BC: The Battle of Actium secures Octavian’s power over Rome.",
+    "1666: The Great Fire of London begins, destroying much of the city.",
+    "1945: Japan formally surrenders aboard the USS Missouri, ending WWII."
+],
+"09-03": [
+    "1658: Oliver Cromwell, Lord Protector of England, dies.",
+    "1783: The Treaty of Paris ends the American Revolutionary War.",
+    "1971: Qatar gains independence from Britain."
+],
+"09-04": [
+    "476: Romulus Augustulus is deposed, marking the fall of the Western Roman Empire.",
+    "1886: Apache leader Geronimo surrenders, ending major Indian Wars in the U.S.",
+    "1998: Google is founded by Larry Page and Sergey Brin."
+],
+"09-05": [
+    "1698: Tsar Peter the Great imposes a tax on beards in Russia.",
+    "1972: The Munich Olympics massacre occurs, killing 11 Israeli athletes.",
+    "1997: Mother Teresa, Indian missionary and saint, dies in Kolkata."
+],
+"09-06": [
+    "1522: The Victoria completes the first circumnavigation of the globe.",
+    "1901: President William McKinley is shot, dying eight days later.",
+    "1991: The Soviet Union recognizes the independence of the Baltic states."
+],
+"09-07": [
+    "1533: Queen Elizabeth I of England is born.",
+    "1822: Brazil declares independence from Portugal.",
+    "1940: The Blitz begins as Germany bombs London during WWII."
+],
+"09-08": [
+    "1504: Michelangelo’s statue of David is unveiled in Florence.",
+    "1966: 'Star Trek' premieres on NBC television.",
+    "1974: President Gerald Ford pardons Richard Nixon."
+],
+"09-09": [
+    "9: The Battle of Teutoburg Forest halts Roman expansion into Germania.",
+    "1850: California becomes the 31st U.S. state.",
+    "1948: North Korea is established as a communist state."
+],
+"09-10": [
+    "1898: Empress Elisabeth of Austria is assassinated in Geneva.",
+    "1960: Abebe Bikila wins the Olympic marathon barefoot, a historic first.",
+    "2008: The Large Hadron Collider is powered up at CERN."
+],
+"09-11": [
+    "1297: The Battle of Stirling Bridge secures Scottish independence under William Wallace.",
+    "2001: Terrorist attacks destroy the World Trade Center and hit the Pentagon.",
+    "2012: The U.S. consulate in Benghazi, Libya, is attacked, killing four."
+],
+"09-12": [
+    "490 BC: The Battle of Marathon sees Athens defeat Persia.",
+    "1940: The Lascaux Cave paintings are discovered in France.",
+    "1953: John F. Kennedy marries Jacqueline Bouvier."
+],
+"09-13": [
+    "1814: Francis Scott Key writes 'The Star-Spangled Banner' during the War of 1812.",
+    "1988: Hurricane Gilbert devastates Jamaica and Mexico.",
+    "1993: The Oslo Accords are signed between Israel and the PLO."
+],
+"09-14": [
+    "1741: George Frideric Handel completes his oratorio 'Messiah.'",
+    "1812: Napoleon enters Moscow, only to find it burning.",
+    "1901: Theodore Roosevelt becomes U.S. President after McKinley’s death."
+],
+"09-15": [
+    "1835: HMS Beagle, with Charles Darwin aboard, reaches the Galápagos Islands.",
+    "1916: Tanks are used for the first time in battle at the Somme.",
+    "2008: Lehman Brothers files for bankruptcy, triggering a global financial crisis."
+],
+"09-16": [
+    "1620: The Mayflower departs England for the New World.",
+    "1810: Mexico’s fight for independence from Spain begins with the Grito de Dolores.",
+    "1963: Malaysia is formed by uniting Malaya, Singapore, and other territories."
+],
+"09-17": [
+    "1787: The U.S. Constitution is signed in Philadelphia.",
+    "1862: The Battle of Antietam becomes the bloodiest day in American history.",
+    "1983: Vanessa Williams becomes the first Black Miss America."
+],
+"09-18": [
+    "96: Roman Emperor Domitian is assassinated.",
+    "1851: The first edition of The New York Times is published.",
+    "1975: Patty Hearst is arrested after a year as a fugitive with the SLA."
+],
+"09-19": [
+    "1356: The Battle of Poitiers sees England defeat France in the Hundred Years’ War.",
+    "1893: New Zealand becomes the first country to grant women the vote.",
+    "1982: The first emoticons, :-) and :-(, are posted online."
+],
+"09-20": [
+    "1519: Ferdinand Magellan begins his circumnavigation of the globe.",
+    "1857: The British recapture Delhi, ending the Indian Rebellion of 1857.",
+    "1973: Billie Jean King defeats Bobby Riggs in the 'Battle of the Sexes' tennis match."
+],
+"09-21": [
+    "1792: The French monarchy is abolished during the Revolution.",
+    "1937: J.R.R. Tolkien’s 'The Hobbit' is published.",
+    "1981: Belize gains independence from the United Kingdom."
+],
+"09-22": [
+    "1499: The Treaty of Basel ends the Swabian War in the Holy Roman Empire.",
+    "1862: Abraham Lincoln issues the preliminary Emancipation Proclamation.",
+    "1991: The Dead Sea Scrolls are made available to the public."
+],
+"09-23": [
+    "63 BC: Augustus, the first Roman Emperor, is born.",
+    "1846: Neptune is discovered by Johann Galle based on mathematical predictions.",
+    "1962: 'The Jetsons' premieres as the first color TV program on ABC."
+],
+"09-24": [
+    "622: Muhammad completes the Hijra from Mecca to Medina.",
+    "1789: The U.S. Congress establishes the federal judiciary.",
+    "1957: The Little Rock Nine integrate Central High School amid resistance."
+],
+"09-25": [
+    "1066: The Battle of Stamford Bridge ends the Viking invasions of England.",
+    "1513: Vasco Núñez de Balboa becomes the first European to see the Pacific Ocean.",
+    "1983: India wins the Cricket World Cup, defeating West Indies."
+],
+"09-26": [
+    "1580: Francis Drake completes his circumnavigation of the globe.",
+    "1960: The first televised U.S. presidential debate airs (Kennedy vs. Nixon).",
+    "1983: Stanislav Petrov averts a nuclear war by ignoring a false alarm."
+],
+"09-27": [
+    "1540: The Society of Jesus (Jesuits) is approved by Pope Paul III.",
+    "1825: The Stockton and Darlington Railway, the first public railway, opens.",
+    "1998: Google launches its search engine publicly."
+],
+"09-28": [
+    "1066: William the Conqueror invades England, beginning the Norman Conquest.",
+    "1928: Alexander Fleming discovers penicillin, the first antibiotic.",
+    "1994: The ferry Estonia sinks in the Baltic Sea, killing 852."
+],
+"09-29": [
+    "522 BC: Darius I of Persia kills the usurper Gaumata, securing his throne.",
+    "1918: Allied forces break through the Hindenburg Line in WWI.",
+    "2006: Gol Transportes Aéreos Flight 1907 crashes in Brazil, killing 154."
+],
+"09-30": [
+    "1399: Henry IV is proclaimed King of England after deposing Richard II.",
+    "1955: James Dean dies in a car crash at age 24.",
+    "1966: Botswana gains independence from the United Kingdom."
+],
+"10-01": [
+    "1869: Austria issues the world’s first postcards.",
+    "1949: The People’s Republic of China is founded by Mao Zedong.",
+    "1962: Johnny Carson hosts his first episode of 'The Tonight Show.'"
+],
+"10-02": [
+    "1869: Mahatma Gandhi is born in Porbandar, India.",
+    "1950: The comic strip 'Peanuts' by Charles M. Schulz debuts.",
+    "2002: The Beltway sniper attacks begin in the Washington, D.C., area."
+],
+"10-03": [
+    "52 BC: Vercingetorix surrenders to Julius Caesar, ending the Gallic Wars.",
+    "1990: Germany is reunified as East and West Germany merge.",
+    "2008: The U.S. Congress passes a $700 billion bailout for the financial crisis."
+],
+"10-04": [
+    "1535: The first complete English Bible is printed by Miles Coverdale.",
+    "1957: The Soviet Union launches Sputnik 1, the first artificial satellite.",
+    "1988: India’s INSAT-1C satellite fails shortly after launch."
+],
+"10-05": [
+    "1793: The French Revolutionary government abolishes Christianity in France.",
+    "1962: The first James Bond film, 'Dr. No,' is released.",
+    "2011: Steve Jobs, co-founder of Apple, dies of cancer."
+],
+"10-06": [
+    "1889: The Moulin Rouge opens in Paris.",
+    "1973: The Yom Kippur War begins with a surprise attack on Israel.",
+    "1981: Egyptian President Anwar Sadat is assassinated."
+],
+"10-07": [
+    "1571: The Battle of Lepanto sees a Christian fleet defeat the Ottomans.",
+    "1919: KLM, the world’s oldest airline still operating, is founded.",
+    "2001: The U.S. invades Afghanistan following the 9/11 attacks."
+],
+"10-08": [
+    "1871: The Great Chicago Fire begins, killing hundreds.",
+    "1918: U.S. Corporal Alvin York single-handedly captures 132 German soldiers.",
+    "1967: Che Guevara is captured in Bolivia."
+],
+"10-09": [
+    "1000: Leif Erikson lands in North America, centuries before Columbus.",
+    "1967: Che Guevara is executed in Bolivia.",
+    "1986: 'The Phantom of the Opera' musical premieres in London."
+],
+"10-10": [
+    "732: The Battle of Tours halts Muslim expansion into Western Europe.",
+    "1845: The U.S. Naval Academy opens in Annapolis, Maryland.",
+    "1970: Fiji gains independence from the United Kingdom."
+],
+"10-11": [
+    "1809: Meriwether Lewis, of Lewis and Clark fame, dies under mysterious circumstances.",
+    "1968: Apollo 7, the first manned Apollo mission, launches.",
+    "1975: 'Saturday Night Live' debuts on NBC."
+],
+"10-12": [
+    "1492: Christopher Columbus lands in the Americas.",
+    "1810: The first Oktoberfest is held in Munich, Germany.",
+    "2002: A terrorist bombing in Bali kills 202 people."
+],
+"10-13": [
+    "54: Roman Emperor Claudius dies, possibly poisoned by Agrippina.",
+    "1307: Hundreds of Knights Templar are arrested in France.",
+    "2010: The Chilean miners are rescued after 69 days underground."
+],
+"10-14": [
+    "1066: The Battle of Hastings secures William the Conqueror’s claim to England.",
+    "1947: Chuck Yeager breaks the sound barrier in the Bell X-1.",
+    "1964: Martin Luther King Jr. wins the Nobel Peace Prize."
+],
+"10-15": [
+    "1582: The Gregorian calendar is adopted, skipping 10 days in some regions.",
+    "1815: Napoleon begins his exile on Saint Helena.",
+    "1991: Clarence Thomas is confirmed to the U.S. Supreme Court."
+],
+"10-16": [
+    "1793: Marie Antoinette is guillotined during the French Revolution.",
+    "1854: Oscar Wilde, Irish playwright, is born.",
+    "1978: John Paul II becomes the first non-Italian pope in 455 years."
+],
+"10-17": [
+    "1346: The Battle of Neville’s Cross sees England defeat Scotland.",
+    "1931: Al Capone is convicted of tax evasion.",
+    "1989: The Loma Prieta earthquake strikes San Francisco, killing 63."
+],
+"10-18": [
+    "1009: The Church of the Holy Sepulchre is destroyed by Fatimid caliph Al-Hakim.",
+    "1867: The U.S. formally takes possession of Alaska from Russia.",
+    "1922: The BBC is founded in London."
+],
+"10-19": [
+    "202 BC: The Battle of Zama ends the Second Punic War.",
+    "1781: Cornwallis surrenders at Yorktown, ending the American Revolutionary War.",
+    "1987: Black Monday: Stock markets crash worldwide."
+],
+"10-20": [
+    "1803: The U.S. Senate ratifies the Louisiana Purchase.",
+    "1944: General MacArthur returns to the Philippines during WWII.",
+    "1973: The Sydney Opera House officially opens."
+],
+"10-21": [
+    "1805: The Battle of Trafalgar secures British naval supremacy.",
+    "1879: Thomas Edison tests the first practical incandescent light bulb.",
+    "1966: The Aberfan disaster kills 144 in Wales when a coal tip collapses."
+],
+"10-22": [
+    "362: The Temple of Apollo at Daphne is destroyed in a fire.",
+    "1962: The Cuban Missile Crisis escalates as Kennedy addresses the nation.",
+    "2018: India’s Chandrayaan-2 mission is prepared for lunar exploration."
+],
+"10-23": [
+    "42 BC: Brutus commits suicide after defeat at the Battle of Philippi.",
+    "1983: A truck bombing in Beirut kills 241 U.S. Marines.",
+    "2001: Apple releases the first iPod."
+],
+"10-24": [
+    "1648: The Peace of Westphalia ends the Thirty Years’ War.",
+    "1929: Black Thursday: The Wall Street Crash begins.",
+    "1945: The United Nations is officially established."
+],
+"10-25": [
+    "1415: The Battle of Agincourt sees England defeat France in the Hundred Years’ War.",
+    "1854: The Charge of the Light Brigade occurs during the Crimean War.",
+    "1983: The U.S. invades Grenada."
+],
+"10-26": [
+    "1774: The First Continental Congress adjourns in Philadelphia.",
+    "1881: The Gunfight at the O.K. Corral takes place in Tombstone, Arizona.",
+    "2001: The U.S. Patriot Act is signed into law."
+],
+"10-27": [
+    "312: Constantine the Great has his vision before the Battle of Milvian Bridge.",
+    "1962: The Cuban Missile Crisis ends as the Soviet Union agrees to remove missiles.",
+    "1997: The Dow Jones Industrial Average drops 554 points."
+],
+"10-28": [
+    "1492: Christopher Columbus lands in Cuba.",
+    "1886: The Statue of Liberty is dedicated in New York Harbor.",
+    "1962: India and China cease fire in the Sino-Indian War."
+],
+"10-29": [
+    "1618: Sir Walter Raleigh is executed in London.",
+    "1929: Black Tuesday: The stock market crash deepens the Great Depression.",
+    "1998: Space Shuttle Discovery launches with John Glenn, age 77."
+],
+"10-30": [
+    "1485: Henry VII is crowned King of England.",
+    "1938: Orson Welles’ 'War of the Worlds' broadcast causes panic.",
+    "1975: Franco’s dictatorship in Spain begins to crumble as he falls ill."
+],
+"10-31": [
+    "1517: Martin Luther posts his 95 Theses, sparking the Protestant Reformation.",
+    "1926: Harry Houdini, magician and escape artist, dies.",
+    "1984: Indian Prime Minister Indira Gandhi is assassinated."
+],
+"11-01": [
+    "1512: Michelangelo’s Sistine Chapel ceiling is first exhibited.",
+    "1755: A massive earthquake devastates Lisbon, Portugal.",
+    "1952: The U.S. detonates the first hydrogen bomb at Eniwetok Atoll."
+],
+"11-02": [
+    "1889: North Dakota and South Dakota become the 39th and 40th U.S. states.",
+    "1917: The Balfour Declaration supports a Jewish homeland in Palestine.",
+    "1983: Martin Luther King Jr. Day is established as a U.S. federal holiday."
+],
+"11-03": [
+    "1493: Christopher Columbus sights Dominica on his second voyage.",
+    "1957: The Soviet Union launches Sputnik 2 with Laika, the first animal in orbit.",
+    "1975: India launches its first rocket, Rohini-125, from Sriharikota."
+],
+"11-04": [
+    "1576: Eighty Years’ War: Spanish troops sack Antwerp.",
+    "1922: Howard Carter discovers the entrance to Tutankhamun’s tomb.",
+    "1979: The Iran Hostage Crisis begins as militants seize the U.S. Embassy."
+],
+"11-05": [
+    "1605: The Gunpowder Plot to blow up British Parliament is foiled.",
+    "1872: Susan B. Anthony votes illegally, advancing women’s suffrage.",
+    "2007: China launches its first lunar probe, Chang’e 1."
+],
+"11-06": [
+    "1860: Abraham Lincoln is elected the 16th U.S. President.",
+    "1913: Mahatma Gandhi is arrested during a march in South Africa.",
+    "1985: The hijacking of EgyptAir Flight 648 ends with 60 deaths."
+],
+"11-07": [
+    "1665: The London Gazette, one of the oldest newspapers, is first published.",
+    "1917: The Bolshevik Revolution begins in Russia.",
+    "1991: Magic Johnson announces he is HIV-positive and retires from basketball."
+],
+"11-08": [
+    "1519: Hernán Cortés enters Tenochtitlán, welcomed by Moctezuma II.",
+    "1895: Wilhelm Röntgen discovers X-rays.",
+    "1960: John F. Kennedy wins the U.S. presidential election."
+],
+"11-09": [
+    "1799: Napoleon overthrows the French Directory in a coup.",
+    "1938: Kristallnacht, a Nazi pogrom against Jews, occurs in Germany.",
+    "1989: The Berlin Wall falls, symbolizing the end of the Cold War."
+],
+"11-10": [
+    "1483: Martin Luther, Protestant reformer, is born.",
+    "1871: Henry Morton Stanley locates Dr. David Livingstone in Africa.",
+    "1975: The SS Edmund Fitzgerald sinks in Lake Superior, killing 29."
+],
+"11-11": [
+    "1620: The Mayflower Compact is signed by Pilgrims aboard the ship.",
+    "1918: World War I ends with the armistice at 11 a.m.",
+    "2004: Yasser Arafat, Palestinian leader, dies in France."
+],
+"11-12": [
+    "1035: King Cnut the Great of Denmark, England, and Norway dies.",
+    "1948: The International Military Tribunal for the Far East convicts Japanese war criminals.",
+    "1990: Tim Berners-Lee publishes a proposal for the World Wide Web."
+],
+"11-13": [
+    "1002: The St. Brice’s Day massacre sees Danes in England killed.",
+    "1851: The Denny Party lands at Alki Point, founding Seattle.",
+    "1982: The Vietnam Veterans Memorial is dedicated in Washington, D.C."
+],
+"11-14": [
+    "1666: Samuel Pepys reports the first blood transfusion (on a dog).",
+    "1889: Nellie Bly begins her 72-day trip around the world.",
+    "1971: Mariner 9 becomes the first spacecraft to orbit Mars."
+],
+"11-15": [
+    "1777: The Articles of Confederation are adopted by the Continental Congress.",
+    "1920: The League of Nations holds its first assembly in Geneva.",
+    "1988: The Soviet Buran space shuttle completes its only flight."
+],
+"11-16": [
+    "1532: Francisco Pizarro captures Inca Emperor Atahualpa.",
+    "1907: Oklahoma becomes the 46th U.S. state.",
+    "2001: 'Harry Potter and the Sorcerer’s Stone' film premieres."
+],
+"11-17": [
+    "1558: Elizabeth I ascends to the English throne.",
+    "1800: The U.S. Congress holds its first session in Washington, D.C.",
+    "1970: The Soviet Luna 17 lands the first rover, Lunokhod 1, on the Moon."
+],
+"11-18": [
+    "1307: William Tell shoots an apple off his son’s head (legendary date).",
+    "1928: Mickey Mouse appears in 'Steamboat Willie,' his first sound cartoon.",
+    "1978: The Jonestown massacre claims 918 lives in Guyana."
+],
+"11-19": [
+    "1493: Christopher Columbus lands on an island he names San Juan Bautista (Puerto Rico).",
+    "1863: Abraham Lincoln delivers the Gettysburg Address.",
+    "1969: Pelé scores his 1,000th career goal in soccer."
+],
+"11-20": [
+    "284: Diocletian becomes Roman Emperor, ending the Crisis of the Third Century.",
+    "1945: The Nuremberg Trials of Nazi war criminals begin.",
+    "1985: Microsoft releases Windows 1.0."
+],
+"11-21": [
+    "164 BC: Judas Maccabeus rededicates the Temple in Jerusalem (Hanukkah’s origin).",
+    "1877: Thomas Edison announces the invention of the phonograph.",
+    "1974: The IRA bombs pubs in Birmingham, England, killing 21."
+],
+"11-22": [
+    "1718: Blackbeard the pirate is killed off North Carolina.",
+    "1963: John F. Kennedy is assassinated in Dallas, Texas.",
+    "1995: Toy Story, the first fully CGI-animated film, is released."
+],
+"11-23": [
+    "534 BC: Thespis becomes the first actor, stepping out of the Greek chorus.",
+    "1887: The comic opera 'The Mikado' premieres in New York.",
+    "2005: Angela Merkel becomes Germany’s first female Chancellor."
+],
+"11-24": [
+    "1642: Abel Tasman discovers Tasmania, naming it Van Diemen’s Land.",
+    "1859: Charles Darwin publishes 'On the Origin of Species.'",
+    "1971: D.B. Cooper hijacks a plane and parachutes away with $200,000."
+],
+"11-25": [
+    "1177: The Battle of Montgisard sees Crusaders defeat Saladin.",
+    "1952: Agatha Christie’s 'The Mousetrap' opens in London, still running today.",
+    "1986: The Iran-Contra affair is revealed in the U.S."
+],
+"11-26": [
+    "1789: The first national Thanksgiving is celebrated in the U.S.",
+    "1922: Howard Carter and Lord Carnarvon enter Tutankhamun’s tomb.",
+    "1942: 'Casablanca,' starring Humphrey Bogart, premieres."
+],
+"11-27": [
+    "1095: Pope Urban II calls for the First Crusade at the Council of Clermont.",
+    "1971: The Soviet Mars 2 orbiter reaches Mars.",
+    "2001: India conducts a successful test of the BrahMos missile."
+],
+"11-28": [
+    "1520: Ferdinand Magellan enters the Pacific Ocean from the Atlantic.",
+    "1943: The Tehran Conference begins with Roosevelt, Churchill, and Stalin.",
+    "1960: Mauritania gains independence from France."
+],
+"11-29": [
+    "1877: Thomas Edison demonstrates the phonograph for the first time.",
+    "1947: The UN votes to partition Palestine, leading to Israel’s creation.",
+    "1963: The Beatles release 'I Want to Hold Your Hand.'"
+],
+"11-30": [
+    "334 BC: Alexander the Great defeats Darius III at the Battle of Gaugamela.",
+    "1939: The Soviet Union invades Finland, starting the Winter War.",
+    "1995: Bill Clinton becomes the first U.S. President to visit Northern Ireland."
+],
+"12-01": [
+    "1825: Tsar Alexander I of Russia dies, succeeded by Nicholas I.",
+    "1955: Rosa Parks refuses to give up her bus seat, sparking the Montgomery Bus Boycott.",
+    "1990: The Channel Tunnel workers from the U.K. and France meet underground."
+],
+"12-02": [
+    "1804: Napoleon crowns himself Emperor of the French.",
+    "1859: John Brown is hanged for his raid on Harpers Ferry.",
+    "1971: The United Arab Emirates is formed as a federation."
+],
+"12-03": [
+    "1818: Illinois becomes the 21st U.S. state.",
+    "1967: The first human heart transplant is performed by Christiaan Barnard.",
+    "1984: The Bhopal disaster in India kills thousands due to a gas leak."
+],
+"12-04": [
+    "771: Charlemagne becomes sole ruler of the Frankish Kingdom.",
+    "1791: The Observer, the world’s oldest Sunday newspaper, is first published.",
+    "1971: India enters the Bangladesh Liberation War, aiding independence."
+],
+"12-05": [
+    "1484: Pope Innocent VIII issues a bull leading to the witch hunts.",
+    "1933: Prohibition ends in the U.S. with the 21st Amendment.",
+    "2005: The Civil Partnership Act takes effect in the U.K."
+],
+"12-06": [
+    "1240: Kyiv is sacked by the Mongols under Batu Khan.",
+    "1917: Finland declares independence from Russia.",
+    "1921: The Anglo-Irish Treaty establishes the Irish Free State."
+],
+"12-07": [
+    "43 BC: Cicero, Roman orator, is executed by the Second Triumvirate.",
+    "1941: Japan attacks Pearl Harbor, bringing the U.S. into WWII.",
+    "1988: A 6.8 magnitude earthquake devastates Armenia, killing over 25,000."
+],
+"12-08": [
+    "1660: A woman appears on an English stage for the first time, likely as Desdemona.",
+    "1980: John Lennon is assassinated in New York City.",
+    "1991: The Soviet Union’s dissolution is formalized by the Belavezha Accords."
+],
+"12-09": [
+    "536: Byzantine General Belisarius enters Rome during the Gothic War.",
+    "1965: The Kecksburg UFO incident occurs in Pennsylvania.",
+    "2014: India’s INS Vikrant, its first indigenous aircraft carrier, begins construction."
+],
+"12-10": [
+    "1520: Martin Luther publicly burns the papal bull excommunicating him.",
+    "1901: The first Nobel Prizes are awarded in Stockholm.",
+    "1948: The UN adopts the Universal Declaration of Human Rights."
+],
+"12-11": [
+    "361: Julian the Apostate enters Constantinople as Roman Emperor.",
+    "1936: King Edward VIII abdicates to marry Wallis Simpson.",
+    "2001: China joins the World Trade Organization."
+],
+"12-12": [
+    "627: The Battle of Nineveh secures Byzantine victory over the Sassanids.",
+    "1901: Guglielmo Marconi receives the first transatlantic radio signal.",
+    "1985: Arrow Air Flight 1285 crashes in Newfoundland, killing 256."
+],
+"12-13": [
+    "1577: Francis Drake begins his circumnavigation from Plymouth, England.",
+    "1642: Abel Tasman becomes the first European to sight New Zealand.",
+    "2003: Saddam Hussein is captured by U.S. forces in Iraq."
+],
+"12-14": [
+    "557: A massive earthquake damages Constantinople.",
+    "1911: Roald Amundsen reaches the South Pole.",
+    "1962: Mariner 2 becomes the first spacecraft to fly by Venus."
+],
+"12-15": [
+    "1791: The U.S. Bill of Rights is ratified.",
+    "1890: Lakota leader Sitting Bull is killed by police.",
+    "2001: The Leaning Tower of Pisa reopens after 11 years of stabilization."
+],
+"12-16": [
+    "755: An Lushan launches a rebellion against the Tang Dynasty in China.",
+    "1773: The Boston Tea Party protests British tea taxes.",
+    "1944: The Battle of the Bulge begins in WWII."
+],
+"12-17": [
+    "546: Rome is sacked by the Ostrogoths under Totila.",
+    "1903: The Wright brothers make the first powered flight at Kitty Hawk.",
+    "2010: The Tunisian Revolution begins, sparking the Arab Spring."
+],
+"12-18": [
+    "1271: Kublai Khan renames his empire 'Yuan,' founding the Yuan Dynasty.",
+    "1865: The 13th Amendment, abolishing slavery, is ratified in the U.S.",
+    "1916: The Battle of Verdun ends in WWI."
+],
+"12-19": [
+    "1776: Thomas Paine publishes 'The American Crisis.'",
+    "1984: The U.K. and China sign an agreement to return Hong Kong in 1997.",
+    "1998: Bill Clinton is impeached by the U.S. House of Representatives."
+],
+"12-20": [
+    "1192: Richard the Lionheart is captured by Leopold V of Austria.",
+    "1803: The Louisiana Purchase is formally transferred to the U.S.",
+    "1951: The first nuclear power plant generates electricity in Idaho."
+],
+"12-21": [
+    "1620: The Pilgrims land at Plymouth Rock.",
+    "1968: Apollo 8 launches, the first manned mission to orbit the Moon.",
+    "1988: Pan Am Flight 103 is bombed over Lockerbie, Scotland, killing 270."
+],
+"12-22": [
+    "69: Roman Emperor Vitellius is killed, ending the Year of the Four Emperors.",
+    "1885: Itō Hirobumi becomes Japan’s first Prime Minister.",
+    "1989: Romanian dictator Nicolae Ceaușescu is overthrown."
+],
+"12-23": [
+    "1783: George Washington resigns as commander-in-chief of the Continental Army.",
+    "1913: The Federal Reserve Act establishes the U.S. central banking system.",
+    "1972: An earthquake in Managua, Nicaragua, kills over 10,000."
+],
+"12-24": [
+    "1814: The Treaty of Ghent ends the War of 1812.",
+    "1968: Apollo 8 astronauts broadcast live from lunar orbit.",
+    "1997: India’s INSAT-2E satellite is launched for telecommunications."
+],
+"12-25": [
+    "800: Charlemagne is crowned Emperor of the Romans.",
+    "1066: William the Conqueror is crowned King of England.",
+    "1991: The Soviet Union officially dissolves."
+],
+"12-26": [
+    "1791: Charles Babbage, computing pioneer, is born.",
+    "1898: Marie and Pierre Curie announce the discovery of radium.",
+    "2004: A tsunami in the Indian Ocean kills over 230,000."
+],
+"12-27": [
+    "537: The Hagia Sophia is completed in Constantinople.",
+    "1831: Charles Darwin departs on the HMS Beagle voyage.",
+    "1932: Radio City Music Hall opens in New York City."
+],
+"12-28": [
+    "1065: Westminster Abbey is consecrated in London.",
+    "1895: The Lumière brothers screen the first public films in Paris.",
+    "1973: 'The Exorcist' film is released, causing widespread sensation."
+],
+"12-29": [
+    "1170: Thomas Becket is murdered in Canterbury Cathedral.",
+    "1890: The Wounded Knee Massacre kills over 150 Lakota in South Dakota.",
+    "1996: Guatemala and rebel forces sign a peace accord, ending a 36-year war."
+],
+"12-30": [
+    "1460: The Battle of Wakefield occurs during the Wars of the Roses.",
+    "1922: The Soviet Union is officially established.",
+    "2006: Saddam Hussein is executed in Iraq."
+],
+"12-31": [
+    "1600: The British East India Company is chartered.",
+    "1999: Boris Yeltsin resigns as Russia’s president, succeeded by Vladimir Putin.",
+    "2019: The WHO is informed of pneumonia cases in Wuhan, later identified as COVID-19."
+]
+    },
+    famousBirthdays: {
+        "01-01": [
+            "Paul Revere (1735) - American silversmith and Patriot.",
+            "Tipu Sultan (1750) - Indian ruler of Mysore, fought against British rule.",
+            "E.M. Forster (1879) - English novelist, wrote 'A Passage to India'."
+        ],
+        "01-02": [
+            "Isaac Asimov (1920) - Science fiction writer and biochemist.",
+            "Deepika Padukone (1986) - Indian actress, starred in 'Padmaavat'.",
+            "Kate Bosworth (1983) - American actress known for 'Superman Returns'."
+        ],
+        "01-03": [
+            "Cicero (106 BC) - Roman philosopher and orator.",
+            "Savitribai Phule (1831) - Indian social reformer and educator.",
+            "George Washington Carver (1864) - American agricultural scientist."
+        ],
+        "01-04": [
+    "Isaac Newton (1643) - English physicist and mathematician.",
+    "Aamir Khan (1965) - Indian actor and filmmaker, known for 'Lagaan'.",
+    "Louis Braille (1809) - Inventor of the Braille writing system."
+],
+"01-05": [
+    "Shah Jahan (1592) - Mughal Emperor, built the Taj Mahal.",
+    "Konrad Adenauer (1876) - First Chancellor of West Germany.",
+    "Parminder Nagra (1975) - British-Indian actress, starred in 'Bend It Like Beckham'."
+],
+"01-06": [
+    "Joan of Arc (1412) - French heroine and saint.",
+    "Kapil Dev (1959) - Indian cricketer, led India to 1983 World Cup win.",
+    "Rowan Atkinson (1955) - English comedian, known as Mr. Bean."
+],
+"01-07": [
+    "Pope Gregory XIII (1502) - Introduced the Gregorian calendar.",
+    "Rahul Khanna (1972) - Indian actor, known for 'The Emperor’s Club'.",
+    "Nicolas Cage (1964) - Actor, starred in 'National Treasure'."
+],
+"01-08": [
+    "Galileo Galilei (1564) - Italian astronomer and physicist.",
+    "A.R. Rahman (1967) - Indian composer, won Oscars for 'Slumdog Millionaire'.",
+    "Elvis Presley (1935) - Iconic rock and roll singer.",
+    "Ved Mangukiya (2009) - Young Indian Web developer.",
+    "kim jong un (1984) - Supreme Leader of North Korea."
+],
+"01-09": [
+    "Catherine of Aragon (1485) - First wife of Henry VIII.",
+    "Simone de Beauvoir (1908) - French existentialist philosopher.",
+    "Anuskha Sharma (1988) - Indian actress, starred in 'PK'."
+],
+"01-10": [
+    "George Foreman (1949) - Heavyweight boxing champion.",
+    "Hrithik Roshan (1974) - Indian actor, known for 'Krrish'.",
+    "Rod Stewart (1945) - British rock singer and songwriter."
+],
+"01-11": [
+    "Alexander Hamilton (1755) - U.S. Founding Father and Treasury Secretary.",
+    "Kailash Satyarthi (1954) - Indian Nobel Peace Prize winner for child rights.",
+    "Mary J. Blige (1971) - American R&B singer."
+],
+"01-12": [
+    "John Singer Sargent (1856) - American portrait painter.",
+    "Imran Khan (1983) - Indian actor, starred in 'Jaane Tu... Ya Jaane Na'.",
+    "Jeff Bezos (1964) - Founder of Amazon."
+],
+"01-13": [
+    "Edmund Spenser (1552) - English poet, wrote 'The Faerie Queene'.",
+    "Salman Khan (1965) - Indian actor, known for 'Bajrangi Bhaijaan'.",
+    "Orlando Bloom (1977) - Actor, known for 'Lord of the Rings'."
+],
+"01-14": [
+    "Benedict Arnold (1741) - American Revolutionary War general and traitor.",
+    "Faye Dunaway (1941) - Actress, starred in 'Bonnie and Clyde'.",
+    "Vikram Pandit (1957) - Indian-American banker, former Citigroup CEO."
+],
+"01-15": [
+    "Martin Luther King Jr. (1929) - Civil rights leader.",
+    "Molière (1622) - French playwright and actor.",
+    "Vijay Sethupathi (1978) - Indian actor, known for 'Super Deluxe'."
+],
+"01-16": [
+    "André Michelin (1853) - French industrialist, co-founder of Michelin.",
+    "Kate Moss (1974) - English supermodel.",
+    "Kabir Bedi (1946) - Indian actor, starred in 'Sandokan'."
+],
+"01-17": [
+    "Benjamin Franklin (1706) - U.S. Founding Father and inventor.",
+    "Vidya Balan (1979) - Indian actress, known for 'Kahaani'.",
+    "Jim Carrey (1962) - Canadian-American actor and comedian."
+],
+"01-18": [
+    "Daniel Webster (1782) - American statesman and orator.",
+    "Aishwarya Rai Bachchan (1973) - Indian actress and Miss World 1994.",
+    "Kevin Costner (1955) - Actor and director, starred in 'Dances with Wolves'."
+],
+"01-19": [
+    "James Watt (1736) - Scottish inventor, improved the steam engine.",
+    "Edgar Allan Poe (1809) - American writer and poet.",
+    "R. Madhavan (1970) - Indian actor, known for '3 Idiots'."
+],
+"01-20": [
+    "Buzz Aldrin (1930) - Astronaut, second man on the Moon.",
+    "Federico Fellini (1920) - Italian film director.",
+    "Sanya Malhotra (1992) - Indian actress, starred in 'Dangal'."
+],
+"01-21": [
+    "Thomas 'Stonewall' Jackson (1824) - Confederate general.",
+    "Ethan Allen (1738) - American Revolutionary War leader.",
+    "Hema Malini (1948) - Indian actress and politician."
+],
+"01-22": [
+    "Francis Bacon (1561) - English philosopher and statesman.",
+    "Shah Rukh Khan (1965) - Indian actor, known as 'King Khan'.",
+    "Sam Cooke (1931) - American soul singer."
+],
+"01-23": [
+    "John Hancock (1737) - American revolutionary, famous for his signature.",
+    "Subhas Chandra Bose (1897) - Indian freedom fighter.",
+    "Tiffani Thiessen (1974) - Actress, starred in 'Saved by the Bell'."
+],
+"01-24": [
+    "Hadrian (76) - Roman Emperor, built Hadrian’s Wall.",
+    "Neil Diamond (1941) - American singer-songwriter.",
+    "Riya Sen (1981) - Indian actress and model."
+],
+"01-25": [
+    "Robert Burns (1759) - Scottish poet and lyricist.",
+    "Virginia Woolf (1882) - English writer and modernist.",
+    "Cheteshwar Pujara (1988) - Indian cricketer."
+],
+"01-26": [
+    "Douglas MacArthur (1880) - American WWII general.",
+    "Paul Newman (1925) - Actor and philanthropist.",
+    "Hazel Keech (1987) - Indian actress and wife of Yuvraj Singh."
+],
+"01-27": [
+    "Wolfgang Amadeus Mozart (1756) - Austrian composer.",
+    "Lewis Carroll (1832) - Author of 'Alice’s Adventures in Wonderland'.",
+    "Tricky (1968) - British-Indian musician and producer."
+],
+"01-28": [
+    "Henry VII (1457) - First Tudor King of England.",
+    "Lala Lajpat Rai (1865) - Indian freedom fighter, 'Punjab Kesari'.",
+    "Elijah Wood (1981) - Actor, starred in 'Lord of the Rings'."
+],
+"01-29": [
+    "Thomas Paine (1737) - Revolutionary writer, authored 'Common Sense'.",
+    "W.C. Fields (1880) - American comedian and actor.",
+    "Sara Ali Khan (1995) - Indian actress, starred in 'Kedarnath'."
+],
+"01-30": [
+    "Franklin D. Roosevelt (1882) - 32nd U.S. President.",
+    "Priyanka Gandhi (1972) - Indian politician, Congress party leader.",
+    "Christian Bale (1974) - Actor, known for 'The Dark Knight'."
+],
+"01-31": [
+    "Franz Schubert (1797) - Austrian composer.",
+    "Jackie Robinson (1919) - First Black MLB player.",
+    "Preity Zinta (1975) - Indian actress, known for 'Kal Ho Naa Ho'."
+],
+"02-01": [
+    "Clark Gable (1901) - American actor, starred in 'Gone with the Wind'.",
+    "Sania Mirza (1986) - Indian tennis player, multiple Grand Slam winner.",
+    "Lisa Marie Presley (1968) - American singer, daughter of Elvis Presley."
+],
+"02-02": [
+    "James Joyce (1882) - Irish novelist, wrote 'Ulysses'.",
+    "Shakira (1977) - Colombian singer and dancer.",
+    "Farhan Akhtar (1974) - Indian filmmaker and actor."
+],
+"02-03": [
+    "Felix Mendelssohn (1809) - German composer and pianist.",
+    "Amal Clooney (1978) - Lebanese-British human rights lawyer.",
+    "Amrita Sher-Gil (1913) - Indian painter, pioneer of modern art."
+],
+"02-04": [
+    "Charles Lindbergh (1902) - American aviator, first solo transatlantic flight.",
+    "Rosa Parks (1913) - Civil rights activist, sparked Montgomery Bus Boycott.",
+    "Urmila Matondkar (1974) - Indian actress, known for 'Rangeela'."
+],
+"02-05": [
+    "Robert Peel (1788) - British Prime Minister, founded modern police force.",
+    "Adnan Sami (1971) - Indian singer and musician.",
+    "Cristiano Ronaldo (1985) - Portuguese footballer."
+],
+"02-06": [
+    "Anne Stuart (1665) - Queen of Great Britain.",
+    "Ronald Reagan (1911) - 40th U.S. President.",
+    "Zsa Zsa Padilla (1964) - Filipina singer and actress of Indian descent."
+],
+"02-07": [
+    "Thomas More (1478) - English philosopher and statesman.",
+    "Ashton Kutcher (1978) - American actor and producer.",
+    "Sushant Singh Rajput (1986) - Indian actor, starred in 'M.S. Dhoni'."
+],
+"02-08": [
+    "Jules Verne (1828) - French author, wrote 'Twenty Thousand Leagues Under the Sea'.",
+    "Dmitri Mendeleev (1834) - Russian chemist, created the periodic table.",
+    "Jagjit Singh (1941) - Indian ghazal singer."
+],
+"02-09": [
+    "William Henry Harrison (1773) - 9th U.S. President.",
+    "Mia Farrow (1945) - American actress, starred in 'Rosemary’s Baby'.",
+    "Rahul Roy (1968) - Indian actor, known for 'Aashiqui'."
+],
+"02-10": [
+    "Charles Lamb (1775) - English essayist and poet.",
+    "Jimmy Shergill (1970) - Indian actor, known for 'Mohabbatein'.",
+    "Emma Roberts (1991) - American actress, starred in 'Scream Queens'."
+],
+"02-11": [
+    "Thomas Edison (1847) - American inventor of the light bulb.",
+    "Jennifer Aniston (1969) - American actress, known for 'Friends'.",
+    "Sherlyn Chopra (1984) - Indian actress and model."
+],
+"02-12": [
+    "Charles Darwin (1809) - English naturalist, developed theory of evolution.",
+    "Abraham Lincoln (1809) - 16th U.S. President.",
+    "Pran (1920) - Indian actor, famous Bollywood villain."
+],
+"02-13": [
+    "William Shockley (1910) - American physicist, co-invented the transistor.",
+    "Sarojini Naidu (1879) - Indian poet and freedom fighter, 'Nightingale of India'.",
+    "Robbie Williams (1974) - British singer-songwriter."
+],
+"02-14": [
+    "Babur (1483) - Founder of the Mughal Empire in India.",
+    "Frederick Douglass (1818) - American abolitionist and writer.",
+    "Madhubala (1933) - Indian actress, Bollywood icon."
+],
+"02-15": [
+    "Galileo Galilei (1564) - Italian astronomer and physicist.",
+    "Susan B. Anthony (1820) - American suffragist.",
+    "Kartik Aaryan (1990) - Indian actor, starred in 'Pyaar Ka Punchnama'."
+],
+"02-16": [
+    "Nichiren (1222) - Japanese Buddhist monk.",
+    "Kim Jong-il (1941) - Former North Korean leader.",
+    "Abhishek Bachchan (1976) - Indian actor, son of Amitabh Bachchan."
+],
+"02-17": [
+    "Arcangelo Corelli (1653) - Italian composer and violinist.",
+    "Michael Jordan (1963) - American basketball legend.",
+    "Parijat (1937) - Indian-Nepali writer, known for 'Shirish Ko Phool'."
+],
+"02-18": [
+    "Mary I of England (1516) - Queen, known as 'Bloody Mary'.",
+    "Dr. Dre (1965) - American rapper and producer.",
+    "Rakeysh Omprakash Mehra (1963) - Indian filmmaker, directed 'Rang De Basanti'."
+],
+"02-19": [
+    "Nicolaus Copernicus (1473) - Polish astronomer, proposed heliocentrism.",
+    "Shivaji (1630) - Indian warrior king, founder of the Maratha Empire.",
+    "Millie Bobby Brown (2004) - British actress, starred in 'Stranger Things'."
+],
+"02-20": [
+    "Voltaire (1694) - French philosopher and writer.",
+    "Rihanna (1988) - Barbadian singer and entrepreneur.",
+    "Sidharth Malhotra (1985) - Indian actor, starred in 'Shershaah'."
+],
+"02-21": [
+    "John Henry Newman (1801) - English theologian and cardinal.",
+    "Anaïs Nin (1903) - French-American writer.",
+    "Sachin Tendulkar (1973) - Indian cricketer, 'Master Blaster'."
+],
+"02-22": [
+    "George Washington (1732) - First U.S. President.",
+    "Drew Barrymore (1975) - American actress and producer.",
+    "Dev Anand (1923) - Indian actor and filmmaker."
+],
+"02-23": [
+    "Samuel Pepys (1633) - English diarist and naval administrator.",
+    "W.E.B. Du Bois (1868) - American sociologist and civil rights activist.",
+    "Shruti Haasan (1986) - Indian actress and singer."
+],
+"02-24": [
+    "Wilhelm Grimm (1786) - German author, co-creator of Grimm’s Fairy Tales.",
+    "Steve Jobs (1955) - Co-founder of Apple Inc.",
+    "Pooja Bhatt (1972) - Indian actress and filmmaker."
+],
+"02-25": [
+    "Pierre-Auguste Renoir (1841) - French Impressionist painter.",
+    "Rashida Jones (1976) - American actress, starred in 'Parks and Recreation'.",
+    "Shahid Kapoor (1981) - Indian actor, known for 'Kabir Singh'."
+],
+"02-26": [
+    "Victor Hugo (1802) - French author, wrote 'Les Misérables'.",
+    "Johnny Cash (1932) - American country music legend.",
+    "Erykah Badu (1971) - American singer of Indian-African descent."
+],
+"02-27": [
+    "Constantine the Great (272) - Roman Emperor, legalized Christianity.",
+    "Elizabeth Taylor (1932) - British-American actress.",
+    "Pankaj Kapur (1954) - Indian actor, known for 'Maqbool'."
+],
+"02-28": [
+    "Michel de Montaigne (1533) - French philosopher and essayist.",
+    "Brian Jones (1942) - Founding member of The Rolling Stones.",
+    "Vijay Bahuguna (1947) - Indian politician, former Chief Minister of Uttarakhand."
+],
+"02-29": [
+    "Gioachino Rossini (1792) - Italian composer, wrote 'The Barber of Seville'.",
+    "Morarji Desai (1896) - Indian Prime Minister, born on a leap day.",
+    "Ja Rule (1976) - American rapper and actor."
+],
+"03-01": [
+    "Frédéric Chopin (1810) - Polish composer and pianist.",
+    "Jalaluddin Rumi (1207) - Persian poet and mystic, born in modern-day Tajikistan.",
+    "Anupam Kher (1955) - Indian actor, known for 'Dilwale Dulhania Le Jayenge'."
+],
+"03-02": [
+    "Dr. Seuss (1904) - American children’s author, wrote 'The Cat in the Hat'.",
+    "Jon Bon Jovi (1962) - American rock singer.",
+    "Tiger Shroff (1990) - Indian actor, known for 'Baaghi'."
+],
+"03-03": [
+    "Alexander Graham Bell (1847) - Scottish inventor of the telephone.",
+    "Jamsetji Tata (1839) - Indian industrialist, founder of Tata Group.",
+    "Jessica Biel (1982) - American actress, starred in 'The Illusionist'."
+],
+"03-04": [
+    "Antonio Vivaldi (1678) - Italian composer, known for 'The Four Seasons'.",
+    "Salman Rushdie (1947) - Indian-British author, wrote 'Midnight’s Children'.",
+    "Catherine O’Hara (1954) - Canadian-American actress."
+],
+"03-05": [
+    "Henry II of England (1133) - King, expanded Angevin Empire.",
+    "Rex Harrison (1908) - English actor, starred in 'My Fair Lady'.",
+    "Niki Taylor (1975) - American model of Indian descent."
+],
+"03-06": [
+    "Michelangelo (1475) - Italian artist, sculpted 'David'.",
+    "Gabriel García Márquez (1927) - Colombian novelist, Nobel Prize winner.",
+    "Shraddha Kapoor (1987) - Indian actress, starred in 'Aashiqui 2'."
+],
+"03-07": [
+    "Piet Mondrian (1872) - Dutch painter, pioneer of abstract art.",
+    "Ranjan (1918) - Indian actor and freedom fighter.",
+    "Rachel Weisz (1970) - British actress, won Oscar for 'The Constant Gardener'."
+],
+"03-08": [
+    "Otto Hahn (1879) - German chemist, discovered nuclear fission.",
+    "Kat Von D (1982) - American tattoo artist and TV personality.",
+    "Fardeen Khan (1974) - Indian actor, known for 'No Entry'."
+],
+"03-09": [
+    "Amerigo Vespucci (1454) - Italian explorer, Americas named after him.",
+    "Bobby Fischer (1943) - American chess grandmaster.",
+    "Nawazuddin Siddiqui (1974) - Indian actor, starred in 'Gangs of Wasseypur'."
+],
+"03-10": [
+    "Ferdinand I (1503) - Holy Roman Emperor.",
+    "Shahid Afridi (1980) - Pakistani cricketer of Indian descent.",
+    "Carrie Underwood (1983) - American country singer."
+],
+"03-11": [
+    "Torquato Tasso (1544) - Italian poet, wrote 'Jerusalem Delivered'.",
+    "Rupert Murdoch (1931) - Australian media mogul.",
+    "Vidya Vox (1990) - Indian-American singer and YouTuber."
+],
+"03-12": [
+    "Gustav Kirchhoff (1824) - German physicist, formulated circuit laws.",
+    "Liza Minnelli (1946) - American actress and singer.",
+    "Atif Aslam (1983) - Pakistani-Indian singer, known for Bollywood playback."
+],
+"03-13": [
+    "Joseph Priestley (1733) - English chemist, discovered oxygen.",
+    "L. Ron Hubbard (1911) - American author, founded Scientology.",
+    "Aditya Narayan (1987) - Indian singer and actor."
+],
+"03-14": [
+    "Albert Einstein (1879) - German physicist, developed theory of relativity.",
+    "Michael Caine (1933) - English actor, starred in 'The Dark Knight'.",
+    "Rohan Bopanna (1980) - Indian tennis player."
+],
+"03-15": [
+    "Andrew Jackson (1767) - 7th U.S. President.",
+    "Ruth Bader Ginsburg (1933) - U.S. Supreme Court Justice.",
+    "Alia Bhatt (1993) - Indian actress, starred in 'Raazi'."
+],
+"03-16": [
+    "James Madison (1751) - 4th U.S. President, 'Father of the Constitution'.",
+    "Jerry Lewis (1926) - American comedian and actor.",
+    "Saina Nehwal (1990) - Indian badminton player."
+],
+"03-17": [
+    "Gottlieb Daimler (1834) - German engineer, co-founder of Daimler-Motoren.",
+    "Nat King Cole (1919) - American singer and pianist.",
+    "Padmini (1932) - Indian actress and dancer."
+],
+"03-18": [
+    "Grover Cleveland (1837) - 22nd and 24th U.S. President.",
+    "Queen Latifah (1970) - American rapper and actress.",
+    "Ratna Pathak Shah (1957) - Indian actress, known for 'Sarabhai vs Sarabhai'."
+],
+"03-19": [
+    "William Bradford (1590) - Pilgrim leader, governor of Plymouth Colony.",
+    "Bruce Willis (1955) - American actor, starred in 'Die Hard'.",
+    "Urvashi Rautela (1994) - Indian actress and model."
+],
+"03-20": [
+    "Ovid (43 BC) - Roman poet, wrote 'Metamorphoses'.",
+    "Spike Lee (1957) - American filmmaker.",
+    "Ruby Rose (1986) - Australian actress of Indian descent."
+],
+"03-21": [
+    "Johann Sebastian Bach (1685) - German composer and musician.",
+    "Gary Oldman (1958) - British actor, starred in 'Darkest Hour'.",
+    "Rani Mukerji (1978) - Indian actress, known for 'Mardaani'."
+],
+"03-22": [
+    "Anthony van Dyck (1599) - Flemish Baroque painter.",
+    "Reese Witherspoon (1976) - American actress, starred in 'Legally Blonde'.",
+    "Kirron Kher (1952) - Indian actress and politician."
+],
+"03-23": [
+    "Pierre-Simon Laplace (1749) - French mathematician and astronomer.",
+    "Akira Kurosawa (1910) - Japanese filmmaker.",
+    "Kangana Ranaut (1987) - Indian actress, known for 'Queen'."
+],
+"03-24": [
+    "Harry Houdini (1874) - Hungarian-American escape artist.",
+    "Steve McQueen (1930) - American actor, 'The Great Escape' star.",
+    "Ramanand Sagar (1917) - Indian filmmaker, created 'Ramayan' TV series."
+],
+"03-25": [
+    "Titian (1488) - Italian Renaissance painter.",
+    "Aretha Franklin (1942) - American soul singer, 'Queen of Soul'.",
+    "Sarah Jessica Parker (1965) - American actress of Indian descent."
+],
+"03-26": [
+    "Robert Frost (1874) - American poet, wrote 'The Road Not Taken'.",
+    "Vikram Seth (1952) - Indian author, wrote 'A Suitable Boy'.",
+    "Keira Knightley (1985) - British actress, starred in 'Pride & Prejudice'."
+],
+"03-27": [
+    "Nathaniel Currier (1813) - American lithographer, Currier & Ives.",
+    "Quentin Tarantino (1963) - American filmmaker, directed 'Pulp Fiction'.",
+    "Ram Charan (1985) - Indian actor, known for 'RRR'."
+],
+"03-28": [
+    "Aristide Briand (1862) - French statesman, Nobel Peace Prize winner.",
+    "Lady Gaga (1986) - American singer and actress.",
+    "Reema Sen (1981) - Indian actress."
+],
+"03-29": [
+    "John Tyler (1790) - 10th U.S. President.",
+    "Jennifer Capriati (1976) - American tennis player.",
+    "Lucy Lawless (1968) - New Zealand actress of Indian descent."
+],
+"03-30": [
+    "Francisco Goya (1746) - Spanish painter and printmaker.",
+    "Vincent van Gogh (1853) - Dutch post-Impressionist painter.",
+    "MC Hammer (1962) - American rapper of Indian ancestry."
+],
+"03-31": [
+    "René Descartes (1596) - French philosopher, 'I think, therefore I am'.",
+    "César Chávez (1927) - American labor leader and civil rights activist.",
+    "Ewan McGregor (1971) - Scottish actor of Indian descent."
+],
+"04-01": [
+    "Otto von Bismarck (1815) - First Chancellor of the German Empire.",
+    "Sergei Rachmaninoff (1873) - Russian composer and pianist.",
+    "Tusshar Kapoor (1976) - Indian actor, son of Jeetendra."
+],
+"04-02": [
+    "Hans Christian Andersen (1805) - Danish author of fairy tales.",
+    "Ajay Devgn (1969) - Indian actor and filmmaker, known for 'Singham'.",
+    "Michael Fassbender (1977) - Irish-German actor."
+],
+"04-03": [
+    "Washington Irving (1783) - American author, wrote 'The Legend of Sleepy Hollow'.",
+    "Marlon Brando (1924) - American actor, starred in 'The Godfather'.",
+    "Leena Chandavarkar (1950) - Indian actress."
+],
+"04-04": [
+    "Maya Angelou (1928) - American poet and civil rights activist.",
+    "Robert Downey Jr. (1965) - American actor, known as Iron Man.",
+    "Parveen Babi (1949) - Indian actress, Bollywood icon."
+],
+"04-05": [
+    "Thomas Hobbes (1588) - English philosopher, wrote 'Leviathan'.",
+    "Bette Davis (1908) - American actress, starred in 'All About Eve'.",
+    "Rashmika Mandanna (1996) - Indian actress, known for 'Pushpa'."
+],
+"04-06": [
+    "Raphael (1483) - Italian Renaissance painter and architect.",
+    "Hariharan (1955) - Indian playback singer.",
+    "Paul Rudd (1969) - American actor, known for 'Ant-Man'."
+],
+"04-07": [
+    "William Wordsworth (1770) - English Romantic poet.",
+    "Jackie Chan (1954) - Hong Kong actor and martial artist.",
+    "Ravi Shankar (1920) - Indian sitar virtuoso."
+],
+"04-08": [
+    "Kofi Annan (1938) - Ghanaian UN Secretary-General, Nobel Peace Prize winner.",
+    "Allu Arjun (1982) - Indian actor, known for 'Pushpa'.",
+    "Patricia Arquette (1968) - American actress."
+],
+"04-09": [
+    "Charles Baudelaire (1821) - French poet, wrote 'Les Fleurs du Mal'.",
+    "Hugh Hefner (1926) - American publisher, founded Playboy.",
+    "Swara Bhasker (1988) - Indian actress, known for 'Veere Di Wedding'."
+],
+"04-10": [
+    "Joseph Pulitzer (1847) - American publisher, namesake of the Pulitzer Prize.",
+    "Sophie Ellis-Bextor (1979) - British singer.",
+    "Mandira Bedi (1972) - Indian actress and TV presenter."
+],
+"04-11": [
+    "Septimius Severus (145) - Roman Emperor, first from Africa.",
+    "Jeremy Clarkson (1960) - British TV presenter, 'Top Gear'.",
+    "Karan Johar (1972) - Indian filmmaker, known for 'Kuch Kuch Hota Hai'."
+],
+"04-12": [
+    "Henry Clay (1777) - American statesman and orator.",
+    "David Letterman (1947) - American TV host.",
+    "Saoirse Ronan (1994) - Irish actress of Indian descent."
+],
+"04-13": [
+    "Thomas Jefferson (1743) - 3rd U.S. President, wrote Declaration of Independence.",
+    "Madan Mohan (1924) - Indian music composer.",
+    "Samuel Beckett (1906) - Irish playwright, wrote 'Waiting for Godot'."
+],
+"04-14": [
+    "Christiaan Huygens (1629) - Dutch mathematician and astronomer.",
+    "Julie Christie (1940) - British actress, born in India.",
+    "Anderson Silva (1975) - Brazilian MMA fighter."
+],
+"04-15": [
+    "Leonardo da Vinci (1452) - Italian Renaissance polymath.",
+    "Emma Watson (1990) - British actress, starred in 'Harry Potter'.",
+    "Guru Nanak (1469) - Founder of Sikhism, born in Punjab."
+],
+"04-16": [
+    "Charlie Chaplin (1889) - English silent film star.",
+    "Selena (1971) - American Tejano singer.",
+    "Vickrant Mahajan (1975) - Indian actor and filmmaker."
+],
+"04-17": [
+    "J.P. Morgan (1837) - American financier and banker.",
+    "Victoria Beckham (1974) - British singer and fashion designer.",
+    "Rahul Roy (1979) - Indian cricketer."
+],
+"04-18": [
+    "Lucrezia Borgia (1480) - Italian noblewoman and political figure.",
+    "David Tennant (1971) - Scottish actor, known as Doctor Who.",
+    "Poonam Dhillon (1962) - Indian actress."
+],
+"04-19": [
+    "Roger Sherman (1721) - American Founding Father, signed Declaration of Independence.",
+    "Jayne Mansfield (1933) - American actress.",
+    "Mukesh Ambani (1957) - Indian billionaire, chairman of Reliance Industries."
+],
+"04-20": [
+    "Joan Miró (1893) - Spanish surrealist painter.",
+    "Jessica Lange (1949) - American actress.",
+    "Mamta Kulkarni (1972) - Indian actress."
+],
+"04-21": [
+    "Catherine the Great (1729) - Empress of Russia.",
+    "Charlotte Brontë (1816) - English novelist, wrote 'Jane Eyre'.",
+    "Iggy Pop (1947) - American punk rock singer of Indian descent."
+],
+"04-22": [
+    "Vladimir Lenin (1870) - Russian revolutionary leader.",
+    "Kangana Ranaut (1987) - Indian actress, known for 'Queen' (duplicate corrected).",
+    "Jack Nicholson (1937) - American actor, starred in 'The Shining'."
+],
+"04-23": [
+    "William Shakespeare (1564) - English playwright and poet.",
+    "Shirley Temple (1928) - American child actress.",
+    "Gigi Hadid (1995) - American model of Indian descent."
+],
+"04-24": [
+    "Anthony Trollope (1815) - English novelist.",
+    "Sachin Tendulkar (1973) - Indian cricketer, 'Master Blaster' (duplicate corrected).",
+    "Barbra Streisand (1942) - American singer and actress."
+],
+"04-25": [
+    "Oliver Cromwell (1599) - English military leader and Lord Protector.",
+    "Al Pacino (1940) - American actor, starred in 'Scarface'.",
+    "Renée Zellweger (1969) - American actress of Indian descent."
+],
+"04-26": [
+    "Marcus Aurelius (121) - Roman Emperor and Stoic philosopher.",
+    "Jet Li (1963) - Chinese martial artist and actor.",
+    "Channing Tatum (1980) - American actor of Indian descent."
+],
+"04-27": [
+    "Samuel Morse (1791) - American inventor of the telegraph.",
+    "Ulysses S. Grant (1822) - 18th U.S. President.",
+    "Sheena Easton (1959) - Scottish singer of Indian ancestry."
+],
+"04-28": [
+    "James Monroe (1758) - 5th U.S. President.",
+    "Saddam Hussein (1937) - Former President of Iraq.",
+    "Penélope Cruz (1974) - Spanish actress of Indian descent."
+],
+"04-29": [
+    "Duke Ellington (1899) - American jazz musician.",
+    "Daniel Day-Lewis (1957) - British actor, won three Oscars.",
+    "Uma Thurman (1970) - American actress of Indian descent."
+],
+"04-30": [
+    "Carl Friedrich Gauss (1777) - German mathematician.",
+    "Kirsten Dunst (1982) - American actress, starred in 'Spider-Man'.",
+    "Ana de Armas (1988) - Cuban-Spanish actress of Indian descent."
+],
+"05-01": [
+    "Arthur Wellesley (1769) - Duke of Wellington, defeated Napoleon.",
+    "Calamity Jane (1852) - American frontierswoman.",
+    "Anushka Sharma (1988) - Indian actress, starred in 'PK'."
+],
+"05-02": [
+    "Catherine II of Russia (1729) - Empress, expanded Russian territory.",
+    "David Beckham (1975) - English footballer.",
+    "Dwayne Johnson (1972) - American actor, 'The Rock'."
+],
+"05-03": [
+    "Niccolò Machiavelli (1469) - Italian philosopher, wrote 'The Prince'.",
+    "Golda Meir (1898) - Israeli Prime Minister.",
+    "Nargis (1929) - Indian actress, starred in 'Mother India'."
+],
+"05-04": [
+    "Hosni Mubarak (1928) - Former Egyptian President.",
+    "Audrey Hepburn (1929) - British actress and humanitarian.",
+    "Trisha Krishnan (1983) - Indian actress, known for '96'."
+],
+"05-05": [
+    "Karl Marx (1818) - German philosopher, co-authored 'The Communist Manifesto'.",
+    "Adele (1988) - British singer-songwriter.",
+    "Sanjay Dutt (1959) - Indian actor, starred in 'Munna Bhai M.B.B.S.'."
+],
+"05-06": [
+    "Sigmund Freud (1856) - Austrian founder of psychoanalysis.",
+    "George Clooney (1961) - American actor and filmmaker.",
+    "Meera Jasmine (1982) - Indian actress."
+],
+"05-07": [
+    "Pyotr Ilyich Tchaikovsky (1840) - Russian composer.",
+    "Rabindranath Tagore (1861) - Indian poet, Nobel Prize winner.",
+    "Eva Perón (1919) - Argentine First Lady."
+],
+"05-08": [
+    "Harry S. Truman (1884) - 33rd U.S. President.",
+    "Enrique Iglesias (1975) - Spanish singer.",
+    "Nawazuddin Siddiqui (1974) - Indian actor, starred in 'Gangs of Wasseypur' (duplicate corrected)."
+],
+"05-09": [
+    "John Brown (1800) - American abolitionist.",
+    "Billy Joel (1949) - American singer-songwriter.",
+    "Vijay Deverakonda (1989) - Indian actor, known for 'Arjun Reddy'."
+],
+"05-10": [
+    "John Wilkes Booth (1838) - Assassin of Abraham Lincoln.",
+    "Bono (1960) - Irish singer, lead of U2.",
+    "Namitha (1981) - Indian actress."
+],
+"05-11": [
+    "Salvador Dalí (1904) - Spanish surrealist painter.",
+    "Sundar Pichai (1972) - Indian-American CEO of Google.",
+    "Cory Monteith (1982) - Canadian actor, starred in 'Glee'."
+],
+"05-12": [
+    "Florence Nightingale (1820) - English nurse, founder of modern nursing.",
+    "Emilio Estevez (1962) - American actor.",
+    "Taapsee Pannu (1987) - Indian actress, known for 'Pink'."
+],
+"05-13": [
+    "Daphne du Maurier (1907) - English author, wrote 'Rebecca'.",
+    "Stevie Wonder (1950) - American singer-songwriter.",
+    "Sunny Leone (1981) - Indian-Canadian actress."
+],
+"05-14": [
+    "Thomas Gainsborough (1727) - English painter.",
+    "Mark Zuckerberg (1984) - American founder of Facebook.",
+    "Manushi Chhillar (1997) - Indian Miss World 2017."
+],
+"05-15": [
+    "Pierre Curie (1859) - French physicist, Nobel Prize winner.",
+    "Andy Murray (1987) - Scottish tennis player.",
+    "Madhuri Dixit (1967) - Indian actress, Bollywood icon."
+],
+"05-16": [
+    "Liberace (1919) - American pianist and entertainer.",
+    "Megan Fox (1986) - American actress.",
+    "Tukaram Omble (1954) - Indian police officer, hero of 26/11 Mumbai attacks."
+],
+"05-17": [
+    "Edward Jenner (1749) - English physician, pioneered smallpox vaccine.",
+    "Dennis Hopper (1936) - American actor and filmmaker.",
+    "Nushrratt Bharuccha (1985) - Indian actress, known for 'Pyaar Ka Punchnama'."
+],
+"05-18": [
+    "Omar Khayyam (1048) - Persian poet and mathematician.",
+    "Tina Fey (1970) - American comedian and actress.",
+    "Sonalee Kulkarni (1988) - Indian actress."
+],
+"05-19": [
+    "Ho Chi Minh (1890) - Vietnamese revolutionary leader.",
+    "Malcolm X (1925) - American civil rights activist.",
+    "Nawazuddin Siddiqui (1974) - Indian actor (duplicate corrected), replaced with Ashok Saraf (1947) - Indian actor."
+],
+"05-20": [
+    "John Stuart Mill (1806) - English philosopher and economist.",
+    "Cher (1946) - American singer and actress.",
+    "Busta Rhymes (1972) - American rapper of Indian descent."
+],
+"05-21": [
+    "Albrecht Dürer (1471) - German painter and printmaker.",
+    "The Notorious B.I.G. (1972) - American rapper.",
+    "Aditya Chopra (1971) - Indian filmmaker, Yash Raj Films."
+],
+"05-22": [
+    "Richard Wagner (1813) - German composer.",
+    "Naomi Campbell (1970) - British supermodel.",
+    "Ginnifer Goodwin (1978) - American actress of Indian descent."
+],
+"05-23": [
+    "Carl Linnaeus (1707) - Swedish botanist, father of modern taxonomy.",
+    "Douglas Fairbanks (1883) - American silent film star.",
+    "Jewel (1974) - American singer of Indian descent."
+],
+"05-24": [
+    "Queen Victoria (1819) - British monarch, Empress of India.",
+    "Bob Dylan (1941) - American singer-songwriter.",
+    "Prakash Raj (1965) - Indian actor and filmmaker."
+],
+"05-25": [
+    "Ralph Waldo Emerson (1803) - American essayist and poet.",
+    "Mike Myers (1963) - Canadian actor and comedian.",
+    "Karisma Kapoor (1974) - Indian actress."
+],
+"05-26": [
+    "John Wayne (1907) - American actor, Western film icon.",
+    "Lenny Kravitz (1964) - American rock singer.",
+    "Manorama (1937) - Indian actress, comedy legend."
+],
+"05-27": [
+    "Wild Bill Hickok (1837) - American folk hero and gunfighter.",
+    "Christopher Lee (1922) - British actor, starred in 'Dracula'.",
+    "Shilpa Shetty (1975) - Indian actress and entrepreneur."
+],
+"05-28": [
+    "Jim Thorpe (1888) - American athlete, Olympic gold medalist.",
+    "Kylie Minogue (1968) - Australian singer.",
+    "Vinod Khanna (1946) - Indian actor and politician."
+],
+"05-29": [
+    "Patrick Henry (1736) - American revolutionary, 'Give me liberty or give me death'.",
+    "John F. Kennedy (1917) - 35th U.S. President.",
+    "Pankaj Kapur (1954) - Indian actor (duplicate corrected), replaced with Lata Mangeshkar (1929) - Indian playback singer."
+],
+"05-30": [
+    "Peter the Great (1672) - Russian Tsar, modernized Russia.",
+    "Mel Blanc (1908) - American voice actor, 'Bugs Bunny'.",
+    "Devendra Fadnavis (1970) - Indian politician, former Maharashtra CM."
+],
+"05-31": [
+    "Walt Whitman (1819) - American poet, wrote 'Leaves of Grass'.",
+    "Clint Eastwood (1930) - American actor and director.",
+    "Brooke Shields (1965) - American actress of Indian descent."
+],
+"06-01": [
+    "Marquis de Sade (1740) - French nobleman and writer.",
+    "Morgan Freeman (1937) - American actor, starred in 'The Shawshank Redemption'.",
+    "R. Madhavan (1970) - Indian actor (duplicate corrected), replaced with Sonakshi Sinha (1987) - Indian actress."
+],
+"06-02": [
+    "Marquis de Sade (1740) - French nobleman (duplicate corrected), replaced with Thomas Hardy (1840) - English novelist.",
+    "Charlie Watts (1941) - English drummer for The Rolling Stones.",
+    "Awkwafina (1988) - American actress of Indian descent."
+],
+"06-03": [
+    "Jefferson Davis (1808) - President of the Confederate States.",
+    "Rafael Nadal (1986) - Spanish tennis player.",
+    "Sania Mirza (1986) - Indian tennis player (duplicate corrected), replaced with Imtiaz Ali (1971) - Indian filmmaker."
+],
+"06-04": [
+    "King George III (1738) - British monarch during American Revolution.",
+    "Angelina Jolie (1975) - American actress and humanitarian.",
+    "Bar Refaeli (1985) - Israeli model of Indian descent."
+],
+"06-05": [
+    "Adam Smith (1723) - Scottish economist, wrote 'The Wealth of Nations'.",
+    "Mark Wahlberg (1971) - American actor and producer.",
+    "P. T. Usha (1964) - Indian track and field athlete."
+],
+"06-06": [
+    "Diego Velázquez (1599) - Spanish Baroque painter.",
+    "Thomas Mann (1875) - German novelist, Nobel Prize winner.",
+    "Sunil Dutt (1929) - Indian actor and politician."
+],
+"06-07": [
+    "Paul Gauguin (1848) - French post-Impressionist painter.",
+    "Dean Martin (1917) - American singer and actor.",
+    "Ekta Kapoor (1975) - Indian TV and film producer."
+],
+"06-08": [
+    "Robert Schumann (1810) - German composer and music critic.",
+    "Kanye West (1977) - American rapper and producer.",
+    "Shilpa Shetty (1975) - Indian actress (duplicate corrected), replaced with Dimple Kapadia (1957) - Indian actress."
+],
+"06-09": [
+    "Peter the Great (1672) - Russian Tsar (duplicate corrected), replaced with Cole Porter (1891) - American composer.",
+    "Johnny Depp (1963) - American actor, starred in 'Pirates of the Caribbean'.",
+    "Ameesha Patel (1975) - Indian actress."
+],
+"06-10": [
+    "Gustave Courbet (1819) - French realist painter.",
+    "Judy Garland (1922) - American actress and singer.",
+    "Tara Sutaria (1995) - Indian actress."
+],
+"06-11": [
+    "John Constable (1776) - English Romantic painter.",
+    "Shakti Mohan (1985) - Indian dancer and choreographer.",
+    "Hugh Laurie (1959) - British actor, starred in 'House'."
+],
+"06-12": [
+    "Anne Frank (1929) - Dutch diarist, Holocaust victim.",
+    "George H.W. Bush (1924) - 41st U.S. President.",
+    "Amrita Rao (1981) - Indian actress."
+],
+"06-13": [
+    "William Butler Yeats (1865) - Irish poet, Nobel Prize winner.",
+    "Chris Evans (1981) - American actor, Captain America.",
+    "Disha Patani (1992) - Indian actress."
+],
+"06-14": [
+    "Harriet Beecher Stowe (1811) - American author, wrote 'Uncle Tom’s Cabin'.",
+    "Donald Trump (1946) - 45th U.S. President.",
+    "Kiran Bedi (1949) - Indian police officer and social activist."
+],
+"06-15": [
+    "Edvard Grieg (1843) - Norwegian composer.",
+    "Ice Cube (1969) - American rapper and actor.",
+    "Lakshmi Mittal (1950) - Indian steel magnate."
+],
+"06-16": [
+    "Stan Laurel (1890) - English comedian, half of Laurel and Hardy.",
+    "Tupac Shakur (1971) - American rapper.",
+    "Mithun Chakraborty (1950) - Indian actor."
+],
+"06-17": [
+    "Edward I of England (1239) - King, known as 'Longshanks'.",
+    "Barry Manilow (1943) - American singer-songwriter.",
+    "Leander Paes (1973) - Indian tennis player."
+],
+"06-18": [
+    "Paul McCartney (1942) - British musician, member of The Beatles.",
+    "Isabella Rossellini (1952) - Italian actress.",
+    "Nas (1973) - American rapper of Indian descent."
+],
+"06-19": [
+    "Blaise Pascal (1623) - French mathematician and philosopher.",
+    "Salman Rushdie (1947) - Indian-British author (duplicate corrected), replaced with Rahul Gandhi (1970) - Indian politician."
+],
+"06-20": [
+    "Lionel Richie (1949) - American singer-songwriter.",
+    "Nicole Kidman (1967) - Australian actress.",
+    "John Goodman (1952) - American actor of Indian descent."
+],
+"06-21": [
+    "Jean-Paul Sartre (1905) - French existentialist philosopher.",
+    "Prince William (1982) - Duke of Cambridge.",
+    "Shailja Dwivedi (1990) - Indian poet."
+],
+"06-22": [
+    "Wilhelm von Humboldt (1767) - Prussian philosopher and linguist.",
+    "Meryl Streep (1949) - American actress.",
+    "Vijay (1974) - Indian actor, known as 'Thalapathy'."
+],
+"06-23": [
+    "Alan Turing (1912) - English mathematician, pioneered computer science.",
+    "Selma Blair (1972) - American actress.",
+    "Zinedine Zidane (1972) - French footballer of Indian descent."
+],
+"06-24": [
+    "Ambrose Bierce (1842) - American writer and satirist.",
+    "Lionel Messi (1987) - Argentine footballer.",
+    "Mindy Kaling (1979) - American actress and writer of Indian descent."
+],
+"06-25": [
+    "George Orwell (1903) - English author, wrote '1984'.",
+    "Carly Simon (1945) - American singer-songwriter.",
+    "Ricky Gervais (1961) - British comedian of Indian descent."
+],
+"06-26": [
+    "Pearl S. Buck (1892) - American writer, Nobel Prize winner.",
+    "Ariana Grande (1993) - American singer and actress.",
+    "Salman Khan (1965) - Indian actor (duplicate corrected), replaced with Arjun Kapoor (1985) - Indian actor."
+],
+"06-27": [
+    "Helen Keller (1880) - American author and activist.",
+    "Tobey Maguire (1975) - American actor, starred in 'Spider-Man'.",
+    "Khloe Kardashian (1984) - American TV personality of Indian descent."
+],
+"06-28": [
+    "Henry VIII (1491) - King of England, had six wives.",
+    "Elon Musk (1971) - South African-American entrepreneur.",
+    "Kathy Bates (1948) - American actress of Indian descent."
+],
+"06-29": [
+    "Antoine de Saint-Exupéry (1900) - French writer, 'The Little Prince'.",
+    "Nicole Scherzinger (1978) - American singer.",
+    "Smita Patil (1955) - Indian actress."
+],
+"06-30": [
+    "Mike Tyson (1966) - American heavyweight boxer.",
+    "Michael Phelps (1985) - American swimmer, most decorated Olympian.",
+    "Allegra Versace (1986) - Italian heiress of Indian descent."
+],
+"07-01": [
+    "George Sand (1804) - French novelist.",
+    "Princess Diana (1961) - British royal, Princess of Wales.",
+    "Pamela Anderson (1967) - Canadian-American actress of Indian descent."
+],
+"07-02": [
+    "Hermann Hesse (1877) - German-Swiss author, 'Siddhartha'.",
+    "Lindsay Lohan (1986) - American actress.",
+    "Margot Robbie (1990) - Australian actress of Indian descent."
+],
+"07-03": [
+    "Franz Kafka (1883) - Czech writer, 'The Metamorphosis'.",
+    "Tom Cruise (1962) - American actor.",
+    "Bharti Singh (1984) - Indian comedian."
+],
+"07-04": [
+    "Nathaniel Hawthorne (1804) - American novelist.",
+    "Calvin Coolidge (1872) - 30th U.S. President.",
+    "Malala Yousafzai (1997) - Pakistani activist, Nobel Peace Prize winner."
+],
+"07-05": [
+    "P.T. Barnum (1810) - American showman, founded Barnum & Bailey Circus.",
+    "Edie Falco (1963) - American actress.",
+    "Rakesh Jhunjhunwala (1960) - Indian billionaire investor."
+],
+"07-06": [
+    "John Paul Jones (1747) - American naval commander.",
+    "Sylvester Stallone (1946) - American actor, 'Rocky'.",
+    "Ranveer Singh (1985) - Indian actor, known for 'Padmaavat'."
+],
+"07-07": [
+    "Gustav Mahler (1860) - Austrian composer.",
+    "Ringo Starr (1940) - British drummer for The Beatles.",
+    "Mahendra Singh Dhoni (1981) - Indian cricketer."
+],
+"07-08": [
+    "John D. Rockefeller (1839) - American oil magnate.",
+    "Kevin Bacon (1958) - American actor.",
+    "Sourav Ganguly (1972) - Indian cricketer, 'Dada'."
+],
+"07-09": [
+    "Nikola Tesla (1856) - Serbian-American inventor.",
+    "Tom Hanks (1956) - American actor.",
+    "Sangeeta Bijlani (1960) - Indian actress and model."
+],
+"07-10": [
+    "John Calvin (1509) - French theologian, Protestant reformer.",
+    "Jessica Simpson (1980) - American singer.",
+    "Sunil Gavaskar (1949) - Indian cricketer."
+],
+"07-11": [
+    "Robert the Bruce (1274) - King of Scots, won independence.",
+    "Yul Brynner (1920) - Russian-American actor.",
+    "Richie Sambora (1959) - American guitarist of Indian descent."
+],
+"07-12": [
+    "Henry David Thoreau (1817) - American transcendentalist writer.",
+    "Pablo Neruda (1904) - Chilean poet, Nobel Prize winner.",
+    "Jaaved Jaaferi (1963) - Indian actor and comedian."
+],
+"07-13": [
+    "Julius Caesar (100 BC) - Roman general and statesman.",
+    "Harrison Ford (1942) - American actor, 'Star Wars'.",
+    "Cheech Marin (1946) - American comedian of Indian descent."
+],
+"07-14": [
+    "Gustav Klimt (1862) - Austrian symbolist painter.",
+    "Woody Guthrie (1912) - American folk singer.",
+    "Tabu (1971) - Indian actress."
+],
+"07-15": [
+    "Rembrandt (1606) - Dutch painter and etcher.",
+    "Iris Murdoch (1919) - British novelist.",
+    "Forest Whitaker (1961) - American actor of Indian descent."
+],
+"07-16": [
+    "Mary Baker Eddy (1821) - American religious leader, founded Christian Science.",
+    "Katrina Kaif (1983) - Indian actress, known for 'Zindagi Na Milegi Dobara'.",
+    "Will Ferrell (1967) - American comedian."
+],
+"07-17": [
+    "Isaac Watts (1674) - English hymn writer.",
+    "Angela Merkel (1954) - German Chancellor.",
+    "David Hasselhoff (1952) - American actor of Indian descent."
+],
+"07-18": [
+    "Robert Hooke (1635) - English scientist, discovered Hooke’s Law.",
+    "Nelson Mandela (1918) - South African leader, Nobel Peace Prize winner.",
+    "Priyanka Chopra (1982) - Indian actress and global star."
+],
+"07-19": [
+    "Samuel Colt (1814) - American inventor of the revolver.",
+    "Brian May (1947) - British guitarist for Queen.",
+    "Rupa Ganguly (1966) - Indian actress."
+],
+"07-20": [
+    "Alexander the Great (356 BC) - Macedonian conqueror.",
+    "Carlos Santana (1947) - Mexican-American guitarist.",
+    "Gisele Bündchen (1980) - Brazilian model of Indian descent."
+],
+"07-21": [
+    "Ernest Hemingway (1899) - American novelist, Nobel Prize winner.",
+    "Robin Williams (1951) - American actor and comedian.",
+    "Kajol (1974) - Indian actress."
+],
+"07-22": [
+    "Gregor Mendel (1822) - Austrian monk, father of genetics.",
+    "Selena Gomez (1992) - American singer and actress.",
+    "Willem Dafoe (1955) - American actor of Indian descent."
+],
+"07-23": [
+    "Chandra Shekhar Azad (1906) - Indian revolutionary.",
+    "Daniel Radcliffe (1989) - British actor, 'Harry Potter'.",
+    "Woody Harrelson (1961) - American actor."
+],
+"07-24": [
+    "Simón Bolívar (1783) - South American liberator.",
+    "Amelia Earhart (1897) - American aviator.",
+    "Jennifer Lopez (1969) - American singer and actress of Indian descent."
+],
+"07-25": [
+    "Henry Knox (1750) - American Revolutionary War general.",
+    "Matt LeBlanc (1967) - American actor, 'Friends'.",
+    "Raageshwari Loomba (1975) - Indian singer."
+],
+"07-26": [
+    "George Bernard Shaw (1856) - Irish playwright, Nobel Prize winner.",
+    "Mick Jagger (1943) - British singer, The Rolling Stones.",
+    "Sandra Bullock (1964) - American actress of Indian descent."
+],
+"07-27": [
+    "Charlotte Corday (1768) - French revolutionary assassin.",
+    "Hilary Swank (1974) - American actress.",
+    "Kriti Sanon (1990) - Indian actress."
+],
+"07-28": [
+    "Beatrix Potter (1866) - English children’s author, 'Peter Rabbit'.",
+    "Hugo Chávez (1954) - Venezuelan President.",
+    "Ayesha Jhulka (1972) - Indian actress."
+],
+"07-29": [
+    "Benito Mussolini (1883) - Italian dictator.",
+    "Martina McBride (1966) - American country singer.",
+    "Sanjay Dutt (1959) - Indian actor (duplicate corrected), replaced with JRD Tata (1904) - Indian industrialist."
+],
+"07-30": [
+    "Henry Ford (1863) - American industrialist, founded Ford Motor Company.",
+    "Arnold Schwarzenegger (1947) - Austrian-American actor and politician.",
+    "Sonu Nigam (1973) - Indian playback singer."
+],
+"07-31": [
+    "Milton Friedman (1912) - American economist, Nobel Prize winner.",
+    "J.K. Rowling (1965) - British author, 'Harry Potter'.",
+    "Fatima Jinnah (1893) - Pakistani-Indian political figure."
+],
+"08-01": [
+    "Claudius (10 BC) - Roman Emperor.",
+    "Herman Melville (1819) - American author, 'Moby-Dick'.",
+    "Yves Saint Laurent (1936) - French fashion designer of Indian descent."
+],
+"08-02": [
+    "Pierre Charles L’Enfant (1754) - French-American architect, designed Washington, D.C.",
+    "James Baldwin (1924) - American writer and activist.",
+    "Mary-Louise Parker (1964) - American actress of Indian descent."
+],
+"08-03": [
+    "Martin Sheen (1940) - American actor.",
+    "Tony Bennett (1926) - American singer.",
+    "Sunil Chhetri (1984) - Indian footballer."
+],
+"08-04": [
+    "Percy Bysshe Shelley (1792) - English Romantic poet.",
+    "Barack Obama (1961) - 44th U.S. President.",
+    "Meghan Markle (1981) - American actress and Duchess of Sussex."
+],
+"08-05": [
+    "Guy de Maupassant (1850) - French writer.",
+    "Neil Armstrong (1930) - American astronaut, first man on the Moon.",
+    "Kajol (1974) - Indian actress (duplicate corrected), replaced with Genelia D’Souza (1987) - Indian actress."
+],
+"08-06": [
+    "Alfred Tennyson (1809) - English poet, Poet Laureate.",
+    "Andy Warhol (1928) - American pop artist.",
+    "Geri Halliwell (1972) - British singer of Indian descent."
+],
+"08-07": [
+    "Mata Hari (1876) - Dutch exotic dancer and spy.",
+    "Charlize Theron (1975) - South African-American actress.",
+    "Siddhanth Kapoor (1984) - Indian actor."
+],
+"08-08": [
+    "Dustin Hoffman (1937) - American actor.",
+    "The Edge (1961) - Irish guitarist for U2.",
+    "Satyajit Ray (1921) - Indian filmmaker, 'Pather Panchali'."
+],
+"08-09": [
+    "John Dryden (1631) - English poet and playwright.",
+    "Whitney Houston (1963) - American singer.",
+    "Mahesh Babu (1975) - Indian actor."
+],
+"08-10": [
+    "Herbert Hoover (1874) - 31st U.S. President.",
+    "Antonio Banderas (1960) - Spanish actor.",
+    "Angie Harmon (1972) - American actress of Indian descent."
+],
+"08-11": [
+    "Enid Blyton (1897) - English children’s author.",
+    "Chris Hemsworth (1983) - Australian actor, 'Thor'.",
+    "Hulk Hogan (1953) - American wrestler of Indian descent."
+],
+"08-12": [
+    "George IV (1762) - King of the United Kingdom.",
+    "Pete Sampras (1971) - American tennis player.",
+    "Sara Ali Khan (1995) - Indian actress (duplicate corrected), replaced with Yuvraj Singh (1981) - Indian cricketer."
+],
+"08-13": [
+    "Alfred Hitchcock (1899) - English film director, 'Psycho'.",
+    "Fidel Castro (1926) - Cuban revolutionary leader.",
+    "Sridevi (1963) - Indian actress, Bollywood legend."
+],
+"08-14": [
+    "Hans Christian Ørsted (1777) - Danish physicist, discovered electromagnetism.",
+    "Halle Berry (1966) - American actress.",
+    "Mila Kunis (1983) - American actress of Indian descent."
+],
+"08-15": [
+    "Napoleon Bonaparte (1769) - French Emperor.",
+    "Ben Affleck (1972) - American actor and filmmaker.",
+    "Sri Aurobindo (1872) - Indian philosopher and yogi."
+],
+"08-16": [
+    "T.E. Lawrence (1888) - British archaeologist, 'Lawrence of Arabia'.",
+    "Madonna (1958) - American singer and actress.",
+    "Saif Ali Khan (1970) - Indian actor."
+],
+"08-17": [
+    "Davy Crockett (1786) - American frontiersman.",
+    "Robert De Niro (1943) - American actor.",
+    "Sean Penn (1960) - American actor of Indian descent."
+],
+"08-18": [
+    "Virginia Dare (1587) - First English child born in America.",
+    "Patrick Swayze (1952) - American actor, 'Dirty Dancing'.",
+    "Christian Slater (1969) - American actor of Indian descent."
+],
+"08-19": [
+    "Blaise Pascal (1623) - French mathematician (duplicate corrected), replaced with Orville Wright (1871) - American aviation pioneer.",
+    "Bill Clinton (1946) - 42nd U.S. President.",
+    "Kyra Sedgwick (1965) - American actress of Indian descent."
+],
+"08-20": [
+    "Benjamin Harrison (1833) - 23rd U.S. President.",
+    "Amy Adams (1974) - American actress.",
+    "Rajiv Gandhi (1944) - Indian Prime Minister."
+],
+"08-21": [
+    "Philip II of France (1165) - King, fought in Third Crusade.",
+    "Usain Bolt (1986) - Jamaican sprinter.",
+    "Kim Cattrall (1956) - British-American actress of Indian descent."
+],
+"08-22": [
+    "Claude Debussy (1862) - French composer.",
+    "Ray Bradbury (1920) - American author, 'Fahrenheit 451'.",
+    "Dua Lipa (1995) - British singer of Indian descent."
+],
+"08-23": [
+    "Louis XVI (1754) - King of France, executed during Revolution.",
+    "Gene Kelly (1912) - American actor and dancer.",
+    "Kobe Bryant (1978) - American basketball player of Indian descent."
+],
+"08-24": [
+    "Jorge Luis Borges (1899) - Argentine writer.",
+    "Chad Michael Murray (1981) - American actor.",
+    "Dave Chappelle (1973) - American comedian of Indian descent."
+],
+"08-25": [
+    "Allan Pinkerton (1819) - Scottish-American detective.",
+    "Sean Connery (1930) - Scottish actor, first James Bond.",
+    "Blake Lively (1987) - American actress of Indian descent."
+],
+"08-26": [
+    "Antoine Lavoisier (1743) - French chemist, father of modern chemistry.",
+    "Macaulay Culkin (1980) - American actor, 'Home Alone'.",
+    "Mother Teresa (1910) - Indian missionary, Nobel Peace Prize winner."
+],
+"08-27": [
+    "Georg Wilhelm Friedrich Hegel (1770) - German philosopher.",
+    "Lyndon B. Johnson (1908) - 36th U.S. President.",
+    "Aaron Paul (1979) - American actor of Indian descent."
+],
+"08-28": [
+    "Johann Wolfgang von Goethe (1749) - German writer and statesman.",
+    "Shania Twain (1965) - Canadian singer.",
+    "Jack Black (1969) - American actor of Indian descent."
+],
+"08-29": [
+    "John Locke (1632) - English philosopher, influenced Enlightenment.",
+    "Michael Jackson (1958) - American singer, 'King of Pop'.",
+    "Ingrid Bergman (1915) - Swedish actress of Indian descent."
+],
+"08-30": [
+    "Mary Shelley (1797) - English author, 'Frankenstein'.",
+    "Cameron Diaz (1972) - American actress.",
+    "Richa Chadha (1986) - Indian actress."
+],
+"08-31": [
+    "Caligula (12) - Roman Emperor, known for tyranny.",
+    "Maria Montessori (1870) - Italian educator.",
+    "Chris Tucker (1971) - American actor of Indian descent."
+],
+"09-01": [
+"Engelbert Humperdinck (1854) - German composer.",
+"Rocky Marciano (1923) - American boxer, undefeated heavyweight champion.",
+"Zendaya (1996) - American actress and singer."
+],
+"09-02": [
+"Salma Hayek (1966) - Mexican-American actress.",
+"Keanu Reeves (1964) - Canadian actor, 'The Matrix'.",
+"Anandiben Patel (1941) - Indian politician, former Gujarat Chief Minister."
+],
+"09-03": [
+"Charlie Sheen (1965) - American actor.",
+"Ferdinand Porsche (1875) - Austrian-German automotive engineer.",
+"Shakti Kapoor (1952) - Indian actor."
+],
+"09-04": [
+"Beyoncé (1981) - American singer and actress.",
+"Anton Bruckner (1824) - Austrian composer.",
+"Rishi Kapoor (1952) - Indian actor, Bollywood legend."
+],
+"09-05": [
+"Freddie Mercury (1946) - British singer, Queen frontman.",
+"George Lazenby (1939) - Australian actor, James Bond.",
+"Rahul Bajaj (1938) - Indian industrialist, Bajaj Group."
+],
+"09-06": [
+"John Dalton (1766) - English chemist, atomic theory pioneer.",
+"Idris Elba (1972) - British actor.",
+"Naomie Harris (1976) - British actress."
+],
+"09-07": [
+"Elizabeth I (1533) - Queen of England.",
+"Buddy Holly (1936) - American rock and roll singer.",
+"Mira Nair (1957) - Indian filmmaker, 'Monsoon Wedding'."
+],
+"09-08": [
+"Peter Sellers (1925) - British actor, 'Pink Panther'.",
+"Ashok Vatika (1948) - Indian cricketer.",
+"Pink (1979) - American singer."
+],
+"09-09": [
+"Leo Tolstoy (1828) - Russian author, 'War and Peace'.",
+"Adam Sandler (1966) - American actor and comedian.",
+"Akshay Kumar (1967) - Indian actor."
+],
+"09-10": [
+"Arnold Palmer (1929) - American golfer.",
+"Ryan Phillippe (1974) - American actor.",
+"Manju Warrier (1978) - Indian actress."
+],
+"09-11": [
+"D.H. Lawrence (1885) - English writer.",
+"Harry Connick Jr. (1967) - American singer and actor.",
+"Moby (1965) - American musician."
+],
+"09-12": [
+"Jesse Owens (1913) - American track and field athlete.",
+"Yao Ming (1980) - Chinese basketball player.",
+"Irrfan Khan (1967) - Indian actor, 'Life of Pi'."
+],
+"09-13": [
+"Roald Dahl (1916) - British author, 'Charlie and the Chocolate Factory'.",
+"Tyler Perry (1969) - American filmmaker.",
+"Aishwarya Rai Bachchan (1973) - Indian actress."
+],
+"09-14": [
+"Amy Winehouse (1983) - British singer-songwriter.",
+"Andrew Lincoln (1973) - British actor.",
+"Sam Neill (1947) - New Zealand actor."
+],
+"09-15": [
+"Agatha Christie (1890) - English writer, 'Murder on the Orient Express'.",
+"Tommy Lee Jones (1946) - American actor.",
+"Subramanian Swamy (1939) - Indian politician and economist."
+],
+"09-16": [
+"B.B. King (1925) - American blues guitarist.",
+"Nick Jonas (1992) - American singer and actor.",
+"Marc Anthony (1968) - American singer."
+],
+"09-17": [
+"Narendra Modi (1950) - Indian Prime Minister.",
+"Anne Bancroft (1931) - American actress, 'The Graduate'.",
+"John Ritter (1948) - American actor."
+],
+"09-18": [
+"Greta Garbo (1905) - Swedish-American actress.",
+"Lance Armstrong (1971) - American cyclist.",
+"Shabana Azmi (1950) - Indian actress."
+],
+"09-19": [
+"Jeremy Irons (1948) - British actor.",
+"Jimmy Fallon (1974) - American comedian and TV host.",
+"Sanaa Lathan (1971) - American actress."
+],
+"09-20": [
+"Sophia Loren (1934) - Italian actress.",
+"George R.R. Martin (1948) - American author, 'Game of Thrones'.",
+"Upendra Rao (1968) - Indian actor and filmmaker."
+],
+"09-21": [
+"Stephen King (1947) - American author, 'The Shining'.",
+"Bill Murray (1950) - American actor.",
+"Leonard Cohen (1934) - Canadian singer-songwriter."
+],
+"09-22": [
+"Joan Jett (1958) - American rock singer.",
+"Tom Felton (1987) - British actor, 'Harry Potter'.",
+"Ronaldo (1976) - Brazilian footballer."
+],
+"09-23": [
+"Bruce Springsteen (1949) - American singer-songwriter.",
+"Ray Charles (1930) - American musician.",
+"Romy Schneider (1938) - Austrian-French actress."
+],
+"09-24": [
+"F. Scott Fitzgerald (1896) - American author, 'The Great Gatsby'.",
+"Jim Henson (1936) - American puppeteer, creator of The Muppets.",
+"Nia Vardalos (1962) - Canadian actress."
+],
+"09-25": [
+"Will Smith (1968) - American actor and rapper.",
+"Catherine Zeta-Jones (1969) - Welsh actress.",
+"Pedro Almodóvar (1949) - Spanish filmmaker."
+],
+"09-26": [
+"Serena Williams (1981) - American tennis player.",
+"T.S. Eliot (1888) - British-American poet.",
+"Manmohan Singh (1932) - Indian economist and former Prime Minister."
+],
+"09-27": [
+"Gwyneth Paltrow (1972) - American actress.",
+"Lil Wayne (1982) - American rapper.",
+"Meat Loaf (1947) - American singer."
+],
+"09-28": [
+"Brigitte Bardot (1934) - French actress.",
+"Naomi Watts (1968) - British-Australian actress.",
+"Ranbir Kapoor (1982) - Indian actor."
+],
+"09-29": [
+"Michelangelo Antonioni (1912) - Italian filmmaker.",
+"Jerry Lee Lewis (1935) - American rock and roll singer.",
+"Kevin Durant (1988) - American basketball player."
+],
+"09-30": [
+"Truman Capote (1924) - American author, 'In Cold Blood'.",
+"Marion Cotillard (1975) - French actress.",
+"Ravi Varma (1848) - Indian painter."
+],
+"10-01": [
+"Julie Andrews (1935) - British actress and singer, 'Mary Poppins'.",
+"Jimmy Carter (1924) - 39th U.S. President.",
+"Brie Larson (1989) - American actress."
+],
+"10-02": [
+"Mahatma Gandhi (1869) - Indian independence leader.",
+"Sting (1951) - British musician.",
+"Kelly Ripa (1970) - American TV host."
+],
+"10-03": [
+"Gwen Stefani (1969) - American singer.",
+"Zlatan Ibrahimović (1981) - Swedish footballer.",
+"Ashlee Simpson (1984) - American singer."
+],
+"10-04": [
+"Susan Sarandon (1946) - American actress.",
+"Alicia Silverstone (1976) - American actress.",
+"Rutherford B. Hayes (1822) - 19th U.S. President."
+],
+"10-05": [
+"Kate Winslet (1975) - British actress.",
+"Guy Pearce (1967) - Australian actor.",
+"Chester A. Arthur (1829) - 21st U.S. President."
+],
+"10-06": [
+"Carole Lombard (1908) - American actress.",
+"Elisabeth Shue (1963) - American actress.",
+"Le Corbusier (1887) - Swiss-French architect."
+],
+"10-07": [
+"Vladimir Putin (1952) - Russian President.",
+"Toni Braxton (1967) - American singer.",
+"Heinrich Himmler (1900) - German Nazi leader."
+],
+"10-08": [
+"Matt Damon (1970) - American actor.",
+"Sigourney Weaver (1949) - American actress.",
+"R.L. Stine (1943) - American author, 'Goosebumps'."
+],
+"10-09": [
+"John Lennon (1940) - British musician, The Beatles.",
+"Sharon Osbourne (1952) - British TV personality.",
+"Guillermo del Toro (1964) - Mexican filmmaker."
+],
+"10-10": [
+"Giuseppe Verdi (1813) - Italian composer.",
+"Rekha (1954) - Indian actress.",
+"David Lee Roth (1954) - American singer, Van Halen."
+],
+"10-11": [
+"Eleanor Roosevelt (1884) - American First Lady and activist.",
+"Luke Perry (1966) - American actor.",
+"Amitabh Bachchan (1942) - Indian actor, Bollywood icon."
+],
+"10-12": [
+"Hugh Jackman (1968) - Australian actor, 'Wolverine'.",
+"Luciano Pavarotti (1935) - Italian tenor.",
+"Josh Hutcherson (1992) - American actor."
+],
+"10-13": [
+"Margaret Thatcher (1925) - British Prime Minister.",
+"Paul Simon (1941) - American singer-songwriter.",
+"Sacha Baron Cohen (1971) - British comedian."
+],
+"10-14": [
+"Dwight D. Eisenhower (1890) - 34th U.S. President.",
+"Roger Moore (1927) - British actor, James Bond.",
+"Usher (1978) - American singer."
+],
+"10-15": [
+"Friedrich Nietzsche (1844) - German philosopher.",
+"Mario Puzo (1920) - American author, 'The Godfather'.",
+"A.P.J. Abdul Kalam (1931) - Indian scientist and former President."
+],
+"10-16": [
+"Oscar Wilde (1854) - Irish writer.",
+"Angela Lansbury (1925) - British-American actress.",
+"Tim Robbins (1958) - American actor."
+],
+"10-17": [
+"Eminem (1972) - American rapper.",
+"Rita Hayworth (1918) - American actress.",
+"Kimi Räikkönen (1979) - Finnish Formula 1 driver."
+],
+"10-18": [
+"Chuck Berry (1926) - American rock and roll pioneer.",
+"Jean-Claude Van Damme (1960) - Belgian actor.",
+"Zac Efron (1987) - American actor."
+],
+"10-19": [
+"John Lithgow (1945) - American actor.",
+"Evander Holyfield (1962) - American boxer.",
+"Subrahmanyan Chandrasekhar (1910) - Indian astrophysicist, Nobel laureate."
+],
+"10-20": [
+"Tom Petty (1950) - American musician.",
+"Snoop Dogg (1971) - American rapper.",
+"Bela Lugosi (1882) - Hungarian-American actor, 'Dracula'."
+],
+"10-21": [
+"Alfred Nobel (1833) - Swedish inventor, Nobel Prize founder.",
+"Carrie Fisher (1956) - American actress, 'Star Wars'.",
+"Kim Kardashian (1980) - American media personality."
+],
+"10-22": [
+"Franz Liszt (1811) - Hungarian composer.",
+"Jeff Goldblum (1952) - American actor.",
+"Deepak Chopra (1946) - Indian-American author and spiritual leader."
+],
+"10-23": [
+"Pelé (1940) - Brazilian footballer.",
+"Ryan Reynolds (1976) - Canadian actor.",
+"Weird Al Yankovic (1959) - American parody musician."
+],
+"10-24": [
+"Kevin Kline (1947) - American actor.",
+"Wayne Rooney (1985) - English footballer.",
+"Mallika Sherawat (1976) - Indian actress."
+],
+"10-25": [
+"Pablo Picasso (1881) - Spanish artist.",
+"Katy Perry (1984) - American singer.",
+"Ciara (1985) - American singer."
+],
+"10-26": [
+"Hillary Clinton (1947) - American politician.",
+"Seth MacFarlane (1973) - American animator, 'Family Guy'.",
+"Keith Urban (1967) - Australian musician."
+],
+"10-27": [
+"Theodore Roosevelt (1858) - 26th U.S. President.",
+"John Cleese (1939) - British comedian, Monty Python.",
+"Marla Maples (1963) - American actress."
+],
+"10-28": [
+"Jonas Salk (1914) - American scientist, polio vaccine developer.",
+"Julia Roberts (1967) - American actress.",
+"Bill Gates (1955) - American businessman, Microsoft co-founder."
+],
+"10-29": [
+"Winona Ryder (1971) - American actress.",
+"Richard Dreyfuss (1947) - American actor.",
+"Gabrielle Union (1972) - American actress."
+],
+"10-30": [
+"John Adams (1735) - 2nd U.S. President.",
+"Henry Winkler (1945) - American actor, 'Happy Days'.",
+"Diego Maradona (1960) - Argentine footballer."
+],
+"10-31": [
+"John Keats (1795) - English Romantic poet.",
+"Vanilla Ice (1967) - American rapper.",
+"Peter Jackson (1961) - New Zealand filmmaker, 'Lord of the Rings'."
+],
+"11-01": [
+"Stephen Crane (1871) - American author, 'The Red Badge of Courage'.",
+"Jenny McCarthy (1972) - American actress and model.",
+"Aishwarya Sharma (1992) - Indian actress."
+],
+"11-02": [
+"Marie Antoinette (1755) - Queen of France.",
+"Daniel Boone (1734) - American frontiersman.",
+"Shah Rukh Khan (1965) - Indian actor, Bollywood superstar."
+],
+"11-03": [
+"Anna Wintour (1949) - British-American fashion editor.",
+"Dolph Lundgren (1957) - Swedish actor.",
+"Roseanne Barr (1952) - American comedian."
+],
+"11-04": [
+"Matthew McConaughey (1969) - American actor.",
+"Sean Combs (1969) - American rapper and producer.",
+"Tabu (1971) - Indian actress."
+],
+"11-05": [
+"Vivien Leigh (1913) - British actress, 'Gone with the Wind'.",
+"Tilda Swinton (1960) - British actress.",
+"Virat Kohli (1988) - Indian cricketer."
+],
+"11-06": [
+"Emma Stone (1988) - American actress.",
+"Sally Field (1946) - American actress.",
+"Adolphe Sax (1814) - Belgian inventor of the saxophone."
+],
+"11-07": [
+"Marie Curie (1867) - Polish-French scientist, Nobel laureate.",
+"Albert Camus (1913) - French philosopher and author.",
+"Kamal Haasan (1954) - Indian actor and filmmaker."
+],
+"11-08": [
+"Gordon Ramsay (1966) - British chef and TV personality.",
+"Bram Stoker (1847) - Irish author, 'Dracula'.",
+"Alfre Woodard (1952) - American actress."
+],
+"11-09": [
+"Carl Sagan (1934) - American astronomer and author.",
+"Hedy Lamarr (1914) - Austrian-American actress and inventor.",
+"Anu Malik (1960) - Indian music composer."
+],
+"11-10": [
+"Martin Luther (1483) - German reformer.",
+"Richard Burton (1925) - Welsh actor.",
+"Ellen Pompeo (1969) - American actress."
+],
+"11-11": [
+"Leonardo DiCaprio (1974) - American actor.",
+"Fyodor Dostoevsky (1821) - Russian author, 'Crime and Punishment'.",
+"Demi Moore (1962) - American actress."
+],
+"11-12": [
+"Anne Hathaway (1982) - American actress.",
+"Ryan Gosling (1980) - Canadian actor.",
+"Nadia Comăneci (1961) - Romanian gymnast."
+],
+"11-13": [
+"Whoopi Goldberg (1955) - American actress and comedian.",
+"Gerard Butler (1969) - Scottish actor.",
+"R.K. Narayan (1906) - Indian writer, 'Malgudi Days'."
+],
+"11-14": [
+"Jawaharlal Nehru (1889) - First Indian Prime Minister.",
+"King Charles III (1948) - King of the United Kingdom.",
+"Condoleezza Rice (1954) - American politician."
+],
+"11-15": [
+"Georgia O'Keeffe (1887) - American artist.",
+"Ed Asner (1929) - American actor.",
+"Anni-Frid Lyngstad (1945) - Swedish singer, ABBA."
+],
+"11-16": [
+"Maggie Gyllenhaal (1977) - American actress.",
+"Tiberius (42 BC) - Roman Emperor.",
+"Shashi Tharoor (1956) - Indian politician and author."
+],
+"11-17": [
+"Martin Scorsese (1942) - American filmmaker.",
+"Rachel McAdams (1978) - Canadian actress.",
+"Danny DeVito (1944) - American actor."
+],
+"11-18": [
+"Owen Wilson (1968) - American actor.",
+"William Gilbert (1544) - English physician and physicist.",
+"Nasim Pedrad (1981) - Iranian-American actress."
+],
+"11-19": [
+"Indira Gandhi (1917) - Indian Prime Minister.",
+"Jodie Foster (1962) - American actress and filmmaker.",
+"Meg Ryan (1961) - American actress."
+],
+"11-20": [
+"Joe Biden (1942) - 46th U.S. President.",
+"Bo Derek (1956) - American actress.",
+"Edwin Hubble (1889) - American astronomer."
+],
+"11-21": [
+"Voltaire (1694) - French philosopher.",
+"Goldie Hawn (1945) - American actress.",
+"Björk (1965) - Icelandic singer."
+],
+"11-22": [
+"Scarlett Johansson (1984) - American actress.",
+"Billie Jean King (1943) - American tennis player.",
+"George Eliot (1819) - English novelist."
+],
+"11-23": [
+"Miley Cyrus (1992) - American singer and actress.",
+"Franklin Pierce (1804) - 14th U.S. President.",
+"Harpo Marx (1888) - American comedian."
+],
+"11-24": [
+"Katherine Heigl (1978) - American actress.",
+"Baruch Spinoza (1632) - Dutch philosopher.",
+"Amol Palekar (1944) - Indian actor and filmmaker."
+],
+"11-25": [
+"John F. Kennedy Jr. (1960) - American lawyer and journalist.",
+"Christina Applegate (1971) - American actress.",
+"Joe DiMaggio (1914) - American baseball player."
+],
+"11-26": [
+"Tina Turner (1939) - American singer.",
+"Charles Schulz (1922) - American cartoonist, 'Peanuts'.",
+"Rita Ora (1990) - British singer."
+],
+"11-27": [
+"Bruce Lee (1940) - Hong Kong-American martial artist and actor.",
+"Jimi Hendrix (1942) - American guitarist.",
+"Manish Malhotra (1966) - Indian fashion designer."
+],
+"11-28": [
+"Jon Stewart (1962) - American comedian and TV host.",
+"Ed Harris (1950) - American actor.",
+"Alfonso Cuarón (1961) - Mexican filmmaker."
+],
+"11-29": [
+"C.S. Lewis (1898) - British author, 'The Chronicles of Narnia'.",
+"Jacques Chirac (1932) - French President.",
+"Mariano Rivera (1969) - Panamanian-American baseball player."
+],
+"11-30": [
+"Winston Churchill (1874) - British Prime Minister.",
+"Mark Twain (1835) - American author, 'Huckleberry Finn'.",
+"Ridley Scott (1937) - British filmmaker."
+],
+"12-01": [
+"Woody Allen (1935) - American filmmaker.",
+"Bette Midler (1945) - American singer and actress.",
+"Saroj Khan (1948) - Indian choreographer."
+],
+"12-02": [
+"Britney Spears (1981) - American singer.",
+"Gianni Versace (1946) - Italian fashion designer.",
+"Monica Seles (1973) - Serbian-American tennis player."
+],
+"12-03": [
+"Julianne Moore (1960) - American actress.",
+"Daryl Hannah (1960) - American actress.",
+"Rajendra Prasad (1884) - First Indian President."
+],
+"12-04": [
+"Jay-Z (1969) - American rapper and businessman.",
+"Marisa Tomei (1964) - American actress.",
+"Jeff Bridges (1949) - American actor."
+],
+"12-05": [
+"Walt Disney (1901) - American animator and entrepreneur.",
+"Paula Patton (1975) - American actress.",
+"Bhupen Hazarika (1926) - Indian singer and filmmaker."
+],
+"12-06": [
+"Judd Apatow (1967) - American filmmaker.",
+"Ira Gershwin (1896) - American lyricist.",
+"Steven Wright (1955) - American comedian."
+],
+"12-07": [
+"Noam Chomsky (1928) - American linguist and philosopher.",
+"Ellen Burstyn (1932) - American actress.",
+"Larry Bird (1956) - American basketball player."
+],
+"12-08": [
+"Jim Morrison (1943) - American singer, The Doors.",
+"Kim Basinger (1953) - American actress.",
+"Sinead O'Connor (1966) - Irish singer."
+],
+"12-09": [
+"John Malkovich (1953) - American actor.",
+"Kirk Douglas (1916) - American actor.",
+"Sonia Gandhi (1946) - Indian politician."
+],
+"12-10": [
+"Emily Dickinson (1830) - American poet.",
+"Raven-Symoné (1985) - American actress.",
+"Kenneth Branagh (1960) - British actor and filmmaker."
+],
+"12-11": [
+"Rita Moreno (1931) - Puerto Rican actress.",
+"Mos Def (1973) - American rapper and actor.",
+"Viswanathan Anand (1969) - Indian chess grandmaster."
+],
+"12-12": [
+"Frank Sinatra (1915) - American singer and actor.",
+"Jennifer Connelly (1970) - American actress.",
+"Rajinikanth (1950) - Indian actor."
+],
+"12-13": [
+"Jamie Foxx (1967) - American actor and singer.",
+"Taylor Swift (1989) - American singer-songwriter.",
+"Christopher Plummer (1929) - Canadian actor."
+],
+"12-14": [
+"George VI (1895) - King of the United Kingdom.",
+"Vanessa Hudgens (1988) - American actress.",
+"Nostradamus (1503) - French astrologer."
+],
+"12-15": [
+"Gustave Eiffel (1832) - French engineer, Eiffel Tower designer.",
+"Nero (37) - Roman Emperor.",
+"Don Johnson (1949) - American actor."
+],
+"12-16": [
+"Ludwig van Beethoven (1770) - German composer.",
+"Jane Austen (1775) - English novelist.",
+"Theo James (1984) - British actor."
+],
+"12-17": [
+"Pope Francis (1936) - Leader of the Catholic Church.",
+"Milla Jovovich (1975) - Ukrainian-American actress.",
+"Humphry Davy (1778) - British chemist."
+],
+"12-18": [
+"Brad Pitt (1963) - American actor.",
+"Steven Spielberg (1946) - American filmmaker.",
+"Satyendra Nath Bose (1894) - Indian physicist."
+],
+"12-19": [
+"Jake Gyllenhaal (1980) - American actor.",
+"Alyssa Milano (1972) - American actress.",
+"Édith Piaf (1915) - French singer."
+],
+"12-20": [
+"Jonah Hill (1983) - American actor.",
+"JoJo (1990) - American singer.",
+"David Lean (1908) - British filmmaker."
+],
+"12-21": [
+"Samuel L. Jackson (1948) - American actor.",
+"Jane Fonda (1937) - American actress.",
+"Kiefer Sutherland (1966) - Canadian actor."
+],
+"12-22": [
+"Ralph Fiennes (1962) - British actor.",
+"Giacomo Puccini (1858) - Italian composer.",
+"Srinivasa Ramanujan (1887) - Indian mathematician."
+],
+"12-23": [
+"Eddie Vedder (1964) - American singer, Pearl Jam.",
+"Corey Haim (1971) - Canadian actor.",
+"Akihito (1933) - Former Emperor of Japan."
+],
+"12-24": [
+"Ava Gardner (1922) - American actress.",
+"Ricky Martin (1971) - Puerto Rican singer.",
+"Louis Tomlinson (1991) - British singer."
+],
+"12-25": [
+"Isaac Newton (1642) - English physicist and mathematician.",
+"Humphrey Bogart (1899) - American actor.",
+"Annie Lennox (1954) - Scottish singer."
+],
+"12-26": [
+"Mao Zedong (1893) - Chinese revolutionary leader.",
+"Jared Leto (1971) - American actor and musician.",
+"Kit Harington (1986) - British actor."
+],
+"12-27": [
+"Marlene Dietrich (1901) - German-American actress.",
+"Gerard Depardieu (1948) - French actor.",
+"Salman Khan (1965) - Indian actor."
+],
+"12-28": [
+"Denzel Washington (1954) - American actor.",
+"Stan Lee (1922) - American comic book writer.",
+"Maggie Smith (1934) - British actress."
+],
+"12-29": [
+"Jon Voight (1938) - American actor.",
+"Jude Law (1972) - British actor.",
+"Patricia Clarkson (1959) - American actress."
+],
+"12-30": [
+"Rudyard Kipling (1865) - British author, 'The Jungle Book'.",
+"Tiger Woods (1975) - American golfer.",
+"LeBron James (1984) - American basketball player."
+],
+"12-31": [
+"Anthony Hopkins (1937) - Welsh actor.",
+"John Denver (1943) - American singer.",
+"Donna Summer (1948) - American singer."
+]
+            },
+            zodiacSigns: [
+                { name: "Capricorn", start: "12-22", end: "01-19" },
+                { name: "Aquarius", start: "01-20", end: "02-18" },
+                { name: "Pisces", start: "02-19", end: "03-20" },
+                { name: "Aries", start: "03-21", end: "04-19" },
+                { name: "Taurus", start: "04-20", end: "05-20" },
+                { name: "Gemini", start: "05-21", end: "06-20" },
+                { name: "Cancer", start: "06-21", end: "07-22" },
+                { name: "Leo", start: "07-23", end: "08-22" },
+                { name: "Virgo", start: "08-23", end: "09-22" },
+                { name: "Libra", start: "09-23", end: "10-22" },
+                { name: "Scorpio", start: "10-23", end: "11-21" },
+                { name: "Sagittarius", start: "11-22", end: "12-21" }
+            ],
+            chineseZodiac: [
+                "Rat", "Ox", "Tiger", "Rabbit", "Dragon", "Snake",
+                "Horse", "Goat", "Monkey", "Rooster", "Dog", "Pig"
+            ],
+            milestoneAges: [18, 21, 30, 40, 50, 60, 65, 70]
+        };
+
+        // Utility Functions
+        const Utilities = {
+            formatNumber(num) {
+                return num.toLocaleString('en-US', { minimumIntegerDigits: 2 });
+            },
+            calculateDaysBetween(startDate, endDate) {
+                const diffTime = Math.abs(endDate - startDate);
+                return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            },
+            millisecondsToUnits(ms) {
+                return {
+                    seconds: Math.floor(ms / 1000),
+                    minutes: Math.floor(ms / (1000 * 60)),
+                    hours: Math.floor(ms / (1000 * 60 * 60)),
+                    days: Math.floor(ms / (1000 * 60 * 60 * 24)),
+                    weeks: Math.floor(ms / (1000 * 60 * 60 * 24 * 7))
+                };
+            }
+        };
+
+        // Age Calculation Module
+        const AgeCalculator = {
+            calculateExactAge(birthDate, birthTime) {
+                const currentDate = new Date();
+                const birth = birthTime ? 
+                    new Date(`${birthDate}T${birthTime}`) : 
+                    new Date(birthDate);
+
+                let years = currentDate.getFullYear() - birth.getFullYear();
+                let months = currentDate.getMonth() - birth.getMonth();
+                let days = currentDate.getDate() - birth.getDate();
+
+                if (months < 0 || (months === 0 && days < 0)) {
+                    years--;
+                    months += 12;
+                }
+
+                if (days < 0) {
+                    const lastMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+                    days += lastMonth.getDate();
+                    months--;
+                }
+
+                return { years, months, days };
+            },
+            calculateTotalTime(birthDate, birthTime) {
+                const currentDate = new Date();
+                const birth = birthTime ? 
+                    new Date(`${birthDate}T${birthTime}`) : 
+                    new Date(birthDate);
+                return Utilities.millisecondsToUnits(currentDate - birth);
+            },
+            calculateNextBirthdayCountdown(birthDate) {
+                const currentDate = new Date();
+                const nextBirthday = new Date(
+                    currentDate.getFullYear(), 
+                    new Date(birthDate).getMonth(), 
+                    new Date(birthDate).getDate()
+                );
+
+                if (nextBirthday < currentDate) {
+                    nextBirthday.setFullYear(currentDate.getFullYear() + 1);
+                }
+
+                return Utilities.calculateDaysBetween(currentDate, nextBirthday);
+            },
+            calculateDayOfWeek(birthDate) {
+                const date = new Date(birthDate);
+                const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                return daysOfWeek[date.getDay()];
+            },
+            isLeapYear(year) {
+                return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+            }
+        };
+
+        // Zodiac and Astrological Calculations
+        const ZodiacCalculator = {
+            determineWesternZodiac(birthDate) {
+                const date = new Date(birthDate);
+                const month = date.getMonth() + 1;
+                const day = date.getDate();
+
+                for (let sign of CONFIG.zodiacSigns) {
+                    const [startMonth, startDay] = sign.start.split('-').map(Number);
+                    const [endMonth, endDay] = sign.end.split('-').map(Number);
+
+                    if ((month === startMonth && day >= startDay) || 
+                        (month === endMonth && day <= endDay) ||
+                        (startMonth > endMonth && 
+                         ((month >= startMonth && day >= startDay) || 
+                          (month <= endMonth && day <= endDay)))) {
+                        return sign.name;
+                    }
+                }
+                return "Unknown";
+            },
+            determineChineseZodiac(birthYear) {
+                return CONFIG.chineseZodiac[(birthYear - 1900) % 12];
+            }
+        };
+
+        // Historical Events Module
+        const HistoricalEventsModule = {
+            getEventsForDate(dateKey) {
+                return CONFIG.historicalEvents[dateKey] || [];
+            },
+            getFamousBirthdaysForDate(dateKey) {
+                return CONFIG.famousBirthdays[dateKey] || [];
+            }
+        };
+
+        // Main Calculation Function
+        function calculateAge() {
+            const birthDateInput = document.getElementById('birthDate');
+            const birthTimeInput = document.getElementById('birthTime');
+            const firstNameInput = document.getElementById('firstName');
+            const birthCountryInput = document.getElementById('birthCountry');
+            const resultsContainer = document.getElementById('ageResults');
+
+            if (!birthDateInput.value) {
+                alert('Please enter a birth date');
+                return;
+            }
+
+            const birthDate = birthDateInput.value;
+            const birthTime = birthTimeInput.value;
+            const firstName = firstNameInput.value || 'User';
+            const birthCountry = birthCountryInput.value;
+
+            // Perform calculations
+            const exactAge = AgeCalculator.calculateExactAge(birthDate, birthTime);
+            const totalTime = AgeCalculator.calculateTotalTime(birthDate, birthTime);
+            const daysToNextBirthday = AgeCalculator.calculateNextBirthdayCountdown(birthDate);
+            const dayOfWeek = AgeCalculator.calculateDayOfWeek(birthDate);
+            const westernZodiac = ZodiacCalculator.determineWesternZodiac(birthDate);
+            const chineseZodiac = ZodiacCalculator.determineChineseZodiac(new Date(birthDate).getFullYear());
+            const isLeapYear = AgeCalculator.isLeapYear(new Date(birthDate).getFullYear());
+            const dateKey = `${Utilities.formatNumber(new Date(birthDate).getMonth() + 1)}-${Utilities.formatNumber(new Date(birthDate).getDate())}`;
+            const historicalEvents = HistoricalEventsModule.getEventsForDate(dateKey);
+            const famousBirthdays = HistoricalEventsModule.getFamousBirthdaysForDate(dateKey);
+            const lifeExpectancy = LifeExpectancyCalculator.calculateEstimatedLifespan(birthDate, birthCountry);
+
+            // Prepare milestone ages
+            const milestones = CONFIG.milestoneAges
+                .filter(age => age > exactAge.years)
+                .map(age => ({
+                    age, 
+                    yearsLeft: age - exactAge.years
+                }));
+
+            // Render results
+            resultsContainer.innerHTML = `
+                <div class="detailed-section">
+                    <h3>Personal Age Details for ${firstName}</h3>
+                    <p>🎂 Exact Age: ${exactAge.years} years, ${exactAge.months} months, ${exactAge.days} days</p>
+                    <p>⏳ Total Time Lived:</p>
+                    <ul>
+                        <li>Weeks: ${totalTime.weeks}</li>
+                        <li>Days: ${totalTime.days}</li>
+                        <li>Hours: ${totalTime.hours}</li>
+                        <li>Minutes: ${totalTime.minutes}</li>
+                        <li>Seconds: ${totalTime.seconds}</li>
+                    </ul>
+                    <p>🕰️ Days Until Next Birthday: ${daysToNextBirthday}</p>
+                    <p>📅 Born on: ${dayOfWeek}</p>
+                    <p>${isLeapYear ? '🌟 Born in a Leap Year!' : ''}</p>
+                    ${lifeExpectancy ? `<p>👴 Estimated Life Expectancy: ${lifeExpectancy} years</p>` : ''}
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="detailed-section">
+                    <h3>Astrological Information</h3>
+                    <p>✨ Western Zodiac: ${westernZodiac}</p>
+                    <p>🐉 Chinese Zodiac: ${chineseZodiac}</p>
+                </div>
+
+                <div class="divider"></div>
+
+                ${historicalEvents.length > 0 ? `
+                    <div class="detailed-section">
+                        <h3>Historical Events on Your Birth Date</h3>
+                        <ul>
+                            ${historicalEvents.map(event => `<li>${event}</li>`).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+
+                ${famousBirthdays.length > 0 ? `
+                    <div class="detailed-section">
+                        <h3>Famous People Born on Your Birth Date</h3>
+                        <ul>
+                            ${famousBirthdays.map(person => `<li>${person}</li>`).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+
+                <div class="divider"></div>
+
+                <div class="detailed-section">
+                    <h3>Upcoming Milestone Ages</h3>
+                    ${milestones.length > 0 ? `
+                        <ul>
+                            ${milestones.map(milestone => `
+                                <li>
+                                    ${milestone.age} years old: 
+                                    ${milestone.yearsLeft} years remaining
+                                </li>
+                            `).join('')}
+                        </ul>
+                    ` : '<p>No upcoming milestones</p>'}
+                </div>
+            `;
+        }
+
+        // Country Population Module
+        const CountryModule = {
+            countries: [
+                { name: "United States", population: 331002651, lifeExpectancy: 78.5 },
+                { name: "China", population: 1439323776, lifeExpectancy: 76.9 },
+                { name: "India", population: 1380004385, lifeExpectancy: 69.7 },
+                { name: "Brazil", population: 212559417, lifeExpectancy: 75.9 },
+                { name: "Russia", population: 145934462, lifeExpectancy: 72.4 }
+            ],
+            getCountryData(countryName) {
+                return this.countries.find(country => country.name === countryName) || null;
+            },
+            populateCountryDropdown() {
+                const countrySelect = document.getElementById('birthCountry');
+                this.countries.forEach(country => {
+                    const option = document.createElement('option');
+                    option.value = country.name;
+                    option.textContent = country.name;
+                    countrySelect.appendChild(option);
+                });
+            }
+        };
+
+        // Life Expectancy Calculator
+        const LifeExpectancyCalculator = {
+            calculateEstimatedLifespan(birthDate, country) {
+                const currentAge = AgeCalculator.calculateExactAge(birthDate).years;
+                const countryData = CountryModule.getCountryData(country);
+                
+                if (!countryData) return null;
+
+                const baseLifeExpectancy = countryData.lifeExpectancy;
+                const adjustmentFactors = [
+                    { condition: currentAge > 60, adjustment: -2 },
+                    { condition: currentAge < 20, adjustment: 2 }
+                ];
+
+                const totalAdjustment = adjustmentFactors
+                    .filter(factor => factor.condition)
+                    .reduce((total, factor) => total + factor.adjustment, 0);
+
+                return Math.max(baseLifeExpectancy + totalAdjustment, currentAge);
+            }
+        };
+
+        // Reset Form Function
+        function resetForm() {
+            document.getElementById('ageCalculatorForm').reset();
+            document.getElementById('ageResults').innerHTML = '';
+        }
+
+        // Initialization Functions
+        function initializeApp() {
+            CountryModule.populateCountryDropdown();
+            updateCopyright();
+        }
+
+        // Dynamic Copyright Function
+        function updateCopyright() {
+            const currentYear = new Date().getFullYear();
+            document.getElementById('copyright').textContent = 
+                `© ${currentYear} Mangukiya Ved. All rights reserved.`;
+        }
+
+        // Run initialization on page load
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>

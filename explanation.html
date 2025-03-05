@@ -8,72 +8,112 @@
     /* General Styles */
     body {
       margin: 0;
-      padding: 0;
-      background: #1a1a1a;
-      font-family: 'Nunito', sans-serif;
+      padding: 20px;
+      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+      font-family: 'Poppins', sans-serif;
       color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 100vh;
     }
 
     .container {
-      text-align: center;
-      width: 95%;
-      max-width: 850px;
-      background: #222;
+      max-width: 900px;
+      margin: 0 auto;
+      background: #252525;
       padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
     }
 
     /* Title */
     h1 {
-      font-size: 2.3rem;
-      margin-bottom: 15px;
-      color: #af9643;
+      font-size: 2.5rem;
+      color: #b55c5c;
+      text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Category Section */
+    .category {
+      margin-bottom: 20px;
+    }
+
+    .category-header {
+      background: #333;
+      padding: 15px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+    }
+
+    .category-header:hover {
+      background: #444;
+    }
+
+    .category-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #ffffff;
+    }
+
+    .category-header span {
+      font-size: 1.2rem;
     }
 
     /* Project List */
     .projects-container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .projects-container.active {
+      max-height: 1000px; /* Adjust based on content */
     }
 
     .project {
-      width: 100%;
-      background: #333;
-      color: #fff;
-      border-radius: 12px;
-      padding: 15px;
-      text-align: left;
-      transition: all 0.3s ease-in-out;
-      border-left: 6px solid #9c4c4c;
+      background: #383838;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin: 10px 0;
+      border-left: 5px solid #ff6347;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .project:hover {
-      background: #3d3d3d;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
     .project strong {
       font-size: 1.2rem;
-      color: #4682B4;
+      color: #d1b65c;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .project-description {
       font-size: 0.95rem;
-      margin-top: 5px;
       color: #d3d3d3;
+      margin-top: 8px;
+      line-height: 1.4;
     }
 
     /* Footer */
     .footer {
-      margin-top: 20px;
-      font-size: 0.85rem;
-      color: #fcfcfc;
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #ffffff;
+    }
+
+    .footer a {
+      color: #608999;
+      text-decoration: none;
     }
 
     /* Responsive */
@@ -82,7 +122,10 @@
         font-size: 2rem;
       }
       .container {
-        width: 90%;
+        padding: 20px;
+      }
+      .category-header h2 {
+        font-size: 1.3rem;
       }
     }
   </style>
@@ -91,125 +134,146 @@
   <div class="container">
     <h1>Tools Information</h1>
 
-    <div class="projects-container">
-      <div class="project"><strong>Calculator</strong>
-        <div class="project-description">A simple calculator and percentage finder.</div>
+    <!-- Calculation & Financial Tools -->
+    <div class="category">
+      <div class="category-header" onclick="toggleCategory(this)">
+        <h2>💰 Calculation & Financial Tools</h2>
+        <span>▼</span>
       </div>
-      
-      <div class="project"><strong>Countdown Timer</strong>
-        <div class="project-description">Allows users to set and run a timer.</div>
-      </div>
-      
-      <div class="project"><strong>Expense Tracker</strong>
-        <div class="project-description">Enables tracking expenses with an initial amount entry.</div>
-      </div>
-
-      <div class="project"><strong>Number Guessing Game</strong>
-        <div class="project-description">A fun game where you guess numbers with hints (too high/low).</div>
-      </div>
-      
-      <div class="project"><strong>QR Code Maker</strong>
-        <div class="project-description">Generate QR codes and simulate scanning.</div>
-      </div>
-      
-      <div class="project"><strong>Text to Emoji Converter</strong>
-        <div class="project-description">Converts text into emojis and allows reversing it back.</div>
-      </div>
-      
-      <div class="project"><strong>Secret Code Converter</strong>
-        <div class="project-description">AES encryption/decryption for secure messages.</div>
-      </div>
-      
-      <div class="project"><strong>Text to Secret Numbers</strong>
-        <div class="project-description">Encodes/decodes messages using numbers instead of letters.</div>
-      </div>
-      
-      <div class="project"><strong>English Quiz</strong>
-        <div class="project-description">A quiz game inspired by **Kaun Banega Crorepati** for school practice.</div>
-      </div>
-      
-      <div class="project"><strong>Advanced Whiteboard</strong>
-        <div class="project-description">A feature-rich whiteboard with tools, themes, and an improved UI.</div>
-      </div>
-
-      <div class="project"><strong>Currency Exchange</strong>
-        <div class="project-description">
-          A tool to convert currency values between different countries.  
-          - Supports real-time exchange rates  
-          - User-friendly design with a clean interface  
-          - Handles different currency formats  
+      <div class="projects-container">
+        <div class="project"><strong>🎂 Age Calculator</strong>
+          <div class="project-description">Calculate age based on birth date.</div>
+        </div>
+        <div class="project"><strong>- + Calculator</strong>
+          <div class="project-description">A simple calculator and percentage finder.</div>
+        </div>
+        <div class="project"><strong>💰 Discount Calculator</strong>
+          <div class="project-description">Calculate price discounts and final amounts.</div>
+        </div>
+        <div class="project"><strong>📝 GST Calculator</strong>
+          <div class="project-description">Calculate GST for different rates.</div>
+        </div>
+        <div class="project"><strong>💱 Currency Exchange</strong>
+          <div class="project-description">A tool to convert currency values between different countries with real-time rates.</div>
+        </div>
+        <div class="project"><strong>💸 Expense Tracker</strong>
+          <div class="project-description">Enables tracking expenses with an initial amount entry.</div>
+        </div>
+        <div class="project"><strong>🏠 Home Loan Calculator</strong>
+          <div class="project-description">Helps you calculate EMI for home loans.</div>
+        </div>
+        <div class="project"><strong>📈 Investment Calculator</strong>
+          <div class="project-description">Calculate your investments and returns.</div>
+        </div>
+        <div class="project"><strong>💵 Loan Calculator</strong>
+          <div class="project-description">Helps in calculating loan payments.</div>
         </div>
       </div>
-      
-      <div class="project"><strong>Area Converter</strong>
-        <div class="project-description">Convert different area units easily.</div>
-      </div>
+    </div>
 
-      <div class="project"><strong>Data Converter</strong>
-        <div class="project-description">Convert KB, MB, GB, and other data units.</div>
+    <!-- Unit & Measurement Converters -->
+    <div class="category">
+      <div class="category-header" onclick="toggleCategory(this)">
+        <h2>🔄 Unit & Measurement Converters</h2>
+        <span>▼</span>
       </div>
-
-      <div class="project"><strong>Discount Calculator</strong>
-        <div class="project-description">Calculate price discounts and final amounts.</div>
+      <div class="projects-container">
+        <div class="project"><strong>📏 Area Converter</strong>
+          <div class="project-description">Convert different area units easily.</div>
+        </div>
+        <div class="project"><strong>📊 Data Converter</strong>
+          <div class="project-description">Convert KB, MB, GB, and other data units.</div>
+        </div>
+        <div class="project"><strong>📏 Length Converter</strong>
+          <div class="project-description">Convert between meters, kilometers, feet, inches, etc.</div>
+        </div>
+        <div class="project"><strong>⚖️ Mass Converter</strong>
+          <div class="project-description">Convert kilograms, grams, pounds, etc.</div>
+        </div>
+        <div class="project"><strong>⚡ Power Converter</strong>
+          <div class="project-description">Convert watt, kilowatt, horsepower, etc.</div>
+        </div>
+        <div class="project"><strong>🗜 Pressure Converter</strong>
+          <div class="project-description">Convert pressure units like bar, psi, pascal.</div>
+        </div>
+        <div class="project"><strong>🚀 Speed Converter</strong>
+          <div class="project-description">Convert speed between km/h, mph, m/s, etc.</div>
+        </div>
+        <div class="project"><strong>🌡️ Temperature Converter</strong>
+          <div class="project-description">Convert Celsius, Fahrenheit, and Kelvin.</div>
+        </div>
+        <div class="project"><strong>⏳ Time Converter</strong>
+          <div class="project-description">Convert time units like seconds, minutes, hours.</div>
+        </div>
+        <div class="project"><strong>📦 Volume Converter</strong>
+          <div class="project-description">Convert between liters, milliliters, cubic meters, etc.</div>
+        </div>
       </div>
+    </div>
 
-      <div class="project"><strong>GST Calculator</strong>
-        <div class="project-description">Calculate GST for different rates.</div>
+    <!-- Cryptography & Security Tools -->
+    <div class="category">
+      <div class="category-header" onclick="toggleCategory(this)">
+        <h2>🔒 Cryptography & Security Tools</h2>
+        <span>▼</span>
       </div>
-
-      <div class="project"><strong>Home Loan Calculator</strong>
-        <div class="project-description">Helps you calculate EMI for home loans.</div>
+      <div class="projects-container">
+        <div class="project"><strong>🔐 Secret Code Generator</strong>
+          <div class="project-description">AES encryption/decryption for secure messages.</div>
+        </div>
+        <div class="project"><strong>🔢 Text to Secret Number</strong>
+          <div class="project-description">Encodes/decodes messages using numbers instead of letters.</div>
+        </div>
+        <div class="project"><strong>😀 Text to Emoji Cipher</strong>
+          <div class="project-description">Converts text into emojis and allows reversing it back.</div>
+        </div>
       </div>
+    </div>
 
-      <div class="project"><strong>Investment Calculator</strong>
-        <div class="project-description">Calculate your investments and returns.</div>
+    <!-- Utility & Miscellaneous Tools -->
+    <div class="category">
+      <div class="category-header" onclick="toggleCategory(this)">
+        <h2>🛠️ Utility & Miscellaneous Tools</h2>
+        <span>▼</span>
       </div>
-
-      <div class="project"><strong>Length Converter</strong>
-        <div class="project-description">Convert between meters, kilometers, feet, inches, etc.</div>
-      </div>
-
-      <div class="project"><strong>Loan Calculator</strong>
-        <div class="project-description">Helps in calculating loan payments.</div>
-      </div>
-
-      <div class="project"><strong>Mass Converter</strong>
-        <div class="project-description">Convert kilograms, grams, pounds, etc.</div>
-      </div>
-
-      <div class="project"><strong>Power Converter</strong>
-        <div class="project-description">Convert watt, kilowatt, horsepower, etc.</div>
-      </div>
-
-      <div class="project"><strong>Pressure Converter</strong>
-        <div class="project-description">Convert pressure units like bar, psi, pascal.</div>
-      </div>
-
-      <div class="project"><strong>Speed Converter</strong>
-        <div class="project-description">Convert speed between km/h, mph, m/s, etc.</div>
-      </div>
-
-      <div class="project"><strong>Temperature Converter</strong>
-        <div class="project-description">Convert Celsius, Fahrenheit, and Kelvin.</div>
-      </div>
-
-      <div class="project"><strong>Time Converter</strong>
-        <div class="project-description">Convert time units like seconds, minutes, hours.</div>
-      </div>
-
-      <div class="project"><strong>Volume Converter</strong>
-        <div class="project-description">Convert between liters, milliliters, cubic meters, etc.</div>
+      <div class="projects-container">
+        <div class="project"><strong>📄 Question Paper Maker</strong>
+          <div class="project-description">Create custom question papers easily.</div>
+        </div>
+        <div class="project"><strong>⏳ Countdown Timer</strong>
+          <div class="project-description">Allows users to set and run a timer.</div>
+        </div>
+        <div class="project"><strong>🎨 Advanced Whiteboard</strong>
+          <div class="project-description">A feature-rich whiteboard with tools, themes, and an improved UI.</div>
+        </div>
+        <div class="project"><strong>🎲 Number Guessing Game</strong>
+          <div class="project-description">A fun game where you guess numbers with hints (too high/low).</div>
+        </div>
+        <div class="project"><strong>📱 QR Code Maker</strong>
+          <div class="project-description">Generate QR codes and simulate scanning.</div>
+        </div>
+        <div class="project"><strong>📖 English Quiz</strong>
+          <div class="project-description">A quiz game inspired by **Kaun Banega Crorepati** for school practice.</div>
+        </div>
       </div>
     </div>
 
     <div class="footer">
-      <span>&copy;</span> <span id="currentYear"></span> Mangukiya Ved. All rights reserved.
+      © <span id="currentYear"></span> Mangukiya Ved. All rights reserved.
     </div>
   </div>
 
   <script>
     // Set current year in footer
     document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Toggle category visibility
+    function toggleCategory(header) {
+      const content = header.nextElementSibling;
+      content.classList.toggle('active');
+      const arrow = header.querySelector('span');
+      arrow.textContent = content.classList.contains('active') ? '▲' : '▼';
+    }
   </script>
 </body>
 </html>

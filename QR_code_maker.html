@@ -13,15 +13,17 @@
         }
 
         body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #121212;
-            margin: 0;
-            padding: 0;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #333333;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    min-height: 100vh; /* Ensures body takes full viewport height */
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    flex-direction: column;
+}
 
         h1 {
             color: #ffffff;
@@ -32,59 +34,84 @@
         .container {
             max-width: 400px;
             width: 100%;
-            background-color: #1e1e1e;
+            background-color: #444444;
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
 
+        .input-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
         input[type="text"], select {
             width: calc(100% - 30px);
             padding: 10px;
-            border: 1px solid #444;
+            border: 1px solid #555555;
             border-radius: 8px;
-            margin-bottom: 10px;
             outline: none;
             font-size: 16px;
-            background-color: #2a2a2a;
+            background-color: #2a2a40;
             color: #ffffff;
             transition: border 0.3s;
         }
 
         input[type="text"]:focus {
-            border: 1px solid #2196F3;
+            border: 1px solid #5b8dc0;
         }
 
         .btn {
             padding: 10px 15px;
-            background-color: #4caf50;
             color: #ffffff;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s;
             margin: 5px;
-            width: 100%;
             font-size: 16px;
         }
 
-        .btn:hover {
-            background-color: #45a049;
+        .generate-btn, .paste-btn {
+            background-color: #d1b65d; /* Yellow for generate and paste */
+            width: 100%;
+        }
+
+        .generate-btn:hover, .paste-btn:hover {
+            background-color: #b65d5d; /* Red on hover */
+        }
+
+        .paste-btn {
+            width: auto;
+            padding: 10px 20px;
+        }
+
+        .scan-btn {
+            background-color: #87CEEB; /* Light aesthetic blue */
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .scan-btn:hover {
+            background-color: #b65d5d; /* Red on hover */
         }
 
         .result {
             margin-top: 20px;
             padding: 10px;
-            background-color: #2a2a2a;
+            background-color: #2a2a40;
             border-radius: 8px;
             display: inline-block;
             width: 100%;
+            color: #d1b65d;
         }
 
         .author-info {
             font-size: 14px;
-            color: #888;
+            color: #666666;
             margin-top: 20px;
             font-weight: bold;
         }
@@ -101,7 +128,7 @@
             cursor: pointer;
             display: inline-block;
             padding: 10px 15px;
-            background-color: #2196F3;
+            background-color: #b55c5c;
             color: white;
             border-radius: 8px;
             transition: background-color 0.3s;
@@ -109,7 +136,7 @@
         }
 
         label:hover {
-            background-color: #1976D2;
+            background-color: #d1b65d;
         }
 
         .qr-code-img {
@@ -120,11 +147,11 @@
 
         .copy-btn {
             margin-left: 10px;
-            background-color: #2196F3;
+            background-color: #5b8dc0;
         }
 
         .copy-btn:hover {
-            background-color: #1976D2;
+            background-color: #d1b65d;
         }
 
         #video {
@@ -135,8 +162,8 @@
         }
 
         .footer-container {
-            background-color: #333333;
-            color: white;
+            background-color: #282829;
+            color: #ffffff;
             padding: 15px;
             margin-top: 30px;
             border-radius: 10px;
@@ -153,14 +180,16 @@
 
 <div class="container">
     <h1>QR Code Maker</h1>
-    <input type="text" id="inputText" placeholder="Enter URL or text">
+    <div class="input-container">
+        <button class="btn paste-btn" onclick="pasteText()">Paste</button>
+        <input type="text" id="inputText" placeholder="Enter URL or text">
+    </div>
     <select id="fileFormat">
         <option value="png">Download as PNG</option>
         <option value="jpeg">Download as JPEG</option>
         <option value="pdf">Download as PDF</option>
     </select>
-    <button class="btn" onclick="generateQRCode()">Generate QR Code</button>
-    <button class="btn" onclick="pasteText()">Paste</button>
+    <button class="btn generate-btn" onclick="generateQRCode()">Generate QR Code</button>
     <button class="btn" id="downloadBtn" style="display: none;" onclick="downloadQRCode()">Download QR Code</button>
     <div id="qrcode" class="result"></div>
     <div class="upload-container">
@@ -168,7 +197,7 @@
         <input type="file" id="fileInput" accept="image/*" onchange="readQRCode(this)">
     </div>
 
-    <button class="btn" onclick="startCamera()">Scan QR Code with Camera</button>
+    <button class="btn scan-btn" onclick="startCamera()">Scan QR Code with Camera</button>
     <video id="video"></video>
     <button class="btn" id="captureBtn" style="display: none;" onclick="captureQRCode()">Capture QR Code</button>
 
@@ -178,10 +207,8 @@
     </div>
 </div>
 
-<!-- Author information container -->
 <div class="footer-container">
-    <p>Coding languages used: HTML, CSS, and JavaScript</p><br>
-    <p>&copy; <span id="currentYear"></span> Mangukiya Ved. All rights reserved.</p>
+    <p>© <span id="currentYear"></span> Mangukiya Ved. All rights reserved.</p>
 </div>
 
 <script>
@@ -192,14 +219,14 @@
 
     function generateQRCode() {
         const inputText = document.getElementById("inputText").value;
-        $("#qrcode").empty(); // Clear previous QR code
+        $("#qrcode").empty();
         if (inputText) {
             $("#qrcode").qrcode({
                 text: inputText,
                 width: 256,
                 height: 256
             });
-            document.getElementById("downloadBtn").style.display = "inline"; // Show download button
+            document.getElementById("downloadBtn").style.display = "inline";
         } else {
             alert("Please enter a URL or text.");
         }
@@ -261,7 +288,7 @@
                 videoStream = stream;
                 video.srcObject = stream;
                 video.play();
-                document.getElementById("captureBtn").style.display = "inline"; // Show capture button
+                document.getElementById("captureBtn").style.display = "inline";
             })
             .catch(err => {
                 alert("Unable to access camera: " + err);
@@ -284,7 +311,7 @@
             alert("QR Code not recognized. Please try again.");
         }
         video.style.display = "none";
-        document.getElementById("captureBtn").style.display = "none"; // Hide capture button
+        document.getElementById("captureBtn").style.display = "none";
     }
 
     function copyToClipboard() {

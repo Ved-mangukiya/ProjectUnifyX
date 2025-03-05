@@ -16,7 +16,7 @@
         }
 
         .container {
-            background: #494747;
+            background: #ffffff;
             padding: 2rem;
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -26,13 +26,14 @@
         }
 
         h1 {
-            color: #ffffff;
+            color: #0f3460;
             text-align: center;
             margin-bottom: 1.5rem;
         }
 
         .input-group {
             margin: 1rem 0;
+            position: relative;
         }
 
         .currency-row {
@@ -41,18 +42,43 @@
             gap: 1rem;
         }
 
-        input, select {
+        input, .search-input {
             padding: 10px;
             border: 2px solid #d1b65c;
             border-radius: 8px;
             font-size: 16px;
             width: 100%;
             transition: border-color 0.3s;
+            box-sizing: border-box;
         }
 
-        input:focus, select:focus {
+        input:focus, .search-input:focus {
             border-color: #0f3460;
             outline: none;
+        }
+
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 2px solid #d1b65c;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            z-index: 10;
+        }
+
+        .dropdown-item {
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: #f4f4f9;
         }
 
         .button {
@@ -122,11 +148,13 @@
 
         <div class="currency-row">
             <div class="input-group" style="flex: 1">
-                <select id="fromCurrency"></select>
+                <input type="text" class="search-input" id="fromSearch" placeholder="Search From Currency">
+                <div class="dropdown-list" id="fromDropdown"></div>
             </div>
             <button class="reverse-btn" onclick="reverseCurrencies()">↔</button>
             <div class="input-group" style="flex: 1">
-                <select id="toCurrency"></select>
+                <input type="text" class="search-input" id="toSearch" placeholder="Search To Currency">
+                <div class="dropdown-list" id="toDropdown"></div>
             </div>
         </div>
 
@@ -200,10 +228,10 @@
             {code: "DJF", name: "Djibouti - Djiboutian Franc"},
             {code: "XCD", name: "Dominica - East Caribbean Dollar"},
             {code: "DOP", name: "Dominican Republic - Dominican Peso"},
-            {code: "USD", name: "East Timor (Timor-Leste) - U.S. Dollar"},
-            {code: "USD", name: "Ecuador - U.S. Dollar"},
+            {code: "USD east timor", name: "East Timor (Timor-Leste) - U.S. Dollar"},
+            {code: "USD ecuador", name: "Ecuador - U.S. Dollar"},
             {code: "EGP", name: "Egypt - Egyptian Pound"},
-            {code: "USD", name: "El Salvador - U.S. Dollar"},
+            {code: "USD El Salvador", name: "El Salvador - U.S. Dollar"},
             {code: "XAF", name: "Equatorial Guinea - CFA Franc"},
             {code: "ERN", name: "Eritrea - Nakfa"},
             {code: "EUR", name: "Estonia - Euro"},
@@ -259,11 +287,11 @@
             {code: "MVR", name: "Maldives - Rufiyaa"},
             {code: "XOF", name: "Mali - CFA Franc"},
             {code: "EUR", name: "Malta - Euro"},
-            {code: "USD", name: "Marshall Islands - U.S. Dollar"},
+            {code: "USD Marshal Islands", name: "Marshall Islands - U.S. Dollar"},
             {code: "MRU", name: "Mauritania - Ouguiya"},
             {code: "MUR", name: "Mauritius - Mauritian Rupee"},
             {code: "MXN", name: "Mexico - Mexican Peso"},
-            {code: "USD", name: "Federated States of Micronesia - U.S. Dollar"},
+            {code: "USD Micronesia", name: "Federated States of Micronesia - U.S. Dollar"},
             {code: "MDL", name: "Moldova - Leu"},
             {code: "EUR", name: "Monaco - Euro"},
             {code: "MNT", name: "Mongolia - Togrog"},
@@ -282,10 +310,10 @@
             {code: "NOK", name: "Norway - Norwegian Krone"},
             {code: "OMR", name: "Oman - Omani Rial"},
             {code: "PKR", name: "Pakistan - Pakistani Rupee"},
-            {code: "USD", name: "Palau - U.S. Dollar"},
+            {code: "USD palau", name: "Palau - U.S. Dollar"},
             {code: "ILS", name: "Palestine - Palestine Pound (also uses ILS)"},
             {code: "PAB", name: "Panama - Panamanian Balboa"},
-            {code: "USD", name: "Panama - U.S. Dollar"},
+            {code: "USD panama", name: "Panama - U.S. Dollar"},
             {code: "PGK", name: "Papua New Guinea - Kina"},
             {code: "PYG", name: "Paraguay - Guaraní"},
             {code: "PEN", name: "Peru - Sol"},
@@ -347,70 +375,112 @@
         ];
 
         let conversionHistory = [];
+        let selectedFromCurrency = 'USD';
+        let selectedToCurrency = 'INR';
 
-        function populateCurrencies() {
-            const fromSelect = document.getElementById('fromCurrency');
-            const toSelect = document.getElementById('toCurrency');
-            
-            currencies.forEach(currency => {
-                const option = `<option value="${currency.code}">${currency.name}</option>`;
-                fromSelect.innerHTML += option;
-                toSelect.innerHTML += option;
+        function populateDropdown(dropdownId, inputId, selectedCurrencyVar) {
+            const dropdown = document.getElementById(dropdownId);
+            const input = document.getElementById(inputId);
+
+            // Populate dropdown with all currencies initially
+            const updateDropdown = (filter = '') => {
+                dropdown.innerHTML = '';
+                const filteredCurrencies = currencies.filter(currency => 
+                    currency.name.toLowerCase().includes(filter.toLowerCase())
+                );
+                filteredCurrencies.forEach(currency => {
+                    const item = document.createElement('div');
+                    item.className = 'dropdown-item';
+                    item.textContent = currency.name;
+                    item.dataset.code = currency.code;
+                    item.addEventListener('click', () => {
+                        input.value = currency.name;
+                        if (dropdownId === 'fromDropdown') {
+                            selectedFromCurrency = currency.code;
+                        } else {
+                            selectedToCurrency = currency.code;
+                        }
+                        dropdown.style.display = 'none';
+                    });
+                    dropdown.appendChild(item);
+                });
+            };
+
+            // Initial population
+            updateDropdown();
+            input.value = currencies.find(c => c.code === selectedCurrencyVar).name;
+
+            // Show dropdown on input focus
+            input.addEventListener('focus', () => {
+                dropdown.style.display = 'block';
+                updateDropdown(input.value);
             });
-            
-            fromSelect.value = 'USD';
-            toSelect.value = 'EUR';
+
+            // Filter on input
+            input.addEventListener('input', () => {
+                updateDropdown(input.value);
+            });
+
+            // Hide dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
         }
 
         async function convertCurrency() {
-    const amount = document.getElementById('amount').value;
-    const fromCurrency = document.getElementById('fromCurrency').value;
-    const toCurrency = document.getElementById('toCurrency').value;
-    const resultBox = document.getElementById('resultBox');
-    const errorBox = document.getElementById('error');
-    const resultText = document.getElementById('result');
-    const rateText = document.getElementById('rate');
+            const amount = document.getElementById('amount').value;
+            const fromCurrency = selectedFromCurrency;
+            const toCurrency = selectedToCurrency;
+            const resultBox = document.getElementById('resultBox');
+            const errorBox = document.getElementById('error');
+            const resultText = document.getElementById('result');
+            const rateText = document.getElementById('rate');
 
-    if (!amount || amount <= 0) {
-        errorBox.textContent = "Please enter a valid amount";
-        resultBox.style.display = "none";
-        return;
-    }
+            if (!amount || amount <= 0) {
+                errorBox.textContent = "Please enter a valid amount";
+                resultBox.style.display = "none";
+                return;
+            }
 
-    errorBox.textContent = "";
-    try {
-        const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`);
-        const data = await response.json();
-        if (!data.rates[toCurrency]) {
-            throw new Error("Currency not supported by API");
+            errorBox.textContent = "";
+            try {
+                const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`);
+                const data = await response.json();
+                if (!data.rates[toCurrency]) {
+                    throw new Error("Currency not supported by API");
+                }
+                const rate = data.rates[toCurrency];
+                const convertedAmount = (amount * rate).toFixed(2);
+                
+                resultText.textContent = `${amount} ${fromCurrency} = ${convertedAmount} ${toCurrency}`;
+                rateText.textContent = `Exchange Rate: 1 ${fromCurrency} = ${rate} ${toCurrency}`;
+                resultBox.style.display = "block";
+
+                // Add to history with 12-hour clock format
+                const now = new Date();
+                const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
+                const timeString = now.toLocaleTimeString('en-US', timeOptions);
+                const historyEntry = `${timeString} - ${amount} ${fromCurrency} → ${convertedAmount} ${toCurrency}`;
+                conversionHistory.unshift(historyEntry);
+                if (conversionHistory.length > 5) conversionHistory.pop();
+                updateHistory();
+            } catch (error) {
+                errorBox.textContent = "Conversion failed. Please try again or check if the currency is supported.";
+                resultBox.style.display = "none";
+            }
         }
-        const rate = data.rates[toCurrency];
-        const convertedAmount = (amount * rate).toFixed(2);
-        
-        resultText.textContent = `${amount} ${fromCurrency} = ${convertedAmount} ${toCurrency}`;
-        rateText.textContent = `Exchange Rate: 1 ${fromCurrency} = ${rate} ${toCurrency}`;
-        resultBox.style.display = "block";
-
-        // Add to history with 12-hour clock format
-        const now = new Date();
-        const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
-        const timeString = now.toLocaleTimeString('en-US', timeOptions);
-        const historyEntry = `${timeString} - ${amount} ${fromCurrency} → ${convertedAmount} ${toCurrency}`;
-        conversionHistory.unshift(historyEntry);
-        if (conversionHistory.length > 5) conversionHistory.pop();
-        updateHistory();
-    } catch (error) {
-        errorBox.textContent = "Conversion failed. Please try again or check if the currency is supported.";
-        resultBox.style.display = "none";
-    }
-}
 
         function reverseCurrencies() {
-            const fromSelect = document.getElementById('fromCurrency');
-            const toSelect = document.getElementById('toCurrency');
-            const temp = fromSelect.value;
-            fromSelect.value = toSelect.value;
-            toSelect.value = temp;
+            const fromInput = document.getElementById('fromSearch');
+            const toInput = document.getElementById('toSearch');
+            const tempValue = fromInput.value;
+            const tempCode = selectedFromCurrency;
+            fromInput.value = toInput.value;
+            selectedFromCurrency = selectedToCurrency;
+            toInput.value = tempValue;
+            selectedToCurrency = tempCode;
             convertCurrency();
         }
 
@@ -421,7 +491,8 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('currentYear').textContent = new Date().getFullYear();
-            populateCurrencies();
+            populateDropdown('fromDropdown', 'fromSearch', selectedFromCurrency);
+            populateDropdown('toDropdown', 'toSearch', selectedToCurrency);
         });
     </script>
 </body>

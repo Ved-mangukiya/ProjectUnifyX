@@ -490,51 +490,52 @@
     <script>
         // Tool data with simplified categories
         const tools = [
-            // Calculators Category
-            { icon: "🎂", title: "Age Calculator", link: "AgeCalculator.html", date: "2025-03-05", category: "Calculators", featured: true },
-            { icon: "- +", title: "Calculator", link: "calculator.html", date: "2024-04-12", category: "Calculators", featured: true },
-            { icon: "💰", title: "Discount Calculator", link: "discount.html", date: "2025-02-19", category: "Calculators" },
-            { icon: "📝", title: "GST Calculator", link: "gst.html", date: "2025-02-19", category: "Calculators" },
-            { icon: "💱", title: "Currency Exchange", link: "CurrencyEXC.html", date: "2025-01-26", category: "Calculators" },      
-            // Financial Tools Category
-            { icon: "💸", title: "Expense Tracker", link: "Expense_Tracker.html", date: "2025-02-18", category: "Financial Tools", featured: true },
-            { icon: "🏠", title: "Home Loan Calculator", link: "homeloan.html", date: "2025-02-19", category: "Financial Tools" },
-            { icon: "📈", title: "Investment Calculator", link: "investment.html", date: "2025-02-19", category: "Financial Tools" },
-            { icon: "💵", title: "Loan Calculator", link: "loan.html", date: "2025-02-19", category: "Financial Tools" },
-            
-            // Converters Category
-            { icon: "📏", title: "Area Converter", link: "areaconverter.html", date: "2025-02-19", category: "Converters" },
-            { icon: "📊", title: "Data Converter", link: "dataconverter.html", date: "2025-02-19", category: "Converters" },
-            { icon: "📏", title: "Length Converter", link: "lengthconverter.html", date: "2025-02-19", category: "Converters" },
-            { icon: "⚖️", title: "Mass Converter", link: "massconverter.html", date: "2025-02-19", category: "Converters" },
-            { icon: "⚡", title: "Power Converter", link: "powerconverter.html", date: "2025-02-19", category: "Converters" },
-            { icon: "🗜", title: "Pressure Converter", link: "pressureconverter.html", date: "2025-02-19", category: "Converters" },
-            { icon: "🚀", title: "Speed Converter", link: "speedconverter.html", date: "2025-02-19", category: "Converters" },
-            { icon: "🌡️", title: "Temperature Converter", link: "tempretureconverter.html", date: "2025-02-19", category: "Converters" },
-            { icon: "⏳", title: "Time Converter", link: "timeconverter.html", date: "2025-02-19", category: "Converters" },
-            { icon: "📦", title: "Volume Converter", link: "volumeconverter.html", date: "2025-02-19", category: "Converters" },
-            
-            // Cryptography Tools Category
-            { icon: "🔐", title: "Secret Code Generator", link: "text_to_secret_code_converter.html", date: "2024-10-22", category: "Cryptography Tools", featured: true },
-            { icon: "🔢", title: "Text to Secret Number", link: "Text_to_secret_numbers.html", date: "2024-11-03", category: "Cryptography Tools" },
-            { icon: "😀", title: "Text to Emoji Cipher", link: "Text_to_emoji_language_converter.html", date: "2024-09-10", category: "Cryptography Tools" },
-            
-            // Utility Tools Category
-            { icon: "⏳", title: "Countdown Timer", link: "countdown_timer.html", date: "2025-02-16", category: "Utility Tools" },
-            { icon: "🎨", title: "Advanced Whiteboard", link: "whiteboard.html", date: "2024-12-15", category: "Utility Tools", featured: true },
-            { icon: "🎲", title: "Number Guessing Game", link: "number_guessing_game.html", date: "2024-07-18", category: "Utility Tools" },
-            { icon: "📱", title: "QR Code Maker", link: "QR_code_maker.html", date: "2024-08-05", category: "Utility Tools" },
-            { icon: "📖", title: "English Quiz", link: "https://ved-mangukiya.github.io/English-Quiz/", date: "2024-11-27", category: "Utility Tools" }
-        ];
+    // Calculation & Financial Tools
+    { icon: "🎂", title: "Age Calculator", link: "AgeCalculator.html", date: "2025-03-05", category: "Calculation & Financial Tools", featured: true },
+    { icon: "- +", title: "Calculator", link: "calculator.html", date: "2024-04-12", category: "Calculation & Financial Tools", featured: true },
+    { icon: "💰", title: "Discount Calculator", link: "discount.html", date: "2025-02-19", category: "Calculation & Financial Tools" },
+    { icon: "📝", title: "GST Calculator", link: "gst.html", date: "2025-02-19", category: "Calculation & Financial Tools" },
+    { icon: "💱", title: "Currency Exchange", link: "CurrencyEXC.html", date: "2025-01-26", category: "Calculation & Financial Tools" },
+    { icon: "💸", title: "Expense Tracker", link: "Expense_Tracker.html", date: "2025-02-18", category: "Calculation & Financial Tools", featured: true },
+    { icon: "🏠", title: "Home Loan Calculator", link: "homeloan.html", date: "2025-02-19", category: "Calculation & Financial Tools" },
+    { icon: "📈", title: "Investment Calculator", link: "investment.html", date: "2025-02-19", category: "Calculation & Financial Tools" },
+    { icon: "💵", title: "Loan Calculator", link: "loan.html", date: "2025-02-19", category: "Calculation & Financial Tools" },
 
-        // Category icons
-        const categoryIcons = {
-            "Calculators": "🧮",
-            "Financial Tools": "💹",
-            "Converters": "🔄",
-            "Cryptography Tools": "🔒",
-            "Utility Tools": "🛠️"
-        };
+    // Unit & Measurement Converters
+    { icon: "📏", title: "Area Converter", link: "areaconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
+    { icon: "📊", title: "Data Converter", link: "dataconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
+    { icon: "📏", title: "Length Converter", link: "lengthconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
+    { icon: "⚖️", title: "Mass Converter", link: "massconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
+    { icon: "⚡", title: "Power Converter", link: "powerconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
+    { icon: "🗜", title: "Pressure Converter", link: "pressureconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
+    { icon: "🚀", title: "Speed Converter", link: "speedconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
+    { icon: "🌡️", title: "Temperature Converter", link: "tempretureconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
+    { icon: "⏳", title: "Time Converter", link: "timeconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
+    { icon: "📦", title: "Volume Converter", link: "volumeconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
+
+    // Cryptography & Security Tools
+    { icon: "🔐", title: "Secret Code Generator", link: "text_to_secret_code_converter.html", date: "2024-10-22", category: "Cryptography & Security Tools", featured: true },
+    { icon: "🔢", title: "Text to Secret Number", link: "Text_to_secret_numbers.html", date: "2024-11-03", category: "Cryptography & Security Tools" },
+    { icon: "😀", title: "Text to Emoji Cipher", link: "Text_to_emoji_language_converter.html", date: "2024-09-10", category: "Cryptography & Security Tools" },
+
+    // Utility & Miscellaneous Tools
+    { icon: "📄", title: "Question Paper Maker", link: "questionpapermaker.html", date: "2025-2-20", category: "Utility & Miscellaneous Tools", featured: true },
+    { icon: "⏳", title: "Countdown Timer", link: "countdown_timer.html", date: "2025-02-16", category: "Utility & Miscellaneous Tools" },
+    { icon: "🎨", title: "Advanced Whiteboard", link: "whiteboard.html", date: "2024-12-15", category: "Utility & Miscellaneous Tools", featured: true },
+    { icon: "🎲", title: "Number Guessing Game", link: "number_guessing_game.html", date: "2024-07-18", category: "Utility & Miscellaneous Tools" },
+    { icon: "📱", title: "QR Code Maker", link: "QR_code_maker.html", date: "2024-08-05", category: "Utility & Miscellaneous Tools" },
+    { icon: "📖", title: "English Quiz", link: "https://ved-mangukiya.github.io/English-Quiz/", date: "2024-11-27", category: "Utility & Miscellaneous Tools" },
+    
+];
+
+// Category Icons
+const categoryIcons = {
+    "Calculation & Financial Tools": "💰",
+    "Unit & Measurement Converters": "🔄",
+    "Cryptography & Security Tools": "🔒",
+    "Utility & Miscellaneous Tools": "🛠️"
+};
+
 
         // Organize tools by category
         function organizeByCategory() {

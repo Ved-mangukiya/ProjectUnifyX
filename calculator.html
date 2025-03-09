@@ -47,10 +47,44 @@
             overflow: hidden;
         }
 
+        .history-display {
+            width: 100%;
+            background-color: #555;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: right;
+            font-size: 16px;
+            color: #ccc;
+            margin-bottom: 5px;
+            min-height: 36px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #666;
+        }
+
         .buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
+        }
+
+        .scientific-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .scientific-buttons.active {
+            max-height: 300px;
         }
 
         button {
@@ -77,8 +111,20 @@
             background-color: #b65d5d;
         }
 
-        .btn-sqrt, .btn-percentage {
+        .btn-sqrt, .btn-percentage, .btn-function {
             background-color: #555;
+        }
+
+        .btn-gt {
+            background-color: #8c8c8c;
+            font-weight: bold;
+        }
+
+        .mode-toggle {
+            background-color: #5d5db6;
+            margin-bottom: 10px;
+            display: block;
+            width: 100%;
         }
 
         .percentage-inputs input {
@@ -95,6 +141,18 @@
 
         .percentage-inputs input::placeholder {
             color: #aaa;
+        }
+
+        .memory-indicator {
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-size: 12px;
+            color: #ff9900;
+        }
+
+        .display-container {
+            position: relative;
         }
 
         @media (max-width: 600px) {
@@ -117,28 +175,61 @@
 
 <h1>Calculator</h1>
 <div class="calculator">
-    <div class="display" id="display">0</div>
+    <button class="mode-toggle" id="modeToggle">Switch to Scientific Mode</button>
+    <div class="display-container">
+        <div class="memory-indicator" id="memoryIndicator"></div>
+        <div class="history-display" id="historyDisplay"></div>
+        <div class="display" id="display">0</div>
+    </div>
+    <div class="scientific-buttons" id="scientificButtons">
+        <button class="btn-function" onclick="calculateSin()">sin</button>
+        <button class="btn-function" onclick="calculateCos()">cos</button>
+        <button class="btn-function" onclick="calculateTan()">tan</button>
+        <button class="btn-function" onclick="calculateSquareRoot()">√</button>
+        
+        <button class="btn-function" onclick="calculateLog()">log</button>
+        <button class="btn-function" onclick="calculateLn()">ln</button>
+        <button class="btn-function" onclick="calculatePower()">x^y</button>
+        <button class="btn-function" onclick="calculateFactorial()">n!</button>
+        
+        <button class="btn-function" onclick="clearMemory()">MC</button>
+        <button class="btn-function" onclick="memoryRecall()">MR</button>
+        <button class="btn-function" onclick="memoryAdd()">M+</button>
+        <button class="btn-function" onclick="memorySub()">M-</button>
+        
+        <button class="btn-function" onclick="appendToDisplay('(')">(</button>
+        <button class="btn-function" onclick="appendToDisplay(')')">)</button>
+        <button class="btn-function" onclick="calculatePi()">π</button>
+        <button class="btn-function" onclick="calculateExp()">e</button>
+    </div>
     <div class="buttons">
         <button class="btn-clear" onclick="clearDisplay()">AC</button>
-        <button onclick="calculateSquareRoot()">√</button>
-        <button onclick="appendToDisplay('/')">÷</button>
-        <button onclick="appendToDisplay('*')">×</button>
+        <button class="btn-function" onclick="backspace()">⌫</button>
+        <button class="btn-function" onclick="calculatePercentageOnCalc()">%</button>
+        <button class="btn-function" onclick="appendToDisplay('/')">/</button>
+        
         <button onclick="appendToDisplay('7')">7</button>
         <button onclick="appendToDisplay('8')">8</button>
         <button onclick="appendToDisplay('9')">9</button>
-        <button onclick="appendToDisplay('-')">-</button>
+        <button class="btn-function" onclick="appendToDisplay('*')">×</button>
+        
         <button onclick="appendToDisplay('4')">4</button>
         <button onclick="appendToDisplay('5')">5</button>
         <button onclick="appendToDisplay('6')">6</button>
-        <button onclick="appendToDisplay('+')">+</button>
+        <button class="btn-function" onclick="appendToDisplay('-')">-</button>
+        
         <button onclick="appendToDisplay('1')">1</button>
         <button onclick="appendToDisplay('2')">2</button>
         <button onclick="appendToDisplay('3')">3</button>
+        <button class="btn-function" onclick="appendToDisplay('+')">+</button>
+        
+        <button onclick="toggleSign()">+/-</button>
         <button onclick="appendToDisplay('0')">0</button>
         <button onclick="appendToDisplay('.')">.</button>
+        <button class="btn-gt" onclick="showGrandTotal()">GT</button>
     </div>
     <div style="margin-top: 15px; display: flex; justify-content: space-between;">
-        <button class="btn-equal" style="width: 60%;" onclick="calculateResult()">=</button>
+        <button class="btn-equal" style="width: 100%;" onclick="calculateResult()">=</button>
     </div>
 </div>
 
@@ -154,45 +245,362 @@
 </div>
 
 <script>
-    function clearDisplay() {
-        document.getElementById("display").innerText = "0";
-    }
-
-    function clearPercentage() {
-        document.getElementById("obtainedMarks").value = '';
-        document.getElementById("totalMarks").value = '';
-        document.getElementById("percentageDisplay").innerText = "0%";
-    }
-
-    function appendToDisplay(value) {
-        const display = document.getElementById("display");
-        if (display.innerText === "0" && value !== '.') {
-            display.innerText = value;
+    // Variables for calculator
+    let currentDisplay = "0";
+    let memory = 0;
+    let hasMemory = false;
+    let calculationHistory = [];
+    let grandTotal = 0;
+    let isScientificMode = false;
+    
+    // Display elements
+    const display = document.getElementById("display");
+    const historyDisplay = document.getElementById("historyDisplay");
+    const memoryIndicator = document.getElementById("memoryIndicator");
+    const scientificButtons = document.getElementById("scientificButtons");
+    const modeToggle = document.getElementById("modeToggle");
+    
+    // Toggle scientific mode
+    modeToggle.addEventListener("click", function() {
+        isScientificMode = !isScientificMode;
+        if (isScientificMode) {
+            scientificButtons.classList.add("active");
+            modeToggle.innerText = "Switch to Basic Mode";
         } else {
-            display.innerText += value;
+            scientificButtons.classList.remove("active");
+            modeToggle.innerText = "Switch to Scientific Mode";
         }
+    });
+    
+    // Basic calculator functions
+    function clearDisplay() {
+        currentDisplay = "0";
+        updateDisplay();
     }
-
+    
+    function backspace() {
+        if (currentDisplay.length === 1) {
+            currentDisplay = "0";
+        } else {
+            currentDisplay = currentDisplay.slice(0, -1);
+        }
+        updateDisplay();
+    }
+    
+    function appendToDisplay(value) {
+        if (currentDisplay === "0" && value !== '.') {
+            currentDisplay = value;
+        } else {
+            currentDisplay += value;
+        }
+        updateDisplay();
+    }
+    
     function calculateResult() {
-        const display = document.getElementById("display");
         try {
-            const result = eval(display.innerText);
-            display.innerText = result !== undefined ? result : "Error";
+            // Store the expression for history
+            const expression = currentDisplay;
+            
+            // Replace special constants
+            let evalExpression = expression.replace(/π/g, 'Math.PI').replace(/e/g, 'Math.E');
+            
+            // Evaluate and format result
+            const result = eval(evalExpression);
+            
+            // Check if result is valid
+            if (result === undefined || isNaN(result) || !isFinite(result)) {
+                currentDisplay = "Error";
+            } else {
+                // Format result
+                if (Number.isInteger(result)) {
+                    currentDisplay = result.toString();
+                } else {
+                    // Limit decimal places for readability
+                    currentDisplay = parseFloat(result.toFixed(8)).toString();
+                }
+                
+                // Add to history
+                addToHistory(expression, currentDisplay);
+            }
+            
+            updateDisplay();
         } catch (error) {
-            display.innerText = "Error";
+            currentDisplay = "Error";
+            updateDisplay();
         }
     }
-
+    
+    // Scientific calculator functions
+    function calculateSin() {
+        try {
+            const value = parseFloat(currentDisplay);
+            const radians = value * (Math.PI / 180); // Convert degrees to radians
+            const result = Math.sin(radians);
+            
+            // Add to history
+            addToHistory(`sin(${currentDisplay})`, result.toFixed(8));
+            
+            currentDisplay = result.toFixed(8);
+            updateDisplay();
+        } catch (error) {
+            currentDisplay = "Error";
+            updateDisplay();
+        }
+    }
+    
+    function calculateCos() {
+        try {
+            const value = parseFloat(currentDisplay);
+            const radians = value * (Math.PI / 180); // Convert degrees to radians
+            const result = Math.cos(radians);
+            
+            // Add to history
+            addToHistory(`cos(${currentDisplay})`, result.toFixed(8));
+            
+            currentDisplay = result.toFixed(8);
+            updateDisplay();
+        } catch (error) {
+            currentDisplay = "Error";
+            updateDisplay();
+        }
+    }
+    
+    function calculateTan() {
+        try {
+            const value = parseFloat(currentDisplay);
+            const radians = value * (Math.PI / 180); // Convert degrees to radians
+            const result = Math.tan(radians);
+            
+            // Add to history
+            addToHistory(`tan(${currentDisplay})`, result.toFixed(8));
+            
+            currentDisplay = result.toFixed(8);
+            updateDisplay();
+        } catch (error) {
+            currentDisplay = "Error";
+            updateDisplay();
+        }
+    }
+    
     function calculateSquareRoot() {
-        const display = document.getElementById("display");
         try {
-            const result = Math.sqrt(eval(display.innerText));
-            display.innerText = result !== undefined ? result : "Error";
+            const value = parseFloat(currentDisplay);
+            
+            if (value < 0) {
+                throw new Error("Cannot calculate square root of negative number");
+            }
+            
+            const result = Math.sqrt(value);
+            
+            // Add to history
+            addToHistory(`√(${currentDisplay})`, result.toFixed(8));
+            
+            currentDisplay = result.toFixed(8);
+            updateDisplay();
         } catch (error) {
-            display.innerText = "Error";
+            currentDisplay = "Error";
+            updateDisplay();
         }
     }
-
+    
+    function calculateLog() {
+        try {
+            const value = parseFloat(currentDisplay);
+            
+            if (value <= 0) {
+                throw new Error("Invalid input for logarithm");
+            }
+            
+            const result = Math.log10(value);
+            
+            // Add to history
+            addToHistory(`log(${currentDisplay})`, result.toFixed(8));
+            
+            currentDisplay = result.toFixed(8);
+            updateDisplay();
+        } catch (error) {
+            currentDisplay = "Error";
+            updateDisplay();
+        }
+    }
+    
+    function calculateLn() {
+        try {
+            const value = parseFloat(currentDisplay);
+            
+            if (value <= 0) {
+                throw new Error("Invalid input for natural logarithm");
+            }
+            
+            const result = Math.log(value);
+            
+            // Add to history
+            addToHistory(`ln(${currentDisplay})`, result.toFixed(8));
+            
+            currentDisplay = result.toFixed(8);
+            updateDisplay();
+        } catch (error) {
+            currentDisplay = "Error";
+            updateDisplay();
+        }
+    }
+    
+    function calculatePower() {
+        appendToDisplay("**");
+    }
+    
+    function calculateFactorial() {
+        try {
+            const value = parseInt(currentDisplay);
+            
+            if (value < 0 || !Number.isInteger(value)) {
+                throw new Error("Invalid input for factorial");
+            }
+            
+            let result = 1;
+            for (let i = 2; i <= value; i++) {
+                result *= i;
+            }
+            
+            // Add to history
+            addToHistory(`${currentDisplay}!`, result);
+            
+            currentDisplay = result.toString();
+            updateDisplay();
+        } catch (error) {
+            currentDisplay = "Error";
+            updateDisplay();
+        }
+    }
+    
+    function calculatePercentageOnCalc() {
+        try {
+            const value = parseFloat(currentDisplay);
+            const result = value / 100;
+            
+            // Add to history
+            addToHistory(`${currentDisplay}%`, result);
+            
+            currentDisplay = result.toString();
+            updateDisplay();
+        } catch (error) {
+            currentDisplay = "Error";
+            updateDisplay();
+        }
+    }
+    
+    function calculatePi() {
+        if (currentDisplay === "0") {
+            currentDisplay = "π";
+        } else {
+            currentDisplay += "π";
+        }
+        updateDisplay();
+    }
+    
+    function calculateExp() {
+        if (currentDisplay === "0") {
+            currentDisplay = "e";
+        } else {
+            currentDisplay += "e";
+        }
+        updateDisplay();
+    }
+    
+    function toggleSign() {
+        if (currentDisplay === "0") return;
+        
+        if (currentDisplay.startsWith("-")) {
+            currentDisplay = currentDisplay.slice(1);
+        } else {
+            currentDisplay = "-" + currentDisplay;
+        }
+        updateDisplay();
+    }
+    
+    // Memory functions
+    function clearMemory() {
+        memory = 0;
+        hasMemory = false;
+        updateMemoryIndicator();
+    }
+    
+    function memoryRecall() {
+        if (hasMemory) {
+            currentDisplay = memory.toString();
+            updateDisplay();
+        }
+    }
+    
+    function memoryAdd() {
+        try {
+            const value = parseFloat(currentDisplay);
+            memory += value;
+            hasMemory = true;
+            updateMemoryIndicator();
+        } catch (error) {
+            // Do nothing
+        }
+    }
+    
+    function memorySub() {
+        try {
+            const value = parseFloat(currentDisplay);
+            memory -= value;
+            hasMemory = true;
+            updateMemoryIndicator();
+        } catch (error) {
+            // Do nothing
+        }
+    }
+    
+    function updateMemoryIndicator() {
+        memoryIndicator.innerText = hasMemory ? "M" : "";
+    }
+    
+    // History and grand total functions
+    function addToHistory(expression, result) {
+        calculationHistory.push({
+            expression: expression,
+            result: result
+        });
+        
+        // Update grand total
+        if (!isNaN(parseFloat(result))) {
+            grandTotal += parseFloat(result);
+        }
+        
+        updateHistoryDisplay();
+    }
+    
+    function updateHistoryDisplay() {
+        historyDisplay.innerHTML = "";
+        
+        // Display last 3 history items at most
+        const historyToShow = calculationHistory.slice(-3);
+        
+        historyToShow.forEach(item => {
+            const historyItem = document.createElement("div");
+            historyItem.className = "history-item";
+            historyItem.innerText = `${item.expression} = ${item.result}`;
+            historyDisplay.appendChild(historyItem);
+        });
+    }
+    
+    function showGrandTotal() {
+        // Format the grand total to avoid too many decimal places
+        const formattedTotal = grandTotal.toFixed(2).replace(/\.00$/, '');
+        currentDisplay = formattedTotal.toString();
+        updateDisplay();
+        
+        // Add visual indication it's a grand total
+        const gtHistoryItem = document.createElement("div");
+        gtHistoryItem.className = "history-item";
+        gtHistoryItem.innerText = `GT = ${formattedTotal}`;
+        historyDisplay.appendChild(gtHistoryItem);
+    }
+    
+    // Percentage finder functions
     function calculatePercentage() {
         const obtained = parseFloat(document.getElementById("obtainedMarks").value);
         const total = parseFloat(document.getElementById("totalMarks").value);
@@ -203,13 +611,32 @@
             document.getElementById("percentageDisplay").innerText = "Invalid Input";
         }
     }
-
-    // Set current year in footer
+    
+    function clearPercentage() {
+        document.getElementById("obtainedMarks").value = '';
+        document.getElementById("totalMarks").value = '';
+        document.getElementById("percentageDisplay").innerText = "0%";
+    }
+    
+    // Helper functions
+    function updateDisplay() {
+        display.innerText = currentDisplay;
+    }
+    
+    // Initialize
     document.addEventListener("DOMContentLoaded", () => {
+        updateDisplay();
+        updateHistoryDisplay();
+        updateMemoryIndicator();
+        
+        // Set current year in footer
         const year = new Date().getFullYear();
-        document.getElementById("currentYear").innerText = year;
+        if (document.getElementById("currentYear")) {
+            document.getElementById("currentYear").innerText = year;
+        }
     });
 </script>
+
 <footer>
     <div style="text-align: center; color: white;">
         <p>&copy; <span id="currentYear"></span> Mangukiya Ved. All rights reserved.</p>

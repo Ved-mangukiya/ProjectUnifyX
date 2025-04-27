@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7399420147957761"
-     crossorigin="anonymous"></script>
-    <meta name="google-adsense-account" content="ca-pub-7399420147957761">
-    <meta name="google-site-verification" content="Fxf14HLqaaYoNhpCi6qCq_5JB7sMpUgOqLh_GNLf8ZI" />
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Added for responsive display -->
-    <title>ProjectUnifyX - The All-In-One Super Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ProjectUnifyX: Your all-in-one productivity tools platform. Access cloud-based tools without downloads for a seamless workflow.">
+    <meta name="keywords" content="ProjectUnifyX, all-in-one productivity tools, unified platform, no-install tools, cloud-based tools, productivity platform">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Ved Mangukiya">
+    <!-- Open Graph Tags for Social Media -->
+    <meta property="og:title" content="ProjectUnifyX - All-In-One Productivity Tools">
+    <meta property="og:description" content="Discover ProjectUnifyX, the ultimate platform for accessing all your productivity tools in one place, no downloads needed.">
+    <meta property="og:image" content="https://projectunifyx.com/wlogo.png">
+    <meta property="og:url" content="https://projectunifyx.com">
+    <meta property="og:type" content="website">
+    <!-- Existing Google AdSense and Verification -->
+    <meta name="google-adsense-account" content="ca-pub-7399420147957761">
+    <meta name="google-site-verification" content="Fxf14HLqaaYoNhpCi6qCq_5JB7sMpUgOqLh_GNLf8ZI">
+    <title>ProjectUnifyX - All-In-One Productivity Tools</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -145,6 +154,7 @@
         .nav-links {
             display: flex;
             gap: 30px;
+            align-items: center;
         }
 
         .nav-links a {
@@ -176,7 +186,7 @@
         }
 
         .hero {
-            height: 120vh;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -276,7 +286,7 @@
         }
 
         .animated-text-wrapper {
-            animation: darkSlide 20s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+            animation: none;
             display: flex;
             flex-direction: column;
             font-family: 'Cinzel Decorative', serif;
@@ -293,20 +303,6 @@
             color: #3ee7cb;
             text-transform: uppercase;
             letter-spacing: 2px;
-        }
-
-        @keyframes darkSlide {
-            0%, 10% { transform: translateY(0); }
-            10%, 20% { transform: translateY(-50px); }
-            20%, 30% { transform: translateY(-100px); }
-            30%, 40% { transform: translateY(-150px); }
-            40%, 50% { transform: translateY(-200px); }
-            50%, 60% { transform: translateY(-250px); }
-            60%, 70% { transform: translateY(-300px); }
-            70%, 80% { transform: translateY(-350px); }
-            80%, 90% { transform: translateY(-400px); }
-            90%, 100% { transform: translateY(-450px); }
-            100% { transform: translateY(-500px); }
         }
 
         .hero-desc {
@@ -337,59 +333,92 @@
         }
 
         .btn {
-    display: inline-block;
-    padding: 10px 20px; /* Reduced padding for smaller size */
-    border-radius: 20px; /* Slightly less rounded for a modern look */
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 0.9rem; /* Smaller font size */
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    box-shadow: 0 0 10px rgba(91, 192, 170, 0.6); /* Glow effect */
-}
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(91, 192, 170, 0.6);
+        }
 
-.btn-primary {
-    background-color: var(--primary);
-    color: var(--dark-bg);
-    border: none; /* Remove border for cleaner look */
-}
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--dark-bg);
+            border: none;
+        }
 
-.btn-primary:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px); /* Reduced hover lift */
-    box-shadow: 0 0 15px rgba(91, 192, 170, 0.8); /* Enhanced glow on hover */
-}
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(91, 192, 170, 0.8);
+        }
 
-.btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: all 0.6s;
-    z-index: -1;
-}
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s;
+            z-index: -1;
+        }
 
-.btn-primary:hover::before {
-    left: 100%;
-}
+        .btn-primary:hover::before {
+            left: 100%;
+        }
 
-.btn-outline {
-    background-color: transparent;
-    color: var(--primary);
-    border: 2px solid var(--primary);
-}
+        .btn-primary.explore-tools {
+            background: linear-gradient(135deg, var(--primary), #3ee7cb);
+            font-size: 1rem;
+            padding: 12px 30px;
+            animation: pulse-btn 2s infinite;
+            position: relative;
+        }
 
-.btn-outline:hover {
-    background-color: var(--primary);
-    color: var(--dark-bg);
-    transform: translateY(-2px); /* Reduced hover lift */
-    box-shadow: 0 0 15px rgba(91, 192, 170, 0.8); /* Enhanced glow on hover */
-}
+        .btn-primary.explore-tools::after {
+            content: 'Start Here!';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: var(--dark-bg);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-primary.explore-tools:hover::after {
+            opacity: 1;
+        }
+
+        @keyframes pulse-btn {
+            0% { transform: scale(1); box-shadow: 0 0 10px var(--glow); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px var(--glow); }
+            100% { transform: scale(1); box-shadow: 0 0 10px var(--glow); }
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(91, 192, 170, 0.8);
+        }
 
         .scroll-down {
             position: absolute;
@@ -754,46 +783,46 @@
         }
 
         .dev-item {
-    display: flex;
-    align-items: center; /* Aligns icon and text vertically */
-    margin-bottom: 20px;
-}
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-.dev-icon {
-    margin-right: 15px; /* Space between icon and label */
-    min-width: 24px; /* Ensures consistent icon width */
-    color: var(--primary); /* For non-SVG icons, if needed */
-}
+        .dev-icon {
+            margin-right: 15px;
+            min-width: 24px;
+            color: var(--primary);
+        }
 
-.dev-icon svg {
-    vertical-align: middle; /* Aligns SVG vertically with text */
-    width: 24px; /* Match your SVG size */
-    height: 24px; /* Match your SVG size */
-}
+        .dev-icon svg {
+            vertical-align: middle;
+            width: 24px;
+            height: 24px;
+        }
 
-.dev-label {
-    font-weight: 600;
-    margin-right: 10px;
-    color: var(--text-light);
-}
+        .dev-label {
+            font-weight: 600;
+            margin-right: 10px;
+            color: var(--text-light);
+        }
 
-.dev-value {
-    display: flex;
-    align-items: center;
-    gap: 5px; /* Space between text and icon */
-    color: var(--text-muted);
-}
+        .dev-value {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-muted);
+        }
 
-.age-text {
-    display: inline-block; /* Ensures text behaves as a block-level element for alignment */
-}
+        .age-text {
+            display: inline-block;
+        }
 
-.dev-value svg,
-.age-value svg {
-    vertical-align: middle; /* Aligns SVG vertically with text */
-    width: 24px; /* Match your SVG size */
-    height: 24px; /* Match your SVG size */
-}
+        .dev-value svg,
+        .age-value svg {
+            vertical-align: middle;
+            width: 24px;
+            height: 24px;
+        }
 
         .quote-container {
             text-align: center;
@@ -808,7 +837,7 @@
 
         .quote {
             font-style: italic;
-            font-size: 1 rem;
+            font-size: 1rem;
             color: var(--text-light);
             margin-bottom: 15px;
             position: relative;
@@ -854,7 +883,7 @@
         }
 
         .age-value {
-            font-size: 1 rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--primary);
             display: inline-block;
@@ -890,9 +919,19 @@
 
         .btn-container {
             display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 20px;
-            justify-content: center;
-            margin-top: 40px;
+        }
+
+        .secondary-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .secondary-buttons .btn-outline {
+            font-size: 0.8rem;
+            padding: 8px 15px;
         }
 
         .footer {
@@ -1043,6 +1082,70 @@
             transform: translateY(-5px);
         }
 
+        .onboarding-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .onboarding-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(91, 192, 170, 0.5);
+        }
+
+        .modal-content h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .modal-content .btn {
+            margin: 10px;
+        }
+
+        .floating-cta {
+            position: fixed;
+            bottom: 80px;
+            right: 30px;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .floating-cta.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .floating-cta .btn {
+            font-size: 0.9rem;
+            padding: 10px 20px;
+        }
+
         @media screen and (max-width: 768px) {
             h1 {
                 font-size: 2.5rem;
@@ -1068,6 +1171,11 @@
             .btn {
                 width: 100%;
                 text-align: center;
+            }
+
+            .btn-primary.explore-tools {
+                padding: 15px 40px;
+                font-size: 1.1rem;
             }
         }
 
@@ -1099,7 +1207,7 @@
             }
         }
     </style>
-   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7399420147957761"
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7399420147957761"
      crossorigin="anonymous"></script>
 </head>
 <body>
@@ -1124,7 +1232,7 @@
             <a href="#about">About</a>
             <a href="#features">Features</a>
             <a href="#developer">Developer</a>
-            <a href="#contact">Contact</a>
+            <a href="/AllTools.html" class="btn btn-primary explore-tools" aria-label="Explore all tools available on ProjectUnifyX">Explore All Tools</a>
         </div>
     </header>
 
@@ -1136,26 +1244,16 @@
                 <img src="wlogo.png" alt="Project UnifyX Logo">
             </div>
             <h1>
-    Project Unify X
-    <div class="animated-text">
-        <div class="animated-text-wrapper">
-            <div>Ultimate Toolkit</div>
-            <div>One Hub, All Tools</div>
-            <div>Digital Command</div>
-            <div>Infinite Access</div>
-            <div>Master Everything</div>
-            <div>Tech Unleashed</div>
-            <div>Limitless System</div>
-            <div>Seamless Utility</div>
-            <div>Universal Suite</div>
-            <div>Unify Everything</div>
-        </div>
-    </div>
-</h1>
-
-            <p class="hero-desc">An all-in-one super platform that integrates essential services without requiring frequent updates or heavy storage space. Access everything you need in one place with seamless updates and cloud synchronization.</p>
+                Project Unify X
+                <div class="animated-text">
+                    <div class="animated-text-wrapper">
+                        <div>ALL TOOLS</div>
+                    </div>
+                </div>
+            </h1>
+            <p class="hero-desc">ProjectUnifyX is your all-in-one platform for seamless access to essential services, no apps or updates needed.</p>
             <div class="hero-buttons">
-                <a href="#concept" class="btn btn-primary">Explore Concept</a>
+                <a href="/AllTools.html" class="btn btn-primary explore-tools" aria-label="Explore all tools available on ProjectUnifyX">Explore All Tools</a>
                 <a href="#features" class="btn btn-outline">See Features</a>
             </div>
         </div>
@@ -1227,19 +1325,22 @@
                     </li>
                     <li>
                         <span class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline></svg>
                         </span>
                         <span class="about-list-text">Secure cloud synchronization across all your devices</span>
                     </li>
                     <li>
                         <span class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline></svg>
                         </span>
                         <span class="about-list-text">Leaner, more efficient experience saving both storage and time</span>
                     </li>
                     <li>
                         <span class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline></svg>
                         </span>
                         <span class="about-list-text">Unified access to all essential services in one platform</span>
                     </li>
@@ -1254,42 +1355,48 @@
         <div class="features-container">
             <div class="feature-card" data-aos="zoom-in">
                 <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                 </div>
                 <h3 class="feature-title">Unified Interface</h3>
                 <p class="feature-desc">Access all your essential services through a single, intuitive interface designed for maximum efficiency.</p>
             </div>
             <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
                 <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m8 17 4 4 4-4"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m8 17 4 4 4-4"></path></svg>
                 </div>
                 <h3 class="feature-title">Real-time Updates</h3>
                 <p class="feature-desc">Instantly receive platform updates without needing to download or install anything from app stores.</p>
             </div>
             <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
                 <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                 </div>
                 <h3 class="feature-title">Zero Installation</h3>
                 <p class="feature-desc">No downloads required for any services. Everything runs directly in your browser, saving precious storage space.</p>
             </div>
             <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
                 <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 </div>
                 <h3 class="feature-title">Time Efficient</h3>
                 <p class="feature-desc">Save time by avoiding the need to switch between multiple apps or wait for updates to download and install.</p>
             </div>
             <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
                 <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </div>
                 <h3 class="feature-title">User-Centric Design</h3>
                 <p class="feature-desc">Carefully crafted with users in mind, ensuring an intuitive experience across all integrated services.</p>
             </div>
             <div class="feature-card" data-aos="zoom-in" data-aos-delay="500">
                 <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                 </div>
                 <h3 class="feature-title">Enhanced Security</h3>
                 <p class="feature-desc">Built with security in mind, ensuring your data remains protected across all integrated services.</p>
@@ -1297,91 +1404,100 @@
         </div>
     </section>
 
-   <!-- Developer Section  -->
-<section class="section" id="developer">
-    <h2 class="section-title">Developer Info</h2>
-    <div class="dev-container">
-        <div class="dev-header">
-            <div class="dev-avatar">
-                <img src="ved1.png.jpg" alt="Ved Mangukiya">
+    <!-- Developer Section -->
+    <section class="section" id="developer">
+        <h2 class="section-title">Developer Info</h2>
+        <div class="dev-container">
+            <div class="dev-header">
+                <div class="dev-avatar">
+                    <img src="ved1.png.jpg" alt="Ved Mangukiya">
+                </div>
+                <div class="dev-title">
+                    <h3 class="dev-name">Ved Mangukiya</h3>
+                    <p class="dev-subtitle">Creator of ProjectUnifyX</p>
+                </div>
             </div>
-            <div class="dev-title">
-                <h3 class="dev-name">Ved Mangukiya</h3>
-                <p class="dev-subtitle">Creator of ProjectUnifyX</p>
+            <div class="dev-info">
+                <div>
+                    <div class="dev-item">
+                        <span class="dev-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5bc0aa" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </span>
+                        <div>
+                            <span class="dev-label">Residence:</span>
+                            <span class="dev-value">Surat, India</span>
+                        </div>
+                    </div>
+                    <div class="dev-item">
+                        <span class="dev-icon">
+                            <svg fill="#5bc0aa" height="196px" width="196px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-14.69 -14.69 519.02 519.02" xml:space="preserve" stroke="#5bc0aa" stroke-width="14.199704999999998"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-joi
+nline></g><g id="SVGRepo_iconCarrier"> <g> <path d="M460.656,132.911c-58.7-122.1-212.2-166.5-331.8-104.1c-9.4,5.2-13.5,16.6-8.3,27c5.2,9.4,16.6,13.5,27,8.3 c99.9-52,227.4-14.9,276.7,86.3c65.4,134.3-19,236.7-87.4,274.6c-93.1,51.7-211.2,17.4-267.6-70.7l69.3,14.5 c10.4,2.1,21.8-4.2,23.9-15.6c2.1-10.4-4.2-21.8-15.6-23.9l-122.8-25c-20.6-2-25,16.6-23.9,22.9l15.6,123.8 c1,10.4,9.4,17.7,19.8,17.7c12.8,0,20.8-12.5,19.8-23.9l-6-50.5c57.4,70.8,170.3,131.2,307.4,68.2 C414.856,432.511,548.256,314.811,460.656,132.911z"></path> </g> </g></svg>
+                        </span>
+                        <div>
+                            <span class="dev-label">Age:</span>
+                            <span class="dev-value" id="live-age"><span class="age-text">Calculating...</span> <svg fill="#5bc0aa" height="24px" width="24px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-489.64 -489.64 1468.92 1468.92" xml:space="preserve" transform="rotate(0)" stroke="#5bc0aa" stroke-width="29.3787"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-joi
+nline></g><g id="SVGRepo_iconCarrier"> <g> <path d="M460.656,132.911c-58.7-122.1-212.2-166.5-331.8-104.1c-9.4,5.2-13.5,16.6-8.3,27c5.2,9.4,16.6,13.5,27,8.3 c99.9-52,227.4-14.9,276.7,86.3c65.4,134.3-19,236.7-87.4,274.6c-93.1,51.7-211.2,17.4-267.6-70.7l69.3,14.5 c10.4,2.1,21.8-4.2,23.9-15.6c2.1-10.4-4.2-21.8-15.6-23.9l-122.8-25c-20.6-2-25,16.6-23.9,22.9l15.6,123.8 c1,10.4,9.4,17.7,19.8,17.7c12.8,0,20.8-12.5,19.8-23.9l-6-50.5c57.4,70.8,170.3,131.2,307.4,68.2 C414.856,432.511,548.256,314.811,460.656,132.911z"></path> </g> </g></svg></span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="dev-item">
+                        <span class="dev-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                        </span>
+                        <div>
+                            <span class="dev-label">Education:</span>
+                            <span class="dev-value">Currently studying in 12th grade, Commerce stream</span>
+                        </div>
+                    </div>
+                    <div class="dev-item">
+                        <span class="dev-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>
+                        </span>
+                        <div>
+                            <span class="dev-label">Passion:</span>
+                            <span class="dev-value">Curious about computers, coding, animation, and editing</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="dev-item">
+                        <span class="dev-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                        </span>
+                        <div>
+                            <span class="dev-label">Hobbies:</span>
+                            <span class="dev-value">Exploring new technologies, Swimming (District-level swimmer)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="quote-container">
+                <p class="quote">RRR: Reset. Restart. Realign. The Code Endures.</p>
+                <p class="quote-author">- My Philosophy</p>
+            </div>
+            <div class="age-container">
+                <p class="age-label">Current Age:</p>
+                <p class="age-value" id="detailed-age"><span class="age-text">Calculating...</span> <svg fill="#5bc0aa" height="24px" width="24px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-489.64 -489.64 1468.92 1468.92" xml:space="preserve" transform="rotate(0)" stroke="#5bc0aa" stroke-width="29.3787"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-joi
+nline></g><g id="SVGRepo_iconCarrier"> <g> <path d="M460.656,132.911c-58.7-122.1-212.2-166.5-331.8-104.1c-9.4,5.2-13.5,16.6-8.3,27c5.2,9.4,16.6,13.5,27,8.3 c99.9-52,227.4-14.9,276.7,86.3c65.4,134.3-19,236.7-87.4,274.6c-93.1,51.7-211.2,17.4-267.6-70.7l69.3,14.5 c10.4,2.1,21.8-4.2,23.9-15.6c2.1-10.4-4.2-21.8-15.6-23.9l-122.8-25c-20.6-2-25,16.6-23.9,22.9l15.6,123.8 c1,10.4,9.4,17.7,19.8,17.7c12.8,0,20.8-12.5,19.8-23.9l-6-50.5c57.4,70.8,170.3,131.2,307.4,68.2 C414.856,432.511,548.256,314.811,460.656,132.911z"></path> </g> </g></svg></p>
             </div>
         </div>
-        <div class="dev-info">
-            <div>
-                <div class="dev-item">
-                    <span class="dev-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5bc0aa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    </span>
-                    <div>
-                        <span class="dev-label">Residence:</span>
-                        <span class="dev-value">Surat, India</span>
-                    </div>
-                </div>
-                <div class="dev-item">
-                    <span class="dev-icon">
-                        <svg fill="#5bc0aa" height="196px" width="196px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-14.69 -14.69 519.02 519.02" xml:space="preserve" stroke="#5bc0aa" stroke-width="14.199704999999998"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M460.656,132.911c-58.7-122.1-212.2-166.5-331.8-104.1c-9.4,5.2-13.5,16.6-8.3,27c5.2,9.4,16.6,13.5,27,8.3 c99.9-52,227.4-14.9,276.7,86.3c65.4,134.3-19,236.7-87.4,274.6c-93.1,51.7-211.2,17.4-267.6-70.7l69.3,14.5 c10.4,2.1,21.8-4.2,23.9-15.6c2.1-10.4-4.2-21.8-15.6-23.9l-122.8-25c-20.6-2-25,16.6-23.9,22.9l15.6,123.8 c1,10.4,9.4,17.7,19.8,17.7c12.8,0,20.8-12.5,19.8-23.9l-6-50.5c57.4,70.8,170.3,131.2,307.4,68.2 C414.856,432.511,548.256,314.811,460.656,132.911z"></path> </g> </g></svg>
-                    </span>
-                    <div>
-                        <span class="dev-label">Age:</span>
-                        <span class="dev-value" id="live-age"><span class="age-text">Calculating...</span> <svg fill="#5bc0aa" height="24px" width="24px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-489.64 -489.64 1468.92 1468.92" xml:space="preserve" transform="rotate(0)" stroke="#5bc0aa" stroke-width="29.3787"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M460.656,132.911c-58.7-122.1-212.2-166.5-331.8-104.1c-9.4,5.2-13.5,16.6-8.3,27c5.2,9.4,16.6,13.5,27,8.3 c99.9-52,227.4-14.9,276.7,86.3c65.4,134.3-19,236.7-87.4,274.6c-93.1,51.7-211.2,17.4-267.6-70.7l69.3,14.5 c10.4,2.1,21.8-4.2,23.9-15.6c2.1-10.4-4.2-21.8-15.6-23.9l-122.8-25c-20.6-2-25,16.6-23.9,22.9l15.6,123.8 c1,10.4,9.4,17.7,19.8,17.7c12.8,0,20.8-12.5,19.8-23.9l-6-50.5c57.4,70.8,170.3,131.2,307.4,68.2 C414.856,432.511,548.256,314.811,460.656,132.911z"></path> </g> </g></svg></span>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="dev-item">
-                    <span class="dev-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
-                    </span>
-                    <div>
-                        <span class="dev-label">Education:</span>
-                        <span class="dev-value">Currently studying in 12th grade, Commerce stream</span>
-                    </div>
-                </div>
-                <div class="dev-item">
-                    <span class="dev-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>
-                    </span>
-                    <div>
-                        <span class="dev-label">Passion:</span>
-                        <span class="dev-value">Curious about computers, coding, animation, and editing</span>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="dev-item">
-                    <span class="dev-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                    </span>
-                    <div>
-                        <span class="dev-label">Hobbies:</span>
-                        <span class="dev-value">Exploring new technologies, Swimming (District-level swimmer)</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="quote-container">
-            <p class="quote">RRR: Reset. Restart. Realign. The Code Endures.</p>
-            <p class="quote-author">- My Philosophy</p>
-        </div>
-        <div class="age-container">
-            <p class="age-label">Current Age:</p>
-            <p class="age-value" id="detailed-age"><span class="age-text">Calculating...</span> <svg fill="#5bc0aa" height="24px" width="24px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-489.64 -489.64 1468.92 1468.92" xml:space="preserve" transform="rotate(0)" stroke="#5bc0aa" stroke-width="29.3787"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M460.656,132.911c-58.7-122.1-212.2-166.5-331.8-104.1c-9.4,5.2-13.5,16.6-8.3,27c5.2,9.4,16.6,13.5,27,8.3 c99.9-52,227.4-14.9,276.7,86.3c65.4,134.3-19,236.7-87.4,274.6c-93.1,51.7-211.2,17.4-267.6-70.7l69.3,14.5 c10.4,2.1,21.8-4.2,23.9-15.6c2.1-10.4-4.2-21.8-15.6-23.9l-122.8-25c-20.6-2-25,16.6-23.9,22.9l15.6,123.8 c1,10.4,9.4,17.7,19.8,17.7c12.8,0,20.8-12.5,19.8-23.9l-6-50.5c57.4,70.8,170.3,131.2,307.4,68.2 C414.856,432.511,548.256,314.811,460.656,132.911z"></path> </g> </g></svg></p>
-        </div>
-    </div>
-</section>
+    </section>
 
     <!-- CTA Section -->
     <section class="cta-section" id="contact">
         <h2 class="cta-title">Ready to Experience ProjectUnifyX?</h2>
         <p class="cta-desc">Explore our tools and discover how ProjectUnifyX can transform your digital experience.</p>
         <div class="btn-container">
-            <a href="AllTools.html" class="btn btn-primary">Explore All Tools</a>
-            <a href="explanation.html" class="btn btn-outline">Tool Information</a>
-            <a href="Copyright and Legal Terms.html" class="btn btn-outline">Terms & Conditions</a>
+            <a href="/AllTools.html" class="btn btn-primary explore-tools" aria-label="Explore all tools available on ProjectUnifyX">Explore All Tools</a>
+            <div class="secondary-buttons">
+                <a class="btn btn-outline" href="explanation.html">Tool Information</a>
+                <a href="Copyright and Legal Terms.html" class="btn btn-outline">Terms & Conditions</a>
+            </div>
         </div>
     </section>
 
@@ -1398,10 +1514,12 @@
                 </p>
                 <div class="footer-social">
                     <a href="https://www.instagram.com/unify_x_project/" class="social-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                     </a>
                     <a href="https://x.com/Unify_X_Project" class="social-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
                     </a>
                 </div>
             </div>
@@ -1411,7 +1529,8 @@
                     <li>
                         <a href="#home">
                             <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </span>
                             Home
                         </a>
@@ -1419,7 +1538,8 @@
                     <li>
                         <a href="#concept">
                             <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </span>
                             Concept
                         </a>
@@ -1427,7 +1547,8 @@
                     <li>
                         <a href="#about">
                             <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </span>
                             About
                         </a>
@@ -1435,7 +1556,8 @@
                     <li>
                         <a href="#features">
                             <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </span>
                             Features
                         </a>
@@ -1446,17 +1568,19 @@
                 <h4 class="footer-title">Tools</h4>
                 <ul class="footer-links">
                     <li>
-                        <a href="AllTools.html">
+                        <a href="/AllTools.html">
                             <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </span>
                             All Tools
                         </a>
                     </li>
                     <li>
-                        <a href="explanation.html">
+                        <a href="/explanation.html
                             <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </span>
                             Learn More
                         </a>
@@ -1464,7 +1588,8 @@
                     <li>
                         <a href="Copyright and Legal Terms.html">
                             <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </span>
                             Terms & Conditions
                         </a>
@@ -1477,7 +1602,8 @@
                     <li>
                         <a href="mailto:projectunifyx@gmail.com">
                             <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                             </span>
                             Email Us
                         </a>
@@ -1485,7 +1611,8 @@
                     <li>
                         <a href="#developer">
                             <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                             </span>
                             Developer Info
                         </a>
@@ -1494,101 +1621,159 @@
             </div>
         </div>
         <div class="footer-copyright">
-            © <span id="current-year"></span>  Mangukiya Ved. All rights reserved.
+            © <span id="current-year"></span> Mangukiya Ved. All rights reserved.
         </div>
     </footer>
 
     <!-- Back to Top Button -->
     <div class="back-to-top" id="back-to-top">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
+nline><path d="M12 19V5M5 12l7-7 7 7"/></svg>
     </div>
 
-    <!-- JavaScript -->
-    <script>
-        // Preloader
-        window.addEventListener('load', () => {
-            const preloader = document.querySelector('.preloader');
-            preloader.classList.add('fade-out');
-            setTimeout(() => preloader.remove(), 500);
-        });
+    <!-- Onboarding Modal -->
+    <div class="onboarding-modal" id="onboarding-modal">
+        <div class="modal-content">
+            <h2>Welcome to ProjectUnifyX!</h2>
+            <p>Access all your essential tools in one place without downloads or updates. Start by exploring our tools below!</p>
+            <a href="/AllTools.html" class="btn btn-primary explore-tools" aria-label="Explore all tools available on ProjectUnifyX">Explore All Tools</a>
+            <button class="btn btn-outline" onclick="closeModal()">Got It</button>
+        </div>
+    </div>
+<!-- Floating CTA -->
+<div class="floating-cta">
+    <a href="/AllTools.html" class="btn btn-primary explore-tools" aria-label="Explore all tools available on ProjectUnifyX">Explore Tools</a>
+</div>
 
-        // Header Scroll Effect
-        const header = document.getElementById('header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
+<!-- Scripts -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+    });
 
-        // Custom Scrollbar
-        const scrollbarThumb = document.querySelector('.scrollbar-thumb');
-        window.addEventListener('scroll', () => {
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrolled = (window.scrollY / scrollHeight) * 100;
-            const thumbHeight = (window.innerHeight / document.documentElement.scrollHeight) * 100;
-            scrollbarThumb.style.height = `${thumbHeight}%`;
-            scrollbarThumb.style.top = `${scrolled}%`;
-        });
+    // Preloader
+    window.addEventListener('load', () => {
+        const preloader = document.querySelector('.preloader');
+        preloader.classList.add('fade-out');
+        setTimeout(() => {
+            preloader.style.display = 'none';
+        }, 500);
+    });
 
-        // Particles Animation
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 50;
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.width = `${Math.random() * 5 + 2}px`;
-            particle.style.height = particle.style.width;
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.top = `${Math.random() * 100}%`;
-            particle.style.animation = `float ${Math.random() * 10 + 5}s infinite ease-in-out`;
-            particlesContainer.appendChild(particle);
+    // Header Scroll Effect
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    // Custom Scrollbar
+    const scrollbarThumb = document.querySelector('.scrollbar-thumb');
+    const updateScrollbar = () => {
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const thumbHeight = (window.innerHeight / document.documentElement.scrollHeight) * 100;
+        scrollbarThumb.style.height = `${thumbHeight}%`;
+        const scrollPercent = window.scrollY / scrollHeight;
+        scrollbarThumb.style.top = `${scrollPercent * (100 - thumbHeight)}%`;
+    };
+    window.addEventListener('scroll', updateScrollbar);
+    window.addEventListener('resize', updateScrollbar);
+    updateScrollbar();
+
+    // Particles Animation
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 20; // Reduced from 50 to declutter
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        particle.style.width = `${Math.random() * 5 + 2}px`;
+        particle.style.height = particle.style.width;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        particlesContainer.appendChild(particle);
+    }
+
+    // Scroll Down Button
+    const scrollDown = document.getElementById('scroll-down');
+    scrollDown.addEventListener('click', () => {
+        window.scrollTo({
+            top: window.innerHeight,
+            behavior: 'smooth'
+        });
+    });
+
+    // Back to Top Button
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 500) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Floating CTA
+    const floatingCta = document.querySelector('.floating-cta');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 500) {
+            floatingCta.classList.add('visible');
+        } else {
+            floatingCta.classList.remove('visible');
+        }
+    });
+
+    // Onboarding Modal
+    function showModal() {
+        if (!localStorage.getItem('onboardingSeen')) {
+            document.getElementById('onboarding-modal').classList.add('active');
+        }
+    }
+    function closeModal() {
+        document.getElementById('onboarding-modal').classList.remove('active');
+        localStorage.setItem('onboardingSeen', 'true');
+    }
+    window.addEventListener('load', showModal);
+
+    // Update Footer Year
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Calculate Age
+    const birthDate = new Date('2007-06-02');
+    function calculateAge() {
+        const now = new Date();
+        let years = now.getFullYear() - birthDate.getFullYear();
+        let months = now.getMonth() - birthDate.getMonth();
+        let days = now.getDate() - birthDate.getDate();
+
+        if (days < 0) {
+            months--;
+            days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+        }
+        if (months < 0) {
+            years--;
+            months += 12;
         }
 
-        // Back to Top Button
-        const backToTop = document.getElementById('back-to-top');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // Calculate Age (Updated for January 8, 2009, 5 AM)
-        const birthDate = new Date('2009-01-08T05:00:00');
-        const today = new Date();
-        const liveAgeElement = document.getElementById('live-age');
-        const detailedAgeElement = document.getElementById('detailed-age');
-
-        function calculateAge() {
-            let years = today.getFullYear() - birthDate.getFullYear();
-            let months = today.getMonth() - birthDate.getMonth();
-            let days = today.getDate() - birthDate.getDate();
-
-            if (days < 0) {
-                months--;
-                days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
-            }
-            if (months < 0) {
-                years--;
-                months += 12;
-            }
-
-            liveAgeElement.textContent = `${years} Years  `;
-            detailedAgeElement.textContent = `${years} Years, ${months} Months, ${days} Days  `;
-        }
-
-        calculateAge();
-        setInterval(calculateAge, 86400000); // Update daily
-
-        // Automatically update copyright year
-        const currentYearElement = document.getElementById('current-year');
-        currentYearElement.textContent = new Date().getFullYear();
-    </script>
+        document.getElementById('live-age').querySelector('.age-text').textContent = `${years} years`;
+        document.getElementById('detailed-age').querySelector('.age-text').textContent = `${years} years, ${months} months, ${days} days`;
+    }
+    calculateAge();
+    setInterval(calculateAge, 86400000); // Update daily
+</script>
 </body>
 </html>
+    

@@ -3,176 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SECRET MSG CONVERTER</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <title>Secret Emoji Language Converter</title>
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Courier New', Courier, monospace;
-            background-color: #333333; /* Dark gray background */
-            margin: 0;
-            padding: 0;
-            color: #ffffff; /* White text color */
+            background-color: #333333;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            color: #ffffff;
         }
 
         .container {
             width: 100%;
-            max-width: 320px; /* Match mobile width from image */
-            padding: 20px;
-            background-color: #454545; /* Darker gray for container */
-            border-radius: 15px; /* Rounded corners for the container */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        h3 {
-            color: #d1b65c; /* Gold/yellow for title */
+            max-width: 400px;
+            background-color: #454545;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            padding: 25px;
             text-align: center;
-            margin: 0 0 15px 0;
-            font-size: 1.2em; /* Match font size from image */
         }
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #ffffff; /* White text for labels */
-            font-size: 0.9em; /* Smaller text for labels */
-            text-align: left; /* Align labels to the left */
+        .title {
+            color: #d1b65c;
+            margin-bottom: 20px;
+            font-size: 1.5em;
         }
 
-        input[type="text"] {
-            width: 100%;
+        .input-section {
+            margin-bottom: 20px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        #inputText {
+            flex-grow: 1;
+            height: 150px;
             padding: 10px;
-            border: 1px solid #545454; /* Darker gray border */
-            border-radius: 10px; /* Rounded corners for input */
-            margin-bottom: 10px;
-            background-color: #545454; /* Dark gray input background */
-            color: #ffffff; /* White text in input */
-            font-size: 0.9em; /* Match font size from image */
-            box-sizing: border-box; /* Ensure padding doesn’t affect width */
+            background-color: #545454;
+            border: 1px solid #666;
+            border-radius: 10px;
+            color: #ffffff;
+            resize: vertical;
+            margin-right: 10px;
         }
 
         .btn-container {
-            text-align: center;
-            margin: 15px 0; /* Space between buttons and other elements */
-        }
-
-        .btn-inline {
-            display: inline-block;
-            margin: 0 5px; /* Space between inline buttons */
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .btn {
-            padding: 10px 20px; /* Larger buttons for touch */
-            font-size: 0.9em; /* Match font size from image */
+            flex: 1;
+            padding: 12px;
             border: none;
-            border-radius: 10px; /* Rounded corners for buttons */
+            border-radius: 10px;
             cursor: pointer;
+            font-size: 0.9em;
             transition: background-color 0.3s ease;
         }
 
-        .btn-red {
-            background-color: #b55c5c; /* Reddish color for Encrypt/Decrypt buttons */
-            color: #ffffff; /* White text for contrast */
+        .paste-btn {
+            padding: 8px;
+            min-width: 80px;
         }
 
-        
+        .btn-red {
+            background-color: #b55c5c;
+            color: #ffffff;
+        }
 
         .btn-yellow {
-            background-color: #d1b65c; /* Gold/yellow for Paste/Copy buttons */
-            color: #333333; /* Dark text for contrast on yellow buttons */
+            background-color: #d1b65c;
+            color: #333333;
         }
 
-        
-
-        .result-box {
-            background-color: #545454; /* Dark gray for result box */
-            padding: 10px;
-            border-radius: 10px; /* Rounded corners for result box */
-            margin-bottom: 15px;
-            text-align: left; /* Align text to the left */
+        .output {
+            background-color: #545454;
+            padding: 15px;
+            border-radius: 10px;
+            min-height: 100px;
+            text-align: left;
+            font-size: 1.2em;
+            word-wrap: break-word;
         }
 
-        .result-label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #ffffff; /* White text for label */
-            font-size: 0.9em; /* Match font size from image */
+        .output h3 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 1em;
         }
 
-        footer {
+        .footer {
+            margin-top: 20px;
             text-align: center;
             color: #ffffff;
-            margin-top: 15px;
-            font-size: 0.8em; /* Smaller footer text */
-            padding: 10px;
-            background-color: #454545; /* Darker gray for footer */
-            border-radius: 10px; /* Rounded corners for footer */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            font-size: 0.8em;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                max-width: none;
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .input-wrapper {
+                flex-direction: column;
+            }
+
+            #inputText {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .btn-container {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h3>Convert your readable message into non-readable message</h3>
-        <label for="inputText">Enter a sentence or secret code:</label>
-        <div style="display: flex; align-items: center; margin-bottom: 15px;">
-            <input type="text" id="inputText" placeholder="Type your message here...">
-            <button onclick="pasteFromClipboard()" class="btn btn-yellow btn-inline">Paste</button>
+        <h1 class="title">Secret Emoji Language Converter</h1>
+        
+        <div class="input-section">
+            <div class="input-wrapper">
+                <textarea id="inputText" placeholder="Enter text or emoji code here..."></textarea>
+                <button onclick="pasteText()" class="btn btn-yellow paste-btn">Paste</button>
+            </div>
         </div>
+        
         <div class="btn-container">
-            <button onclick="encryptInput()" class="btn btn-red btn-inline">Encrypt</button>
-            <button onclick="decryptInput()" class="btn btn-red btn-inline">Decrypt</button>
+            <button onclick="convertToEmoji()" class="btn btn-red">Convert to Emoji</button>
+            <button onclick="convertToText()" class="btn btn-red">Convert to Text</button>
+            <button onclick="copyOutput()" class="btn btn-yellow">Copy Output</button>
         </div>
-        <div class="result-box">
-            <div class="result-label">Encrypted / Decrypted Text:</div>
-            <input type="text" id="outputText" readonly>
-            <button onclick="copyToClipboard()" class="btn btn-yellow btn-inline">Copy</button>
+        
+        <div class="output">
+            <h3>Output:</h3>
+            <p id="outputText"></p>
         </div>
-        <footer>
+        
+        <div class="footer">
             <p>© 2025 Mangukiya Ved. All rights reserved.</p>
-        </footer>
+        </div>
     </div>
 
     <script>
-        // Set the current year dynamically (already set to 2025 in the footer as per image)
-        // document.getElementById("currentYear").textContent = new Date().getFullYear();
+        // Emoji mapping for letters (a-z)
+        const letterToEmoji = {
+            'a': '🍎', 'b': '🍌', 'c': '🍪', 'd': '🍩', 'e': '🥚',
+            'f': '🔥', 'g': '🎮', 'h': '🏠', 'i': '🍦', 'j': '🃏',
+            'k': '🔑', 'l': '🍋', 'm': '🌙', 'n': '📝', 'o': '⭕',
+            'p': '🍕', 'q': '👸', 'r': '🌈', 's': '⭐', 't': '🌲',
+            'u': '☂️', 'v': '🎻', 'w': '🌊', 'x': '❌', 'y': '💰',
+            'z': '⚡'
+        };
 
-        function encryptInput() {
-            const inputText = document.getElementById("inputText").value;
-            const secretKey = "your_secret_key"; // Replace with your secret key
-            const encryptedText = CryptoJS.AES.encrypt(inputText, secretKey).toString();
-            document.getElementById("outputText").value = encryptedText; // Set encrypted text in output box
+        // Emoji mapping for numbers (0-9)
+        const numberToEmoji = {
+            '0': '0️⃣', '1': '1️⃣', '2': '2️⃣', '3': '3️⃣', '4': '4️⃣',
+            '5': '5️⃣', '6': '6️⃣', '7': '7️⃣', '8': '8️⃣', '9': '9️⃣'
+        };
+
+        // Space character emoji
+        const spaceEmoji = '➖';
+
+        // Create reverse mappings
+        const emojiToLetter = {};
+        const emojiToNumber = {};
+
+        for (const [letter, emoji] of Object.entries(letterToEmoji)) {
+            emojiToLetter[emoji] = letter;
         }
 
-        function decryptInput() {
-            const inputText = document.getElementById("inputText").value;
-            const secretKey = "your_secret_key"; // Replace with your secret key
-            const decryptedText = CryptoJS.AES.decrypt(inputText, secretKey).toString(CryptoJS.enc.Utf8);
-            document.getElementById("outputText").value = decryptedText; // Set decrypted text in output box
+        for (const [number, emoji] of Object.entries(numberToEmoji)) {
+            emojiToNumber[emoji] = number;
         }
 
-        function copyToClipboard() {
-            const resultText = document.getElementById("outputText").value; // Get value from output box
-            navigator.clipboard.writeText(resultText).then(() => {
-                alert('Copied to clipboard: ' + resultText);
+        function convertToEmoji() {
+            const text = document.getElementById('inputText').value.toLowerCase();
+            let result = '';
+            
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                if (letterToEmoji[char]) {
+                    result += letterToEmoji[char] + ' ';
+                } else if (numberToEmoji[char]) {
+                    result += numberToEmoji[char] + ' ';
+                } else if (char === ' ') {
+                    result += spaceEmoji + ' ';
+                } else {
+                    // Keep other characters as they are
+                    result += char + ' ';
+                }
+            }
+            
+            document.getElementById('outputText').innerText = result.trim();
+        }
+
+        function convertToText() {
+            const emojis = document.getElementById('inputText').value.trim().split(' ');
+            let result = '';
+            
+            for (let i = 0; i < emojis.length; i++) {
+                const emoji = emojis[i];
+                if (emoji === spaceEmoji) {
+                    result += ' ';
+                } else if (emojiToLetter[emoji]) {
+                    result += emojiToLetter[emoji];
+                } else if (emojiToNumber[emoji]) {
+                    result += emojiToNumber[emoji];
+                } else {
+                    // Keep unrecognized characters as they are
+                    result += emoji;
+                }
+            }
+            
+            document.getElementById('outputText').innerText = result;
+        }
+
+        function copyOutput() {
+            const outputText = document.getElementById('outputText').innerText;
+            navigator.clipboard.writeText(outputText).then(() => {
+                alert('Output copied to clipboard!');
             }).catch(err => {
-                alert('Failed to copy: ' + err);
+                console.error('Failed to copy: ', err);
             });
         }
 
-        function pasteFromClipboard() {
+        function pasteText() {
             navigator.clipboard.readText().then(text => {
-                document.getElementById("inputText").value = text;
+                document.getElementById('inputText').value = text;
             }).catch(err => {
-                alert('Failed to paste: ' + err);
+                console.error('Failed to paste: ', err);
             });
         }
     </script>

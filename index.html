@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -5,31 +7,30 @@
     <meta name="keywords" content="ProjectUnifyX, Ved Mangukiya, all-in-one productivity tools, unified platform, no-install tools, cloud-based tools, productivity platform, projectunifyx.com, web services integration, seamless workflow, super platform, Surat India developer, real-time updates, zero installation, user-centric design, enhanced security, productivity software, cloud synchronization, auto-updates">
     <meta name="robots" content="index, follow">
     <meta name="author" content="Ved Mangukiya">
-    <!-- Open Graph Tags for Social Media -->
     <meta property="og:title" content="ProjectUnifyX by Ved Mangukiya - All-In-One Productivity Tools">
     <meta property="og:description" content="Explore ProjectUnifyX by Ved Mangukiya at projectunifyx.com, the ultimate platform for cloud-based productivity tools, no downloads needed.">
     <meta property="og:image" content="https://projectunifyx.com/wlogo.png">
     <meta property="og:url" content="https://projectunifyx.com">
     <meta property="og:type" content="website">
-    <!-- Existing Google AdSense and Verification -->
     <meta name="google-adsense-account" content="ca-pub-7399420147957761">
     <meta name="google-site-verification" content="Fxf14HLqaaYoNhpCi6qCq_5JB7sMpUgOqLh_GNLf8ZI">
-    <title>ProjectUnifyX by Ved Mangukiya - Productivity Tools</title>
+    <title>ProjectUnifyX | Unified Productivity Platform</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="favicon.png" type="image/png">
     <style>
         :root {
-            --primary: #5bc0aa;
-            --primary-dark: #4da68c;
-            --dark-bg: #1a1a1a;
-            --darker-bg: #121212;
-            --card-bg: #222222;
-            --text-light: #ffffff;
-            --text-muted: #aaaaaa;
-            --accent: #ff6b6b;
-            --glow: rgba(91, 192, 170, 0.5);
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --primary-light: #c7d2fe;
+            --accent: #f97316;
+            --background: #f9fafb;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
         }
 
         * {
@@ -41,368 +42,147 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            overflow-x: hidden;
+            background-color: var(--background);
+            color: var(--text-dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        .preloader {
+        .container {
+            width: 100%;
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .mobile-menu {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--darker-bg);
+            background-color: var(--card-bg);
+            z-index: 2000;
+            padding: 2rem;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
             display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
+            flex-direction: column;
         }
 
-        .preloader.fade-out {
-            opacity: 0;
-            pointer-events: none;
+        .mobile-menu-close {
+            align-self: flex-end;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
         }
 
-        .preloader-logo {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 3px solid var(--primary);
-            animation: pulse 1.5s infinite alternate;
-            box-shadow: 0 0 30px var(--glow);
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
         }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 var(--glow);
-            }
-            70% {
-                transform: scale(1);
-                box-shadow: 0 0 20px 10px rgba(91, 192, 170, 0);
-            }
-            100% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(91, 192, 170, 0);
-            }
+        .mobile-nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
         }
 
-        .scrollbar-track {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 10px;
-            height: 100%;
-            background: var(--darker-bg);
-            z-index: 100;
-        }
-
-        .scrollbar-thumb {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            background: var(--primary);
-            border-radius: 5px;
-            transition: height 0.2s ease-out;
-        }
-
+        /* Header */
         header {
-            padding: 20px 5%;
-            position: fixed;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(26, 26, 26, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            transition: all 0.3s ease;
         }
 
-        header.scrolled {
-            padding: 15px 5%;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .header-logo {
+        .logo {
             display: flex;
             align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
         }
 
-        .header-logo img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 15px;
-            border: 2px solid var(--primary);
+        .logo img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
         }
 
-        .header-logo h3 {
-            font-family: 'Cinzel Decorative', serif;
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
             color: var(--primary);
-            font-size: 1.5rem;
-            letter-spacing: 1px;
         }
 
         .nav-links {
             display: flex;
-            gap: 30px;
             align-items: center;
+            gap: 1.5rem;
         }
 
         .nav-links a {
-            color: var(--text-light);
+            color: var(--text-dark);
             text-decoration: none;
             font-weight: 500;
-            font-size: 1rem;
-            position: relative;
-            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
         }
 
         .nav-links a:hover {
             color: var(--primary);
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(18, 18, 18, 0.95)), url('pattern.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, transparent 30%, var(--darker-bg));
-            z-index: 0;
-        }
-
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            background-color: var(--primary);
-            border-radius: 50%;
-            opacity: 0.2;
-        }
-
-        .hero-content {
-            text-align: center;
-            z-index: 2;
-            padding: 0 20px;
-            max-width: 1000px;
-        }
-
-        .hero-logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            margin: 0 auto 30px;
-            overflow: hidden;
-            border: 5px solid var(--primary);
-            box-shadow: 0 0 30px var(--glow);
-            animation: float 4s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0);
-                box-shadow: 0 0 30px var(--glow);
-            }
-            50% {
-                transform: translateY(-15px);
-                box-shadow: 0 15px 40px var(--glow);
-            }
-            100% {
-                transform: translateY(0);
-                box-shadow: 0 0 30px var(--glow);
-            }
-        }
-
-        .hero-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        h1 {
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: var(--text-light);
-            text-shadow: 0 0 15px rgba(91, 192, 170, 0.5);
-            position: relative;
-            display: inline-block;
-        }
-
-        .animated-text {
-            display: block;
-            color: var(--primary);
-            height: 50px;
-            overflow: hidden;
-            margin-top: 10px;
-            position: relative;
-            text-shadow: 0 0 10px rgba(91, 192, 170, 0.5);
-        }
-
-        .animated-text-wrapper {
-            animation: none;
-            display: flex;
-            flex-direction: column;
-            font-family: 'Cinzel Decorative', serif;
-        }
-
-        .animated-text-wrapper div {
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            white-space: nowrap;
-            font-size: 1.8rem;
-            line-height: 50px;
-            color: #3ee7cb;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .hero-desc {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 800px;
-            margin: 0 auto 30px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s 0.5s forwards;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 40px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s 0.8s forwards;
-        }
-
         .btn {
             display: inline-block;
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
             font-weight: 600;
+            text-align: center;
             text-decoration: none;
+            cursor: pointer;
             transition: all 0.3s ease;
+            border: none;
             font-size: 0.9rem;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            box-shadow: 0 0 10px rgba(91, 192, 170, 0.6);
         }
 
         .btn-primary {
             background-color: var(--primary);
-            color: var(--dark-bg);
-            border: none;
+            color: white;
+            box-shadow: 0 3px 6px rgba(79, 70, 229, 0.2);
         }
 
         .btn-primary:hover {
             background-color: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 0 15px rgba(91, 192, 170, 0.8);
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: all 0.6s;
-            z-index: -1;
-        }
-
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary.explore-tools {
-            background: linear-gradient(135deg, var(--primary), #3ee7cb);
-            font-size: 1rem;
-            padding: 12px 30px;
-            animation: pulse-btn 2s infinite;
-            position: relative;
-        }
-
-        .btn-primary.explore-tools::after {
-            content: 'Start Here!';
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary);
-            color: var(--dark-bg);
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .btn-primary.explore-tools:hover::after {
-            opacity: 1;
-        }
-
-        @keyframes pulse-btn {
-            0% { transform: scale(1); box-shadow: 0 0 10px var(--glow); }
-            50% { transform: scale(1.05); box-shadow: 0 0 20px var(--glow); }
-            100% { transform: scale(1); box-shadow: 0 0 10px var(--glow); }
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
         }
 
         .btn-outline {
@@ -412,608 +192,272 @@
         }
 
         .btn-outline:hover {
-            background-color: var(--primary);
-            color: var(--dark-bg);
-            transform: translateY(-2px);
-            box-shadow: 0 0 15px rgba(91, 192, 170, 0.8);
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
         }
 
-        .scroll-down {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0 3rem;
+            text-align: center;
+        }
+
+        .hero-text {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-muted);
-            opacity: 0.7;
-            transition: all 0.4s ease;
-            animation: bounce 3s infinite;
-            cursor: pointer;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .scroll-down:hover {
-            opacity: 1;
+        /* Features Section */
+        .features-section {
+            padding: 4rem 0;
+            background-color: var(--card-bg);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .section-subtitle {
             color: var(--primary);
-        }
-
-        .scroll-down span {
-            font-size: 0.7rem;
-            margin-bottom: 5px;
-        }
-
-        .scroll-down svg {
-            width: 12px;
-            height: 12px;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0) translateX(-50%);
-            }
-            40% {
-                transform: translateY(-10px) translateX(-50%);
-            }
-            60% {
-                transform: translateY(-5px) translateX(-50%);
-            }
-        }
-
-        .section {
-            padding: 100px 5%;
-            position: relative;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
         }
 
         .section-title {
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 60px;
-            color: var(--primary);
-            position: relative;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--text-dark);
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 3px;
-            background: var(--primary);
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .concept-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .concept-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(91, 192, 170, 0.1);
-        }
-
-        .concept-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            border-color: var(--primary);
-        }
-
-        .concept-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 0;
-            background: var(--primary);
-            transition: height 0.3s ease;
-        }
-
-        .concept-card:hover::before {
-            height: 100%;
-        }
-
-        .concept-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(91, 192, 170, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            color: var(--primary);
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .concept-card:hover .concept-icon {
-            background: var(--primary);
-            color: var(--dark-bg);
-            transform: scale(1.1);
-        }
-
-        .concept-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 15px;
+        .section-description {
+            font-size: 1.1rem;
             color: var(--text-light);
         }
 
-        .concept-desc {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.7;
-        }
-
-        .about-container {
+        .features-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        .about-image {
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .about-image img {
-            width: 100%;
-            border-radius: 15px;
-            transition: all 0.5s ease;
-        }
-
-        .about-image:hover img {
-            transform: scale(1.05);
-        }
-
-        .about-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(91, 192, 170, 0.3), transparent);
-            z-index: 1;
-        }
-
-        .about-content {
-            padding: 30px;
-        }
-
-        .about-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--primary);
-            font-family: 'Cinzel Decorative', serif;
-        }
-
-        .about-text {
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            font-size: 1rem;
-            line-height: 1.7;
-        }
-
-        .highlight {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .about-list {
-            list-style: none;
-            margin-top: 20px;
-        }
-
-        .about-list li {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .about-list .icon {
-            color: var(--primary);
-            margin-right: 15px;
-            min-width: 24px;
-        }
-
-        .about-list-text {
-            color: var(--text-muted);
-        }
-
-        .features-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
         }
 
         .feature-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(91, 192, 170, 0.1), transparent 70%);
-            transform: scale(0);
-            z-index: -1;
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: var(--background);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .feature-card:hover::before {
-            transform: scale(1);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         .feature-icon {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: rgba(91, 192, 170, 0.1);
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background-color: var(--primary-light);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover .feature-icon {
-            background: var(--primary);
-            color: var(--dark-bg);
-            transform: rotateY(180deg);
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .feature-title {
             font-size: 1.4rem;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
             color: var(--text-light);
-        }
-
-        .feature-desc {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.7;
-        }
-
-        .dev-container {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 40px;
-            margin-top: 50px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .dev-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('pattern.png');
-            background-size: cover;
-            opacity: 0.05;
-            z-index: 0;
-        }
-
-        .dev-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .dev-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid var(--primary);
-            margin-right: 20px;
-        }
-
-        .dev-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .dev-title {
-            flex: 1;
-        }
-
-        .dev-name {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        .dev-subtitle {
-            color: var(--text-muted);
             font-size: 1rem;
         }
 
-        .dev-info {
+        /* Tools Section */
+        .tools-section {
+            padding: 4rem 0;
+            background-color: var(--gray-100);
+        }
+
+        .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            position: relative;
-            z-index: 1;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 2.5rem;
         }
 
-        .dev-item {
+        .tool-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .dev-icon {
-            margin-right: 15px;
-            min-width: 24px;
+            justify-content: center;
             color: var(--primary);
+            font-size: 1.5rem;
+            margin: 0 auto 1.2rem;
         }
 
-        .dev-icon svg {
-            vertical-align: middle;
-            width: 24px;
-            height: 24px;
-        }
-
-        .dev-label {
-            font-weight: 600;
-            margin-right: 10px;
-            color: var(--text-light);
-        }
-
-        .dev-value {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: var(--text-muted);
-        }
-
-        .age-text {
-            display: inline-block;
-        }
-
-        .dev-value svg,
-        .age-value svg {
-            vertical-align: middle;
-            width: 24px;
-            height: 24px;
-        }
-
-        .quote-container {
-            text-align: center;
-            margin-top: 50px;
-            position: relative;
-            z-index: 1;
-            padding: 0px;
-            background: rgba(91, 192, 170, 0.05);
-            border-radius: 15px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .quote {
-            font-style: italic;
-            font-size: 1rem;
-            color: var(--text-light);
-            margin-bottom: 15px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .quote::before, .quote::after {
-            content: '"';
-            font-size: 2rem;
-            color: var(--primary);
-            opacity: 0.5;
-        }
-
-        .quote-author {
-            font-size: 1rem;
-            color: var(--text-muted);
-        }
-
-        .age-container {
-            margin-top: 30px;
-            background: rgba(91, 192, 170, 0.05);
-            border-radius: 15px;
-            padding: 10px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .age-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-        }
-
-        .age-label {
+        .tool-title {
             font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .tool-description {
             color: var(--text-light);
-            margin-bottom: 10px;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
         }
 
-        .age-value {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: inline-block;
-            background: rgba(91, 192, 170, 0.1);
-            padding: 10px 20px;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
-
+        /* CTA Section */
         .cta-section {
-            background: linear-gradient(135deg, rgba(91, 192, 170, 0.1), rgba(18, 18, 18, 0.9)), url('pattern.png');
-            background-size: cover;
+            padding: 4rem 0;
+            background-color: var(--primary);
+            color: white;
             text-align: center;
-            padding: 100px 5%;
-            position: relative;
-            overflow: hidden;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .cta-title {
             font-size: 2.5rem;
             font-weight: 700;
-            color: var(--text-light);
-            margin-bottom: 30px;
-            position: relative;
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .cta-desc {
+        .cta-description {
             font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 800px;
-            margin: 0 auto 40px;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
         }
 
-        .btn-container {
+        .cta-buttons {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .secondary-buttons {
-            display: flex;
-            gap: 15px;
+        .btn-light {
+            background-color: white;
+            color: var(--primary);
         }
 
-        .secondary-buttons .btn-outline {
-            font-size: 0.8rem;
-            padding: 8px 15px;
+        .btn-light:hover {
+            background-color: var(--gray-100);
         }
 
+        .btn-transparent {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-transparent:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
         .footer {
-            background-color: var(--darker-bg);
-            padding: 60px 5% 30px;
-            position: relative;
+            background-color: var(--text-dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
         }
 
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 30px;
-            margin-bottom: 30px;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 2rem;
         }
 
         .footer-logo {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .footer-logo img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-            border: 2px solid var(--primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
         }
 
-        .footer-logo-text {
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 1.5rem;
-            color: var(--primary);
+        .footer-about {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
         }
 
-        .footer-desc {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(91, 192, 170, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            transition: all 0.3s ease;
-        }
-
-        .social-icon:hover {
-            background: var(--primary);
-            color: var(--dark-bg);
-            transform: translateY(-5px);
-        }
-
-        .footer-title {
+        .footer-column-title {
             font-size: 1.2rem;
             font-weight: 600;
-            color: var(--text-light);
-            margin-bottom: 20px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .footer-title::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 40px;
-            height: 2px;
-            background: var(--primary);
+            margin-bottom: 1.2rem;
         }
 
         .footer-links {
@@ -1021,134 +465,59 @@
         }
 
         .footer-links li {
-            margin-bottom: 15px;
+            margin-bottom: 0.7rem;
         }
 
         .footer-links a {
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
         }
 
         .footer-links a:hover {
-            color: var(--primary);
-            transform: translateX(5px);
+            color: white;
         }
 
-        .footer-links .icon {
-            margin-right: 10px;
-            color: var(--primary);
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
-        .footer-copyright {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
+        .footer-social a {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            background: var(--primary);
+            background-color: rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--dark-bg);
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
+            color: white;
             transition: all 0.3s ease;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(91, 192, 170, 0.4);
         }
 
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+        .footer-social a:hover {
+            background-color: var(--primary);
         }
 
-        .back-to-top:hover {
-            background: var(--primary-dark);
-            transform: translateY(-5px);
-        }
-
-        .onboarding-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .onboarding-modal.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-content {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px;
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
-            max-width: 500px;
-            box-shadow: 0 0 20px rgba(91, 192, 170, 0.5);
-        }
-
-        .modal-content h2 {
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-
-        .modal-content p {
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
-
-        .modal-content .btn {
-            margin: 10px;
-        }
-
-        .floating-cta {
-            position: fixed;
-            bottom: 80px;
-            right: 30px;
-            z-index: 100;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-        }
-
-        .floating-cta.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .floating-cta .btn {
+            color: rgba(255, 255, 255, 0.5);
             font-size: 0.9rem;
-            padding: 10px 20px;
+        }
+
+        @media screen and (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
         }
 
         @media screen and (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
             .nav-links {
                 display: none;
             }
@@ -1157,620 +526,232 @@
                 display: block;
             }
 
-            .about-container {
-                grid-template-columns: 1fr;
+            .hero-title {
+                font-size: 2rem;
             }
 
-            .hero-buttons {
-                flex-direction: column;
-                gap: 15px;
+            .section-title {
+                font-size: 1.8rem;
             }
 
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-
-            .btn-primary.explore-tools {
-                padding: 15px 40px;
-                font-size: 1.1rem;
+            .cta-title {
+                font-size: 2rem;
             }
         }
 
         @media screen and (max-width: 576px) {
-            h1 {
-                font-size: 2rem;
+            .hero-title {
+                font-size: 1.8rem;
             }
 
-            .hero-logo {
-                width: 150px;
-                height: 150px;
-            }
-
-            .section {
-                padding: 70px 5%;
+            .hero-description {
+                font-size: 1rem;
             }
 
             .section-title {
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
 
-            .dev-header {
-                flex-direction: column;
-                text-align: center;
+            .section-description {
+                font-size: 1rem;
             }
 
-            .dev-avatar {
-                margin: 0 auto 20px;
+            .feature-card,
+            .tool-card {
+                padding: 1.5rem;
+            }
+
+            .cta-title {
+                font-size: 1.8rem;
+            }
+
+            .cta-description {
+                font-size: 1.1rem;
             }
         }
     </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7399420147957761"
-     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7399420147957761" crossorigin="anonymous"></script>
 </head>
 <body>
-    <!-- Preloader -->
-    <div class="preloader">
-        <img src="wlogo.png" alt="ProjectUnifyX Logo" class="preloader-logo">
-    </div>
-
-    <!-- Custom Scrollbar -->
-    <div class="scrollbar-track">
-        <div class="scrollbar-thumb"></div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" id="closeMenu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <div class="mobile-nav-links">
+            <a href="#features">Features</a>
+            <a href="#tools">Tools</a>
+            <a href="/AllTools.html" class="btn btn-primary">Explore All Tools</a>
+            <a href="Copyright and Legal Terms.html" class="btn btn-outline">Terms & Conditions</a>
+        </div>
     </div>
 
     <!-- Header -->
-    <header id="header">
-        <div class="header-logo">
-            <img src="wlogo.png" alt="ProjectUnifyX Logo">
-            <h3>ProjectUnifyX</h3>
-        </div>
-        <div class="nav-links">
-            <a href="#concept">Concept</a>
-            <a href="#about">About</a>
-            <a href="#features">Features</a>
-            <a href="#developer">Developer</a>
-            <a href="/AllTools.html" class="btn btn-primary explore-tools" aria-label="Explore all tools available on ProjectUnifyX">Explore All Tools</a>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <img src="wlogo.png" alt="ProjectUnifyX Logo">
+                    <span class="logo-text">ProjectUnifyX</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#tools">Tools</a>
+                    <a href="/AllTools.html" class="btn btn-primary">Explore All Tools</a>
+                    <a href="Copyright and Legal Terms.html" class="btn btn-outline">Terms & Conditions</a>
+                </nav>
+                <button class="mobile-menu-btn" id="openMenu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
         </div>
     </header>
-</script>
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="particles" id="particles"></div>
-        <div class="hero-content">
-            <div class="hero-logo">
-                <img src="wlogo.png" alt="Project UnifyX Logo">
-            </div>
-            <h1>
-                Project Unify X
-                <div class="animated-text">
-                    <div class="animated-text-wrapper">
-                        <div>Super Platform</div>
-                    </div>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-text">
+                <span class="hero-badge">Revolutionizing Digital Experience</span>
+                <h1 class="hero-title">One Platform, Endless Possibilities</h1>
+                <p class="hero-description">Experience the future of productivity with ProjectUnifyX - the all-in-one platform that eliminates the need for multiple apps, saving space and time.</p>
+                <div class="hero-buttons">
+                    <a href="/AllTools.html" class="btn btn-primary">Explore All Tools</a>
+                    <a href="Copyright and Legal Terms.html" class="btn btn-outline">Terms & Conditions</a>
                 </div>
-            </h1>
-            <p class="hero-desc">ProjectUnifyX is your all-in-one platform for seamless access to essential services, no apps or updates needed.</p>
-            <div class="hero-buttons">
-                <a href="/AllTools.html" class="btn btn-primary explore-tools" aria-label="Explore all tools available on ProjectUnifyX">Explore All Tools</a>
-                <a href="#features" class="btn btn-outline">See Features</a>
-            </div>
-        </div>
-        <div class="scroll-down" id="scroll-down">
-            <span>Scroll Down</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-        </div>
-    </section>
-
-    <!-- Concept Section -->
-    <section class="section" id="concept">
-        <h2 class="section-title">Our Concept</h2>
-        <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-muted);">
-            ProjectUnifyX is a revolutionary approach to web services integration, allowing users to access everything they need from a single platform.
-        </p>
-        <div class="concept-container">
-            <div class="concept-card" data-aos="fade-up">
-                <div class="concept-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                </div>
-                <h3 class="concept-title">All-in-One Platform</h3>
-                <p class="concept-desc">Access every needed service at one spot - from food delivery to social media and more, without installing separate apps.</p>
-            </div>
-            <div class="concept-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="concept-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 12a11.05 11.05 0 0 0-22 0zm-5 7a3 3 0 0 1-6 0v-7"></path></svg>
-                </div>
-                <h3 class="concept-title">Space Efficient</h3>
-                <p class="concept-desc">No need for separate apps that take up valuable storage space on your devices. Everything runs streamlined in one place.</p>
-            </div>
-            <div class="concept-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="concept-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6m0 0H15m6 0l-9 9M3 22v-6m0 0h6m-6 0l9-9"></path></svg>
-                </div>
-                <h3 class="concept-title">Auto-Updates</h3>
-                <p class="concept-desc">The platform automatically updates its code for a better and streamlined user experience, without requiring manual updates.</p>
-            </div>
-            <div class="concept-card" data-aos="fade-up" data-aos-delay="300">
-                <div class="concept-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
-                </div>
-                <h3 class="concept-title">Cloud Synchronization</h3>
-                <p class="concept-desc">All your data is stored securely in the cloud, ensuring a seamless experience across all your devices without loss of information.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="section" id="about">
-        <h2 class="section-title">About ProjectUnifyX</h2>
-        <div class="about-container">
-            <div class="about-image" data-aos="fade-right">
-                <img src="concept illustration.png" alt="ProjectUnifyX Concept Illustration">
-            </div>
-            <div class="about-content" data-aos="fade-left">
-                <h3 class="about-title">Our Vision</h3>
-                <p class="about-text">
-                    <strong>ProjectUnifyX is an <span class="highlight">all-in-one super website</span></strong> that integrates essential services like food delivery, social media, and other necessary apps, without requiring frequent updates or heavy storage space.
-                </p>
-                <p class="about-text">
-                    Unlike other super apps, ProjectUnifyX allows for <span class="highlight">seamless updates</span> directly on the website without the need for additional installations or updates from the user.
-                </p>
-                <ul class="about-list">
-                    <li>
-                        <span class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        </span>
-                        <span class="about-list-text">Real-time content updates without app store downloads</span>
-                    </li>
-                    <li>
-                        <span class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline></svg>
-                        </span>
-                        <span class="about-list-text">Secure cloud synchronization across all your devices</span>
-                    </li>
-                    <li>
-                        <span class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline></svg>
-                        </span>
-                        <span class="about-list-text">Leaner, more efficient experience saving both storage and time</span>
-                    </li>
-                    <li>
-                        <span class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline></svg>
-                        </span>
-                        <span class="about-list-text">Unified access to all essential services in one platform</span>
-                    </li>
-                </ul>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="section" id="features">
-        <h2 class="section-title">Key Features</h2>
-        <div class="features-container">
-            <div class="feature-card" data-aos="zoom-in">
-                <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                </div>
-                <h3 class="feature-title">Unified Interface</h3>
-                <p class="feature-desc">Access all your essential services through a single, intuitive interface designed for maximum efficiency.</p>
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Why Choose Us</p>
+                <h2 class="section-title">Reimagine Your Digital Experience</h2>
+                <p class="section-description">ProjectUnifyX combines essential services into one intuitive platform, eliminating the need for multiple apps and constant updates.</p>
             </div>
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
-                <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m8 17 4 4 4-4"></path></svg>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">All-in-One Platform</h3>
+                    <p class="feature-description">Access multiple services through a single unified interface, eliminating the need to switch between different apps.</p>
                 </div>
-                <h3 class="feature-title">Real-time Updates</h3>
-                <p class="feature-desc">Instantly receive platform updates without needing to download or install anything from app stores.</p>
-            </div>
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
-                <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <div class="feature-card">
+                    <div class="feature-icon">☁️</div>
+                    <h3 class="feature-title">Cloud Synchronization</h3>
+                    <p class="feature-description">Your data seamlessly syncs across all your devices, giving you access to your information anytime, anywhere.</p>
                 </div>
-                <h3 class="feature-title">Zero Installation</h3>
-                <p class="feature-desc">No downloads required for any services. Everything runs directly in your browser, saving precious storage space.</p>
-            </div>
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
-                <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                </div>
-                <h3 class="feature-title">Time Efficient</h3>
-                <p class="feature-desc">Save time by avoiding the need to switch between multiple apps or wait for updates to download and install.</p>
-            </div>
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
-                <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                </div>
-                <h3 class="feature-title">User-Centric Design</h3>
-                <p class="feature-desc">Carefully crafted with users in mind, ensuring an intuitive experience across all integrated services.</p>
-            </div>
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="500">
-                <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                </div>
-                <h3 class="feature-title">Enhanced Security</h3>
-                <p class="feature-desc">Built with security in mind, ensuring your data remains protected across all integrated services.</p>
             </div>
         </div>
     </section>
 
-    <!-- Developer Section -->
-    <section class="section" id="developer">
-        <h2 class="section-title">Developer Info</h2>
-        <div class="dev-container">
-            <div class="dev-header">
-                <div class="dev-avatar">
-                    <img src="ved1.png.jpg" alt="Ved Mangukiya">
-                </div>
-                <div class="dev-title">
-                    <h3 class="dev-name">Ved Mangukiya</h3>
-                    <p class="dev-subtitle">Creator of ProjectUnifyX</p>
-                </div>
+    <!-- Tools Section -->
+    <section class="tools-section" id="tools">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Our Tools</p>
+                <h2 class="section-title">Latest Tools</h2>
+                <p class="section-description">Latest Tools of this week...</p>
             </div>
-            <div class="dev-info">
-                <div>
-                    <div class="dev-item">
-                        <span class="dev-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5bc0aa" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                        </span>
-                        <div>
-                            <span class="dev-label">Residence:</span>
-                            <span class="dev-value">Surat, India</span>
-                        </div>
-                    </div>
-                    <div class="dev-item">
-                        <span class="dev-icon">
-                            <svg fill="#5bc0aa" height="196px" width="196px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-14.69 -14.69 519.02 519.02" xml:space="preserve" stroke="#5bc0aa" stroke-width="14.199704999999998"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-joi
-nline></g><g id="SVGRepo_iconCarrier"> <g> <path d="M460.656,132.911c-58.7-122.1-212.2-166.5-331.8-104.1c-9.4,5.2-13.5,16.6-8.3,27c5.2,9.4,16.6,13.5,27,8.3 c99.9-52,227.4-14.9,276.7,86.3c65.4,134.3-19,236.7-87.4,274.6c-93.1,51.7-211.2,17.4-267.6-70.7l69.3,14.5 c10.4,2.1,21.8-4.2,23.9-15.6c2.1-10.4-4.2-21.8-15.6-23.9l-122.8-25c-20.6-2-25,16.6-23.9,22.9l15.6,123.8 c1,10.4,9.4,17.7,19.8,17.7c12.8,0,20.8-12.5,19.8-23.9l-6-50.5c57.4,70.8,170.3,131.2,307.4,68.2 C414.856,432.511,548.256,314.811,460.656,132.911z"></path> </g> </g></svg>
-                        </span>
-                        <div>
-                            <span class="dev-label">Age:</span>
-                            <span class="dev-value" id="live-age"><span class="age-text">Calculating...</span> 
-                        </div>
-                    </div>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">📄</div>
+                    <h3 class="tool-title">Question Paper Maker</h3>
+                    <p class="tool-description">Create custom question papers easily.</p>
+                    <a href="questionpapermaker.html" class="btn btn-primary">Try Now</a>
                 </div>
-                <div>
-                    <div class="dev-item">
-                        <span class="dev-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
-                        </span>
-                        <div>
-                            <span class="dev-label">Education:</span>
-                            <span class="dev-value">Currently studying in 12th grade, Commerce stream</span>
-                        </div>
-                    </div>
-                    <div class="dev-item">
-                        <span class="dev-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>
-                        </span>
-                        <div>
-                            <span class="dev-label">Passion:</span>
-                            <span class="dev-value">Curious about computers, coding, animation, and editing</span>
-                        </div>
-                    </div>
+                <div class="tool-card">
+                    <div class="tool-icon">🔐</div>
+                    <h3 class="tool-title">Secret Code Generator</h3>
+                    <p class="tool-description">AES encryption/decryption for secure messages.</p>
+                    <a href="text_to_secret_code_converter.html" class="btn btn-primary">Try Now</a>
                 </div>
-                <div>
-                    <div class="dev-item">
-                        <span class="dev-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                        </span>
-                        <div>
-                            <span class="dev-label">Hobbies:</span>
-                            <span class="dev-value">Exploring new technologies, Swimming (District-level swimmer)</span>
-                        </div>
-                    </div>
+                <div class="tool-card">
+                    <div class="tool-icon">💱</div>
+                    <h3 class="tool-title">Currency Exchange</h3>
+                    <p class="tool-description">A tool to convert currency values between different countries with real-time rates.</p>
+                    <a href="CurrencyEXC.html" class="btn btn-primary">Try Now</a>
                 </div>
-            </div>
-            <div class="quote-container">
-                <p class="quote">RRR: Reset. Restart. Realign. The Code Endures.</p>
-                <p class="quote-author">- My Philosophy</p>
-            </div>
-            <div class="age-container">
-                <p class="age-label">Current Age:</p>
-                <p class="age-value" id="detailed-age"><span class="age-text">Calculating...</span> 
+                <div class="tool-card">
+                    <div class="tool-icon">🎂</div>
+                    <h3 class="tool-title">Age Calculator</h3>
+                    <p class="tool-description">Calculate age based on birth date.</p>
+                    <a href="AgeCalculator.html" class="btn btn-primary">Try Now</a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section" id="contact">
-        <h2 class="cta-title">Ready to Experience ProjectUnifyX?</h2>
-        <p class="cta-desc">Explore our tools and discover how ProjectUnifyX can transform your digital experience.</p>
-        <div class="btn-container">
-            <a href="/AllTools.html" class="btn btn-primary explore-tools" aria-label="Explore all tools available on ProjectUnifyX">Explore All Tools</a>
-            <div class="secondary-buttons">
-                <a class="btn btn-outline" href="explanation.html">Tool Information</a>
-                <a href="Copyright and Legal Terms.html" class="btn btn-outline">Terms & Conditions</a>
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Transform Your Workflow?</h2>
+                <p class="cta-description">Join thousands of users who are already experiencing the power of ProjectUnifyX. Start exploring our tools today!</p>
+                <div class="cta-buttons">
+                    <a href="/AllTools.html" class="btn btn-light">Explore All Tools</a>
+                    <a href="Copyright and Legal Terms.html" class="btn btn-transparent">Terms & Conditions</a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div>
-                <div class="footer-logo">
-                    <img src="wlogo.png" alt="ProjectUnifyX Logo">
-                    <span class="footer-logo-text">ProjectUnifyX</span>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <img src="wlogo.png" alt="ProjectUnifyX Logo">
+                        <span class="logo-text" style="color: white;">ProjectUnifyX</span>
+                    </div>
+                    <p class="footer-about">ProjectUnifyX is your all-in-one platform for productivity, offering seamless, cloud-based tools to simplify your digital life.</p>
+                    <div class="footer-social">
+                        <a href="https://www.instagram.com/unify_x_project" class="social-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        </a>
+                        <a href="https://x.com/Unify_X_Project" class="social-link" target="_blank" aria-label="X (formerly Twitter)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                          </a>                        
+                    </div>
                 </div>
-                <p class="footer-desc">
-                    An all-in-one super platform that integrates essential services without requiring frequent updates or heavy storage space.
-                </p>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/unify_x_project/" class="social-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                    </a>
-                    <a href="https://x.com/Unify_X_Project" class="social-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
-                    </a>
+                <div>
+                    <h3 class="footer-column-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#tools">Latest tools</a></li>
+                        <li><a href="/AllTools.html">All Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-column-title">Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:projectunifyx@gmail.com">projectunifyx@gmail.com</a></li>
+                        <li><a href="#">Surat, India</a></li>
+                    </ul>
                 </div>
             </div>
-            <div>
-                <h4 class="footer-title">Quick Links</h4>
-                <ul class="footer-links">
-                    <li>
-                        <a href="#home">
-                            <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </span>
-                            Home
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#concept">
-                            <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </span>
-                            Concept
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#about">
-                            <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </span>
-                            About
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#features">
-                            <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </span>
-                            Features
-                        </a>
-                    </li>
-                </ul>
+            <div class="footer-bottom">
+                <p>© 2025 ProjectUnifyX. All rights reserved.</p>
             </div>
-            <div>
-                <h4 class="footer-title">Tools</h4>
-                <ul class="footer-links">
-                    <li>
-                        <a href="/AllTools.html">
-                            <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </span>
-                            All Tools
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/explanation.html
-                            <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </span>
-                            Learn More
-                        </a>
-                    </li>
-                    <li>
-                        <a href="Copyright and Legal Terms.html">
-                            <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </span>
-                            Terms & Conditions
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="footer-title">Contact</h4>
-                <ul class="footer-links">
-                    <li>
-                        <a href="mailto:projectunifyx@gmail.com">
-                            <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                            </span>
-                            Email Us
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#developer">
-                            <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                            </span>
-                            Developer Info
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            © <span id="current-year"></span> Mangukiya Ved. All rights reserved.
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <div class="back-to-top" id="back-to-top">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-joi
-nline><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-    </div>
+    <script>
+        // Mobile menu toggle
+        const openMenuBtn = document.getElementById('openMenu');
+        const closeMenuBtn = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
 
-    <!-- Onboarding Modal -->
-    <div class="onboarding-modal" id="onboarding-modal">
-        <div class="modal-content">
-            <h2>Welcome to ProjectUnifyX!</h2>
-            <p>Access all your essential tools in one place without downloads or updates. Start by exploring our tools below!</p>
-            <a href="/AllTools.html" class="btn btn-primary explore-tools" aria-label="Explore all tools available on ProjectUnifyX">Explore All Tools</a>
-            <button class="btn btn-outline" onclick="closeModal()">Got It</button>
-        </div>
-    </div>
-<!-- Floating CTA -->
-<div class="floating-cta">
-    <a href="/AllTools.html" class="btn btn-primary explore-tools" aria-label="Explore all tools available on ProjectUnifyX">Explore Tools</a>
-</div>
-
-<!-- Scripts -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    // Initialize AOS
-    AOS.init({
-        duration: 1000,
-        once: true,
-    });
-
-    // Preloader
-    window.addEventListener('load', () => {
-        const preloader = document.querySelector('.preloader');
-        preloader.classList.add('fade-out');
-        setTimeout(() => {
-            preloader.style.display = 'none';
-        }, 500);
-    });
-
-    // Header Scroll Effect
-    const header = document.querySelector('header');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-
-    // Custom Scrollbar
-    const scrollbarThumb = document.querySelector('.scrollbar-thumb');
-    const updateScrollbar = () => {
-        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const thumbHeight = (window.innerHeight / document.documentElement.scrollHeight) * 100;
-        scrollbarThumb.style.height = `${thumbHeight}%`;
-        const scrollPercent = window.scrollY / scrollHeight;
-        scrollbarThumb.style.top = `${scrollPercent * (100 - thumbHeight)}%`;
-    };
-    window.addEventListener('scroll', updateScrollbar);
-    window.addEventListener('resize', updateScrollbar);
-    updateScrollbar();
-
-    // Particles Animation
-    const particlesContainer = document.getElementById('particles');
-    const particleCount = 20; // Reduced from 50 to declutter
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        particle.style.width = `${Math.random() * 5 + 2}px`;
-        particle.style.height = particle.style.width;
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-        particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
-        particle.style.animationDelay = `${Math.random() * 5}s`;
-        particlesContainer.appendChild(particle);
-    }
-
-    // Scroll Down Button
-    const scrollDown = document.getElementById('scroll-down');
-    scrollDown.addEventListener('click', () => {
-        window.scrollTo({
-            top: window.innerHeight,
-            behavior: 'smooth'
+        openMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
         });
-    });
 
-    // Back to Top Button
-    const backToTop = document.getElementById('back-to-top');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 500) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
-        }
-    });
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+        closeMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
         });
-    });
-
-    // Floating CTA
-    const floatingCta = document.querySelector('.floating-cta');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 500) {
-            floatingCta.classList.add('visible');
-        } else {
-            floatingCta.classList.remove('visible');
-        }
-    });
-
-    // Onboarding Modal
-    function showModal() {
-        if (!localStorage.getItem('onboardingSeen')) {
-            document.getElementById('onboarding-modal').classList.add('active');
-        }
-    }
-    function closeModal() {
-        document.getElementById('onboarding-modal').classList.remove('active');
-        localStorage.setItem('onboardingSeen', 'true');
-    }
-    window.addEventListener('load', showModal);
-
-    // Update Footer Year
-    document.getElementById('current-year').textContent = new Date().getFullYear();
-
-    // Calculate Age
-    const birthDate = new Date('2007-06-02');
-    function calculateAge() {
-        const now = new Date();
-        let years = now.getFullYear() - birthDate.getFullYear();
-        let months = now.getMonth() - birthDate.getMonth();
-        let days = now.getDate() - birthDate.getDate();
-
-        if (days < 0) {
-            months--;
-            days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-        }
-        if (months < 0) {
-            years--;
-            months += 12;
-        }
-
-        document.getElementById('live-age').querySelector('.age-text').textContent = `${years} years`;
-        document.getElementById('detailed-age').querySelector('.age-text').textContent = `${years} years, ${months} months, ${days} days`;
-    }
-    calculateAge();
-    setInterval(calculateAge, 86400000); // Update daily
-</script>
+    </script>
 </body>
 </html>
-    

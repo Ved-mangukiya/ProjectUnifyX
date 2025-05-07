@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -236,6 +235,15 @@
             text-align: center;
         }
         
+        .tool-description {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            margin-bottom: 1rem;
+            text-align: center;
+            line-height: 1.4;
+            flex-grow: 1;
+        }
+        
         .last-updated {
             font-size: 0.8rem;
             color: var(--secondary-text);
@@ -374,6 +382,10 @@
                 font-size: 0.95rem;
             }
             
+            .tool-description {
+                font-size: 0.8rem;
+            }
+            
             .tool-button {
                 padding: 0.5rem;
                 font-size: 0.9rem;
@@ -461,17 +473,11 @@
             }
         }
     </style>
-    <script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
-</script>
 </head>
 <body>
-    <amp-auto-ads type="adsense"
-        data-ad-client="ca-pub-3609866886515961">
-</amp-auto-ads>
     <div class="header">
         <div class="logo-container">
-            <img src="wlogo.png" alt="Tools Logo" class="logo">
+            <img src="wlogo.png" alt="Tools Hub Logo" class="logo">
         </div>
         <h1>Tools Hub</h1>
         
@@ -494,53 +500,246 @@
     </footer>
     
     <script>
-        // Tool data with simplified categories
+        // Tool data with descriptions
         const tools = [
-    // Calculation & Financial Tools
-    { icon: "🎂", title: "Age Calculator", link: "AgeCalculator.html", date: "2025-03-05", category: "Calculation & Financial Tools", featured: true },
-    { icon: "- +", title: "Calculator", link: "calculator.html", date: "2024-04-12", category: "Calculation & Financial Tools", featured: true },
-    { icon: "💰", title: "Discount Calculator", link: "discount.html", date: "2025-02-19", category: "Calculation & Financial Tools" },
-    { icon: "📝", title: "GST Calculator", link: "gst.html", date: "2025-02-19", category: "Calculation & Financial Tools" },
-    { icon: "💱", title: "Currency Exchange", link: "CurrencyEXC.html", date: "2025-01-26", category: "Calculation & Financial Tools" },
-    { icon: "💸", title: "Expense Tracker", link: "Expense_Tracker.html", date: "2025-02-18", category: "Calculation & Financial Tools", featured: true },
-    { icon: "🏠", title: "Home Loan Calculator", link: "homeloan.html", date: "2025-02-19", category: "Calculation & Financial Tools" },
-    { icon: "📈", title: "Investment Calculator", link: "investment.html", date: "2025-02-19", category: "Calculation & Financial Tools" },
-    { icon: "💵", title: "Loan Calculator", link: "loan.html", date: "2025-02-19", category: "Calculation & Financial Tools" },
+            // Calculation & Financial Tools
+            { 
+                icon: "🎂", 
+                title: "Age Calculator", 
+                description: "Calculate age based on birth date.",
+                link: "AgeCalculator.html", 
+                date: "2025-03-05", 
+                category: "Calculation & Financial Tools", 
+                featured: true 
+            },
+            { 
+                icon: "- +", 
+                title: "Calculator", 
+                description: "A simple calculator and percentage finder.",
+                link: "calculator.html", 
+                date: "2024-04-12", 
+                category: "Calculation & Financial Tools", 
+                featured: true 
+            },
+            { 
+                icon: "💰", 
+                title: "Discount Calculator", 
+                description: "Calculate price discounts and final amounts.",
+                link: "discount.html", 
+                date: "2025-02-19", 
+                category: "Calculation & Financial Tools" 
+            },
+            { 
+                icon: "📝", 
+                title: "GST Calculator", 
+                description: "Calculate GST for different rates.",
+                link: "gst.html", 
+                date: "2025-02-19", 
+                category: "Calculation & Financial Tools" 
+            },
+            { 
+                icon: "💱", 
+                title: "Currency Exchange", 
+                description: "A tool to convert currency values between different countries with real-time rates.",
+                link: "CurrencyEXC.html", 
+                date: "2025-01-26", 
+                category: "Calculation & Financial Tools" 
+            },
+            { 
+                icon: "💸", 
+                title: "Expense Tracker", 
+                description: "Enables tracking expenses with an initial amount entry.",
+                link: "Expense_Tracker.html", 
+                date: "2025-02-18", 
+                category: "Calculation & Financial Tools", 
+                featured: true 
+            },
+            { 
+                icon: "🏠", 
+                title: "Home Loan Calculator", 
+                description: "Helps you calculate EMI for home loans.",
+                link: "homeloan.html", 
+                date: "2025-02-19", 
+                category: "Calculation & Financial Tools" 
+            },
+            { 
+                icon: "📈", 
+                title: "Investment Calculator", 
+                description: "Calculate your investments and returns.",
+                link: "investment.html", 
+                date: "2025-02-19", 
+                category: "Calculation & Financial Tools" 
+            },
+            { 
+                icon: "💵", 
+                title: "Loan Calculator", 
+                description: "Helps in calculating loan payments.",
+                link: "loan.html", 
+                date: "2025-02-19", 
+                category: "Calculation & Financial Tools" 
+            },
 
-    // Unit & Measurement Converters
-    { icon: "📏", title: "Area Converter", link: "areaconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
-    { icon: "📊", title: "Data Converter", link: "dataconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
-    { icon: "📏", title: "Length Converter", link: "lengthconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
-    { icon: "⚖️", title: "Mass Converter", link: "massconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
-    { icon: "⚡", title: "Power Converter", link: "powerconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
-    { icon: "🗜", title: "Pressure Converter", link: "pressureconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
-    { icon: "🚀", title: "Speed Converter", link: "speedconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
-    { icon: "🌡️", title: "Temperature Converter", link: "tempretureconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
-    { icon: "⏳", title: "Time Converter", link: "timeconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
-    { icon: "📦", title: "Volume Converter", link: "volumeconverter.html", date: "2025-02-19", category: "Unit & Measurement Converters" },
+            // Unit & Measurement Converters
+            { 
+                icon: "📏", 
+                title: "Area Converter", 
+                description: "Convert different area units easily.",
+                link: "areaconverter.html", 
+                date: "2025-02-19", 
+                category: "Unit & Measurement Converters" 
+            },
+            { 
+                icon: "📊", 
+                title: "Data Converter", 
+                description: "Convert KB, MB, GB, and other data units.",
+                link: "dataconverter.html", 
+                date: "2025-02-19", 
+                category: "Unit & Measurement Converters" 
+            },
+            { 
+                icon: "📏", 
+                title: "Length Converter", 
+                description: "Convert between meters, kilometers, feet, inches, etc.",
+                link: "lengthconverter.html", 
+                date: "2025-02-19", 
+                category: "Unit & Measurement Converters" 
+            },
+            { 
+                icon: "⚖️", 
+                title: "Mass Converter", 
+                description: "Convert kilograms, grams, pounds, etc.",
+                link: "massconverter.html", 
+                date: "2025-02-19", 
+                category: "Unit & Measurement Converters" 
+            },
+            { 
+                icon: "⚡", 
+                title: "Power Converter", 
+                description: "Convert watt, kilowatt, horsepower, etc.",
+                link: "powerconverter.html", 
+                date: "2025-02-19", 
+                category: "Unit & Measurement Converters" 
+            },
+            { 
+                icon: "🗜", 
+                title: "Pressure Converter", 
+                description: "Convert pressure units like bar, psi, pascal.",
+                link: "pressureconverter.html", 
+                date: "2025-02-19", 
+                category: "Unit & Measurement Converters" 
+            },
+            { 
+                icon: "🚀", 
+                title: "Speed Converter", 
+                description: "Convert speed between km/h, mph, m/s, etc.",
+                link: "speedconverter.html", 
+                date: "2025-02-19", 
+                category: "Unit & Measurement Converters" 
+            },
+            { 
+                icon: "🌡️", 
+                title: "Temperature Converter", 
+                description: "Convert Celsius, Fahrenheit, and Kelvin.",
+                link: "tempretureconverter.html", 
+                date: "2025-02-19", 
+                category: "Unit & Measurement Converters" 
+            },
+            { 
+                icon: "⏳", 
+                title: "Time Converter", 
+                description: "Convert time units like seconds, minutes, hours.",
+                link: "timeconverter.html", 
+                date: "2025-02-19", 
+                category: "Unit & Measurement Converters" 
+            },
+            { 
+                icon: "📦", 
+                title: "Volume Converter", 
+                description: "Convert between liters, milliliters, cubic meters, etc.",
+                link: "volumeconverter.html", 
+                date: "2025-02-19", 
+                category: "Unit & Measurement Converters" 
+            },
 
-    // Cryptography & Security Tools
-    { icon: "🔐", title: "Secret Code Generator", link: "text_to_secret_code_converter.html", date: "2024-10-22", category: "Cryptography & Security Tools", featured: true },
-    { icon: "🔢", title: "Text to Secret Number", link: "Text_to_secret_numbers.html", date: "2024-11-03", category: "Cryptography & Security Tools" },
-    { icon: "😀", title: "Text to Emoji Cipher", link: "Text_to_emoji_language_converter.html", date: "2024-09-10", category: "Cryptography & Security Tools" },
+            // Cryptography & Security Tools
+            { 
+                icon: "🔐", 
+                title: "Secret Code Generator", 
+                description: "AES encryption/decryption for secure messages.",
+                link: "text_to_secret_code_converter.html", 
+                date: "2024-10-22", 
+                category: "Cryptography & Security Tools", 
+                featured: true 
+            },
+            { 
+                icon: "🔢", 
+                title: "Text to Secret Number", 
+                description: "Encodes/decodes messages using numbers instead of letters.",
+                link: "Text_to_secret_numbers.html", 
+                date: "2024-11-03", 
+                category: "Cryptography & Security Tools" 
+            },
+            { 
+                icon: "😀", 
+                title: "Text to Emoji Cipher", 
+                description: "Converts text into emojis and allows reversing it back.",
+                link: "Text_to_emoji_language_converter.html", 
+                date: "2024-09-10", 
+                category: "Cryptography & Security Tools" 
+            },
 
-    // Utility & Miscellaneous Tools
-    { icon: "📄", title: "Question Paper Maker", link: "questionpapermaker.html", date: "2025-2-20", category: "Utility & Miscellaneous Tools", featured: true },
-    { icon: "⏳", title: "Countdown Timer", link: "countdown_timer.html", date: "2025-02-16", category: "Utility & Miscellaneous Tools" },
-    { icon: "🎨", title: "Advanced Whiteboard", link: "whiteboard.html", date: "2024-12-15", category: "Utility & Miscellaneous Tools", featured: true },
-    { icon: "🎲", title: "Number Guessing Game", link: "number_guessing_game.html", date: "2024-07-18", category: "Utility & Miscellaneous Tools" },
-    { icon: "📱", title: "QR Code Maker", link: "QR_code_maker.html", date: "2024-08-05", category: "Utility & Miscellaneous Tools" },
-    
-];
+            // Utility & Miscellaneous Tools
+            { 
+                icon: "📄", 
+                title: "Question Paper Maker", 
+                description: "Create custom question papers easily.",
+                link: "questionpapermaker.html", 
+                date: "2025-2-20", 
+                category: "Utility & Miscellaneous Tools", 
+                featured: true 
+            },
+            { 
+                icon: "⏳", 
+                title: "Countdown Timer", 
+                description: "Allows users to set and run a timer.",
+                link: "countdown_timer.html", 
+                date: "2025-02-16", 
+                category: "Utility & Miscellaneous Tools" 
+            },
+            { 
+                icon: "🎨", 
+                title: "Advanced Whiteboard", 
+                description: "A feature-rich whiteboard with tools, themes, and an improved UI.",
+                link: "whiteboard.html", 
+                date: "2024-12-15", 
+                category: "Utility & Miscellaneous Tools", 
+                featured: true 
+            },
+            { 
+                icon: "🎲", 
+                title: "Number Guessing Game", 
+                description: "A fun game where you guess numbers with hints (too high/low).",
+                link: "number_guessing_game.html", 
+                date: "2024-07-18", 
+                category: "Utility & Miscellaneous Tools" 
+            },
+            { 
+                icon: "📱", 
+                title: "QR Code Maker", 
+                description: "Generate QR codes and simulate scanning.",
+                link: "QR_code_maker.html", 
+                date: "2024-08-05", 
+                category: "Utility & Miscellaneous Tools" 
+            }
+        ];
 
-// Category Icons
-const categoryIcons = {
-    "Calculation & Financial Tools": "💰",
-    "Unit & Measurement Converters": "🔄",
-    "Cryptography & Security Tools": "🔒",
-    "Utility & Miscellaneous Tools": "🛠️"
-};
-
+        // Category Icons
+        const categoryIcons = {
+            "Calculation & Financial Tools": "💰",
+            "Unit & Measurement Converters": "🔄",
+            "Cryptography & Security Tools": "🔒",
+            "Utility & Miscellaneous Tools": "🛠️"
+        };
 
         // Organize tools by category
         function organizeByCategory() {
@@ -628,6 +827,7 @@ const categoryIcons = {
                     toolCard.innerHTML = `
                         <div class="tool-icon">${tool.icon}</div>
                         <div class="tool-title">${tool.title}</div>
+                        <div class="tool-description">${tool.description}</div>
                         <div class="last-updated">Updated: ${tool.date}</div>
                     `;
                     
@@ -654,7 +854,9 @@ const categoryIcons = {
                 
                 toolCards.forEach(card => {
                     const toolTitle = card.querySelector(".tool-title").textContent.toLowerCase();
-                    if (toolTitle.includes(searchTerm)) {
+                    const toolDescription = card.querySelector(".tool-description").textContent.toLowerCase();
+                    
+                    if (toolTitle.includes(searchTerm) || toolDescription.includes(searchTerm)) {
                         card.style.display = "flex";
                         foundInCategory = true;
                         foundAny = true;

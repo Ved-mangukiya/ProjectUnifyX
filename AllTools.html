@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Tools Hub - A collection of online calculators, converters, financial tools, and utility applications">
-    <meta name="keywords" content="calculator, converter, financial tools, utility tools, cryptography">
+    <meta name="keywords" content="calculator, converter, financial tools, utility tools, cryptography, pdf tools">
     <meta name="author" content="Mangukiya Ved">
     <meta name="theme-color" content="#303030">
     <title>Tools Hub</title>
@@ -70,6 +70,12 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             display: inline-block;
+        }
+        
+        .stats {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            margin-bottom: 1rem;
         }
         
         .search-bar {
@@ -480,7 +486,7 @@
             <img src="wlogo.png" alt="Tools Hub Logo" class="logo">
         </div>
         <h1>Tools Hub</h1>
-        
+        <div class="stats" id="stats"></div>
         <div class="search-bar">
             <div class="search-icon">🔍</div>
             <input type="text" class="search-input" id="searchInput" placeholder="Search for tools...">
@@ -496,12 +502,77 @@
     </div>
     
     <footer>
-        <p>&copy; <span id="currentYear"></span> Mangukiya Ved. All rights reserved.</p>
+        <p>© <span id="currentYear"></span> Mangukiya Ved. All rights reserved.</p>
     </footer>
     
     <script>
         // Tool data with descriptions
         const tools = [
+            // PDF Craft
+            { 
+                icon: "🖼️", 
+                title: "Image to PDF", 
+                description: "Convert images to PDF documents easily.",
+                link: "imagetopdf.html", 
+                date: "2025-05-13", 
+                category: "PDF Craft", 
+                featured: true 
+            },
+            { 
+                icon: "📄", 
+                title: "PDF to Image", 
+                description: "Extract images from PDF files.",
+                link: "pdftoimage.html", 
+                date: "2025-05-13", 
+                category: "PDF Craft", 
+                featured: true 
+            },
+            { 
+                icon: "📑", 
+                title: "PDF Merger", 
+                description: "Combine multiple PDF files into one.",
+                link: "pdfmerger.html", 
+                date: "2025-05-13", 
+                category: "PDF Craft", 
+                featured: true 
+            },
+            { 
+                icon: "✂️", 
+                title: "PDF Splitter", 
+                description: "Split PDF files into separate pages.",
+                link: "pdfsplitter.html", 
+                date: "2025-05-13", 
+                category: "PDF Craft", 
+                featured: true 
+            },
+            { 
+                icon: "🔒", 
+                title: "PDF Encryption", 
+                description: "Secure PDF files with password protection.",
+                link: "pdfencryption.html", 
+                date: "2025-05-13", 
+                category: "PDF Craft", 
+                featured: true 
+            },
+            { 
+                icon: "🔓", 
+                title: "PDF Decryption", 
+                description: "Remove password protection from PDF files.",
+                link: "pdfdecryption.html", 
+                date: "2025-05-13", 
+                category: "PDF Craft", 
+                featured: true 
+            },
+            { 
+                icon: "📝", 
+                title: "PDF to Text", 
+                description: "Extract text from PDF documents.",
+                link: "pdftotext.html", 
+                date: "2025-05-13", 
+                category: "PDF Craft", 
+                featured: true 
+            },
+
             // Calculation & Financial Tools
             { 
                 icon: "🎂", 
@@ -577,6 +648,15 @@
                 link: "loan.html", 
                 date: "2025-02-19", 
                 category: "Calculation & Financial Tools" 
+            },
+            { 
+                icon: "🧾", 
+                title: "Invoice & Bill Maker", 
+                description: "Create professional invoices and bills quickly.",
+                link: "invoicebillmaker.html", 
+                date: "2025-05-13", 
+                category: "Calculation & Financial Tools", 
+                featured: true 
             },
 
             // Unit & Measurement Converters
@@ -687,14 +767,23 @@
                 date: "2024-09-10", 
                 category: "Cryptography & Security Tools" 
             },
+            { 
+                icon: "🔑", 
+                title: "World's Most Powerful Random Password Generator", 
+                description: "Generate strong, secure random passwords.",
+                link: "passwordgenerator.html", 
+                date: "2025-05-13", 
+                category: "Cryptography & Security Tools", 
+                featured: true 
+            },
 
             // Utility & Miscellaneous Tools
             { 
                 icon: "📄", 
-                title: "Question Paper Maker", 
-                description: "Create custom question papers easily.",
+                title: "Upgraded Question Paper Maker", 
+                description: "Create advanced custom question papers with enhanced features.",
                 link: "questionpapermaker.html", 
-                date: "2025-2-20", 
+                date: "2025-05-13", 
                 category: "Utility & Miscellaneous Tools", 
                 featured: true 
             },
@@ -730,11 +819,30 @@
                 link: "QR_code_maker.html", 
                 date: "2024-08-05", 
                 category: "Utility & Miscellaneous Tools" 
+            },
+            { 
+                icon: "📋", 
+                title: "Instant Resume Maker", 
+                description: "Create professional resumes quickly and easily.",
+                link: "resumemaker.html", 
+                date: "2025-05-13", 
+                category: "Utility & Miscellaneous Tools", 
+                featured: true 
+            },
+            { 
+                icon: "🖼️", 
+                title: "Image Resizer & Cropper", 
+                description: "Resize and crop images with ease.",
+                link: "imageresizercropper.html", 
+                date: "2025-05-13", 
+                category: "Utility & Miscellaneous Tools", 
+                featured: true 
             }
         ];
 
         // Category Icons
         const categoryIcons = {
+            "PDF Craft": "📄",
             "Calculation & Financial Tools": "💰",
             "Unit & Measurement Converters": "🔄",
             "Cryptography & Security Tools": "🔒",
@@ -753,14 +861,29 @@
             return categories;
         }
 
+        // Update stats display
+        function updateStats() {
+            const categories = organizeByCategory();
+            const totalCategories = Object.keys(categories).length;
+            const totalTools = tools.length;
+            document.getElementById("stats").textContent = `${totalTools} Tools in ${totalCategories} Categories`;
+        }
+
         // Generate category containers and tool cards
         function generateCategories() {
             const categories = organizeByCategory();
             const container = document.getElementById("categoryContainer");
             container.innerHTML = '';
             
+            // Sort categories to put PDF Craft first
+            const sortedCategories = Object.keys(categories).sort((a, b) => {
+                if (a === "PDF Craft") return -1;
+                if (b === "PDF Craft") return 1;
+                return a.localeCompare(b);
+            });
+
             // Create DOM elements for each category
-            Object.keys(categories).forEach((categoryName, categoryIndex) => {
+            sortedCategories.forEach((categoryName, categoryIndex) => {
                 const categoryTools = categories[categoryName];
                 
                 const categoryDiv = document.createElement("div");
@@ -891,6 +1014,7 @@
         // Initialize the page
         window.addEventListener("DOMContentLoaded", () => {
             generateCategories();
+            updateStats();
             
             // Setup search functionality
             document.getElementById("searchInput").addEventListener("input", filterTools);

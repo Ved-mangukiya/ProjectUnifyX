@@ -5,6 +5,7 @@ let currentImageCount = 0;
 // DOM elements
 const fileInput = document.getElementById('file-input');
 const uploadArea = document.getElementById('upload-area');
+const uploadBtn = document.querySelector('.upload-btn'); // Added to reference the label
 const uploadSection = document.getElementById('upload-section');
 const previewSection = document.getElementById('preview-section');
 const settingsSection = document.getElementById('settings-section');
@@ -13,6 +14,7 @@ const addMoreBtn = document.getElementById('add-more-btn');
 const clearAllBtn = document.getElementById('clear-all-btn');
 const generatePdfBtn = document.getElementById('generate-pdf-btn');
 const loaderContainer = document.getElementById('loader-container');
+const loadingText = document.getElementById('loading-text'); // Added for dynamic loader text
 
 // Initialize SortableJS
 let sortable = new Sortable(thumbnailsContainer, {
@@ -36,6 +38,11 @@ function initApp() {
     // File input change
     fileInput.addEventListener('change', handleFileSelect);
     
+    // Prevent upload-btn click from propagating to upload-area
+    uploadBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent click from bubbling to upload-area
+    });
+    
     // Button event listeners
     addMoreBtn.addEventListener('click', triggerFileInput);
     clearAllBtn.addEventListener('click', clearAllImages);
@@ -43,8 +50,10 @@ function initApp() {
 }
 
 // Event handlers
-function triggerFileInput() {
-    fileInput.click();
+function triggerFileInput(e) {
+    if (!e.target.closest('.upload-btn')) { // Only trigger if not clicking the upload button
+        fileInput.click();
+    }
 }
 
 function handleDragOver(e) {
@@ -76,7 +85,7 @@ function handleFileSelect(e) {
 }
 
 // Process uploaded files
-function processFiles(files) {
+async function processFiles(files) {
     const validFiles = Array.from(files).filter(file => {
         const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/bmp', 'image/gif'];
         return validTypes.includes(file.type);
@@ -87,19 +96,19 @@ function processFiles(files) {
         return;
     }
     
-    // Add valid files to our collection
-    validFiles.forEach(file => {
-        currentImageCount++;
-        const imageObject = {
-            id: `img-${Date.now()}-${currentImageCount}`,
-            file: file,
-            url: URL.createObjectURL(file),
-            name: file.name
-        };
-        
-        uploadedImages.push(imageObject);
-        createThumbnail(imageObject);
-    });
+    // Show loader
+    loaderContainer.classList.remove('hidden');
+    
+    // Process files sequentially with progress feedback
+    for (let i = 0; i < validFiles.length; i++) {
+        loadingText.textContent = `Processing image ${i + 1} of ${validFiles.length}...`;
+        try {
+            await processFile(validFiles[i]);
+        } catch (error) {
+            console.error(`Error processing ${validFiles[i].name}:`, error);
+            alert(`Failed to process ${validFiles[i].name}. Skipping this file.`);
+        }
+    }
     
     // Show preview and settings sections if hidden
     if (uploadedImages.length > 0) {
@@ -108,11 +117,40 @@ function processFiles(files) {
         settingsSection.classList.remove('hidden');
     }
     
+    // Hide loader
+    loaderContainer.classList.add('hidden');
+    
     // Reset file input
     fileInput.value = '';
     
     // Update image numbering
     updateImageNumbers();
+}
+
+// Process a single file
+async function processFile(file) {
+    return new Promise((resolve, reject) => {
+        currentImageCount++;
+        const imageObject = {
+            id: `img-${Date.now()}-${currentImageCount}`,
+            file: file,
+            url: URL.createObjectURL(file),
+            name: file.name
+        };
+        
+        // Load image to ensure it's valid
+        const imgElement = new Image();
+        imgElement.src = imageObject.url;
+        imgElement.onload = () => {
+            uploadedImages.push(imageObject);
+            createThumbnail(imageObject);
+            resolve();
+        };
+        imgElement.onerror = () => {
+            URL.revokeObjectURL(imageObject.url);
+            reject(new Error('Invalid image file'));
+        };
+    });
 }
 
 // Create thumbnail element
@@ -202,7 +240,7 @@ function updateImageNumbers() {
 }
 
 // Generate PDF
-function generatePDF() {
+async function generatePDF() {
     if (uploadedImages.length === 0) {
         alert('Please upload at least one image to generate a PDF.');
         return;
@@ -210,15 +248,18 @@ function generatePDF() {
     
     // Show loader
     loaderContainer.classList.remove('hidden');
+    loadingText.textContent = 'Preparing PDF...';
     
-    // Get settings
-    const pageSize = document.getElementById('page-size').value;
-    const orientation = document.getElementById('orientation').value;
-    const margin = parseInt(document.getElementById('margin').value) || 10;
-    const imageQuality = parseFloat(document.getElementById('image-quality').value) || 0.85;
+    // Use setTimeout to ensure loader is rendered
+    await new Promise(resolve => setTimeout(resolve, 100));
     
-    // Set timeout to allow loader to display
-    setTimeout(() => {
+    try {
+        // Get settings
+        const pageSize = document.getElementById('page-size').value;
+        const orientation = document.getElementById('orientation').value;
+        const margin = parseInt(document.getElementById('margin').value) || 10;
+        const imageQuality = parseFloat(document.getElementById('image-quality').value) || 0.85;
+        
         // Create new jsPDF instance
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF({
@@ -241,81 +282,79 @@ function generatePDF() {
         });
         
         // Process each image and add to PDF
-        const processImages = async () => {
-            let isFirstPage = true;
+        let isFirstPage = true;
+        
+        for (let i = 0; i < sortedImages.length; i++) {
+            const img = sortedImages[i];
             
-            for (let i = 0; i < sortedImages.length; i++) {
-                const img = sortedImages[i];
-                
-                // Add new page if not the first image
-                if (!isFirstPage) {
-                    doc.addPage();
-                }
-                isFirstPage = false;
-                
-                // Update loader text
-                document.getElementById('loading-text').textContent = `Processing image ${i + 1} of ${sortedImages.length}...`;
-                
-                // Load image for processing
-                const imgElement = new Image();
-                imgElement.src = img.url;
-                
-                await new Promise(resolve => {
-                    imgElement.onload = resolve;
-                });
-                
-                // Calculate aspect ratios and positioning for best fit
-                const imgRatio = imgElement.width / imgElement.height;
-                const pageRatio = contentWidth / contentHeight;
-                
-                let imgWidth, imgHeight, xOffset, yOffset;
-                
-                if (imgRatio > pageRatio) {
-                    // Image is wider than page content area (relative to height)
-                    imgWidth = contentWidth;
-                    imgHeight = contentWidth / imgRatio;
-                    xOffset = margin;
-                    yOffset = margin + (contentHeight - imgHeight) / 2;
-                } else {
-                    // Image is taller than page content area (relative to width)
-                    imgHeight = contentHeight;
-                    imgWidth = contentHeight * imgRatio;
-                    xOffset = margin + (contentWidth - imgWidth) / 2;
-                    yOffset = margin;
-                }
-                
-                // Add image to PDF
-                doc.addImage(
-                    imgElement, 
-                    'JPEG', 
-                    xOffset, 
-                    yOffset, 
-                    imgWidth, 
-                    imgHeight, 
-                    undefined, 
-                    'MEDIUM', 
-                    0
-                );
+            // Add new page if not the first image
+            if (!isFirstPage) {
+                doc.addPage();
             }
+            isFirstPage = false;
             
             // Update loader text
-            document.getElementById('loading-text').textContent = 'Finalizing PDF...';
+            loadingText.textContent = `Processing image ${i + 1} of ${sortedImages.length}...`;
             
-            // Save PDF
-            const filename = `ImageFusion_PDF_${new Date().toISOString().slice(0, 10)}.pdf`;
-            doc.save(filename);
+            // Load image for processing
+            const imgElement = new Image();
+            imgElement.src = img.url;
             
-            // Hide loader
-            setTimeout(() => {
-                loaderContainer.classList.add('hidden');
-            }, 500);
-        };
+            await new Promise(resolve => {
+                imgElement.onload = resolve;
+                imgElement.onerror = () => {
+                    throw new Error(`Failed to load image ${img.name}`);
+                };
+            });
+            
+            // Calculate aspect ratios and positioning for best fit
+            const imgRatio = imgElement.width / imgElement.height;
+            const pageRatio = contentWidth / contentHeight;
+            
+            let imgWidth, imgHeight, xOffset, yOffset;
+            
+            if (imgRatio > pageRatio) {
+                // Image is wider than page content area (relative to height)
+                imgWidth = contentWidth;
+                imgHeight = contentWidth / imgRatio;
+                xOffset = margin;
+                yOffset = margin + (contentHeight - imgHeight) / 2;
+            } else {
+                // Image is taller than page content area (relative to width)
+                imgHeight = contentHeight;
+                imgWidth = contentHeight * imgRatio;
+                xOffset = margin + (contentWidth - imgWidth) / 2;
+                yOffset = margin;
+            }
+            
+            // Add image to PDF
+            doc.addImage(
+                imgElement, 
+                'JPEG', 
+                xOffset, 
+                yOffset, 
+                imgWidth, 
+                imgHeight, 
+                undefined, 
+                'MEDIUM', 
+                0
+            );
+        }
         
-        // Start processing images
-        processImages().catch(error => {
-            console.error('Error generating PDF:', error);
-            alert('Error generating PDF. Please try again.');
+        // Update loader text
+        loadingText.textContent = 'Finalizing PDF...';
+        
+        // Save PDF
+        const filename = `ImageFusion_PDF_${new Date().toISOString().slice(0, 10)}.pdf`;
+        doc.save(filename);
+        
+        // Hide loader
+        setTimeout(() => {
             loaderContainer.classList.add('hidden');
-        });
-    }, 500); // 500ms delay to ensure loader appears before heavy processing starts
+        }, 500);
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        alert('Error generating PDF. Please try again.');
+        loaderContainer.classList.add('hidden');
+    }
 }

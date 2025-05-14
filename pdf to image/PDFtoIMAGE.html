@@ -488,6 +488,7 @@
         // Initialize variables
         const uploadArea = document.getElementById("upload-area");
         const fileInput = document.getElementById("file-input");
+        const uploadBtn = document.querySelector(".upload-btn");
         const thumbnailsContainer = document.getElementById("thumbnails-container");
         const previewSection = document.getElementById("preview-section");
         const settingsSection = document.getElementById("settings-section");
@@ -498,7 +499,7 @@
         const loadingText = document.getElementById("loading-text");
         let images = [];
 
-        // Initialize        // Configure pdf.js worker
+        // Configure pdf.js worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
         // Drag and drop handling
@@ -518,12 +519,22 @@
             handleFiles(files);
         });
 
+        // File input change handling
         fileInput.addEventListener("change", () => {
             handleFiles(fileInput.files);
+            fileInput.value = ""; // Reset file input to allow re-selecting the same files
         });
 
-        uploadArea.addEventListener("click", () => {
-            fileInput.click();
+        // Upload area click handling (only trigger if not clicking the upload button)
+        uploadArea.addEventListener("click", (e) => {
+            if (!e.target.closest(".upload-btn")) {
+                fileInput.click();
+            }
+        });
+
+        // Prevent upload-btn click from propagating to upload-area
+        uploadBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevent click from bubbling to upload-area
         });
 
         // Handle uploaded files

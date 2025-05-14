@@ -506,6 +506,37 @@
     </footer>
     
     <script>
+        // Fetch last commit date from GitHub
+        async function fetchLastCommitDate(filePath) {
+            const cacheKey = `commit-date-${filePath}`;
+            const cachedDate = sessionStorage.getItem(cacheKey);
+            if (cachedDate) return cachedDate;
+
+            try {
+                const response = await fetch(
+                    `https://api.github.com/repos/Ved-mangukiya/ProjectUnifyX/commits?path=${filePath}&per_page=1`,
+                    { headers: { Authorization: "Bearer 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" } }
+                );
+                const data = await response.json();
+                const date = data.length > 0
+                    ? new Date(data[0].commit.author.date).toISOString().split("T")[0]
+                    : new Date().toISOString().split("T")[0];
+                sessionStorage.setItem(cacheKey, date);
+                return date;
+            } catch {
+                return new Date().toISOString().split("T")[0];
+            }
+        }
+
+        // Update tool dates
+        async function updateToolDates() {
+            for (let tool of tools) {
+                tool.date = await fetchLastCommitDate(tool.link);
+            }
+            generateCategories();
+            updateStats();
+        }
+
         // Tool data with descriptions
         const tools = [
             // PDF Craft
@@ -514,7 +545,7 @@
                 title: "Image to PDF", 
                 description: "Convert images to PDF documents easily.",
                 link: "image to pdf/imagetopdf.html", 
-                date: "2025-05-13", 
+                date: "", 
                 category: "PDF Craft", 
                 featured: true 
             },
@@ -523,7 +554,7 @@
                 title: "PDF to Image", 
                 description: "Extract images from PDF files.",
                 link: "pdf to image/PDFtoIMAGE.html", 
-                date: "2025-05-13", 
+                date: "", 
                 category: "PDF Craft", 
                 featured: true 
             },
@@ -532,7 +563,7 @@
                 title: "PDF Merger", 
                 description: "Combine multiple PDF files into one.",
                 link: "pdf merger/pdfMERGER.html", 
-                date: "2025-05-13", 
+                date: "", 
                 category: "PDF Craft", 
                 featured: true 
             },
@@ -541,7 +572,7 @@
                 title: "PDF Splitter", 
                 description: "Split PDF files into separate pages.",
                 link: "pdf splitter/pdfSPLITTER.html", 
-                date: "2025-05-13", 
+                date: "", 
                 category: "PDF Craft", 
                 featured: true 
             },
@@ -550,7 +581,7 @@
                 title: "PDF to Text", 
                 description: "Extract text from PDF documents.",
                 link: "comingsoon.html", 
-                date: "2025-05-13", 
+                date: "", 
                 category: "PDF Craft", 
                 featured: true 
             },
@@ -561,7 +592,7 @@
                 title: "Age Calculator", 
                 description: "Calculate age based on birth date.",
                 link: "AgeCalculator.html", 
-                date: "2025-03-05", 
+                date: "", 
                 category: "Calculation & Financial Tools", 
                 featured: true 
             },
@@ -570,7 +601,7 @@
                 title: "Calculator", 
                 description: "A simple calculator and percentage finder.",
                 link: "calculator.html", 
-                date: "2024-04-12", 
+                date: "", 
                 category: "Calculation & Financial Tools", 
                 featured: true 
             },
@@ -579,7 +610,7 @@
                 title: "Discount Calculator", 
                 description: "Calculate price discounts and final amounts.",
                 link: "discount.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Calculation & Financial Tools" 
             },
             { 
@@ -587,7 +618,7 @@
                 title: "GST Calculator", 
                 description: "Calculate GST for different rates.",
                 link: "gst.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Calculation & Financial Tools" 
             },
             { 
@@ -595,7 +626,7 @@
                 title: "Currency Exchange", 
                 description: "A tool to convert currency values between different countries with real-time rates.",
                 link: "CurrencyEXC.html", 
-                date: "2025-01-26", 
+                date: "", 
                 category: "Calculation & Financial Tools" 
             },
             { 
@@ -603,7 +634,7 @@
                 title: "Expense Tracker", 
                 description: "Enables tracking expenses with an initial amount entry.",
                 link: "Expense_Tracker.html", 
-                date: "2025-05-12", 
+                date: "", 
                 category: "Calculation & Financial Tools", 
                 featured: true 
             },
@@ -612,7 +643,7 @@
                 title: "Home Loan Calculator", 
                 description: "Helps you calculate EMI for home loans.",
                 link: "homeloan.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Calculation & Financial Tools" 
             },
             { 
@@ -620,7 +651,7 @@
                 title: "Investment Calculator", 
                 description: "Calculate your investments and returns.",
                 link: "investment.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Calculation & Financial Tools" 
             },
             { 
@@ -628,7 +659,7 @@
                 title: "Loan Calculator", 
                 description: "Helps in calculating loan payments.",
                 link: "loan.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Calculation & Financial Tools" 
             },
             { 
@@ -636,7 +667,7 @@
                 title: "Invoice & Bill Maker", 
                 description: "Create professional invoices and bills quickly.",
                 link: "comingsoon.html", 
-                date: "2025-05-13", 
+                date: "", 
                 category: "Calculation & Financial Tools", 
                 featured: true 
             },
@@ -647,7 +678,7 @@
                 title: "Area Converter", 
                 description: "Convert different area units easily.",
                 link: "areaconverter.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Unit & Measurement Converters" 
             },
             { 
@@ -655,7 +686,7 @@
                 title: "Data Converter", 
                 description: "Convert KB, MB, GB, and other data units.",
                 link: "dataconverter.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Unit & Measurement Converters" 
             },
             { 
@@ -663,7 +694,7 @@
                 title: "Length Converter", 
                 description: "Convert between meters, kilometers, feet, inches, etc.",
                 link: "lengthconverter.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Unit & Measurement Converters" 
             },
             { 
@@ -671,7 +702,7 @@
                 title: "Mass Converter", 
                 description: "Convert kilograms, grams, pounds, etc.",
                 link: "massconverter.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Unit & Measurement Converters" 
             },
             { 
@@ -679,7 +710,7 @@
                 title: "Power Converter", 
                 description: "Convert watt, kilowatt, horsepower, etc.",
                 link: "powerconverter.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Unit & Measurement Converters" 
             },
             { 
@@ -687,7 +718,7 @@
                 title: "Pressure Converter", 
                 description: "Convert pressure units like bar, psi, pascal.",
                 link: "pressureconverter.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Unit & Measurement Converters" 
             },
             { 
@@ -695,7 +726,7 @@
                 title: "Speed Converter", 
                 description: "Convert speed between km/h, mph, m/s, etc.",
                 link: "speedconverter.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Unit & Measurement Converters" 
             },
             { 
@@ -703,7 +734,7 @@
                 title: "Temperature Converter", 
                 description: "Convert Celsius, Fahrenheit, and Kelvin.",
                 link: "tempretureconverter.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Unit & Measurement Converters" 
             },
             { 
@@ -711,7 +742,7 @@
                 title: "Time Converter", 
                 description: "Convert time units like seconds, minutes, hours.",
                 link: "timeconverter.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Unit & Measurement Converters" 
             },
             { 
@@ -719,7 +750,7 @@
                 title: "Volume Converter", 
                 description: "Convert between liters, milliliters, cubic meters, etc.",
                 link: "volumeconverter.html", 
-                date: "2025-02-19", 
+                date: "", 
                 category: "Unit & Measurement Converters" 
             },
 
@@ -729,7 +760,7 @@
                 title: "Secret Code Generator", 
                 description: "AES encryption/decryption for secure messages.",
                 link: "text_to_secret_code_converter.html", 
-                date: "2024-10-22", 
+                date: "", 
                 category: "Cryptography & Security Tools", 
                 featured: true 
             },
@@ -738,7 +769,7 @@
                 title: "Text to Secret Number", 
                 description: "Encodes/decodes messages using numbers instead of letters.",
                 link: "Text_to_secret_numbers.html", 
-                date: "2024-11-03", 
+                date: "", 
                 category: "Cryptography & Security Tools" 
             },
             { 
@@ -746,7 +777,7 @@
                 title: "Text to Emoji Cipher", 
                 description: "Converts text into emojis and allows reversing it back.",
                 link: "Text_to_emoji_language_converter.html", 
-                date: "2024-09-10", 
+                date: "", 
                 category: "Cryptography & Security Tools" 
             },
             { 
@@ -754,7 +785,7 @@
                 title: "World's Most Powerful Random Password Generator", 
                 description: "Generate strong, secure random passwords.",
                 link: "passwordgenerator.html", 
-                date: "2025-05-13", 
+                date: "", 
                 category: "Cryptography & Security Tools", 
                 featured: true 
             },
@@ -765,7 +796,7 @@
                 title: "Upgraded Question Paper Maker", 
                 description: "Create advanced custom question papers with enhanced features.",
                 link: "questionpapermaker.html", 
-                date: "2025-05-13", 
+                date: "", 
                 category: "Utility & Miscellaneous Tools", 
                 featured: true 
             },
@@ -774,7 +805,7 @@
                 title: "Countdown Timer", 
                 description: "Allows users to set and run a timer.",
                 link: "countdown_timer.html", 
-                date: "2025-02-16", 
+                date: "", 
                 category: "Utility & Miscellaneous Tools" 
             },
             { 
@@ -782,7 +813,7 @@
                 title: "Advanced Whiteboard", 
                 description: "A feature-rich whiteboard with tools, themes, and an improved UI.",
                 link: "whiteboard.html", 
-                date: "2024-12-15", 
+                date: "", 
                 category: "Utility & Miscellaneous Tools", 
                 featured: true 
             },
@@ -791,7 +822,7 @@
                 title: "Number Guessing Game", 
                 description: "A fun game where you guess numbers with hints (too high/low).",
                 link: "number_guessing_game.html", 
-                date: "2024-07-18", 
+                date: "", 
                 category: "Utility & Miscellaneous Tools" 
             },
             { 
@@ -799,7 +830,7 @@
                 title: "QR Code Maker", 
                 description: "Generate QR codes and simulate scanning.",
                 link: "QR_code_maker.html", 
-                date: "2024-08-05", 
+                date: "", 
                 category: "Utility & Miscellaneous Tools" 
             },
             { 
@@ -807,7 +838,7 @@
                 title: "Instant Resume Maker", 
                 description: "Create professional resumes quickly and easily.",
                 link: "comingsoon.html", 
-                date: "2025-05-13", 
+                date: "", 
                 category: "Utility & Miscellaneous Tools", 
                 featured: true 
             },
@@ -816,7 +847,7 @@
                 title: "Image Resizer & Cropper", 
                 description: "Resize and crop images with ease.",
                 link: "comingsoon.html", 
-                date: "2025-05-13", 
+                date: "", 
                 category: "Utility & Miscellaneous Tools", 
                 featured: true 
             }
@@ -923,7 +954,7 @@
                         toolCard.classList.add("featured");
                     }
                     
-                    const toolLink = document.createElement("a");
+                    constツールリンク = document.createElement("a");
                     toolLink.href = tool.link;
                     toolLink.classList.add("tool-button");
                     toolLink.textContent = "Use Tool";
@@ -995,16 +1026,9 @@
 
         // Initialize the page
         window.addEventListener("DOMContentLoaded", () => {
-            generateCategories();
-            updateStats();
-            
-            // Setup search functionality
+            updateToolDates();
             document.getElementById("searchInput").addEventListener("input", filterTools);
-            
-            // Set current year in footer
             document.getElementById("currentYear").textContent = new Date().getFullYear();
-            
-            // Add touch device class if needed
             if (isTouchDevice()) {
                 document.body.classList.add('touch-device');
             }

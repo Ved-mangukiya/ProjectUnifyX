@@ -32,6 +32,7 @@
             --text-light: #64748b;
             --gray-100: #f1f5f9;
             --gray-200: #e2e8f0;
+            --error: #e11d48;
         }
 
         * {
@@ -338,6 +339,9 @@
             text-align: center;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .tool-card:hover {
@@ -346,16 +350,8 @@
         }
 
         .tool-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background-color: var(--primary-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 1.5rem;
-            margin: 0 auto 1.2rem;
+            font-size: 2rem;
+            margin-bottom: 1.2rem;
         }
 
         .tool-title {
@@ -368,6 +364,39 @@
             color: var(--text-light);
             font-size: 0.95rem;
             margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        /* Loading and Error States */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--primary-light);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 1rem;
+            text-align: center;
+            margin-top: 2rem;
         }
 
         /* CTA Section */
@@ -652,33 +681,13 @@
         <div class="container">
             <div class="section-header">
                 <p class="section-subtitle">Our Tools</p>
-                <h2 class="section-title">Latest Tools</h2>
-                <p class="section-description">Latest Tools of this week...</p>
+                <h2 class="section-title">Featured Tools</h2>
+                <p class="section-description">Discover a fresh selection of our tools on every visit.</p>
             </div>
-            <div class="tools-grid">
-                <div class="tool-card">
-                    <div class="tool-icon">📄</div>
-                    <h3 class="tool-title">Question Paper Maker</h3>
-                    <p class="tool-description">Create custom question papers easily.</p>
-                    <a href="questionpapermaker.html" class="btn btn-primary">Try Now</a>
-                </div>
-                <div class="tool-card">
-                    <div class="tool-icon">🔐</div>
-                    <h3 class="tool-title">Secret Code Generator</h3>
-                    <p class="tool-description">AES encryption/decryption for secure messages.</p>
-                    <a href="text_to_secret_code_converter.html" class="btn btn-primary">Try Now</a>
-                </div>
-                <div class="tool-card">
-                    <div class="tool-icon">💱</div>
-                    <h3 class="tool-title">Currency Exchange</h3>
-                    <p class="tool-description">A tool to convert currency values between different countries with real-time rates.</p>
-                    <a href="CurrencyEXC.html" class="btn btn-primary">Try Now</a>
-                </div>
-                <div class="tool-card">
-                    <div class="tool-icon">🎂</div>
-                    <h3 class="tool-title">Age Calculator</h3>
-                    <p class="tool-description">Calculate age based on birth date.</p>
-                    <a href="AgeCalculator.html" class="btn btn-primary">Try Now</a>
+            <div class="tools-grid" id="toolsGrid">
+                <div class="loading-container">
+                    <div class="spinner"></div>
+                    <p>Loading tools...</p>
                 </div>
             </div>
         </div>
@@ -712,11 +721,11 @@
                         <a href="https://www.instagram.com/unify_x_project" class="social-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                         </a>
-                        <a href="https://x.com/Unify_X_Project" class="social-link" target="_blank" aria-label="X (formerly Twitter)">
+                        <a href="https://x.com/Unify_X_Project" class="social-link" aria-label="X">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                             </svg>
-                          </a>                        
+                        </a>
                     </div>
                 </div>
                 <div>
@@ -746,6 +755,7 @@
         const openMenuBtn = document.getElementById('openMenu');
         const closeMenuBtn = document.getElementById('closeMenu');
         const mobileMenu = document.getElementById('mobileMenu');
+        const toolsGrid = document.getElementById('toolsGrid');
 
         openMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.add('active');
@@ -754,6 +764,90 @@
         closeMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.remove('active');
         });
+
+        // Function to select 4 random tools
+        function selectRandomTools(tools, count = 4) {
+            const shuffled = [...tools].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, Math.min(count, tools.length));
+        }
+
+        // Function to render tools
+        function renderTools(tools) {
+            toolsGrid.innerHTML = '';
+            tools.forEach(tool => {
+                const card = document.createElement('div');
+                card.className = 'tool-card';
+                card.innerHTML = `
+                    <div class="tool-icon">${tool.icon}</div>
+                    <h3 class="tool-title">${tool.title}</h3>
+                    <p class="tool-description">${tool.description}</p>
+                    <a href="${tool.link}" class="btn btn-primary">Try Now</a>
+                `;
+                toolsGrid.appendChild(card);
+            });
+        }
+
+        // Function to show error
+        function showError(message) {
+            toolsGrid.innerHTML = `<p class="error-message">${message}</p>`;
+        }
+
+        // Function to fetch and process tools
+        async function loadTools() {
+            // Check sessionStorage for cached tools
+            const cachedData = sessionStorage.getItem('featuredTools');
+            if (cachedData) {
+                try {
+                    const tools = JSON.parse(cachedData);
+                    renderTools(tools);
+                    return;
+                } catch (e) {
+                    console.error('Error parsing cached tools:', e);
+                }
+            }
+
+            // Fetch tools from alltools.html
+            try {
+                const response = await fetch('/AllTools.html');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch tools');
+                }
+                const text = await response.text();
+
+                // Extract tools array using regex
+                const match = text.match(/const tools = (\[[\s\S]*?\]);/);
+                if (!match || !match[1]) {
+                    throw new Error('Tools array not found');
+                }
+
+                // Parse the array
+                let tools;
+                try {
+                    tools = eval(match[1]); // Safe since you control the data
+                } catch (e) {
+                    throw new Error('Error parsing tools array');
+                }
+
+                if (!Array.isArray(tools)) {
+                    throw new Error('Invalid tools data');
+                }
+
+                // Select random tools
+                const selectedTools = selectRandomTools(tools);
+                
+                // Cache the tools in sessionStorage
+                sessionStorage.setItem('featuredTools', JSON.stringify(selectedTools));
+
+                // Render tools
+                renderTools(selectedTools);
+            } catch (error) {
+                console.error('Error loading tools:', error);
+                showError('Failed to load tools. Please try again later.');
+            }
+        }
+
+        // Load tools on page load
+        loadTools();
     </script>
 </body>
 </html>

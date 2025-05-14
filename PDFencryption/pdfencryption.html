@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF CRAFT Encrypt PDF</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- pdf-lib.js for PDF encryption (pinned to 1.22.0) -->
+    <script src="https://unpkg.com/pdf-lib@1.22.0/dist/pdf-lib.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --secondary-color: #7209b7;
+            --accent-color: #f72585;
+            --light-bg: #f8f9fa;
+            --dark-text: #212529;
+            --light-text: #6c757d;
+            --border-color: #007af3;
+            --success-color: #38b000;
+            --danger-color: #d90429;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+            padding-bottom: 40px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        section h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .drop-area {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .drop-area:hover, .drop-area.drag-over {
+            border-color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .drop-area i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .drop-area h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            background-color: var(--primary-hover);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            margin: 1rem 0;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .upload-btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .supported-formats {
+            font-size: 0.85rem;
+            color: var(--light-text);
+        }
+
+        .pdf-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: var(--light-bg);
+        }
+
+        .pdf-info i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .pdf-info span {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .setting-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .convert-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .primary-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .primary-btn i {
+            font-size: 1.2rem;
+        }
+
+        #loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        #loading-text {
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            color: var(--dark-text);
+        }
+
+        .loader {
+            width: 20px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: #000;
+            box-shadow: 0 0 0 0 #0004;
+            animation: l2 1.5s infinite linear;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .loader:before, .loader:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: 0 0 0 0 #0004;
+            animation: inherit;
+            animation-delay: -0.5s;
+        }
+
+        .loader:after {
+            animation-delay: -1s;
+        }
+
+        @keyframes l2 {
+            100% {box-shadow: 0 0 0 40px #0000}
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            font-size: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: #f9fafc;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .password-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+        }
+
+        .toggle-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .eye-icon {
+            width: 24px;
+            height: 24px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .eye, .eye-off {
+            transition: all 0.4s ease;
+            position: absolute;
+        }
+
+        .eye {
+            opacity: 0;
+            transform: scale(0.7) rotate(-20deg);
+        }
+
+        .eye-off {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .show .eye {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .show .eye-off {
+            opacity: 0;
+            transform: scale(0.7) rotate(20deg);
+        }
+
+        .toggle-btn:hover .eye-icon {
+            color: var(--primary-color);
+        }
+
+        .password-label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            padding: 0 5px;
+            font-size: 14px;
+            background: white;
+            color: var(--light-text);
+        }
+
+        .generate-password-btn {
+            display: inline-block;
+            background-color: var(--primary-hover);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .generate-password-btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .clipboard-btn {
+            display: inline-block;
+            background-color: var(--primary-hover);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition);
+            border: none;
+            margin-right: 0.5rem;
+        }
+
+        .clipboard-btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .clipboard-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PDF CRAFT Encrypt PDF</h1>
+        <p class="tagline">Encrypt your PDF with a password — 100% in your browser</p>
+    </header>
+
+    <main>
+        <section id="upload-section">
+            <div id="upload-area" class="drop-area">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Drag & Drop PDF Here</h3>
+                <p>or</p>
+                <label for="file-input" class="upload-btn">Select PDF</label>
+                <input type="file" id="file-input" accept=".pdf">
+                <p class="supported-formats">Supported format: PDF</p>
+            </div>
+        </section>
+
+        <section id="pdf-info-section" class="hidden">
+            <h2>Uploaded PDF</h2>
+            <div class="pdf-info">
+                <i class="fas fa-file-pdf"></i>
+                <span id="pdf-name"></span>
+            </div>
+        </section>
+
+        <section id="settings-section" class="hidden">
+            <h2>Encryption Settings</h2>
+            <div class="settings-grid">
+                <div class="setting-group">
+                    <div class="input-group">
+                        <span class="password-label">Encryption Password</span>
+                        <input type="password" id="password" class="password-input" placeholder="Enter your password">
+                        <button class="toggle-btn" id="togglePassword">
+                            <div class="eye-icon">
+                                <svg class="eye" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="input-group">
+                        <span class="password-label">Confirm Password</span>
+                        <input type="password" id="confirm-password" class="password-input" placeholder="Confirm your password">
+                        <button class="toggle-btn" id="toggleConfirmPassword">
+                            <div class="eye-icon">
+                                <svg class="eye" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="clipboard-actions">
+                        <button class="clipboard-btn" id="copyPassword"><i class="fas fa-copy"></i> Copy Password</button>
+                        <button class="clipboard-btn" id="pastePassword"><i class="fas fa-paste"></i> Paste Password</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <a href="/passwordgenerator.html" target="_blank" class="generate-password-btn"><i class="fas fa-key"></i> Unify X Website of Random Password Generator</a>
+                </div>
+            </div>
+            
+            <div class="convert-container">
+                <button id="encrypt-pdf-btn" class="primary-btn">
+                    <i class="fas fa-lock"></i> Encrypt PDF
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <div id="loader-container" class="hidden">
+        <div class="loader-content">
+            <div class="loader"></div>
+            <p id="loading-text"></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© <span id="current-year"></span> PDF CRAFT. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Set the current year in the footer
+        document.getElementById("current-year").textContent = new Date().getFullYear();
+
+        const uploadSection = document.getElementById("upload-section");
+        const uploadArea = document.getElementById("upload-area");
+        const fileInput = document.getElementById("file-input");
+        const pdfInfoSection = document.getElementById("pdf-info-section");
+        const pdfNameSpan = document.getElementById("pdf-name");
+        const settingsSection = document.getElementById("settings-section");
+        const encryptPdfBtn = document.getElementById("encrypt-pdf-btn");
+        const loaderContainer = document.getElementById("loader-container");
+        const loadingText = document.getElementById("loading-text");
+        let pdfData = null;
+        let pdfName = "";
+        const urlsToRevoke = [];
+
+        // Animated Password Input Logic
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+
+        togglePassword.addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.classList.add('show');
+            } else {
+                passwordInput.type = 'password';
+                this.classList.remove('show');
+            }
+        });
+
+        toggleConfirmPassword.addEventListener('click', function() {
+            if (confirmPasswordInput.type === 'password') {
+                confirmPasswordInput.type = 'text';
+                this.classList.add('show');
+            } else {
+                confirmPasswordInput.type = 'password';
+                this.classList.remove('show');
+            }
+        });
+
+        passwordInput.addEventListener('focus', function() {
+            togglePassword.style.transform = 'translateY(-50%) scale(1.1)';
+        });
+
+        passwordInput.addEventListener('blur', function() {
+            togglePassword.style.transform = 'translateY(-50%) scale(1)';
+        });
+
+        confirmPasswordInput.addEventListener('focus', function() {
+            toggleConfirmPassword.style.transform = 'translateY(-50%) scale(1.1)';
+        });
+
+        confirmPasswordInput.addEventListener('blur', function() {
+            toggleConfirmPassword.style.transform = 'translateY(-50%) scale(1)';
+        });
+
+        // Clipboard Copy and Paste Logic
+        const copyPasswordBtn = document.getElementById('copyPassword');
+        const pastePasswordBtn = document.getElementById('pastePassword');
+
+        copyPasswordBtn.addEventListener('click', async () => {
+            try {
+                const password = passwordInput.value;
+                if (!password) {
+                    alert("No password to copy.");
+                    return;
+                }
+                await navigator.clipboard.writeText(password);
+                alert("Password copied to clipboard!");
+            } catch (error) {
+                console.error("Error copying password:", error);
+                alert("Failed to copy password. Please try again or check browser permissions.");
+            }
+        });
+
+        pastePasswordBtn.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                passwordInput.value = text;
+                confirmPasswordInput.value = text;
+                alert("Password pasted from clipboard!");
+            } catch (error) {
+                console.error("Error pasting password:", error);
+                alert("Failed to paste password. Please try again or check browser permissions.");
+            }
+        });
+
+        // File Upload Handling
+        uploadArea.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            uploadArea.classList.add("drag-over");
+        });
+
+        uploadArea.addEventListener("dragleave", () => {
+            uploadArea.classList.remove("drag-over");
+        });
+
+        uploadArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove("drag-over");
+            const files = e.dataTransfer.files;
+            handleFile(files);
+        });
+
+        fileInput.addEventListener("change", () => {
+            if (fileInput.files.length > 0) {
+                handleFile(fileInput.files);
+                fileInput.value = "";
+            }
+        });
+
+        uploadArea.addEventListener("click", (e) => {
+            if (e.target.classList.contains("upload-btn") || e.target.closest(".upload-btn")) {
+                return;
+            }
+            fileInput.click();
+        });
+
+        async function handleFile(files) {
+            const file = Array.from(files).find(file => file.type === "application/pdf");
+            if (!file) {
+                alert("Please select a valid PDF file.");
+                return;
+            }
+
+            loaderContainer.classList.remove("hidden");
+            loadingText.textContent = `Processing ${file.name}...`;
+
+            try {
+                pdfData = await file.arrayBuffer();
+                pdfName = file.name;
+                pdfNameSpan.textContent = pdfName;
+                uploadSection.style.display = 'none';
+                pdfInfoSection.classList.remove("hidden");
+                settingsSection.classList.remove("hidden");
+                console.log("PDF loaded successfully:", pdfName);
+            } catch (error) {
+                console.error("Error loading PDF:", {
+                    message: error.message,
+                    stack: error.stack,
+                    file: file.name,
+                });
+                alert(`Failed to process ${file.name}: ${error.message}.`);
+            } finally {
+                loaderContainer.classList.add("hidden");
+            }
+        }
+
+        function cleanupURLs() {
+            urlsToRevoke.forEach(url => URL.revokeObjectURL(url));
+            urlsToRevoke.length = 0;
+        }
+
+       encryptPdfBtn.addEventListener("click", async () => {
+    console.log("Encrypt button clicked at", new Date().toISOString());
+    if (!pdfData) {
+        alert("Please upload a PDF file to encrypt.");
+        console.log("No PDF uploaded, exiting.");
+        return;
+    }
+
+    const password = passwordInput.value.trim();
+    const confirmPassword = confirmPasswordInput.value.trim();
+    console.log("Password length:", password.length, "Confirm password length:", confirmPassword.length);
+
+    if (!password || !confirmPassword) {
+        alert("Please enter and confirm your password.");
+        console.log("Empty password or confirm password, exiting.");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match. Please ensure both passwords are identical.");
+        console.log("Passwords do not match, exiting.");
+        return;
+    }
+
+    // Strict password validation
+    if (password.length < 6 || password.length > 32) {
+        alert("Password must be between 6 and 32 characters.");
+        console.log("Invalid password length, exiting.");
+        return;
+    }
+    if (!/^[a-zA-Z0-9]+$/.test(password)) {
+        alert("Password must contain only letters and numbers (no spaces or symbols).");
+        console.log("Invalid password characters, exiting.");
+        return;
+    }
+
+    loaderContainer.classList.remove("hidden");
+    loadingText.textContent = `Encrypting ${pdfName}...`;
+    console.log("Starting encryption process for:", pdfName);
+
+    try {
+        // Load the uploaded PDF
+        console.log("Loading PDF...");
+        const pdfDoc = await PDFLib.PDFDocument.load(pdfData);
+        console.log("PDF loaded with", pdfDoc.getPageCount(), "pages.");
+
+        // Apply encryption
+        console.log("Applying encryption with password length:", password.length);
+        pdfDoc.encrypt({
+            userPassword: password,
+            ownerPassword: password,
+            permissions: {
+                printing: 'highResolution', // Allow high-resolution printing
+                modifying: false,          // Disallow modifications
+                copying: false,            // Disallow copying
+                annotating: false,         // Disallow annotations
+            },
+        });
+        console.log("Encryption settings applied.");
+
+        // Save the encrypted PDF
+        const pdfBytes = await pdfDoc.save();
+        console.log("PDF saved with encryption. Bytes length:", pdfBytes.length);
+
+        if (!pdfBytes || pdfBytes.length === 0) {
+            throw new Error("Encryption failed: No PDF data generated.");
+        }
+
+        // Verify encryption
+        console.log("Verifying encryption...");
+        try {
+            // Try loading without password (should fail)
+            await PDFLib.PDFDocument.load(pdfBytes);
+            throw new Error("PDF is not encrypted: Loaded without password.");
+        } catch (error) {
+            if (error.message.includes("password")) {
+                console.log("Good: PDF requires a password.");
+            } else {
+                throw error;
+            }
+        }
+
+        // Load with the correct password (should succeed)
+        const verifiedPdf = await PDFLib.PDFDocument.load(pdfBytes, { password });
+        console.log("Encryption verified: PDF loaded with password. Pages:", verifiedPdf.getPageCount());
+
+        // Download the PDF
+        console.log("Creating download link...");
+        const blob = new Blob([pdfBytes], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
+        urlsToRevoke.push(url);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "encrypted.pdf";
+        a.click();
+        console.log("Encrypted PDF downloaded.");
+
+        alert(`Your PDF is encrypted with the password: "${password}". Save this password securely!`);
+    } catch (error) {
+        console.error("Encryption error:", {
+            message: error.message,
+            stack: error.stack,
+            pdfName,
+            passwordLength: password.length,
+        });
+        alert(`Failed to encrypt PDF: ${error.message}. Use a simple password (letters/numbers) and try again. Check console for details.`);
+    } finally {
+        loaderContainer.classList.add("hidden");
+        console.log("Cleaning up...");
+        setTimeout(cleanupURLs, 1000);
+    }
+});
+    </script>
+</body>
+</html>

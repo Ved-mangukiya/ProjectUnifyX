@@ -345,7 +345,7 @@ async function generatePDF() {
         loadingText.textContent = 'Finalizing PDF...';
         
         // Save PDF
-        const filename = `ImageFusion_PDF_${new Date().toISOString().slice(0, 10)}.pdf`;
+        const filename = `PDF_Craft Unify X ${new Date().toISOString().slice(0, 10)}.pdf`;
         doc.save(filename);
         
         // Hide loader

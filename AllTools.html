@@ -339,6 +339,7 @@
         .category:nth-child(3) { animation-delay: 0.3s; }
         .category:nth-child(4) { animation-delay: 0.4s; }
         .category:nth-child(5) { animation-delay: 0.5s; }
+        .category:nth-child(6) { animation-delay: 0.6s; }
         
         /* Responsive design improvements */
         @media (min-width: 1200px) {
@@ -819,9 +820,37 @@
                 date: "2025-05-13", 
                 category: "Utility & Miscellaneous Tools", 
                 featured: true 
+            },
+
+            // Specialized Calculators & Tests
+            { 
+                icon: "🧮", 
+                title: "Custom Plot Area Finder", 
+                description: "Calculate the area of irregular land plots using side lengths.",
+                link: "area-2d.html", 
+                date: "2025-05-24", 
+                category: "Specialized Calculators & Tests", 
+                featured: true 
+            },
+            { 
+                icon: "⚖️", 
+                title: "BMI Calculator", 
+                description: "Calculate your Body Mass Index based on height and weight.",
+                link: "bmicalc.html", 
+                date: "2025-05-24", 
+                category: "Specialized Calculators & Tests", 
+                featured: true 
+            },
+            { 
+                icon: "⚡", 
+                title: "Professional Typing Master", 
+                description: "Test typing speed with customizable settings and real-time feedback.",
+                link: "WPM.html", 
+                date: "2025-05-24", 
+                category: "Specialized Calculators & Tests", 
+                featured: true 
             }
         ];
-        
 
         // Category Icons
         const categoryIcons = {
@@ -829,7 +858,8 @@
             "Calculation & Financial Tools": "💰",
             "Unit & Measurement Converters": "🔄",
             "Cryptography & Security Tools": "🔒",
-            "Utility & Miscellaneous Tools": "🛠️"
+            "Utility & Miscellaneous Tools": "🛠️",
+            "Specialized Calculators & Tests": "🧪"
         };
 
         // Organize tools by category

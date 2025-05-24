@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #2196F3, #21CBF3);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .form-section {
+            padding: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: #2196F3;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+
+        .unit {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-weight: 500;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+
+        .result-section {
+            margin-top: 30px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .result-section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gauge-container {
+            position: relative;
+            width: 300px;
+            height: 150px;
+            margin: 0 auto 30px;
+        }
+
+        .gauge {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .gauge-bg {
+            width: 100%;
+            height: 100%;
+            border-radius: 150px 150px 0 0;
+            background: conic-gradient(
+                from 180deg,
+                #4CAF50 0deg 72deg,
+                #FFC107 72deg 108deg,
+                #FF9800 108deg 144deg,
+                #F44336 144deg 180deg
+            );
+            position: relative;
+        }
+
+        .gauge-inner {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: -10px;
+            background: white;
+            border-radius: 130px 130px 0 0;
+        }
+
+        .gauge-labels {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .label {
+            position: absolute;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: rgb(0, 0, 0);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .label.underweight {
+            top: 70%;
+            left: -29%;
+        }
+
+        .label.normal {
+            top: -2%;
+            left: -2%;
+        }
+
+        .label.overweight {
+            top: -15%;
+            right: 0%;
+        }
+
+        .label.obese {
+            top: 70%;
+            right: -20%;
+        }
+
+        .needle {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            height: 120px;
+            background: #333;
+            transform-origin: bottom center;
+            transform: translateX(-50%) rotate(-90deg);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 2px;
+            z-index: 10;
+        }
+
+        .needle::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: #333;
+            border-radius: 50%;
+        }
+
+        .bmi-value {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #333;
+            z-index: 5;
+        }
+
+        .bmi-category {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+        }
+
+        .category-underweight {
+            background: #E8F5E8;
+            color: #4CAF50;
+        }
+
+        .category-normal {
+            background: #FFF9C4;
+            color: #F57F17;
+        }
+
+        .category-overweight {
+            background: #FFE0B2;
+            color: #FF9800;
+        }
+
+        .category-obese {
+            background: #FFEBEE;
+            color: #F44336;
+        }
+
+        .bmi-info {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.6;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        footer {
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 0 20px 20px;
+            
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+            
+            .gauge-container {
+                width: 250px;
+                height: 125px;
+            }
+            
+            .bmi-value {
+                font-size: 2em;
+                bottom: 30px;
+            }
+
+            footer {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BMI Calculator</h1>
+            <p>Calculate your Body Mass Index</p>
+        </div>
+        
+        <div class="form-section">
+            <div class="input-group">
+                <label for="height">Height</label>
+                <div class="input-wrapper">
+                    <input type="number" id="height" placeholder="Enter your height" step="0.1">
+                    <span class="unit">cm</span>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="weight">Weight</label>
+                <div class="input-wrapper">
+                    <input type="number" id="weight" placeholder="Enter your weight" step="0.1">
+                    <span class="unit">kg</span>
+                </div>
+            </div>
+            
+            <button class="calculate-btn" onclick="calculateBMI()">Calculate BMI</button>
+            
+            <div class="result-section" id="resultSection">
+                <div class="gauge-container">
+                    <div class="gauge">
+                        <div class="gauge-bg">
+                            <div class="gauge-inner"></div>
+                            <div class="gauge-labels">
+                                <div class="label underweight">Underweight<br><18.5</div>
+                                <div class="label normal">Normal<br>18.5-24.9</div>
+                                <div class="label overweight">Overweight<br>25-29.9</div>
+                                <div class="label obese">Obese<br>≥30</div>
+                            </div>
+                            <div class="needle" id="needle"></div>
+                            <div class="bmi-value" id="bmiValue">0.0</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bmi-category" id="bmiCategory">Enter your details</div>
+                <div class="bmi-info" id="bmiInfo">Please enter your height and weight to calculate your BMI.</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© <span id="current-year"></span> Mangukiya Ved. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            
+            if (!height || !weight || height <= 0 || weight <= 0) {
+                alert('Please enter valid height and weight values.');
+                return;
+            }
+            
+            // Convert height from cm to meters
+            const heightInMeters = height / 100;
+            
+            // Calculate BMI
+            const bmi = weight / (heightInMeters * heightInMeters);
+            
+            // Update display
+            updateBMIDisplay(bmi);
+            
+            // Show result section
+            const resultSection = document.getElementById('resultSection');
+            resultSection.classList.add('show');
+        }
+        
+        function updateBMIDisplay(bmi) {
+            const bmiValue = document.getElementById('bmiValue');
+            const bmiCategory = document.getElementById('bmiCategory');
+            const bmiInfo = document.getElementById('bmiInfo');
+            const needle = document.getElementById('needle');
+            
+            // Update BMI value
+            bmiValue.textContent = bmi.toFixed(1);
+            
+            // Determine category and angle
+            let category, categoryClass, info, angle;
+            
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                categoryClass = 'category-underweight';
+                info = 'You may need to gain weight. Consider consulting with a healthcare professional for personalized advice.';
+                angle = -90 + (bmi / 18.5) * 36; // 0-36 degrees from -90
+            } else if (bmi < 25) {
+                category = 'Normal Weight';
+                categoryClass = 'category-normal';
+                info = 'Congratulations! You have a healthy weight. Maintain your current lifestyle with balanced diet and regular exercise.';
+                angle = -54 + ((bmi - 18.5) / 6.5) * 36; // 36-72 degrees from -90
+            } else if (bmi < 30) {
+                category = 'Overweight';
+                categoryClass = 'category-overweight';
+                info = 'You may benefit from losing some weight. Consider a balanced diet and increased physical activity.';
+                angle = -18 + ((bmi - 25) / 5) * 36; // 72-108 degrees from -90
+            } else {
+                category = 'Obese';
+                categoryClass = 'category-obese';
+                info = 'It\'s recommended to consult with a healthcare professional for a comprehensive weight management plan.';
+                angle = 18 + Math.min((bmi - 30) / 10, 1) * 36; // 108-144 degrees from -90, capped
+            }
+            
+            // Ensure angle doesn't exceed the gauge limits
+            angle = Math.max(-90, Math.min(90, angle));
+            
+            // Update category
+            bmiCategory.textContent = category;
+            bmiCategory.className = `bmi-category ${categoryClass}`;
+            
+            // Update info
+            bmiInfo.textContent = info;
+            
+            // Update needle
+            needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+        }
+        
+        // Allow Enter key to calculate
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateBMI();
+            }
+        });
+    </script>
+</body>
+</html>

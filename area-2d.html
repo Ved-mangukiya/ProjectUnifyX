@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Plot Area Finder</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        .input-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e7ff;
+        }
+        
+        .visual-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e7ff;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #4facfe;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+        
+        .sides-input {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
+            align-items: end;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .sides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .side-group {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .side-group:hover {
+            border-color: #4facfe;
+            box-shadow: 0 2px 8px rgba(79, 172, 254, 0.1);
+        }
+        
+        .side-group h4 {
+            color: #475569;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .side-icon {
+            background: #4facfe;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .side-group input {
+            padding: 10px 12px;
+            font-size: 0.95rem;
+        }
+        
+        #canvas {
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            background: #fafafa;
+            display: block;
+            margin: 0 auto;
+            cursor: crosshair;
+        }
+        
+        .canvas-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .canvas-controls button {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+        
+        .results {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .area-display {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .unit-conversions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .unit-conversion {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: #374151;
+            margin-bottom: 20px;
+            font-weight: 700;
+            border-bottom: 2px solid #4facfe;
+            padding-bottom: 10px;
+        }
+        
+        .error {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid #fecaca;
+        }
+        
+        .warning {
+            background: #fef3c7;
+            color: #d97706;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid #fde68a;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .sides-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .canvas-controls {
+                justify-content: center;
+            }
+        }
+        
+        .calculation-method {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        
+        .calculation-method h4 {
+            color: #0369a1;
+            margin-bottom: 8px;
+        }
+        
+        .calculation-method p {
+            color: #075985;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .angle-info {
+            background: #eff6ff;
+            border: 1px solid #c7d2fe;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #3730a3;
+        }
+
+        footer {
+            color: rgb(255, 255, 255);
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 0 20px 20px;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧮 Custom Plot Area Finder</h1>
+            <p>Calculate the area of irregular land plots using side lengths</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <h2 class="section-title">📐 Plot Configuration</h2>
+                
+                <div class="form-group">
+                    <div class="sides-input">
+                        <div>
+                            <label for="numSides">Number of Sides (3-8)</label>
+                            <input type="number" id="numSides" min="3" max="8" value="4" placeholder="Enter number of sides">
+                        </div>
+                        <div>
+                            <label for="unit">Unit</label>
+                            <select id="unit">
+                                <option value="meters">Meters</option>
+                                <option value="feet">Feet</option>
+                                <option value="yards">Yards</option>
+                                <option value="inches">Inches</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn" onclick="generateSideInputs()">Generate Side Input Fields</button>
+                </div>
+                
+                <div id="sideInputs" class="sides-grid">
+                    <!-- Dynamic side inputs will be generated here -->
+                </div>
+                
+                <div class="form-group" style="margin-top: 25px;">
+                    <button class="btn" onclick="calculateAndDraw()" style="width: 100%;">📊 Calculate Area & Draw Plot</button>
+                </div>
+                
+                <div id="errorMessage"></div>
+                
+                <div class="calculation-method">
+                    <h4>🔢 Calculation Method</h4>
+                    <p>This tool constructs a polygon from side lengths by placing vertices sequentially. For irregular plots, the actual shape may vary, but this provides a good area estimation.</p>
+                    
+                    <div class="angle-info">
+                        <strong>Note:</strong> The tool assumes a sequential construction to form a closed polygon. For precise calculations of irregular plots, surveyor angles would be needed.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visual-section">
+                <h2 class="section-title">📈 Visual Plot</h2>
+                
+                <div class="canvas-controls">
+                    <button class="btn" onclick="clearCanvas()">🗑️ Clear</button>
+                    <button class="btn" onclick="rotatePlot()">🔄 Rotate Plot</button>
+                    <button class="btn" onclick="downloadCanvas()">💾 Download Plot</button>
+                    <button class="btn" onclick="downloadResultsAsPDF()">📄 Download Plot with Areas</button>
+                </div>
+                
+                <canvas id="canvas" width="500" height="400"></canvas>
+                
+                <div id="results" style="display: none;">
+                    <!-- Results will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© <span id="current-year"></span> Mangukiya Ved. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let canvas, ctx;
+        let coordinates = [];
+        let sideLengths = [];
+        let scale = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+        let lastCalculatedResults = null;
+        let selectedSideIndex = -1;
+        let updateTimeout = null;
+        let rotationCount = 0; // Track number of 90-degree rotations
+
+        // Unit conversion factors to meters
+        const unitFactors = {
+            meters: 1,
+            feet: 0.3048,
+            yards: 0.9144,
+            inches: 0.0254
+        };
+
+        // Area conversion factors from square meters
+        const areaConversions = {
+            'square meters': 1,
+            'square feet': 10.764,
+            'square yards': 1.196,
+            'acres': 0.000247,
+            'hectares': 0.0001
+        };
+
+        function initCanvas() {
+            canvas = document.getElementById('canvas');
+            ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error('Failed to initialize canvas context');
+                document.getElementById('errorMessage').innerHTML = '<div class="error">Canvas initialization failed. Please try a different browser.</div>';
+                return;
+            }
+            clearCanvas();
+            canvas.addEventListener('click', handleCanvasClick);
+        }
+
+        function generateSideInputs() {
+            const numSides = parseInt(document.getElementById('numSides').value);
+            const container = document.getElementById('sideInputs');
+            const errorDiv = document.getElementById('errorMessage');
+            
+            errorDiv.innerHTML = '';
+            
+            if (numSides < 3 || numSides > 8 || isNaN(numSides)) {
+                errorDiv.innerHTML = '<div class="error">Please enter a number between 3 and 8 sides.</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            sideLengths = new Array(numSides).fill(0);
+            
+            for (let i = 1; i <= numSides; i++) {
+                const sideGroup = document.createElement('div');
+                sideGroup.className = 'side-group';
+                sideGroup.innerHTML = `
+                    <h4><span class="side-icon">${i}</span>Side ${i} Length</h4>
+                    <input type="number" id="side${i}" placeholder="Enter length" step="0.01" min="0.1" value="${sideLengths[i-1] || ''}">
+                `;
+                container.appendChild(sideGroup);
+                document.getElementById(`side${i}`).addEventListener('input', () => {
+                    sideLengths[i-1] = parseFloat(document.getElementById(`side${i}`).value) || 0;
+                    debounceUpdatePlot();
+                });
+            }
+        }
+
+        function debounceUpdatePlot() {
+            clearTimeout(updateTimeout);
+            updateTimeout = setTimeout(updatePlot, 300);
+        }
+
+        function constructPolygonFromSides(sides) {
+            const numSides = sides.length;
+            if (numSides < 3) return [];
+            
+            const coords = [{ x: 0, y: 0 }];
+            let currentAngle = 0;
+            
+            for (let i = 0; i < numSides - 1; i++) {
+                const lastPoint = coords[coords.length - 1];
+                const sideLength = sides[i];
+                
+                const angleStep = (2 * Math.PI) / numSides;
+                currentAngle += angleStep;
+                
+                const newX = lastPoint.x + sideLength * Math.cos(currentAngle);
+                const newY = lastPoint.y + sideLength * Math.sin(currentAngle);
+                
+                coords.push({ x: newX, y: newY });
+            }
+            
+            if (coords.length === numSides) {
+                const lastSide = sides[numSides - 1];
+                const firstPoint = coords[0];
+                const lastPoint = coords[numSides - 1];
+                const dx = firstPoint.x - lastPoint.x;
+                const dy = firstPoint.y - lastPoint.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (Math.abs(distance - lastSide) > 0.001) {
+                    const angleToFirst = Math.atan2(dy, dx);
+                    coords[numSides - 1] = {
+                        x: firstPoint.x - lastSide * Math.cos(angleToFirst),
+                        y: firstPoint.y - lastSide * Math.sin(angleToFirst)
+                    };
+                }
+            }
+            
+            return coords;
+        }
+
+        function rotateCoordinates(coords) {
+            // Rotate coordinates 90 degrees clockwise
+            return coords.map(coord => ({
+                x: coord.y,
+                y: -coord.x
+            }));
+        }
+
+        function rotatePlot() {
+            if (coordinates.length < 3) {
+                document.getElementById('errorMessage').innerHTML = '<div class="error">No valid plot to rotate. Please calculate a plot first.</div>';
+                return;
+            }
+            
+            // Rotate side lengths (shift array to the right)
+            sideLengths = [sideLengths[sideLengths.length - 1], ...sideLengths.slice(0, -1)];
+            
+            // Update input fields to reflect rotated side lengths
+            for (let i = 1; i <= sideLengths.length; i++) {
+                document.getElementById(`side${i}`).value = sideLengths[i - 1];
+            }
+            
+            // Rotate coordinates
+            coordinates = rotateCoordinates(coordinates);
+            rotationCount = (rotationCount + 1) % 4; // Track rotation state (0, 1, 2, 3 for 0°, 90°, 180°, 270°)
+            
+            // Redraw plot and update results
+            updatePlot();
+        }
+
+        function calculateArea(coords) {
+            if (coords.length < 3) return 0;
+            
+            let area = 0;
+            const n = coords.length;
+            
+            for (let i = 0; i < n; i++) {
+                const j = (i + 1) % n;
+                area += coords[i].x * coords[j].y;
+                area -= coords[j].x * coords[i].y;
+            }
+            
+            return Math.abs(area) / 2;
+        }
+
+        function validatePolygonClosure(sides) {
+            const numSides = sides.length;
+            const totalLength = sides.reduce((sum, length) => sum + length, 0);
+            const maxSide = Math.max(...sides);
+            
+            if (sides.some(side => side < 0.01 || side > 1000000)) {
+                return false;
+            }
+            
+            if (maxSide >= (totalLength - maxSide)) {
+                return false;
+            }
+            
+            for (let i = 0; i < numSides; i++) {
+                const side = sides[i];
+                const otherSidesSum = totalLength - side;
+                if (side >= otherSidesSum) {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        function calculateAndDraw() {
+            const numSides = parseInt(document.getElementById('numSides').value);
+            const unit = document.getElementById('unit').value;
+            const errorDiv = document.getElementById('errorMessage');
+            
+            errorDiv.innerHTML = '';
+            sideLengths = [];
+            
+            for (let i = 1; i <= numSides; i++) {
+                const length = parseFloat(document.getElementById(`side${i}`).value);
+                
+                if (isNaN(length) || length <= 0) {
+                    errorDiv.innerHTML = '<div class="error">Please fill in all side lengths with positive numbers greater than 0.</div>';
+                    return;
+                }
+                
+                sideLengths.push(length);
+            }
+            
+            if (sideLengths.length < 3) {
+                errorDiv.innerHTML = '<div class="error">At least 3 sides are required to calculate area.</div>';
+                return;
+            }
+            
+            if (!validatePolygonClosure(sideLengths)) {
+                errorDiv.innerHTML = '<div class="error">These side lengths cannot form a closed polygon. Ensure the longest side is less than the sum of others and all sides are reasonable.</div>';
+                return;
+            }
+            
+            coordinates = constructPolygonFromSides(sideLengths);
+            
+            if (coordinates.length < 3) {
+                errorDiv.innerHTML = '<div class="error">Could not construct a valid polygon from these side lengths.</div>';
+                return;
+            }
+            
+            const areaInUnits = calculateArea(coordinates);
+            const unitFactor = unitFactors[unit];
+            const areaInSquareMeters = areaInUnits * unitFactor * unitFactor;
+            
+            if (areaInUnits < 0.0001) {
+                errorDiv.innerHTML = '<div class="warning">The calculated area is very small. Please check your side lengths for accuracy.</div>';
+            }
+            
+            lastCalculatedResults = { areaInUnits, unit, areaInSquareMeters };
+            
+            drawPlot();
+            displayResults(areaInUnits, unit, areaInSquareMeters);
+        }
+
+        function updatePlot() {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.innerHTML = '';
+            
+            if (sideLengths.some(length => length <= 0 || isNaN(length))) {
+                return;
+            }
+            
+            if (!validatePolygonClosure(sideLengths)) {
+                errorDiv.innerHTML = '<div class="error">These side lengths cannot form a closed polygon. Ensure the longest side is less than the sum of others.</div>';
+                return;
+            }
+            
+            coordinates = constructPolygonFromSides(sideLengths);
+            
+            if (coordinates.length < 3) {
+                errorDiv.innerHTML = '<div class="error">Could not construct a valid polygon from these side lengths.</div>';
+                return;
+            }
+            
+            const unit = document.getElementById('unit').value;
+            const areaInUnits = calculateArea(coordinates);
+            const unitFactor = unitFactors[unit];
+            const areaInSquareMeters = areaInUnits * unitFactor * unitFactor;
+            
+            lastCalculatedResults = { areaInUnits, unit, areaInSquareMeters };
+            
+            drawPlot();
+            displayResults(areaInUnits, unit, areaInSquareMeters);
+        }
+
+        function drawPlot() {
+            if (!ctx) return;
+            clearCanvas(false);
+            
+            if (coordinates.length < 3) return;
+            
+            const minX = Math.min(...coordinates.map(c => c.x));
+            const maxX = Math.max(...coordinates.map(c => c.x));
+            const minY = Math.min(...coordinates.map(c => c.y));
+            const maxY = Math.max(...coordinates.map(c => c.y));
+            
+            const width = maxX - minX || 1;
+            const height = maxY - minY || 1;
+            
+            const padding = 40;
+            const scaleX = (canvas.width - 2 * padding) / width;
+            const scaleY = (canvas.height - 2 * padding) / height;
+            scale = Math.min(scaleX, scaleY, 50);
+            
+            offsetX = (canvas.width - width * scale) / 2 - minX * scale;
+            offsetY = (canvas.height - height * scale) / 2 - minY * scale;
+            
+            drawGrid();
+            
+            ctx.beginPath();
+            ctx.strokeStyle = '#4facfe';
+            ctx.fillStyle = 'rgba(79, 172, 254, 0.2)';
+            ctx.lineWidth = 3;
+            
+            coordinates.forEach((coord, index) => {
+                const x = coord.x * scale + offsetX;
+                const y = canvas.height - (coord.y * scale + offsetY);
+                
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            
+            coordinates.forEach((coord, index) => {
+                const x = coord.x * scale + offsetX;
+                const y = canvas.height - (coord.y * scale + offsetY);
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 6, 0, 2 * Math.PI);
+                ctx.fillStyle = '#dc2626';
+                ctx.fill();
+                
+                ctx.fillStyle = '#374151';
+                ctx.font = 'bold 12px Arial';
+                ctx.fillText(`P${index + 1}`, x + 10, y - 10);
+            });
+            
+            for (let i = 0; i < coordinates.length; i++) {
+                const current = coordinates[i];
+                const next = coordinates[(i + 1) % coordinates.length];
+                const sideLength = sideLengths[i];
+                
+                const x1 = current.x * scale + offsetX;
+                const y1 = canvas.height - (current.y * scale + offsetY);
+                const x2 = next.x * scale + offsetX;
+                const y2 = canvas.height - (next.y * scale + offsetY);
+                
+                const midX = (x1 + x2) / 2;
+                const midY = (y1 + y2) / 2;
+                
+                const rectWidth = Math.max(40, 40 * scale / 50);
+                const rectHeight = Math.max(26, 26 * scale / 50);
+                
+                if (i === selectedSideIndex) {
+                    ctx.fillStyle = 'rgba(255, 255, 0, 0.5)';
+                    ctx.fillRect(midX - rectWidth / 2, midY - rectHeight / 2, rectWidth, rectHeight);
+                } else {
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                    ctx.fillRect(midX - rectWidth / 2, midY - rectHeight / 2, rectWidth, rectHeight);
+                }
+                
+                ctx.fillStyle = '#059669';
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`S${i + 1}: ${sideLength.toFixed(2)}`, midX, midY + 4);
+                ctx.textAlign = 'left';
+            }
+        }
+
+        function drawGrid() {
+            if (!ctx) return;
+            ctx.strokeStyle = '#e5e7eb';
+            ctx.lineWidth = 1;
+            
+            const gridSpacing = Math.max(10, 20 / scale);
+            
+            for (let x = 0; x <= canvas.width; x += gridSpacing * scale) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            
+            for (let y = 0; y <= canvas.height; y += gridSpacing * scale) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+        }
+
+        function handleCanvasClick(event) {
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            
+            for (let i = 0; i < coordinates.length; i++) {
+                const current = coordinates[i];
+                const next = coordinates[(i + 1) % coordinates.length];
+                
+                const x1 = current.x * scale + offsetX;
+                const y1 = canvas.height - (current.y * scale + offsetY);
+                const x2 = next.x * scale + offsetX;
+                const y2 = canvas.height - (next.y * scale + offsetY);
+                
+                const midX = (x1 + x2) / 2;
+                const midY = (y1 + y2) / 2;
+                
+                const rectWidth = Math.max(40, 40 * scale / 50);
+                const rectHeight = Math.max(26, 26 * scale / 50);
+                
+                if (x >= midX - rectWidth / 2 && x <= midX + rectWidth / 2 && 
+                    y >= midY - rectHeight / 2 && y <= midY + rectHeight / 2) {
+                    selectedSideIndex = i;
+                    const newLength = prompt(`Enter length for Side ${i + 1} (S${i + 1}):`, sideLengths[i]);
+                    if (newLength !== null) {
+                        const parsedLength = parseFloat(newLength);
+                        if (!isNaN(parsedLength) && parsedLength > 0) {
+                            sideLengths[i] = parsedLength;
+                            document.getElementById(`side${i + 1}`).value = parsedLength;
+                            updatePlot();
+                        } else {
+                            alert('Please enter a valid positive number.');
+                        }
+                    }
+                    drawPlot();
+                    break;
+                }
+            }
+        }
+
+        function displayResults(areaInUnits, unit, areaInSquareMeters) {
+            const resultsDiv = document.getElementById('results');
+            
+            let conversionsHTML = '';
+            for (const [convertUnit, factor] of Object.entries(areaConversions)) {
+                const convertedArea = areaInSquareMeters * factor;
+                conversionsHTML += `
+                    <div class="unit-conversion">
+                        <strong>${convertedArea.toFixed(4)}</strong><br>
+                        ${convertUnit}
+                    </div>
+                `;
+            }
+            
+            const totalPerimeter = sideLengths.reduce((sum, length) => sum + length, 0);
+            
+            resultsDiv.innerHTML = `
+                <div class="results">
+                    <h3>📊 Calculated Areas</h3>
+                    <div class="area-display">${areaInUnits.toFixed(4)} sq ${unit}</div>
+                    <p><strong>Perimeter:</strong> ${totalPerimeter.toFixed(2)} ${unit}</p>
+                    <div class="unit-conversions">
+                        ${conversionsHTML}
+                    </div>
+                </div>
+            `;
+            
+            resultsDiv.style.display = 'block';
+        }
+
+        function clearCanvas(hideResults = true) {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#fafafa';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if (hideResults) {
+                document.getElementById('results').style.display = 'none';
+                lastCalculatedResults = null;
+                sideLengths = [];
+                coordinates = [];
+                selectedSideIndex = -1;
+                rotationCount = 0; // Reset rotation
+            } else if (lastCalculatedResults) {
+                displayResults(
+                    lastCalculatedResults.areaInUnits,
+                    lastCalculatedResults.unit,
+                    lastCalculatedResults.areaInSquareMeters
+                );
+            }
+        }
+
+        function downloadCanvas() {
+            if (!ctx) return;
+            ctx.save();
+            
+            ctx.font = '10px Arial';
+            ctx.fillStyle = '#374151';
+            ctx.textAlign = 'right';
+            ctx.fillText('Created using ProjectUnifyX\'s Custom Plot Area Finder', canvas.width - 10, canvas.height - 10);
+            
+            const link = document.createElement('a');
+            link.download = 'plot-area-calculation.png';
+            link.href = canvas.toDataURL();
+            link.click();
+            
+            ctx.restore();
+            drawPlot();
+        }
+
+        function downloadResultsAsPDF() {
+            if (!window.jspdf) {
+                document.getElementById('errorMessage').innerHTML = '<div class="error">PDF library not loaded. Please try again later.</div>';
+                return;
+            }
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            // Add header
+            doc.setFillColor(79, 172, 254);
+            doc.rect(0, 0, 210, 30, 'F');
+            doc.setFontSize(18);
+            doc.setTextColor(255, 255, 255);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Custom Plot Area Finder', 10, 15);
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Area Calculation Report', 10, 25);
+
+            // Create temporary canvas for PDF with current rotation
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width * 2;
+            tempCanvas.height = canvas.height * 2;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.scale(2, 2);
+            
+            // Apply rotation to temporary canvas
+            tempCtx.translate(canvas.width / 2, canvas.height / 2);
+            tempCtx.rotate(rotationCount * Math.PI / 2);
+            tempCtx.translate(-canvas.width / 2, -canvas.height / 2);
+            
+            // Redraw plot on temporary canvas
+            tempCtx.fillStyle = '#fafafa';
+            tempCtx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grid
+            tempCtx.strokeStyle = '#e5e7eb';
+            tempCtx.lineWidth = 1;
+            const gridSpacing = Math.max(10, 20 / scale);
+            for (let x = 0; x <= canvas.width; x += gridSpacing * scale) {
+                tempCtx.beginPath();
+                tempCtx.moveTo(x, 0);
+                tempCtx.lineTo(x, canvas.height);
+                tempCtx.stroke();
+            }
+            for (let y = 0; y <= canvas.height; y += gridSpacing * scale) {
+                tempCtx.beginPath();
+                tempCtx.moveTo(0, y);
+                tempCtx.lineTo(canvas.width, y);
+                tempCtx.stroke();
+            }
+            
+            // Draw polygon
+            tempCtx.beginPath();
+            tempCtx.strokeStyle = '#4facfe';
+            tempCtx.fillStyle = 'rgba(79, 172, 254, 0.2)';
+            tempCtx.lineWidth = 3;
+            coordinates.forEach((coord, index) => {
+                const x = coord.x * scale + offsetX;
+                const y = canvas.height - (coord.y * scale + offsetY);
+                if (index === 0) {
+                    tempCtx.moveTo(x, y);
+                } else {
+                    tempCtx.lineTo(x, y);
+                }
+            });
+            tempCtx.closePath();
+            tempCtx.fill();
+            tempCtx.stroke();
+            
+            // Draw vertices
+            coordinates.forEach((coord, index) => {
+                const x = coord.x * scale + offsetX;
+                const y = canvas.height - (coord.y * scale + offsetY);
+                tempCtx.beginPath();
+                tempCtx.arc(x, y, 6, 0, 2 * Math.PI);
+                tempCtx.fillStyle = '#dc2626';
+                tempCtx.fill();
+                tempCtx.fillStyle = '#374151';
+                tempCtx.font = 'bold 12px Arial';
+                tempCtx.fillText(`P${index + 1}`, x + 10, y - 10);
+            });
+            
+            // Draw side labels
+            for (let i = 0; i < coordinates.length; i++) {
+                const current = coordinates[i];
+                const next = coordinates[(i + 1) % coordinates.length];
+                const sideLength = sideLengths[i];
+                const x1 = current.x * scale + offsetX;
+                const y1 = canvas.height - (current.y * scale + offsetY);
+                const x2 = next.x * scale + offsetX;
+                const y2 = canvas.height - (next.y * scale + offsetY);
+                const midX = (x1 + x2) / 2;
+                const midY = (y1 + y2) / 2;
+                const rectWidth = Math.max(40, 40 * scale / 50);
+                const rectHeight = Math.max(26, 26 * scale / 50);
+                tempCtx.fillStyle = i === selectedSideIndex ? 'rgba(255, 255, 0, 0.5)' : 'rgba(255, 255, 255, 0.9)';
+                tempCtx.fillRect(midX - rectWidth / 2, midY - rectHeight / 2, rectWidth, rectHeight);
+                tempCtx.fillStyle = '#059669';
+                tempCtx.font = 'bold 12px Arial';
+                tempCtx.textAlign = 'center';
+                tempCtx.fillText(`S${i + 1}: ${sideLength.toFixed(2)}`, midX, midY + 4);
+                tempCtx.textAlign = 'left';
+            }
+            
+            // Add signature
+            tempCtx.font = '10px Arial';
+            tempCtx.fillStyle = '#374151';
+            tempCtx.textAlign = 'right';
+            tempCtx.fillText('Created using ProjectUnifyX\'s Custom Plot Area Finder', canvas.width - 10, canvas.height - 10);
+            
+            // Add plot image to PDF
+            const imgData = tempCanvas.toDataURL('image/png', 1.0);
+            doc.addImage(imgData, 'PNG', 10, 35, 190, 152);
+            
+            // Add results section
+            if (lastCalculatedResults) {
+                const { areaInUnits, unit, areaInSquareMeters } = lastCalculatedResults;
+                const totalPerimeter = sideLengths.reduce((sum, length) => sum + length, 0);
+
+                doc.setFillColor(240, 249, 255);
+                doc.rect(10, 195, 190, 85, 'F');
+                doc.setDrawColor(79, 172, 254);
+                doc.setLineWidth(0.5);
+                doc.rect(10, 195, 190, 85);
+
+                doc.setFontSize(14);
+                doc.setTextColor(55, 65, 81);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Calculated Results', 15, 205);
+
+                doc.setFontSize(12);
+                doc.setTextColor(0, 0, 0);
+                doc.setFont('helvetica', 'normal');
+                doc.text(`Area: ${areaInUnits.toFixed(4)} square ${unit}`, 15, 215);
+                doc.text(`Perimeter: ${totalPerimeter.toFixed(2)} ${unit}`, 15, 225);
+
+                let yOffset = 235;
+                doc.setFontSize(10);
+                for (const [convertUnit, factor] of Object.entries(areaConversions)) {
+                    if (yOffset >= 270) break;
+                    const convertedArea = areaInSquareMeters * factor;
+                    doc.setFillColor(255, 255, 255);
+                    doc.roundedRect(15, yOffset - 4, 80, 10, 2, 2, 'F');
+                    doc.setTextColor(0, 0, 0);
+                    doc.text(`${convertedArea.toFixed(4)} ${convertUnit}`, 20, yOffset + 4);
+                    yOffset += 12;
+                }
+            } else {
+                doc.setFontSize(12);
+                doc.setTextColor(220, 38, 38);
+                doc.text('No results available. Please calculate the area first.', 10, 195);
+            }
+
+            // Add footer
+            doc.setFontSize(10);
+            doc.setTextColor(55, 65, 81);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Created using ProjectUnifyX\'s Custom Plot Area Finder', 10, 290);
+
+            doc.save('plot-with-areas.pdf');
+        }
+
+        // Initialize when page loads
+        window.onload = function() {
+            initCanvas();
+            generateSideInputs();
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            loadSampleData();
+        };
+
+        // Add sample data for demonstration
+        function loadSampleData() {
+            document.getElementById('numSides').value = 4;
+            generateSideInputs();
+            
+            const sampleSides = [50, 40, 30, 45];
+            if (validatePolygonClosure(sampleSides)) {
+                document.getElementById('side1').value = sampleSides[0];
+                document.getElementById('side2').value = sampleSides[1];
+                document.getElementById('side3').value = sampleSides[2];
+                document.getElementById('side4').value = sampleSides[3];
+                sideLengths = sampleSides;
+                calculateAndDraw();
+            } else {
+                document.getElementById('errorMessage').innerHTML = '<div class="warning">Sample data could not be loaded due to invalid polygon configuration.</div>';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -7,352 +7,362 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-        :root {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #16213e;
-            --bg-tertiary: #0f3460;
-            --accent-primary: #e94560;
-            --accent-secondary: #f39c12;
-            --text-primary: #ffffff;
-            --text-secondary: #b8b8b8;
-            --success: #27ae60;
-            --warning: #f39c12;
-            --error: #e74c3c;
-        }
+    :root {
+        --bg-primary: #1a1a2e;
+        --bg-secondary: #16213e;
+        --bg-tertiary: #0f3460;
+        --accent-primary: #e94560;
+        --accent-secondary: #f39c12;
+        --text-primary: #ffffff;
+        --text-secondary: #b8b8b8;
+        --success: #27ae60;
+        --warning: #f39c12;
+        --error: #e74c3c;
+    }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            color: var(--text-primary);
-            min-height: 100vh;
-            line-height: 1.6;
-        }
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        color: var(--text-primary);
+        min-height: 100vh;
+        line-height: 1.6;
+    }
 
+    .container {
+        max-width: 500px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: rgba(22, 33, 62, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .tabs {
+        display: flex;
+        margin-bottom: 2rem;
+        background: var(--bg-tertiary);
+        border-radius: 12px;
+        padding: 4px;
+    }
+
+    .tab {
+        flex: 1;
+        padding: 12px 20px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+    .tab.active {
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        color: white;
+        box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+    }
+
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .input-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .input-container {
+        position: relative;
+        display: flex;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    input[type="text"], select, textarea {
+        flex: 1;
+        padding: 15px 20px;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        font-size: 16px;
+        transition: all 0.3s ease;
+        outline: none;
+    }
+
+    input[type="text"]:focus, select:focus, textarea:focus {
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    .btn {
+        padding: 15px 25px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+    }
+
+    .btn:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .btn:hover:before {
+        left: 100%;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        color: white;
+        box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
+    }
+
+    .btn-secondary {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--accent-primary);
+    }
+
+    .btn-success {
+        background: var(--success);
+        color: white;
+    }
+
+    .btn-small {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .qr-result {
+        text-align: center;
+        margin: 2rem 0;
+        padding: 2rem;
+        background: var(--bg-tertiary);
+        border-radius: 16px;
+        border: 2px dashed rgba(255, 255, 255, 0.1);
+        max-width: 100%; /* Ensure container doesn't overflow */
+        overflow: hidden; /* Prevent content from spilling out */
+    }
+
+    .qr-result canvas {
+        max-width: 100%; /* Ensure canvas scales to fit container */
+        height: auto; /* Maintain aspect ratio */
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .decoded-result {
+        background: var(--success);
+        color: white;
+        padding: 1rem;
+        border-radius: 12px;
+        margin: 1rem 0;
+        word-break: break-all;
+    }
+
+    .error-message {
+        background: var(--error);
+        color: white;
+        padding: 1rem;
+        border-radius: 12px;
+        margin: 1rem 0;
+    }
+
+    .upload-area {
+        border: 2px dashed var(--accent-primary);
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin: 1rem 0;
+    }
+
+    .upload-area:hover {
+        background: rgba(233, 69, 96, 0.05);
+        border-color: var(--accent-secondary);
+    }
+
+    .upload-area.dragover {
+        background: rgba(233, 69, 96, 0.1);
+        border-color: var(--accent-secondary);
+        transform: scale(1.02);
+    }
+
+    #video {
+        width: 100%;
+        max-width: 100%; /* Ensure video doesn't overflow */
+        border-radius: 16px;
+        margin: 1rem 0;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .camera-controls {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin: 1rem 0;
+    }
+
+    .qr-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin: 1.5rem 0;
+    }
+
+    .size-selector {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin: 1rem 0;
+    }
+
+    .size-btn {
+        padding: 8px 16px;
+        border: 2px solid var(--accent-primary);
+        background: transparent;
+        color: var(--accent-primary);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .size-btn.active, .size-btn:hover {
+        background: var(--accent-primary);
+        color: white;
+    }
+
+    .history {
+        max-height: 200px;
+        overflow-y: auto;
+        background: var(--bg-tertiary);
+        border-radius: 12px;
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+
+    .history-item {
+        padding: 8px 12px;
+        margin: 4px 0;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .history-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 2rem;
+        padding: 1rem;
+        color: var(--text-secondary);
+        font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
         .container {
-            max-width: 500px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: rgba(22, 33, 62, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .tabs {
-            display: flex;
-            margin-bottom: 2rem;
-            background: var(--bg-tertiary);
-            border-radius: 12px;
-            padding: 4px;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 12px 20px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .tab.active {
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: white;
-            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .input-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .input-container {
-            position: relative;
-            display: flex;
-            gap: 10px;
-            align-items: stretch;
-        }
-
-        input[type="text"], select, textarea {
-            flex: 1;
-            padding: 15px 20px;
-            border: 2px solid transparent;
-            border-radius: 12px;
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            font-size: 16px;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        input[type="text"]:focus, select:focus, textarea:focus {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .btn {
-            padding: 15px 25px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-
-        .btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn:hover:before {
-            left: 100%;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: white;
-            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
-        }
-
-        .btn-secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--accent-primary);
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-small {
-            padding: 8px 16px;
-            font-size: 14px;
-        }
-
-        .qr-result {
-            text-align: center;
-            margin: 2rem 0;
-            padding: 2rem;
-            background: var(--bg-tertiary);
-            border-radius: 16px;
-            border: 2px dashed rgba(255, 255, 255, 0.1);
-        }
-
-        .qr-result canvas {
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .decoded-result {
-            background: var(--success);
-            color: white;
-            padding: 1rem;
-            border-radius: 12px;
-            margin: 1rem 0;
-            word-break: break-all;
-        }
-
-        .error-message {
-            background: var(--error);
-            color: white;
-            padding: 1rem;
-            border-radius: 12px;
-            margin: 1rem 0;
-        }
-
-        .upload-area {
-            border: 2px dashed var(--accent-primary);
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            margin: 1rem 0;
-        }
-
-        .upload-area:hover {
-            background: rgba(233, 69, 96, 0.05);
-            border-color: var(--accent-secondary);
-        }
-
-        .upload-area.dragover {
-            background: rgba(233, 69, 96, 0.1);
-            border-color: var(--accent-secondary);
-            transform: scale(1.02);
-        }
-
-        #video {
-            width: 100%;
-            border-radius: 16px;
-            margin: 1rem 0;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .camera-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin: 1rem 0;
+            margin: 1rem;
+            padding: 1.5rem;
         }
 
         .qr-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 1.5rem 0;
+            grid-template-columns: 1fr;
         }
 
         .size-selector {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin: 1rem 0;
+            flex-wrap: wrap;
         }
 
-        .size-btn {
-            padding: 8px 16px;
-            border: 2px solid var(--accent-primary);
-            background: transparent;
-            color: var(--accent-primary);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .qr-result canvas {
+            max-width: 100%; /* Ensure QR code fits on small screens */
         }
+    }
 
-        .size-btn.active, .size-btn:hover {
-            background: var(--accent-primary);
-            color: white;
-        }
+    .hidden {
+        display: none !important;
+    }
 
-        .history {
-            max-height: 200px;
-            overflow-y: auto;
-            background: var(--bg-tertiary);
-            border-radius: 12px;
-            padding: 1rem;
-            margin: 1rem 0;
-        }
+    .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+    }
 
-        .history-item {
-            padding: 8px 12px;
-            margin: 4px 0;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .history-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 2rem;
-            padding: 1rem;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                margin: 1rem;
-                padding: 1.5rem;
-            }
-
-            .qr-options {
-                grid-template-columns: 1fr;
-            }
-
-            .size-selector {
-                flex-wrap: wrap;
-            }
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+</style>
 </head>
 <body>
     <div class="container">
@@ -618,13 +628,14 @@
             const img = new Image();
             img.onload = function() {
                 const canvas = document.createElement("canvas");
-                const ctx = canvas.getContext("2d");
+                const ctx = canvas.getContext("2d", { willReadFrequently: true });
                 
                 // Scale image to a reasonable size for better QR detection
                 const maxSize = 800;
                 let width = img.width;
                 let height = img.height;
                 
+                // Maintain aspect ratio while scaling
                 if (width > height && width > maxSize) {
                     height = Math.round((height * maxSize) / width);
                     width = maxSize;
@@ -636,21 +647,42 @@
                 canvas.width = width;
                 canvas.height = height;
                 ctx.drawImage(img, 0, 0, width, height);
+                
+                // Enhance contrast for better QR detection
+                ctx.imageSmoothingEnabled = false;
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                
+                // Simple contrast enhancement
+                for (let i = 0; i < data.length; i += 4) {
+                    const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                    const threshold = 128;
+                    const value = avg > threshold ? 255 : 0;
+                    data[i] = data[i + 1] = data[i + 2] = value;
+                }
+                ctx.putImageData(imageData, 0, 0);
                 
                 try {
-                    const decoded = jsQR(imageData.data, imageData.width, imageData.height);
+                    const decoded = jsQR(imageData.data, imageData.width, imageData.height, {
+                        inversionAttempts: 'attemptBoth' // Try both normal and inverted colors
+                    });
                     if (decoded) {
                         showDecodedResult(decoded.data);
                         addToHistory('scan', decoded.data);
                     } else {
-                        showError("QR Code not found in the image. Please try a clearer image.");
+                        showError("No QR code detected. Please try a clearer, high-contrast image.");
                     }
                 } catch (error) {
                     showError("Error processing image: " + error.message);
                 }
             };
+            img.onerror = function() {
+                showError("Failed to load image. Please try another file.");
+            };
             img.src = event.target.result;
+        };
+        reader.onerror = function() {
+            showError("Failed to read file. Please try another image.");
         };
         reader.readAsDataURL(file);
     }
@@ -715,12 +747,14 @@
                 const canvas = document.createElement("canvas");
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
-                const ctx = canvas.getContext("2d");
+                const ctx = canvas.getContext("2d", { willReadFrequently: true });
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 
                 try {
-                    const decoded = jsQR(imageData.data, imageData.width, imageData.height);
+                    const decoded = jsQR(imageData.data, imageData.width, imageData.height, {
+                        inversionAttempts: 'attemptBoth'
+                    });
                     if (decoded) {
                         showDecodedResult(decoded.data);
                         addToHistory('scan', decoded.data);
@@ -738,18 +772,20 @@
         const canvas = document.createElement("canvas");
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         
         try {
-            const decoded = jsQR(imageData.data, imageData.width, imageData.height);
+            const decoded = jsQR(imageData.data, imageData.width, imageData.height, {
+                inversionAttempts: 'attemptBoth'
+            });
             if (decoded) {
                 showDecodedResult(decoded.data);
                 addToHistory('scan', decoded.data);
                 stopCamera();
             } else {
-                showError("QR Code not detected. Please position the code clearly in the camera view.");
+                showError("No QR code detected. Please position the code clearly in the camera view.");
             }
         } catch (error) {
             showError("Error capturing QR code: " + error.message);

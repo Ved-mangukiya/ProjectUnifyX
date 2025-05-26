@@ -1177,10 +1177,10 @@
         function downloadCanvas() {
             if (!ctx) return;
             ctx.save();
-            ctx.font = '8px Arial';
+            ctx.font = '6.5px Arial';
             ctx.fillStyle = '#374151';
             ctx.textAlign = 'right';
-            ctx.fillText('Created using ProjectUnifyX\'s Custom Plot Area Finder', canvas.width - 8, canvas.height - 8);
+            ctx.fillText('Created by Ved Mangukiya, Founder of ProjectUnifyX | Generated using our Custom Plot Area Finder - Free professional surveying tools at unifyxproject.netlify.app', canvas.width - 8, canvas.height - 8);
             
             const link = document.createElement('a');
             link.download = 'plot-area-calculation.png';
@@ -1300,10 +1300,10 @@
                 });
             }
             
-            tempCtx.font = '8px Arial';
+            tempCtx.font = '6.5px Arial';
             tempCtx.fillStyle = '#374151';
             tempCtx.textAlign = 'right';
-            tempCtx.fillText('Created using ProjectUnifyX\'s Custom Plot Area Finder', canvas.width - 8, canvas.height - 8);
+            tempCtx.fillText('Created by Ved Mangukiya, Founder of ProjectUnifyX | Generated using our Custom Plot Area Finder - Free professional surveying tools at unifyxproject.netlify.app', canvas.width - 8, canvas.height - 8);
             
             const imgData = tempCanvas.toDataURL('image/png', 1.0);
             doc.addImage(imgData, 'PNG', 10, 35, 190, 152);
@@ -1364,10 +1364,10 @@
                 doc.text('No results available.', 10, 195);
             }
 
-            doc.setFontSize(10);
+            doc.setFontSize(7.5);
             doc.setTextColor(55, 65, 81);
             doc.setFont('helvetica', 'normal');
-            doc.text('Created using ProjectUnifyX\'s Custom Plot Area Finder', 10, 290);
+            doc.text('Created by Ved Mangukiya, Founder of ProjectUnifyX | Generated using our Custom Plot Area Finder - Free professional surveying tools at unifyxproject.netlify.app', 10, 290);
 
             doc.save('plot-with-areas.pdf');
         }

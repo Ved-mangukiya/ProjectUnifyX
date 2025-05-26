@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Plot Area Finder</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Add Three.js and OrbitControls via CDN for 3D visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/controls/OrbitControls.js"></script>
     <style>
         * {
             margin: 0;
@@ -198,6 +201,18 @@
             cursor: crosshair;
         }
         
+        #threeCanvas {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: #fafafa;
+            display: none;
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            aspect-ratio: 5 / 4;
+            margin: 0 auto;
+        }
+        
         .canvas-controls {
             display: flex;
             flex-wrap: wrap;
@@ -304,9 +319,34 @@
             font-size: clamp(0.8rem, 2.5vw, 0.85rem);
         }
         
+        .calculation-method {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
         
+        .calculation-method h4 {
+            color: #ffffff;
+            margin-bottom: 6px;
+            font-size: clamp(0.9rem, 2.5vw, 0.95rem);
+        }
         
-       
+        .calculation-method p {
+            color: #e0e7ff;
+            font-size: clamp(0.8rem, 2.5vw, 0.85rem);
+            line-height: 1.4;
+        }
+        
+        .angle-info {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid #c7d2fe;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 8px;
+            font-size: clamp(0.8rem, 2.5vw, 0.85rem);
+            color: #e0e7ff;
+        }
         
         .modal {
             display: none;
@@ -365,7 +405,7 @@
             .division-section {
                 grid-column: span 2;
             }
-            #canvas {
+            #canvas, #threeCanvas {
                 max-width: 600px;
             }
             .modal-content {
@@ -425,9 +465,13 @@
                     <button class="btn" onclick="rotatePlot()">🔄 Rotate Plot</button>
                     <button class="btn" onclick="downloadCanvas()">💾 Download Plot</button>
                     <button class="btn" onclick="downloadResultsAsPDF()">📄 Download Plot with Areas</button>
+                    <!-- New button for toggling 3D view -->
+                    <button class="btn" onclick="toggle3DView()">🌐 Toggle 3D View</button>
                 </div>
                 
                 <canvas id="canvas"></canvas>
+                <!-- New container for Three.js renderer -->
+                <div id="threeCanvas"></div>
                 
                 <div id="results" style="display: none;"></div>
             </div>
@@ -472,7 +516,13 @@
 
     <footer>
         <p>© <span id="current-year"></span> Mangukiya Ved. All rights reserved.</p>
-       
+        <div class="calculation-method">
+            <h4>🔢 Calculation Method</h4>
+            <p>This tool constructs a polygon from side lengths by placing vertices sequentially. For irregular plots, the actual shape may vary, but this provides a good area estimation.</p>
+            <div class="angle-info">
+                <strong>Note:</strong> The tool assumes a sequential construction to form a closed polygon. For precise calculations of irregular plots, surveyor angles would be needed.
+            </div>
+        </div>
     </footer>
 
     <div id="guideModal" class="modal">
@@ -487,15 +537,15 @@
                 <li><strong>Step 4:</strong> In the "Divide Plot" section, select the number of parts (2-10), division type (equal, percentage, or area), and direction (horizontal or vertical).</li>
                 <li><strong>Step 5:</strong> For percentage or area division, enter values for each part, ensuring they sum to 100% or the total area, respectively.</li>
                 <li><strong>Step 6:</strong> Click "Divide Plot" to see division lines and area details.</li>
-                <li><strong>Step 7:</strong> Use the canvas controls to rotate, download the plot image, or generate a PDF with all details.</li>
-                <li><strong>Step 8:</strong> Click on a side label (S1, S2, etc.) on the canvas to edit its length directly.</li>
+                <li><strong>Step 7:</strong> Use the canvas controls to rotate, download the plot image, generate a PDF with all details, or toggle to a 3D view of the plot.</li>
+                <li><strong>Step 8:</strong> Click on a side label (S1, S2, etc.) on the 2D canvas to edit its length directly.</li>
             </ul>
             <p><strong>Note:</strong> Ensure side lengths form a valid polygon, and division inputs are consistent with the total area.</p>
         </div>
     </div>
 
     <script>
-        let canvas, ctx;
+        let canvas, ctx, threeCanvas, scene, camera, renderer, controls;
         let coordinates = [];
         let sideLengths = [];
         let scale = 1;
@@ -507,6 +557,7 @@
         let rotationCount = 0;
         let divisions = [];
         let divisionAreas = [];
+        let is3DView = false; // Track whether 3D view is active
 
         const unitFactors = {
             meters: 1,
@@ -534,6 +585,126 @@
             }
             clearCanvas();
             canvas.addEventListener('click', handleCanvasClick);
+            initThreeJS(); // Initialize Three.js
+        }
+
+        // Initialize Three.js scene
+        function initThreeJS() {
+            threeCanvas = document.getElementById('threeCanvas');
+            threeCanvas.style.width = canvas.style.width;
+            threeCanvas.style.height = canvas.style.height;
+            
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color('#fafafa');
+            
+            camera = new THREE.PerspectiveCamera(75, canvas.width / canvas.height, 0.1, 1000);
+            camera.position.set(0, 0, 50);
+            
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(canvas.width, canvas.height);
+            threeCanvas.appendChild(renderer.domElement);
+            
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.screenSpacePanning = false;
+            controls.minDistance = 10;
+            controls.maxDistance = 100;
+            
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            animateThreeJS();
+        }
+
+        // Animation loop for Three.js
+        function animateThreeJS() {
+            requestAnimationFrame(animateThreeJS);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        // Toggle between 2D and 3D views
+        function toggle3DView() {
+            is3DView = !is3DView;
+            document.getElementById('canvas').style.display = is3DView ? 'none' : 'block';
+            document.getElementById('threeCanvas').style.display = is3DView ? 'block' : 'none';
+            if (is3DView && coordinates.length > 0) {
+                draw3DPlot();
+            } else {
+                drawPlot();
+            }
+        }
+
+        // Draw 3D plot with extruded polygon
+        function draw3DPlot() {
+            if (!scene || !coordinates.length) return;
+            
+            // Clear previous objects
+            while (scene.children.length > 2) { // Keep lights
+                scene.remove(scene.children[2]);
+            }
+            
+            // Create shape from 2D coordinates
+            const shape = new THREE.Shape();
+            coordinates.forEach((coord, index) => {
+                const x = coord.x;
+                const y = coord.y;
+                if (index === 0) {
+                    shape.moveTo(x, y);
+                } else {
+                    shape.lineTo(x, y);
+                }
+            });
+            shape.closePath();
+            
+            // Extrude settings
+            const extrudeSettings = {
+                depth: 10, // Fixed extrusion height
+                bevelEnabled: false
+            };
+            const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+            const material = new THREE.MeshPhongMaterial({
+                color: 0x4facfe,
+                opacity: 0.7,
+                transparent: true,
+                side: THREE.DoubleSide
+            });
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+            
+            // Add edges for visibility
+            const edges = new THREE.EdgesGeometry(geometry);
+            const edgesMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+            const edgesMesh = new THREE.LineSegments(edges, edgesMaterial);
+            scene.add(edgesMesh);
+            
+            // Center camera on the plot
+            const box = new THREE.Box3().setFromObject(mesh);
+            const center = box.getCenter(new THREE.Vector3());
+            camera.position.set(center.x, center.y, box.max.z + 50);
+            controls.target.set(center.x, center.y, center.z);
+            
+            // Draw division lines in 3D (if any)
+            if (divisions.length > 0) {
+                divisions.forEach((division) => {
+                    const points = [
+                        new THREE.Vector3(division.start.x, division.start.y, 0),
+                        new THREE.Vector3(division.start.x, division.start.y, 10),
+                        new THREE.Vector3(division.end.x, division.end.y, 10),
+                        new THREE.Vector3(division.end.x, division.end.y, 0)
+                    ];
+                    const divisionGeometry = new THREE.BufferGeometry().setFromPoints(points);
+                    const divisionMaterial = new THREE.LineBasicMaterial({ color: 0xff0000, linewidth: 2, dashed: true });
+                    const divisionLine = new THREE.Line(divisionGeometry, divisionMaterial);
+                    scene.add(divisionLine);
+                });
+            }
+            
+            renderer.render(scene, camera);
         }
 
         function generateSideInputs() {
@@ -762,8 +933,7 @@
             document.getElementById('divisionDirection').value = 'horizontal';
             generateDivisionInputs();
             
-            drawPlot();
-            displayResults(areaInUnits, unit, areaInSquareMeters);
+            updatePlot();
         }
 
         function dividePlot() {
@@ -818,8 +988,7 @@
             }
             
             divisions = calculateDivisions(divisionAreas, divisionDirection);
-            drawPlot();
-            displayResults(lastCalculatedResults.areaInUnits, lastCalculatedResults.unit, lastCalculatedResults.areaInSquareMeters);
+            updatePlot();
         }
 
         function calculateDivisions(areas, direction) {
@@ -827,15 +996,12 @@
             let accumulatedArea = 0;
             const totalArea = lastCalculatedResults.areaInUnits;
             
-            // Find bounding box of the polygon
             const minX = Math.min(...coordinates.map(c => c.x));
             const maxX = Math.max(...coordinates.map(c => c.x));
             const minY = Math.min(...coordinates.map(c => c.y));
             const maxY = Math.max(...coordinates.map(c => c.y));
             
-            // Calculate division points based on direction
             if (direction === 'horizontal') {
-                // Divide along y-axis (horizontal lines)
                 const height = maxY - minY;
                 const areaPerUnitHeight = totalArea / height;
                 let currentY = minY;
@@ -846,10 +1012,8 @@
                     const targetHeight = targetArea / areaPerUnitHeight;
                     currentY = minY + targetHeight;
                     
-                    // Find intersection points with polygon edges
                     const intersections = findIntersectionsWithY(currentY);
                     if (intersections.length >= 2) {
-                        // Sort intersections by x-coordinate
                         intersections.sort((a, b) => a.x - b.x);
                         divisions.push({
                             start: intersections[0],
@@ -858,7 +1022,6 @@
                     }
                 }
             } else {
-                // Divide along x-axis (vertical lines)
                 const width = maxX - minX;
                 const areaPerUnitWidth = totalArea / width;
                 let currentX = minX;
@@ -869,10 +1032,8 @@
                     const targetWidth = targetArea / areaPerUnitWidth;
                     currentX = minX + targetWidth;
                     
-                    // Find intersection points with polygon edges
                     const intersections = findIntersectionsWithX(currentX);
                     if (intersections.length >= 2) {
-                        // Sort intersections by y-coordinate
                         intersections.sort((a, b) => a.y - b.y);
                         divisions.push({
                             start: intersections[0],
@@ -947,7 +1108,11 @@
             document.getElementById('divisionSection').style.display = 'block';
             generateDivisionInputs();
             
-            drawPlot();
+            if (is3DView) {
+                draw3DPlot();
+            } else {
+                drawPlot();
+            }
             displayResults(areaInUnits, unit, areaInSquareMeters);
         }
 
@@ -1022,7 +1187,6 @@
                 ctx.textAlign = 'left';
             }
             
-            // Draw division lines
             if (divisions.length > 0) {
                 divisions.forEach((division, index) => {
                     ctx.beginPath();
@@ -1165,6 +1329,11 @@
                 divisionAreas = [];
                 selectedSideIndex = -1;
                 rotationCount = 0;
+                if (scene) {
+                    while (scene.children.length > 2) {
+                        scene.remove(scene.children[2]);
+                    }
+                }
             } else if (lastCalculatedResults) {
                 displayResults(
                     lastCalculatedResults.areaInUnits,
@@ -1405,7 +1574,13 @@
             document.getElementById('divisionType').addEventListener('change', generateDivisionInputs);
             window.addEventListener('resize', () => {
                 initCanvas();
-                if (coordinates.length > 0) drawPlot();
+                if (coordinates.length > 0) {
+                    if (is3DView) {
+                        draw3DPlot();
+                    } else {
+                        drawPlot();
+                    }
+                }
             });
         };
     </script>

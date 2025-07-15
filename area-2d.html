@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧮 PlotMaster - Advanced Area Calculator</title>
+    <title>🧮 PlotMaster - Area Calculator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1f2937;
+            --background-color: #f3f4f6;
+            --white: #ffffff;
+            --error-color: #dc2626;
+            --success-color: #059669;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,10 +22,9 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            background: var(--background-color);
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         .app-container {
@@ -25,9 +33,9 @@
         }
 
         .sidebar {
-            width: 250px;
-            background: #1f2937;
-            color: white;
+            width: 240px;
+            background: var(--secondary-color);
+            color: var(--white);
             padding: 20px;
             position: fixed;
             height: 100%;
@@ -35,30 +43,30 @@
         }
 
         .sidebar.hidden {
-            transform: translateX(-250px);
+            transform: translateX(-240px);
         }
 
         .sidebar-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 30px;
+            gap: 8px;
+            margin-bottom: 24px;
         }
 
         .sidebar-header h1 {
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 600;
         }
 
         .nav-item {
-            padding: 12px 15px;
-            margin: 5px 0;
-            border-radius: 8px;
+            padding: 10px 12px;
+            margin: 4px 0;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            transition: background 0.2s ease;
         }
 
         .nav-item:hover {
@@ -66,12 +74,12 @@
         }
 
         .nav-item.active {
-            background: #3b82f6;
+            background: var(--primary-color);
         }
 
         .main-content {
             flex: 1;
-            margin-left: 250px;
+            margin-left: 240px;
             padding: 20px;
             transition: margin-left 0.3s ease;
         }
@@ -80,112 +88,105 @@
             margin-left: 0;
         }
 
-        .page {
-            display: none;
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .page.active {
-            display: block;
-        }
-
         .header {
-            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .toggle-sidebar {
-            background: #ffffff;
-            color: #3b82f6;
+            background: var(--white);
+            color: var(--primary-color);
             border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 4px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 500;
+        }
+
+        .page {
+            display: none;
+            background: var(--white);
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .page.active {
+            display: block;
         }
 
         .section {
-            margin-bottom: 20px;
-            padding: 15px;
+            margin-bottom: 16px;
+            padding: 12px;
             background: #f9fafb;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .section-title {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 15px;
+            color: var(--secondary-color);
+            margin-bottom: 12px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         label {
             display: block;
             font-weight: 500;
             color: #374151;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         input, select {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            background: #ffffff;
-            transition: border-color 0.3s ease;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            background: var(--white);
+            transition: border-color 0.2s ease;
         }
 
         input:focus, select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
             outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .sides-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-        }
-
-        .side-group {
-            background: #f3f4f6;
-            padding: 10px;
-            border-radius: 6px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
         }
 
         .btn {
-            background: #3b82f6;
-            color: white;
+            background: var(--primary-color);
+            color: var(--white);
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background 0.2s ease;
         }
 
         .btn:hover {
             background: #2563eb;
-            transform: translateY(-1px);
         }
 
         #canvas {
             border: 1px solid #d1d5db;
-            border-radius: 8px;
-            background: #ffffff;
+            border-radius: 6px;
+            background: var(--white);
             width: 100%;
             max-width: 600px;
             height: 400px;
@@ -195,24 +196,25 @@
 
         .canvas-controls {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 12px;
             flex-wrap: wrap;
         }
 
         .results {
             background: #e5e7eb;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
         }
 
         .history-item {
             background: #f3f4f6;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
             cursor: pointer;
+            transition: background 0.2s ease;
         }
 
         .history-item:hover {
@@ -226,51 +228,50 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4);
             align-items: center;
             justify-content: center;
             z-index: 1000;
         }
 
         .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            max-width: 600px;
+            background: var(--white);
+            padding: 16px;
+            border-radius: 8px;
+            max-width: 500px;
             max-height: 80vh;
             overflow-y: auto;
         }
 
         .close-btn {
             background: #ef4444;
-            color: white;
+            color: var(--white);
             border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 4px;
             cursor: pointer;
             float: right;
         }
 
         .error {
             background: #fee2e2;
-            color: #dc2626;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 10px;
+            color: var(--error-color);
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 8px;
         }
 
         @media (max-width: 768px) {
             .sidebar {
-                transform: translateX(-250px);
+                transform: translateX(-240px);
             }
-            .main-content {
-                margin-left: 0;
-            }
-            .main-content.full {
-                margin-left: 0;
-            }
+
             .sidebar.active {
                 transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
             }
         }
     </style>
@@ -286,6 +287,7 @@
             <div class="nav-item" data-page="editor">📐 Plot Editor</div>
             <div class="nav-item" data-page="results">📊 Results</div>
             <div class="nav-item" data-page="history">📜 History</div>
+            <div class="nav-item" onclick="showGuide()">ℹ️ Guide</div>
         </div>
 
         <div class="main-content" id="mainContent">
@@ -297,13 +299,13 @@
             <div class="page active" id="home">
                 <div class="section">
                     <h2 class="section-title">Welcome to PlotMaster</h2>
-                    <p>Calculate and visualize land plot areas with ease. Features include:</p>
+                    <p>Calculate and visualize land plot areas with ease.</p>
                     <ul>
-                        <li>Calculate areas for 3-8 sided polygons</li>
+                        <li>Supports 3-8 sided polygons</li>
                         <li>Divide plots into equal or custom areas</li>
                         <li>Interactive canvas with zoom and pan</li>
-                        <li>Save and load plot configurations</li>
-                        <li>Export results as PNG or PDF</li>
+                        <li>Save/load configurations</li>
+                        <li>Export as PNG or PDF</li>
                         <li>View calculation history</li>
                     </ul>
                     <button class="btn" onclick="navigateTo('editor')">Start Plotting</button>
@@ -340,7 +342,7 @@
                 </div>
 
                 <div class="section">
-                    <h2 class="section-title">Visual Plot</h2>
+                    <h2 class="section-title">Plot Visualization</h2>
                     <div class="canvas-controls">
                         <button class="btn" onclick="clearCanvas()">Clear</button>
                         <button class="btn" onclick="rotatePlot()">Rotate</button>
@@ -357,7 +359,7 @@
                     <div class="form-group">
                         <div class="sides-grid">
                             <div>
-                                <label for="numParts">Number of Parts (2-10)</label>
+                                <label for="numPCS">Number of Parts (2-10)</label>
                                 <input type="number" id="numParts" min="2" max="10" value="2">
                             </div>
                             <div>
@@ -404,43 +406,47 @@
         <div class="modal-content">
             <button class="close-btn" onclick="closeGuide()">Close</button>
             <h2>PlotMaster Guide</h2>
-            <p>Follow these steps to use PlotMaster:</p>
+            <p>Use PlotMaster to calculate and visualize land plots:</p>
             <ul>
-                <li><strong>Home:</strong> Overview and quick start.</li>
-                <li><strong>Plot Editor:</strong> Configure and visualize your plot:
+                <li><strong>Home:</strong> Start here for an overview.</li>
+                <li><strong>Plot Editor:</strong> Create and visualize plots:
                     <ul>
-                        <li>Enter number of sides (3-8) and unit.</li>
-                        <li>Generate side inputs and enter lengths.</li>
+                        <li>Set number of sides (3-8) and unit.</li>
+                        <li>Enter side lengths.</li>
                         <li>Calculate area and draw plot.</li>
-                        <li>Divide plot into parts (equal, percentage, or area).</li>
-                        <li>Use canvas controls to zoom, pan, rotate, or export.</li>
+                        <li>Divide plot into parts.</li>
+                        <li>Use canvas controls for zoom, pan, rotate, or export.</li>
                     </ul>
                 </li>
-                <li><strong>Results:</strong> View detailed area calculations.</li>
-                <li><strong>History:</strong> Review past calculations and reload them.</li>
+                <li><strong>Results:</strong> View area calculations.</li>
+                <li><strong>History:</strong> Review and reload past calculations.</li>
             </ul>
-            <p><strong>Tip:</strong> Save configurations as JSON files for later use.</p>
+            <p><strong>Tip:</strong> Save configurations as JSON for reuse.</p>
         </div>
     </div>
 
     <script>
-        let canvas, ctx;
-        let coordinates = [];
-        let sideLengths = [];
-        let scale = 1;
-        let offsetX = 0;
-        let offsetY = 0;
-        let lastCalculatedResults = null;
-        let selectedSideIndex = -1;
-        let updateTimeout = null;
-        let rotationCount = 0;
-        let divisions = [];
-        let divisionAreas = [];
-        let zoomLevel = 1;
-        let panX = 0;
-        let panY = 0;
-        let isPanning = false;
-        let history = JSON.parse(localStorage.getItem('plotHistory')) || [];
+        // State Management
+        let state = {
+            canvas: null,
+            ctx: null,
+            coordinates: [],
+            sideLengths: [],
+            scale: 1,
+            offsetX: 0,
+            offsetY: 0,
+            lastCalculatedResults: null,
+            selectedSideIndex: -1,
+            updateTimeout: null,
+            rotationCount: 0,
+            divisions: [],
+            divisionAreas: [],
+            zoomLevel: 1,
+            panX: 0,
+            panY: 0,
+            isPanning: false,
+            history: JSON.parse(localStorage.getItem('plotHistory')) || []
+        };
 
         const unitFactors = {
             meters: 1,
@@ -457,23 +463,25 @@
             'hectares': 0.0001
         };
 
+        // Canvas Initialization
         function initCanvas() {
-            canvas = document.getElementById('canvas');
-            canvas.width = Math.min(window.innerWidth - 40, 600);
-            canvas.height = 400;
-            ctx = canvas.getContext('2d');
-            if (!ctx) {
+            state.canvas = document.getElementById('canvas');
+            state.canvas.width = Math.min(window.innerWidth - 40, 600);
+            state.canvas.height = 400;
+            state.ctx = state.canvas.getContext('2d');
+            if (!state.ctx) {
                 showError('Canvas initialization failed.');
                 return;
             }
             clearCanvas();
-            canvas.addEventListener('click', handleCanvasClick);
-            canvas.addEventListener('mousedown', startPan);
-            canvas.addEventListener('mousemove', pan);
-            canvas.addEventListener('mouseup', endPan);
-            canvas.addEventListener('mouseleave', endPan);
+            state.canvas.addEventListener('click', handleCanvasClick);
+            state.canvas.addEventListener('mousedown', startPan);
+            state.canvas.addEventListener('mousemove', pan);
+            state.canvas.addEventListener('mouseup', endPan);
+            state.canvas.addEventListener('mouseleave', endPan);
         }
 
+        // UI Interactions
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('mainContent');
@@ -492,8 +500,8 @@
                 results: 'Results',
                 history: 'Calculation History'
             }[pageId];
-            if (pageId === 'results' && lastCalculatedResults) {
-                displayResults(lastCalculatedResults.areaInUnits, lastCalculatedResults.unit, lastCalculatedResults.areaInSquareMeters);
+            if (pageId === 'results' && state.lastCalculatedResults) {
+                displayResults(state.lastCalculatedResults.areaInUnits, state.lastCalculatedResults.unit, state.lastCalculatedResults.areaInSquareMeters);
             }
             if (pageId === 'history') {
                 displayHistory();
@@ -501,6 +509,15 @@
             toggleSidebar();
         }
 
+        function showGuide() {
+            document.getElementById('guideModal').style.display = 'flex';
+        }
+
+        function closeGuide() {
+            document.getElementById('guideModal').style.display = 'none';
+        }
+
+        // Plot Configuration
         function generateSideInputs() {
             const numSides = parseInt(document.getElementById('numSides').value);
             const container = document.getElementById('sideInputs');
@@ -508,8 +525,8 @@
 
             errorDiv.innerHTML = '';
             document.getElementById('divisionSection').style.display = 'none';
-            divisions = [];
-            divisionAreas = [];
+            state.divisions = [];
+            state.divisionAreas = [];
 
             if (numSides < 3 || numSides > 8 || isNaN(numSides)) {
                 showError('Please enter a number between 3 and 8 sides.');
@@ -517,7 +534,7 @@
             }
 
             container.innerHTML = '';
-            sideLengths = new Array(numSides).fill(100);
+            state.sideLengths = new Array(numSides).fill(100);
 
             for (let i = 1; i <= numSides; i++) {
                 const sideGroup = document.createElement('div');
@@ -528,7 +545,7 @@
                 `;
                 container.appendChild(sideGroup);
                 document.getElementById(`side${i}`).addEventListener('input', () => {
-                    sideLengths[i-1] = parseFloat(document.getElementById(`side${i}`).value) || 0;
+                    state.sideLengths[i-1] = parseFloat(document.getElementById(`side${i}`).value) || 0;
                     saveState();
                     debounceUpdatePlot();
                 });
@@ -551,7 +568,7 @@
             }
 
             container.innerHTML = '';
-            divisionAreas = new Array(numParts).fill(0);
+            state.divisionAreas = new Array(numParts).fill(0);
 
             for (let i = 1; i <= numParts; i++) {
                 const divGroup = document.createElement('div');
@@ -565,7 +582,7 @@
                 } else if (divisionType === 'area') {
                     inputHTML = `
                         <label>Part ${i} Area (sq ${unit})</label>
-                        <input type="number" id="part${i}" step="0.01" min="0.1" value="${(lastCalculatedResults.areaInUnits/numParts).toFixed(2)}">
+                        <input type="number" id="part${i}" step="0.01" min="0.1" value="${(state.lastCalculatedResults.areaInUnits/numParts).toFixed(2)}">
                     `;
                 } else {
                     return;
@@ -573,7 +590,7 @@
                 divGroup.innerHTML = inputHTML;
                 container.appendChild(divGroup);
                 document.getElementById(`part${i}`).addEventListener('input', () => {
-                    divisionAreas[i-1] = parseFloat(document.getElementById(`part${i}`).value) || 0;
+                    state.divisionAreas[i-1] = parseFloat(document.getElementById(`part${i}`).value) || 0;
                     saveState();
                     debounceDividePlot();
                 });
@@ -581,53 +598,55 @@
             saveState();
         }
 
+        // State Persistence
         function saveState() {
-            const state = {
+            const currentState = {
                 numSides: document.getElementById('numSides').value,
                 unit: document.getElementById('unit').value,
-                sideLengths,
+                sideLengths: state.sideLengths,
                 numParts: document.getElementById('numParts').value,
                 divisionType: document.getElementById('divisionType').value,
                 divisionDirection: document.getElementById('divisionDirection').value,
-                divisionAreas
+                divisionAreas: state.divisionAreas
             };
-            localStorage.setItem('plotState', JSON.stringify(state));
+            localStorage.setItem('plotState', JSON.stringify(currentState));
         }
 
         function loadState() {
-            const state = JSON.parse(localStorage.getItem('plotState'));
-            if (state) {
-                document.getElementById('numSides').value = state.numSides;
-                document.getElementById('unit').value = state.unit;
-                document.getElementById('numParts').value = state.numParts;
-                document.getElementById('divisionType').value = state.divisionType;
-                document.getElementById('divisionDirection').value = state.divisionDirection;
-                sideLengths = state.sideLengths || [];
-                divisionAreas = state.divisionAreas || [];
+            const savedState = JSON.parse(localStorage.getItem('plotState'));
+            if (savedState) {
+                document.getElementById('numSides').value = savedState.numSides;
+                document.getElementById('unit').value = savedState.unit;
+                document.getElementById('numParts').value = savedState.numParts;
+                document.getElementById('divisionType').value = savedState.divisionType;
+                document.getElementById('divisionDirection').value = savedState.divisionDirection;
+                state.sideLengths = savedState.sideLengths || [];
+                state.divisionAreas = savedState.divisionAreas || [];
                 generateSideInputs();
-                if (sideLengths.length > 0) {
-                    for (let i = 1; i <= sideLengths.length; i++) {
-                        document.getElementById(`side${i}`).value = sideLengths[i-1];
+                if (state.sideLengths.length > 0) {
+                    for (let i = 1; i <= state.sideLengths.length; i++) {
+                        document.getElementById(`side${i}`).value = state.sideLengths[i-1];
                     }
                     calculateAndDraw();
                     generateDivisionInputs();
-                    for (let i = 1; i <= divisionAreas.length; i++) {
+                    for (let i = 1; i <= state.divisionAreas.length; i++) {
                         const input = document.getElementById(`part${i}`);
-                        if (input) input.value = divisionAreas[i-1];
+                        if (input) input.value = state.divisionAreas[i-1];
                     }
                 }
             }
         }
 
+        // Configuration Management
         function saveConfig() {
             const config = {
                 numSides: parseInt(document.getElementById('numSides').value),
                 unit: document.getElementById('unit').value,
-                sideLengths,
-                numParts: divisions.length > 0 ? parseInt(document.getElementById('numParts').value) : null,
-                divisionType: divisions.length > 0 ? document.getElementById('divisionType').value : null,
-                divisionDirection: divisions.length > 0 ? document.getElementById('divisionDirection').value : null,
-                divisionAreas
+                sideLengths: state.sideLengths,
+                numParts: state.divisions.length > 0 ? parseInt(document.getElementById('numParts').value) : null,
+                divisionType: state.divisions.length > 0 ? document.getElementById('divisionType').value : null,
+                divisionDirection: state.divisions.length > 0 ? document.getElementById('divisionDirection').value : null,
+                divisionAreas: state.divisionAreas
             };
             const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
             const link = document.createElement('a');
@@ -649,20 +668,20 @@
                         const config = JSON.parse(e.target.result);
                         document.getElementById('numSides').value = config.numSides;
                         document.getElementById('unit').value = config.unit;
-                        sideLengths = config.sideLengths;
+                        state.sideLengths = config.sideLengths;
                         generateSideInputs();
-                        for (let i = 1; i <= sideLengths.length; i++) {
-                            document.getElementById(`side${i}`).value = sideLengths[i-1];
+                        for (let i = 1; i <= state.sideLengths.length; i++) {
+                            document.getElementById(`side${i}`).value = state.sideLengths[i-1];
                         }
                         calculateAndDraw();
                         if (config.numParts) {
                             document.getElementById('numParts').value = config.numParts;
                             document.getElementById('divisionType').value = config.divisionType;
                             document.getElementById('divisionDirection').value = config.divisionDirection;
-                            divisionAreas = config.divisionAreas;
+                            state.divisionAreas = config.divisionAreas;
                             generateDivisionInputs();
-                            for (let i = 1; i <= divisionAreas.length; i++) {
-                                document.getElementById(`part${i}`).value = divisionAreas[i-1];
+                            for (let i = 1; i <= state.divisionAreas.length; i++) {
+                                document.getElementById(`part${i}`).value = state.divisionAreas[i-1];
                             }
                             dividePlot();
                         }
@@ -674,95 +693,25 @@
             }
         });
 
-        function debounceUpdatePlot() {
-            clearTimeout(updateTimeout);
-            updateTimeout = setTimeout(updatePlot, 300);
-        }
-
-        function debounceDividePlot() {
-            clearTimeout(updateTimeout);
-            updateTimeout = setTimeout(dividePlot, 300);
-        }
-
+        // Plot Calculations
         function constructPolygonFromSides(sides) {
             const numSides = sides.length;
             if (numSides < 3) return [];
-            
             const coords = [{ x: 0, y: 0 }];
             let currentAngle = 0;
-            
             for (let i = 0; i < numSides; i++) {
                 const lastPoint = coords[coords.length - 1];
                 const sideLength = sides[i];
                 const angleStep = (2 * Math.PI) / numSides;
                 currentAngle += angleStep;
-                
                 const newX = lastPoint.x + sideLength * Math.cos(currentAngle);
                 const newY = lastPoint.y + sideLength * Math.sin(currentAngle);
                 coords.push({ x: newX, y: newY });
             }
-            
             if (coords.length === numSides + 1) {
-                coords.pop(); // Remove last point to keep numSides points
+                coords.pop();
             }
-            
             return coords;
-        }
-
-        function rotateCoordinates(coords) {
-            return coords.map(coord => ({
-                x: coord.y,
-                y: -coord.x
-            }));
-        }
-
-        function rotatePlot() {
-            if (coordinates.length < 3) {
-                showError('No valid plot to rotate.');
-                return;
-            }
-            
-            sideLengths = [sideLengths[sideLengths.length - 1], ...sideLengths.slice(0, -1)];
-            for (let i = 1; i <= sideLengths.length; i++) {
-                document.getElementById(`side${i}`).value = sideLengths[i - 1];
-            }
-            
-            coordinates = rotateCoordinates(coordinates);
-            rotationCount = (rotationCount + 1) % 4;
-            saveState();
-            updatePlot();
-        }
-
-        function zoomIn() {
-            zoomLevel *= 1.2;
-            drawPlot();
-        }
-
-        function zoomOut() {
-            zoomLevel = Math.max(0.5, zoomLevel / 1.2);
-            drawPlot();
-        }
-
-        function startPan(event) {
-            isPanning = true;
-            startX = event.clientX;
-            startY = event.clientY;
-        }
-
-        function pan(event) {
-            if (isPanning) {
-                const dx = event.clientX - startX;
-                const dy = event.clientY - startY;
-                panX += dx / zoomLevel;
-                panY += dy / zoomLevel;
-                startX = event.clientX;
-                startY = event.clientY;
-                drawPlot();
-            }
-        }
-
-        function endPan() {
-            isPanning = false;
         }
 
         function calculateArea(coords) {
@@ -781,16 +730,13 @@
             const numSides = sides.length;
             const totalLength = sides.reduce((sum, length) => sum + length, 0);
             const maxSide = Math.max(...sides);
-            
             if (sides.some(side => side < 0.01 || side > 1000000)) return false;
             if (maxSide >= (totalLength - maxSide)) return false;
-            
             for (let i = 0; i < numSides; i++) {
                 const side = sides[i];
                 const otherSidesSum = totalLength - side;
                 if (side >= otherSidesSum) return false;
             }
-            
             return true;
         }
 
@@ -798,49 +744,47 @@
             const numSides = parseInt(document.getElementById('numSides').value);
             const unit = document.getElementById('unit').value;
             const errorDiv = document.getElementById('errorMessage');
-            
+
             errorDiv.innerHTML = '';
-            sideLengths = [];
-            
+            state.sideLengths = [];
             for (let i = 1; i <= numSides; i++) {
                 const length = parseFloat(document.getElementById(`side${i}`).value);
                 if (isNaN(length) || length <= 0) {
                     showError('Please fill in all side lengths with positive numbers.');
                     return;
                 }
-                sideLengths.push(length);
+                state.sideLengths.push(length);
             }
-            
-            if (sideLengths.length < 3) {
+
+            if (state.sideLengths.length < 3) {
                 showError('At least 3 sides are required.');
                 return;
             }
-            
-            if (!validatePolygonClosure(sideLengths)) {
+
+            if (!validatePolygonClosure(state.sideLengths)) {
                 showError('These side lengths cannot form a closed polygon.');
                 return;
             }
-            
-            coordinates = constructPolygonFromSides(sideLengths);
-            if (coordinates.length < 3) {
+
+            state.coordinates = constructPolygonFromSides(state.sideLengths);
+            if (state.coordinates.length < 3) {
                 showError('Could not construct a valid polygon.');
                 return;
             }
-            
-            const areaInUnits = calculateArea(coordinates);
+
+            const areaInUnits = calculateArea(state.coordinates);
             const unitFactor = unitFactors[unit];
             const areaInSquareMeters = areaInUnits * unitFactor * unitFactor;
-            
+
             if (areaInUnits < 0.0001) {
                 showError('The calculated area is very small.');
             }
-            
-            lastCalculatedResults = { areaInUnits, unit, areaInSquareMeters };
-            divisions = [];
-            divisionAreas = [];
+
+            state.lastCalculatedResults = { areaInUnits, unit, areaInSquareMeters };
+            state.divisions = [];
+            state.divisionAreas = [];
             document.getElementById('divisionSection').style.display = 'block';
             generateDivisionInputs();
-            
             drawPlot();
             displayResults(areaInUnits, unit, areaInSquareMeters);
             saveToHistory();
@@ -848,24 +792,25 @@
             navigateTo('results');
         }
 
+        // Plot Division
         function dividePlot() {
             const numParts = parseInt(document.getElementById('numParts').value);
             const divisionType = document.getElementById('divisionType').value;
             const divisionDirection = document.getElementById('divisionDirection').value;
             const errorDiv = document.getElementById('divisionError');
             errorDiv.innerHTML = '';
-            
-            if (!lastCalculatedResults) {
+
+            if (!state.lastCalculatedResults) {
                 showError('Please calculate the plot area first.', 'divisionError');
                 return;
             }
-            
+
             if (numParts < 2 || numParts > 10 || isNaN(numParts)) {
                 showError('Please enter a number between 2 and 10 parts.', 'divisionError');
                 return;
             }
-            
-            divisionAreas = [];
+
+            state.divisionAreas = [];
             let total = 0;
             if (divisionType === 'percentage') {
                 for (let i = 1; i <= numParts; i++) {
@@ -874,7 +819,7 @@
                         showError('Please fill in all percentages with positive numbers.', 'divisionError');
                         return;
                     }
-                    divisionAreas.push(percentage / 100 * lastCalculatedResults.areaInUnits);
+                    state.divisionAreas.push(percentage / 100 * state.lastCalculatedResults.areaInUnits);
                     total += percentage;
                 }
                 if (Math.abs(total - 100) > 0.01) {
@@ -888,20 +833,20 @@
                         showError('Please fill in all areas with positive numbers.', 'divisionError');
                         return;
                     }
-                    divisionAreas.push(area);
+                    state.divisionAreas.push(area);
                     total += area;
                 }
-                if (Math.abs(total - lastCalculatedResults.areaInUnits) > 0.01) {
+                if (Math.abs(total - state.lastCalculatedResults.areaInUnits) > 0.01) {
                     showError('Areas must sum to the total plot area.', 'divisionError');
                     return;
                 }
             } else {
-                divisionAreas = new Array(numParts).fill(lastCalculatedResults.areaInUnits / numParts);
+                state.divisionAreas = new Array(numParts).fill(state.lastCalculatedResults.areaInUnits / numParts);
             }
-            
-            divisions = calculateDivisions(divisionAreas, divisionDirection);
+
+            state.divisions = calculateDivisions(state.divisionAreas, divisionDirection);
             drawPlot();
-            displayResults(lastCalculatedResults.areaInUnits, lastCalculatedResults.unit, lastCalculatedResults.areaInSquareMeters);
+            displayResults(state.lastCalculatedResults.areaInUnits, state.lastCalculatedResults.unit, state.lastCalculatedResults.areaInSquareMeters);
             saveToHistory();
             saveState();
         }
@@ -909,18 +854,16 @@
         function calculateDivisions(areas, direction) {
             const divisions = [];
             let accumulatedArea = 0;
-            const totalArea = lastCalculatedResults.areaInUnits;
-            
-            const minX = Math.min(...coordinates.map(c => c.x));
-            const maxX = Math.max(...coordinates.map(c => c.x));
-            const minY = Math.min(...coordinates.map(c => c.y));
-            const maxY = Math.max(...coordinates.map(c => c.y));
-            
+            const totalArea = state.lastCalculatedResults.areaInUnits;
+            const minX = Math.min(...state.coordinates.map(c => c.x));
+            const maxX = Math.max(...state.coordinates.map(c => c.x));
+            const minY = Math.min(...state.coordinates.map(c => c.y));
+            const maxY = Math.max(...state.coordinates.map(c => c.y));
+
             if (direction === 'horizontal') {
                 const height = maxY - minY;
                 const areaPerUnitHeight = totalArea / height;
                 let currentY = minY;
-                
                 for (let i = 0; i < areas.length - 1; i++) {
                     accumulatedArea += areas[i];
                     const targetArea = accumulatedArea;
@@ -931,7 +874,7 @@
                         intersections.sort((a, b) => a.x - b.x);
                         divisions.push({
                             start: intersections[0],
-                            end: intersecting[intersections.length - 1]
+                            end: intersections[intersections.length - 1]
                         });
                     }
                 }
@@ -939,7 +882,6 @@
                 const width = maxX - minX;
                 const areaPerUnitWidth = totalArea / width;
                 let currentX = minX;
-                
                 for (let i = 0; i < areas.length - 1; i++) {
                     accumulatedArea += areas[i];
                     const targetArea = accumulatedArea;
@@ -955,18 +897,16 @@
                     }
                 }
             }
-            
             return divisions;
         }
 
         function findIntersectionsWithY(y) {
             const intersections = [];
-            for (let i = 0; i < coordinates.length; i++) {
-                const p1 = coordinates[i];
-                const p2 = coordinates[(i + 1) % coordinates.length];
+            for (let i = 0; i < state.coordinates.length; i++) {
+                const p1 = state.coordinates[i];
+                const p2 = state.coordinates[(i + 1) % state.coordinates.length];
                 const minY = Math.min(p1.y, p2.y);
                 const maxY = Math.max(p1.y, p2.y);
-                
                 if (y > minY && y <= maxY) {
                     const x = p1.x + (y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y);
                     intersections.push({ x, y });
@@ -977,12 +917,11 @@
 
         function findIntersectionsWithX(x) {
             const intersections = [];
-            for (let i = 0; i < coordinates.length; i++) {
-                const p1 = coordinates[i];
-                const p2 = coordinates[(i + 1) % coordinates.length];
+            for (let i = 0; i < state.coordinates.length; i++) {
+                const p1 = state.coordinates[i];
+                const p2 = state.coordinates[(i + 1) % state.coordinates.length];
                 const minX = Math.min(p1.x, p2.x);
                 const maxX = Math.max(p1.x, p2.x);
-                
                 if (x > minX && x <= maxX) {
                     const y = p1.y + (x - p1.x) * (p2.y - p1.y) / (p2.x - p1.x);
                     intersections.push({ x, y });
@@ -991,186 +930,147 @@
             return intersections;
         }
 
-        function updatePlot() {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.innerHTML = '';
-            
-            if (sideLengths.some(length => length <= 0 || isNaN(length))) {
-                return;
-            }
-            
-            if (!validatePolygonClosure(sideLengths)) {
-                showError('These side lengths cannot form a closed polygon.');
-                return;
-            }
-            
-            coordinates = constructPolygonFromSides(sideLengths);
-            if (coordinates.length < 3) {
-                showError('Could not construct a valid polygon.');
-                return;
-            }
-            
-            const unit = document.getElementById('unit').value;
-            const areaInUnits = calculateArea(coordinates);
-            const unitFactor = unitFactors[unit];
-            const areaInSquareMeters = areaInUnits * unitFactor * unitFactor;
-
-            
-            lastCalculatedResults = { areaInUnits, unit, areaInSquareMeters };
-            divisions = [];
-            divisionAreas = [];
-            document.getElementById('divisionSection').style.display = 'block';
-            generateDivisionInputs();
-            
-            drawPlot();
-            displayResults(areaInUnits, unit, areaInSquareMeters);
-            saveToHistory();
-            saveState();
-        }
-
+        // Canvas Rendering
         function drawPlot() {
-            if (!ctx) return;
+            if (!state.ctx) return;
             clearCanvas(false);
-            
-            if (coordinates.length < 3) return;
-            
-            const minX = Math.min(...coordinates.map(c => c.x));
-            const maxX = Math.max(...coordinates.map(c => c.x));
-            const minY = Math.min(...coordinates.map(c => c.y));
-            const maxY = Math.max(...coordinates.map(c => c.y));
-            
+            if (state.coordinates.length < 3) return;
+
+            const minX = Math.min(...state.coordinates.map(c => c.x));
+            const maxX = Math.max(...state.coordinates.map(c => c.x));
+            const minY = Math.min(...state.coordinates.map(c => c.y));
+            const maxY = Math.max(...state.coordinates.map(c => c.y));
             const width = maxX - minX || 1;
             const height = maxY - minY || 1;
             const padding = 20;
-            const scaleX = (canvas.width - 2 * padding) / width;
-            const scaleY = (canvas.height - 2 * padding) / height;
-            scale = Math.min(scaleX, scaleY, 50) * zoomLevel;
-            
-            offsetX = (canvas.width - width * scale) / 2 - minX * scale + panX;
-            offsetY = (canvas.height - height * scale) / 2 - minY * scale + panY;
-            
+            const scaleX = (state.canvas.width - 2 * padding) / width;
+            const scaleY = (state.canvas.height - 2 * padding) / height;
+            state.scale = Math.min(scaleX, scaleY, 50) * state.zoomLevel;
+            state.offsetX = (state.canvas.width - width * state.scale) / 2 - minX * state.scale + state.panX;
+            state.offsetY = (state.canvas.height - height * state.scale) / 2 - minY * state.scale + state.panY;
+
             drawGrid();
-            
-            ctx.beginPath();
-            ctx.strokeStyle = '#3b82f6';
-            ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
-            ctx.lineWidth = 3;
-            coordinates.forEach((coord, index) => {
-                const x = coord.x * scale + offsetX;
-                const y = canvas.height - (coord.y * scale + offsetY);
-                if (index === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
+            state.ctx.beginPath();
+            state.ctx.strokeStyle = var(--primary-color);
+            state.ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
+            state.ctx.lineWidth = 3;
+            state.coordinates.forEach((coord, index) => {
+                const x = coord.x * state.scale + state.offsetX;
+                const y = state.canvas.height - (coord.y * state.scale + state.offsetY);
+                if (index === 0) state.ctx.moveTo(x, y);
+                else state.ctx.lineTo(x, y);
             });
-            ctx.closePath();
-            ctx.fill();
-            ctx.stroke();
-            
-            coordinates.forEach((coord, index) => {
-                const x = coord.x * scale + offsetX;
-                const y = canvas.height - (coord.y * scale + offsetY);
-                ctx.beginPath();
-                ctx.arc(x, y, 4, 0, 2 * Math.PI);
-                ctx.fillStyle = '#ef4444';
-                ctx.fill();
-                ctx.fillStyle = '#1f2937';
-                ctx.font = 'bold 12px Inter';
-                ctx.fillText(`P${index + 1}`, x + 8, y - 8);
+            state.ctx.closePath();
+            state.ctx.fill();
+            state.ctx.stroke();
+
+            state.coordinates.forEach((coord, index) => {
+                const x = coord.x * state.scale + state.offsetX;
+                const y = state.canvas.height - (coord.y * state.scale + state.offsetY);
+                state.ctx.beginPath();
+                state.ctx.arc(x, y, 4, 0, 2 * Math.PI);
+                state.ctx.fillStyle = '#ef4444';
+                state.ctx.fill();
+                state.ctx.fillStyle = var(--secondary-color);
+                state.ctx.font = 'bold 12px Inter';
+                state.ctx.fillText(`P${index + 1}`, x + 8, y - 8);
             });
-            
-            for (let i = 0; i < coordinates.length; i++) {
-                const current = coordinates[i];
-                const next = coordinates[(i + 1) % coordinates.length];
-                const sideLength = sideLengths[i];
-                const x1 = current.x * scale + offsetX;
-                const y1 = canvas.height - (current.y * scale + offsetY);
-                const x2 = next.x * scale + offsetX;
-                const y2 = canvas.height - (next.y * scale + offsetY);
+
+            for (let i = 0; i < state.coordinates.length; i++) {
+                const current = state.coordinates[i];
+                const next = state.coordinates[(i + 1) % state.coordinates.length];
+                const sideLength = state.sideLengths[i];
+                const x1 = current.x * state.scale + state.offsetX;
+                const y1 = state.canvas.height - (current.y * state.scale + state.offsetY);
+                const x2 = next.x * state.scale + state.offsetX;
+                const y2 = state.canvas.height - (next.y * state.scale + state.offsetY);
                 const midX = (x1 + x2) / 2;
                 const midY = (y1 + y2) / 2;
-                const rectWidth = Math.max(30, 30 * scale / 50);
-                const rectHeight = Math.max(20, 20 * scale / 50);
-                
-                ctx.fillStyle = i === selectedSideIndex ? 'rgba(255, 255, 0, 0.5)' : 'rgba(255, 255, 255, 0.9)';
-                ctx.fillRect(midX - rectWidth / 2, midY - rectHeight / 2, rectWidth, rectHeight);
-                ctx.fillStyle = '#059669';
-                ctx.font = 'bold 12px Inter';
-                ctx.textAlign = 'center';
-                ctx.fillText(`S${i + 1}: ${sideLength.toFixed(2)}`, midX, midY + 4);
-                ctx.textAlign = 'left';
+                const rectWidth = Math.max(30, 30 * state.scale / 50);
+                const rectHeight = Math.max(20, 20 * state.scale / 50);
+
+                state.ctx.fillStyle = i === state.selectedSideIndex ? 'rgba(255, 255, 0, 0.5)' : 'rgba(255, 255, 255, 0.9)';
+                state.ctx.fillRect(midX - rectWidth / 2, midY - rectHeight / 2, rectWidth, rectHeight);
+                state.ctx.fillStyle = var(--success-color);
+                state.ctx.font = 'bold 12px Inter';
+                state.ctx.textAlign = 'center';
+                state.ctx.fillText(`S${i + 1}: ${sideLength.toFixed(2)}`, midX, midY + 4);
+                state.ctx.textAlign = 'left';
             }
-            
-            if (divisions.length > 0) {
-                divisions.forEach((division, index) => {
-                    ctx.beginPath();
-                    ctx.strokeStyle = '#ef4444';
-                    ctx.lineWidth = 2;
-                    ctx.setLineDash([5, 5]);
-                    const x1 = division.start.x * scale + offsetX;
-                    const y1 = canvas.height - (division.start.y * scale + offsetY);
-                    const x2 = division.end.x * scale + offsetX;
-                    const y2 = canvas.height - (division.end.y * scale + offsetY);
-                    ctx.moveTo(x1, y1);
-                    ctx.lineTo(x2, y2);
-                    ctx.stroke();
-                    ctx.setLineDash([]);
-                    
+
+            if (state.divisions.length > 0) {
+                state.divisions.forEach((division, index) => {
+                    state.ctx.beginPath();
+                    state.ctx.strokeStyle = '#ef4444';
+                    state.ctx.lineWidth = 2;
+                    state.ctx.setLineDash([5, 5]);
+                    const x1 = division.start.x * state.scale + state.offsetX;
+                    const y1 = state.canvas.height - (division.start.y * state.scale + state.offsetY);
+                    const x2 = division.end.x * state.scale + state.offsetX;
+                    const y2 = state.canvas.height - (division.end.y * state.scale + state.offsetY);
+                    state.ctx.moveTo(x1, y1);
+                    state.ctx.lineTo(x2, y2);
+                    state.ctx.stroke();
+                    state.ctx.setLineDash([]);
+
                     const midX = (x1 + x2) / 2;
                     const midY = (y1 + y2) / 2;
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-                    ctx.fillRect(midX - 20, midY - 10, 40, 20);
-                    ctx.fillStyle = '#ef4444';
-                    ctx.font = 'bold 12px Inter';
-                    ctx.textAlign = 'center';
-                    ctx.fillText(`D${index + 1}`, midX, midY + 4);
-                    ctx.textAlign = 'left';
+                    state.ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                    state.ctx.fillRect(midX - 20, midY - 10, 40, 20);
+                    state.ctx.fillStyle = '#ef4444';
+                    state.ctx.font = 'bold 12px Inter';
+                    state.ctx.textAlign = 'center';
+                    state.ctx.fillText(`D${index + 1}`, midX, midY + 4);
+                    state.ctx.textAlign = 'left';
                 });
             }
         }
 
         function drawGrid() {
-            if (!ctx) return;
-            ctx.strokeStyle = '#d1d5db';
-            ctx.lineWidth = 1;
-            const gridSpacing = Math.max(10, 20 / scale);
-            for (let x = 0; x <= canvas.width; x += gridSpacing * scale) {
-                ctx.beginPath();
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, canvas.height);
-                ctx.stroke();
+            if (!state.ctx) return;
+            state.ctx.strokeStyle = '#d1d5db';
+            state.ctx.lineWidth = 1;
+            const gridSpacing = Math.max(10, 20 / state.scale);
+            for (let x = 0; x <= state.canvas.width; x += gridSpacing * state.scale) {
+                state.ctx.beginPath();
+                state.ctx.moveTo(x, 0);
+                state.ctx.lineTo(x, state.canvas.height);
+                state.ctx.stroke();
             }
-            for (let y = 0; y <= canvas.height; y += gridSpacing * scale) {
-                ctx.beginPath();
-                ctx.moveTo(0, y);
-                ctx.lineTo(canvas.width, y);
-                ctx.stroke();
+            for (let y = 0; y <= state.canvas.height; y += gridSpacing * state.scale) {
+                state.ctx.beginPath();
+                state.ctx.moveTo(0, y);
+                state.ctx.lineTo(state.canvas.width, y);
+                state.ctx.stroke();
             }
         }
 
+        // Canvas Interactions
         function handleCanvasClick(event) {
-            const rect = canvas.getBoundingClientRect();
-            const x = (event.clientX - rect.left - panX) / zoomLevel;
-            const y = (event.clientY - rect.top - panY) / zoomLevel;
-            
-            for (let i = 0; i < coordinates.length; i++) {
-                const current = coordinates[i];
-                const next = coordinates[(i + 1) % coordinates.length];
-                const x1 = current.x * scale + offsetX;
-                const y1 = canvas.height - (current.y * scale + offsetY);
-                const x2 = next.x * scale + offsetX;
-                const y2 = canvas.height - (next.y * scale + offsetY);
+            const rect = state.canvas.getBoundingClientRect();
+            const x = (event.clientX - rect.left - state.panX) / state.zoomLevel;
+            const y = (event.clientY - rect.top - state.panY) / state.zoomLevel;
+
+            for (let i = 0; i < state.coordinates.length; i++) {
+                const current = state.coordinates[i];
+                const next = state.coordinates[(i + 1) % state.coordinates.length];
+                const x1 = current.x * state.scale + state.offsetX;
+                const y1 = state.canvas.height - (current.y * state.scale + state.offsetY);
+                const x2 = next.x * state.scale + state.offsetX;
+                const y2 = state.canvas.height - (next.y * state.scale + state.offsetY);
                 const midX = (x1 + x2) / 2;
                 const midY = (y1 + y2) / 2;
-                const rectWidth = Math.max(30, 30 * scale / 50);
-                const rectHeight = Math.max(20, 20 * scale / 50);
-                
-                if (x >= midX - rectWidth / 2 && x <= midX + rectWidth / 2 && 
+                const rectWidth = Math.max(30, 30 * state.scale / 50);
+                const rectHeight = Math.max(20, 20 * state.scale / 50);
+
+                if (x >= midX - rectWidth / 2 && x <= midX + rectWidth / 2 &&
                     y >= midY - rectHeight / 2 && y <= midY + rectHeight / 2) {
-                    selectedSideIndex = i;
-                    const newLength = prompt(`Enter length for Side ${i + 1} (S${i + 1}):`, sideLengths[i]);
+                    state.selectedSideIndex = i;
+                    const newLength = prompt(`Enter length for Side ${i + 1} (S${i + 1}):`, state.sideLengths[i]);
                     if (newLength !== null) {
                         const parsedLength = parseFloat(newLength);
                         if (!isNaN(parsedLength) && parsedLength > 0) {
-                            sideLengths[i] = parsedLength;
+                            state.sideLengths[i] = parsedLength;
                             document.getElementById(`side${i + 1}`).value = parsedLength;
                             saveState();
                             updatePlot();
@@ -1184,6 +1084,103 @@
             }
         }
 
+        function rotatePlot() {
+            if (state.coordinates.length < 3) {
+                showError('No valid plot to rotate.');
+                return;
+            }
+            state.sideLengths = [state.sideLengths[state.sideLengths.length - 1], ...state.sideLengths.slice(0, -1)];
+            for (let i = 1; i <= state.sideLengths.length; i++) {
+                document.getElementById(`side${i}`).value = state.sideLengths[i - 1];
+            }
+            state.coordinates = state.coordinates.map(coord => ({
+                x: coord.y,
+                y: -coord.x
+            }));
+            state.rotationCount = (state.rotationCount + 1) % 4;
+            saveState();
+            updatePlot();
+        }
+
+        function zoomIn() {
+            state.zoomLevel *= 1.2;
+            drawPlot();
+        }
+
+        function zoomOut() {
+            state.zoomLevel = Math.max(0.5, state.zoomLevel / 1.2);
+            drawPlot();
+        }
+
+        function startPan(event) {
+            state.isPanning = true;
+            state.startX = event.clientX;
+            state.startY = event.clientY;
+        }
+
+        function pan(event) {
+            if (state.isPanning) {
+                const dx = event.clientX - state.startX;
+                const dy = event.clientY - state.startY;
+                state.panX += dx / state.zoomLevel;
+                state.panY += dy / state.zoomLevel;
+                state.startX = event.clientX;
+                state.startY = event.clientY;
+                drawPlot();
+            }
+        }
+
+        function endPan() {
+            state.isPanning = false;
+        }
+
+        // Plot Updates
+        function debounceUpdatePlot() {
+            clearTimeout(state.updateTimeout);
+            state.updateTimeout = setTimeout(updatePlot, 300);
+        }
+
+        function debounceDividePlot() {
+            clearTimeout(state.updateTimeout);
+            state.updateTimeout = setTimeout(dividePlot, 300);
+        }
+
+        function updatePlot() {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.innerHTML = '';
+
+            if (state.sideLengths.some(length => length <= 0 || isNaN(length))) {
+                return;
+            }
+
+            if (!validatePolygonClosure(state.sideLengths)) {
+                showError('These side lengths cannot form a closed polygon.');
+                return;
+            }
+
+            state.coordinates = constructPolygonFromSides(state.sideLengths);
+            if (state.coordinates.length < 3) {
+                showError('Could not construct a valid polygon.');
+                return;
+            }
+
+            const unit = document.getElementById('unit').value;
+            const areaInUnits = calculateArea(state.coordinates);
+            const unitFactor = unitFactors[unit];
+            const areaInSquareMeters = areaInUnits * unitFactor * unitFactor;
+
+            state.lastCalculatedResults = { areaInUnits, unit, areaInSquareMeters };
+            state.divisions = [];
+            state.divisionAreas = [];
+            document.getElementById('divisionSection').style.display = 'block';
+            generateDivisionInputs();
+            drawPlot();
+            displayResults(areaInUnits, unit, areaInSquareMeters);
+            saveToHistory();
+            saveState();
+        }
+
+        // Results and History
         function displayResults(areaInUnits, unit, areaInSquareMeters) {
             const resultsDiv = document.getElementById('resultsDisplay');
             let conversionsHTML = '';
@@ -1195,14 +1192,14 @@
                     </div>
                 `;
             }
-            
-            const totalPerimeter = sideLengths.reduce((sum, length) => sum + length, 0);
+
+            const totalPerimeter = state.sideLengths.reduce((sum, length) => sum + length, 0);
             let divisionHTML = '';
-            if (divisions.length > 0) {
+            if (state.divisions.length > 0) {
                 const divisionType = document.getElementById('divisionType').value;
                 const divisionDirection = document.getElementById('divisionDirection').value;
                 divisionHTML = `<h3>Divided Areas (${divisionDirection})</h3>`;
-                divisionAreas.forEach((area, index) => {
+                state.divisionAreas.forEach((area, index) => {
                     let label = `Part ${index + 1}: ${area.toFixed(4)} sq ${unit}`;
                     if (divisionType === 'percentage') {
                         const percentage = (area / areaInUnits * 100).toFixed(2);
@@ -1211,7 +1208,7 @@
                     divisionHTML += `<p><strong>${label}</strong></p>`;
                 });
             }
-            
+
             resultsDiv.innerHTML = `
                 <div class="results">
                     <h3>Calculated Areas</h3>
@@ -1228,25 +1225,25 @@
         function saveToHistory() {
             const historyEntry = {
                 timestamp: new Date().toISOString(),
-                sideLengths: [...sideLengths],
+                sideLengths: [...state.sideLengths],
                 unit: document.getElementById('unit').value,
-                areaInUnits: lastCalculatedResults?.areaInUnits,
-                areaInSquareMeters: lastCalculatedResults?.areaInSquareMeters,
-                divisions: [...divisions],
-                divisionAreas: [...divisionAreas],
+                areaInUnits: state.lastCalculatedResults?.areaInUnits,
+                areaInSquareMeters: state.lastCalculatedResults?.areaInSquareMeters,
+                divisions: [...state.divisions],
+                divisionAreas: [...state.divisionAreas],
                 divisionType: document.getElementById('divisionType').value,
                 divisionDirection: document.getElementById('divisionDirection').value
             };
-            history.unshift(historyEntry);
-            if (history.length > 50) history.pop();
-            localStorage.setItem('plotHistory', JSON.stringify(history));
+            state.history.unshift(historyEntry);
+            if (state.history.length > 50) state.history.pop();
+            localStorage.setItem('plotHistory', JSON.stringify(state.history));
             displayHistory();
         }
 
         function displayHistory() {
             const historyList = document.getElementById('historyList');
             historyList.innerHTML = '';
-            history.forEach((entry, index) => {
+            state.history.forEach((entry, index) => {
                 const item = document.createElement('div');
                 item.className = 'history-item';
                 item.innerHTML = `
@@ -1260,25 +1257,25 @@
         }
 
         function loadHistoryEntry(index) {
-            const entry = history[index];
+            const entry = state.history[index];
             document.getElementById('numSides').value = entry.sideLengths.length;
             document.getElementById('unit').value = entry.unit;
-            sideLengths = entry.sideLengths;
+            state.sideLengths = entry.sideLengths;
             generateSideInputs();
-            for (let i = 1; i <= sideLengths.length; i++) {
-                document.getElementById(`side${i}`).value = sideLengths[i-1];
+            for (let i = 1; i <= state.sideLengths.length; i++) {
+                document.getElementById(`side${i}`).value = state.sideLengths[i-1];
             }
             calculateAndDraw();
             if (entry.divisions.length > 0) {
                 document.getElementById('numParts').value = entry.divisionAreas.length;
                 document.getElementById('divisionType').value = entry.divisionType;
                 document.getElementById('divisionDirection').value = entry.divisionDirection;
-                divisionAreas = entry.divisionAreas;
+                state.divisionAreas = entry.divisionAreas;
                 generateDivisionInputs();
-                for (let i = 1; i <= divisionAreas.length; i++) {
-                    document.getElementById(`part${i}`).value = divisionAreas[i-1];
+                for (let i = 1; i <= state.divisionAreas.length; i++) {
+                    document.getElementById(`part${i}`).value = state.divisionAreas[i-1];
                 }
-                divisions = entry.divisions;
+                state.divisions = entry.divisions;
                 drawPlot();
                 displayResults(entry.areaInUnits, entry.unit, entry.areaInSquareMeters);
             }
@@ -1286,47 +1283,48 @@
         }
 
         function clearHistory() {
-            history = [];
-            localStorage.setItem('plotHistory', JSON.stringify(history));
+            state.history = [];
+            localStorage.setItem('plotHistory', JSON.stringify(state.history));
             displayHistory();
         }
 
+        // Canvas Utilities
         function clearCanvas(hideResults = true) {
-            if (!ctx) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if (!state.ctx) return;
+            state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
+            state.ctx.fillStyle = var(--white);
+            state.ctx.fillRect(0, 0, state.canvas.width, state.canvas.height);
             if (hideResults) {
                 document.getElementById('resultsDisplay').innerHTML = '';
                 document.getElementById('divisionSection').style.display = 'none';
-                lastCalculatedResults = null;
-                sideLengths = [];
-                coordinates = [];
-                divisions = [];
-                divisionAreas = [];
-                selectedSideIndex = -1;
-                rotationCount = 0;
-                zoomLevel = 1;
-                panX = 0;
-                panY = 0;
+                state.lastCalculatedResults = null;
+                state.sideLengths = [];
+                state.coordinates = [];
+                state.divisions = [];
+                state.divisionAreas = [];
+                state.selectedSideIndex = -1;
+                state.rotationCount = 0;
+                state.zoomLevel = 1;
+                state.panX = 0;
+                state.panY = 0;
             }
             saveState();
         }
 
         function downloadCanvas() {
-            if (!ctx) return;
-            ctx.save();
-            ctx.font = '10px Inter';
-            ctx.fillStyle = '#1f2937';
-            ctx.textAlign = 'right';
-            ctx.fillText('Generated by PlotMaster | unifyxproject.netlify.app', canvas.width - 10, canvas.height - 10);
-            
+            if (!state.ctx) return;
+            state.ctx.save();
+            state.ctx.font = '10px Inter';
+            state.ctx.fillStyle = var(--secondary-color);
+            state.ctx.textAlign = 'right';
+            state.ctx.fillText('Generated by PlotMaster | unifyxproject.netlify.app', state.canvas.width - 10, state.canvas.height - 10);
+
             const link = document.createElement('a');
             link.download = 'plot-master.png';
-            link.href = canvas.toDataURL('image/png', 1.0);
+            link.href = state.canvas.toDataURL('image/png', 1.0);
             link.click();
-            
-            ctx.restore();
+
+            state.ctx.restore();
             drawPlot();
         }
 
@@ -1344,88 +1342,86 @@
 
             doc.setFillColor(59, 130, 246);
             doc.rect(0, 0, 210, 30, 'F');
-            doc.setFontSize(18);
+            doc.setFontSize(16);
             doc.setTextColor(255, 255, 255);
             doc.setFont('helvetica', 'bold');
             doc.text('PlotMaster Area Report', 10, 15);
-            doc.setFontSize(12);
+            doc.setFontSize(10);
             doc.text(`Generated: ${new Date().toLocaleString()}`, 10, 25);
 
             const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = canvas.width * 2;
-            tempCanvas.height = canvas.height * 2;
+            tempCanvas.width = state.canvas.width * 2;
+            tempCanvas.height = state.canvas.height * 2;
             const tempCtx = tempCanvas.getContext('2d');
             tempCtx.scale(2, 2);
-            tempCtx.translate(canvas.width / 2 + panX, canvas.height / 2 + panY);
-            tempCtx.rotate(rotationCount * Math.PI / 2);
-            tempCtx.translate(-canvas.width / 2, -canvas.height / 2);
-            
-            tempCtx.fillStyle = '#ffffff';
-            tempCtx.fillRect(0, 0, canvas.width, canvas.height);
+            tempCtx.translate(state.canvas.width / 2 + state.panX, state.canvas.height / 2 + state.panY);
+            tempCtx.rotate(state.rotationCount * Math.PI / 2);
+            tempCtx.translate(-state.canvas.width / 2, -state.canvas.height / 2);
+            tempCtx.fillStyle = var(--white);
+            tempCtx.fillRect(0, 0, state.canvas.width, state.canvas.height);
             drawGridOnCanvas(tempCtx);
-            
+
             tempCtx.beginPath();
-            tempCtx.strokeStyle = '#3b82f6';
+            tempCtx.strokeStyle = var(--primary-color);
             tempCtx.fillStyle = 'rgba(59, 130, 246, 0.2)';
             tempCtx.lineWidth = 3;
-            coordinates.forEach((coord, index) => {
-                const x = coord.x * scale + offsetX;
-                const y = canvas.height - (coord.y * scale + offsetY);
+            state.coordinates.forEach((coord, index) => {
+                const x = coord.x * state.scale + state.offsetX;
+                const y = state.canvas.height - (coord.y * state.scale + state.offsetY);
                 if (index === 0) tempCtx.moveTo(x, y);
                 else tempCtx.lineTo(x, y);
             });
             tempCtx.closePath();
             tempCtx.fill();
             tempCtx.stroke();
-            
-            coordinates.forEach((coord, index) => {
-                const x = coord.x * scale + offsetX;
-                const y = canvas.height - (coord.y * scale + offsetY);
+
+            state.coordinates.forEach((coord, index) => {
+                const x = coord.x * state.scale + state.offsetX;
+                const y = state.canvas.height - (coord.y * state.scale + state.offsetY);
                 tempCtx.beginPath();
                 tempCtx.arc(x, y, 4, 0, 2 * Math.PI);
                 tempCtx.fillStyle = '#ef4444';
                 tempCtx.fill();
-                tempCtx.fillStyle = '#1f2937';
+                tempCtx.fillStyle = var(--secondary-color);
                 tempCtx.font = 'bold 12px Inter';
                 tempCtx.fillText(`P${index + 1}`, x + 8, y - 8);
             });
-            
-            for (let i = 0; i < coordinates.length; i++) {
-                const current = coordinates[i];
-                const next = coordinates[(i + 1) % coordinates.length];
-                const sideLength = sideLengths[i];
-                const x1 = current.x * scale + offsetX;
-                const y1 = canvas.height - (current.y * scale + offsetY);
-                const x2 = next.x * scale + offsetX;
-                const y2 = canvas.height - (next.y * scale + offsetY);
+
+            for (let i = 0; i < state.coordinates.length; i++) {
+                const current = state.coordinates[i];
+                const next = state.coordinates[(i + 1) % state.coordinates.length];
+                const sideLength = state.sideLengths[i];
+                const x1 = current.x * state.scale + state.offsetX;
+                const y1 = state.canvas.height - (current.y * state.scale + state.offsetY);
+                const x2 = next.x * state.scale + state.offsetX;
+                const y2 = state.canvas.height - (next.y * state.scale + state.offsetY);
                 const midX = (x1 + x2) / 2;
                 const midY = (y1 + y2) / 2;
-                const rectWidth = Math.max(30, 30 * scale / 50);
-                const rectHeight = Math.max(20, 20 * scale / 50);
-                tempCtx.fillStyle = i === selectedSideIndex ? 'rgba(255, 255, 0, 0.5)' : 'rgba(255, 255, 255, 0.9)';
+                const rectWidth = Math.max(30, 30 * state.scale / 50);
+                const rectHeight = Math.max(20, 20 * state.scale / 50);
+                tempCtx.fillStyle = i === state.selectedSideIndex ? 'rgba(255, 255, 0, 0.5)' : 'rgba(255, 255, 255, 0.9)';
                 tempCtx.fillRect(midX - rectWidth / 2, midY - rectHeight / 2, rectWidth, rectHeight);
-                tempCtx.fillStyle = '#059669';
+                tempCtx.fillStyle = var(--success-color);
                 tempCtx.font = 'bold 12px Inter';
                 tempCtx.textAlign = 'center';
                 tempCtx.fillText(`S${i + 1}: ${sideLength.toFixed(2)}`, midX, midY + 4);
                 tempCtx.textAlign = 'left';
             }
-            
-            if (divisions.length > 0) {
-                divisions.forEach((division, index) => {
+
+            if (state.divisions.length > 0) {
+                state.divisions.forEach((division, index) => {
                     tempCtx.beginPath();
                     tempCtx.strokeStyle = '#ef4444';
                     tempCtx.lineWidth = 2;
                     tempCtx.setLineDash([5, 5]);
-                    const x1 = division.start.x * scale + offsetX;
-                    const y1 = canvas.height - (division.start.y * scale + offsetY);
-                    const x2 = division.end.x * scale + offsetX;
-                    const y2 = canvas.height - (division.end.y * scale + offsetY);
+                    const x1 = division.start.x * state.scale + state.offsetX;
+                    const y1 = state.canvas.height - (division.start.y * state.scale + state.offsetY);
+                    const x2 = division.end.x * state.scale + state.offsetX;
+                    const y2 = state.canvas.height - (division.end.y * state.scale + state.offsetY);
                     tempCtx.moveTo(x1, y1);
                     tempCtx.lineTo(x2, y2);
                     tempCtx.stroke();
                     tempCtx.setLineDash([]);
-                    
                     const midX = (x1 + x2) / 2;
                     const midY = (y1 + y2) / 2;
                     tempCtx.fillStyle = 'rgba(255, 255, 255, 0.9)';
@@ -1437,30 +1433,28 @@
                     tempCtx.textAlign = 'left';
                 });
             }
-            
+
             tempCtx.font = '10px Inter';
-            tempCtx.fillStyle = '#1f2937';
+            tempCtx.fillStyle = var(--secondary-color);
             tempCtx.textAlign = 'right';
-            tempCtx.fillText('Generated by PlotMaster | unifyxproject.netlify.app', canvas.width - 10, canvas.height - 10);
-            
+            tempCtx.fillText('Generated by PlotMaster | unifyxproject.netlify.app', state.canvas.width - 10, state.canvas.height - 10);
             const imgData = tempCanvas.toDataURL('image/png', 1.0);
             doc.addImage(imgData, 'PNG', 10, 35, 190, 152);
-            
-            if (lastCalculatedResults) {
-                const { areaInUnits, unit, areaInSquareMeters } = lastCalculatedResults;
-                const totalPerimeter = sideLengths.reduce((sum, length) => sum + length, 0);
+
+            if (state.lastCalculatedResults) {
+                const { areaInUnits, unit, areaInSquareMeters } = state.lastCalculatedResults;
+                const totalPerimeter = state.sideLengths.reduce((sum, length) => sum + length, 0);
 
                 doc.setFillColor(243, 244, 246);
-                doc.rect(10, 195, 190, divisions.length > 0 ? 100 : 85, 'F');
+                doc.rect(10, 195, 190, state.divisions.length > 0 ? 100 : 85, 'F');
                 doc.setDrawColor(59, 130, 246);
                 doc.setLineWidth(0.5);
-                doc.rect(10, 195, 190, divisions.length > 0 ? 100 : 85);
+                doc.rect(10, 195, 190, state.divisions.length > 0 ? 100 : 85);
 
                 doc.setFontSize(14);
                 doc.setTextColor(31, 41, 55);
                 doc.setFont('helvetica', 'bold');
                 doc.text('Calculated Results', 15, 205);
-
                 doc.setFontSize(12);
                 doc.setTextColor(0, 0, 0);
                 doc.text(`Area: ${areaInUnits.toFixed(4)} square ${unit}`, 15, 215);
@@ -1478,7 +1472,7 @@
                     yOffset += 12;
                 }
 
-                if (divisions.length > 0) {
+                if (state.divisions.length > 0) {
                     doc.setFontSize(12);
                     doc.setTextColor(31, 41, 55);
                     const divisionDirection = document.getElementById('divisionDirection').value;
@@ -1486,7 +1480,7 @@
                     yOffset += 10;
                     doc.setFontSize(10);
                     const divisionType = document.getElementById('divisionType').value;
-                    divisionAreas.forEach((area, index) => {
+                    state.divisionAreas.forEach((area, index) => {
                         let label = `Part ${index + 1}: ${area.toFixed(4)} sq ${unit}`;
                         if (divisionType === 'percentage') {
                             const percentage = (area / areaInUnits * 100).toFixed(2);
@@ -1506,52 +1500,47 @@
             doc.setTextColor(31, 41, 55);
             doc.setFont('helvetica', 'normal');
             doc.text('Generated by PlotMaster | unifyxproject.netlify.app', 10, 290);
-
             doc.save('plot-master-report.pdf');
         }
 
         function drawGridOnCanvas(context) {
             context.strokeStyle = '#d1d5db';
             context.lineWidth = 1;
-            const gridSpacing = Math.max(10, 20 / scale);
-            for (let x = 0; x <= canvas.width; x += gridSpacing * scale) {
+            const gridSpacing = Math.max(10, 20 / state.scale);
+            for (let x = 0; x <= state.canvas.width; x += gridSpacing * state.scale) {
                 context.beginPath();
                 context.moveTo(x, 0);
-                context.lineTo(x, canvas.height);
+                context.lineTo(x, state.canvas.height);
                 context.stroke();
             }
-            for (let y = 0; y <= canvas.height; y += gridSpacing * scale) {
+            for (let y = 0; y <= state.canvas.height; y += gridSpacing * state.scale) {
                 context.beginPath();
                 context.moveTo(0, y);
-                context.lineTo(canvas.width, y);
+                context.lineTo(state.canvas.width, y);
                 context.stroke();
             }
         }
 
+        // Utility
         function showError(message, target = 'errorMessage') {
             document.getElementById(target).innerHTML = `<div class="error">${message}</div>`;
         }
 
-        function showGuide() {
-            document.getElementById('guideModal').style.display = 'flex';
-        }
-
-        function closeGuide() {
-            document.getElementById('guideModal').style.display = 'none';
-        }
-
+        // Initialization
         window.onload = function() {
             initCanvas();
             loadState();
             displayHistory();
             document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', () => navigateTo(item.dataset.page));
+                if (item.dataset.page) {
+                    item.addEventListener('click', () => navigateTo(item.dataset.page));
+                }
             });
             document.getElementById('divisionType').addEventListener('change', generateDivisionInputs);
             document.getElementById('numSides').addEventListener('input', generateSideInputs);
             window.addEventListener('resize', () => {
                 initCanvas();
-                if (coordinates.length > 0) drawPlot();
+                if (state.coordinates.length > 0) drawPlot();
             });
         };
     </script>

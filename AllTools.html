@@ -3,266 +3,309 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Tools Hub - A collection of online calculators, converters, financial tools, and utility applications">
-    <meta name="keywords" content="calculator, converter, financial tools, utility tools, cryptography, pdf tools">
+    <meta name="description" content="Tools Hub - Your go-to vibe for epic calculators, converters, and utility apps">
+    <meta name="keywords" content="calculator, converter, financial tools, utility apps, cryptography, pdf tools, gen z">
     <meta name="author" content="Mangukiya Ved">
-    <meta name="theme-color" content="#303030">
+    <meta name="theme-color" content="#ff6f61">
     <title>Tools Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --dark-bg: #303030;
-            --darker-bg: #262626;
-            --button-bg: #454545;
-            --highlight: #e57373;
-            --accent: #e6c662;
-            --text: #ffffff;
-            --secondary-text: #cccccc;
-            --card-radius: 12px;
-            --button-radius: 8px;
+            --primary-bg: #f9f9f9;
+            --card-bg: #ffffff;
+            --accent: #ff6f61;
+            --accent-dark: #e63946;
+            --text-primary: #2d2d2d;
+            --text-secondary: #6b7280;
+            --gradient: linear-gradient(135deg, #ff6f61, #ff9f43);
+            --shadow: 8px 8px 16px rgba(0, 0, 0, 0.1), -8px -8px 16px rgba(255, 255, 255, 0.9);
+            --shadow-inset: inset 4px 4px 8px rgba(0, 0, 0, 0.05), inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+            --card-radius: 20px;
+            --button-radius: 12px;
+            --dark-bg: #2d2d2d;
+            --dark-card: #3a3a3a;
+            --dark-text: #f9f9f9;
         }
-        
+
+        [data-theme="dark"] {
+            --primary-bg: #2d2d2d;
+            --card-bg: #3a3a3a;
+            --text-primary: #f9f9f9;
+            --text-secondary: #a0a0a0;
+            --shadow: 8px 8px 16px rgba(0, 0, 0, 0.4), -8px -8px 16px rgba(80, 80, 80, 0.2);
+            --shadow-inset: inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(80, 80, 80, 0.2);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--darker-bg);
-            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
         }
-        
+
         .header {
-            padding: 2rem 1rem 1rem;
+            padding: 3rem 2rem;
             text-align: center;
+            background: var(--gradient);
+            box-shadow: var(--shadow);
             position: relative;
             z-index: 10;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
         }
-        
+
         .logo-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            perspective: 1000px;
         }
-        
+
         .logo {
-            width: 100px;
+            width: 120px;
             height: auto;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
         }
-        
+
         .logo:hover {
-            transform: scale(1.05);
+            transform: rotateY(20deg) scale(1.1);
         }
-        
+
         h1 {
-            font-size: 2rem;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             margin-bottom: 0.5rem;
-            background: linear-gradient(90deg, var(--highlight), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
         }
-        
+
         .stats {
-            font-size: 0.9rem;
-            color: var(--secondary-text);
-            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
         }
-        
+
         .search-bar {
-            background-color: var(--dark-bg);
-            max-width: 600px;
-            margin: 1.5rem auto;
-            border-radius: 30px;
-            padding: 0.7rem 1.5rem;
+            background: var(--card-bg);
+            max-width: 700px;
+            margin: 0 auto;
+            border-radius: 50px;
+            padding: 0.8rem 1.5rem;
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            transition: box-shadow 0.3s ease;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
         }
-        
-        .search-bar:focus-within {
-            box-shadow: 0 4px 20px rgba(229, 115, 115, 0.25);
+
+        .search-bar:hover {
+            transform: translateY(-3px);
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15), -10px -10px 20px rgba(255, 255, 255, 0.9);
         }
-        
+
         .search-icon {
-            font-size: 1.2rem;
-            margin-right: 0.8rem;
-            color: var(--secondary-text);
+            font-size: 1.4rem;
+            margin-right: 1rem;
+            color: var(--accent);
+            transition: transform 0.3s ease;
         }
-        
+
+        .search-bar:hover .search-icon {
+            transform: scale(1.2);
+        }
+
         .search-input {
             background: transparent;
             border: none;
-            color: var(--text);
+            color: var(--text-primary);
             font-size: 1rem;
             width: 100%;
             outline: none;
-            height: 32px;
+            font-weight: 400;
         }
-        
+
         .search-input::placeholder {
-            color: var(--secondary-text);
+            color: var(--text-secondary);
         }
-        
+
+        .theme-toggle {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--card-bg);
+            border-radius: 50%;
+            padding: 0.8rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(360deg);
+        }
+
         .container {
-            max-width: 1200px;
-            width: 100%;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 1rem 3rem;
+            padding: 2rem;
             flex: 1;
         }
-        
+
         .category {
-            background-color: var(--dark-bg);
+            background: var(--card-bg);
             border-radius: var(--card-radius);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+
         .category:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.15), -12px -12px 24px rgba(255, 255, 255, 0.9);
         }
-        
+
         .category-header {
-            padding: 1.2rem 1.5rem;
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: background-color 0.2s ease;
-            user-select: none;
+            background: var(--gradient);
+            color: #fff;
+            transition: all 0.3s ease;
         }
-        
-        .category-header:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-        
+
         .category-title {
-            font-size: 1.3rem;
+            font-size: 1.6rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 1rem;
         }
-        
+
         .category-icon {
-            font-size: 1.5rem;
-            color: var(--accent);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 32px;
-        }
-        
-        .arrow {
-            font-size: 1.2rem;
+            font-size: 1.8rem;
             transition: transform 0.3s ease;
         }
-        
+
+        .category-header:hover .category-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .arrow {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
         .arrow.down {
             transform: rotate(90deg);
         }
-        
+
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.2rem;
-            padding: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease;
+            transition: max-height 0.6s ease;
         }
-        
+
         .tools-grid.expanded {
-            max-height: 2000px;
+            max-height: 4000px;
         }
-        
+
         .tool-card {
-            background-color: var(--button-bg);
+            background: var(--card-bg);
             border-radius: var(--button-radius);
-            padding: 1.2rem;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
             height: 100%;
+            box-shadow: var(--shadow-inset);
+            perspective: 1000px;
         }
-        
+
+        .tool-card:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15), -10px -10px 20px rgba(255, 255, 255, 0.9);
+        }
+
         .tool-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--highlight), var(--accent));
+            height: 6px;
+            background: var(--gradient);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        
+
         .tool-card:hover::before {
             opacity: 1;
         }
-        
+
         .tool-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.8rem;
-            line-height: 1;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .tool-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            text-align: center;
-        }
-        
-        .tool-description {
-            font-size: 0.9rem;
-            color: var(--secondary-text);
+            font-size: 3.5rem;
             margin-bottom: 1rem;
+            color: var(--accent);
+            transition: transform 0.4s ease;
+        }
+
+        .tool-card:hover .tool-icon {
+            transform: scale(1.1) rotateY(15deg);
+        }
+
+        .tool-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
             text-align: center;
-            line-height: 1.4;
+        }
+
+        .tool-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            text-align: center;
+            line-height: 1.5;
             flex-grow: 1;
         }
-        
+
         .last-updated {
-            font-size: 0.8rem;
-            color: var(--secondary-text);
-            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
             text-align: center;
         }
-        
+
         .tool-button {
-            background-color: var(--accent);
-            color: #333;
+            background: var(--gradient);
+            color: #fff;
             font-weight: 600;
             border: none;
-            padding: 0.7rem 1.2rem;
+            padding: 0.8rem 1.5rem;
             border-radius: var(--button-radius);
             cursor: pointer;
             transition: all 0.3s ease;
@@ -270,213 +313,197 @@
             width: 100%;
             text-align: center;
             margin-top: auto;
-            -webkit-tap-highlight-color: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 42px;
+            min-height: 48px;
         }
-        
+
         .tool-button:hover {
-            background-color: #d6b95a;
             transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            filter: brightness(1.1);
         }
-        
+
         .tool-button:active {
             transform: translateY(1px);
-            background-color: #c4a94b;
         }
-        
+
+        .favorite-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .favorite-btn.favorited {
+            color: var(--accent);
+        }
+
         .no-results {
             text-align: center;
-            padding: 3rem 0;
-            color: var(--secondary-text);
-            font-size: 1.2rem;
+            padding: 4rem 0;
+            color: var(--text-secondary);
+            font-size: 1.3rem;
             display: none;
+            animation: fadeIn 0.5s ease;
         }
-        
-        .featured {
-            position: relative;
-        }
-        
+
         .featured::after {
-            content: 'New';
+            content: '🔥 Hot';
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--highlight);
-            color: white;
-            font-size: 0.7rem;
+            top: 12px;
+            right: 12px;
+            background: var(--accent-dark);
+            color: #fff;
+            font-size: 0.8rem;
             font-weight: bold;
-            padding: 0.3rem 0.6rem;
-            border-radius: 12px;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
             z-index: 1;
+            animation: pulse 2s infinite;
         }
-        
+
         footer {
             margin-top: auto;
-            padding: 2rem;
+            padding: 2.5rem;
             text-align: center;
-            color: var(--secondary-text);
-            font-size: 0.9rem;
-            background-color: var(--darker-bg);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-size: 1rem;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
         }
-        
+
         /* Animations */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
         .category {
-            animation: fadeIn 0.5s forwards;
+            animation: fadeIn 0.6s ease forwards;
             opacity: 0;
         }
-        
+
         .category:nth-child(1) { animation-delay: 0.1s; }
         .category:nth-child(2) { animation-delay: 0.2s; }
         .category:nth-child(3) { animation-delay: 0.3s; }
         .category:nth-child(4) { animation-delay: 0.4s; }
         .category:nth-child(5) { animation-delay: 0.5s; }
         .category:nth-child(6) { animation-delay: 0.6s; }
-        
-        /* Responsive design improvements */
+
+        /* Responsive Design */
         @media (min-width: 1200px) {
             .tools-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
-        
+
         @media (min-width: 992px) and (max-width: 1199px) {
             .tools-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
-        
+
         @media (min-width: 768px) and (max-width: 991px) {
             .tools-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-        
+
         @media (max-width: 767px) {
             .tools-grid {
-                grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
                 gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .category-header {
                 padding: 1.2rem;
             }
-            
-            .category-header {
-                padding: 1rem;
-            }
-            
+
             .category-title {
-                font-size: 1.1rem;
-                gap: 0.5rem;
+                font-size: 1.3rem;
             }
-            
+
             .tool-card {
-                padding: 1rem;
+                padding: 1.2rem;
             }
-            
+
             .tool-icon {
-                font-size: 2rem;
-                height: 36px;
+                font-size: 2.8rem;
             }
-            
+
             .tool-title {
+                font-size: 1.1rem;
+            }
+
+            .tool-description {
+                font-size: 0.9rem;
+            }
+
+            .tool-button {
+                padding: 0.6rem;
                 font-size: 0.95rem;
             }
-            
-            .tool-description {
-                font-size: 0.8rem;
+
+            h1 {
+                font-size: 2.2rem;
             }
-            
-            .tool-button {
-                padding: 0.5rem;
-                font-size: 0.9rem;
-                min-height: 36px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
             }
-            
+
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .logo {
+                width: 100px;
+            }
+
             h1 {
                 font-size: 1.8rem;
             }
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 0.75rem 2rem;
-            }
-            
-            .header {
-                padding: 1.5rem 0.75rem 0.75rem;
-            }
-            
-            .logo {
-                width: 80px;
-            }
-            
-            h1 {
-                font-size: 1.6rem;
-            }
-            
+
             .search-bar {
-                margin: 1rem auto;
-                padding: 0.5rem 1rem;
+                padding: 0.6rem 1rem;
             }
-            
+
             .search-input {
-                font-size: 0.9rem;
-                height: 30px;
+                font-size: 0.95rem;
             }
-            
-            .category {
-                margin-bottom: 1rem;
-            }
-            
+
             .tools-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.75rem;
-                padding: 0.75rem;
+                grid-template-columns: 1fr;
             }
-            
-            .tool-card {
-                padding: 0.75rem;
-            }
-            
+
             .featured::after {
-                font-size: 0.6rem;
-                padding: 0.2rem 0.4rem;
-                top: 5px;
-                right: 5px;
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
             }
         }
-        
-        /* Touch device optimizations */
+
+        /* Touch Device Optimizations */
         @media (hover: none) {
-            .category:hover {
+            .category:hover, .tool-card:hover, .tool-button:hover, .theme-toggle:hover {
                 transform: none;
-            }
-            
-            .tool-card:hover {
-                transform: none;
-            }
-            
-            .tool-button:hover {
-                transform: none;
-                background-color: var(--accent);
-            }
-        }
-        
-        /* Fix for iOS Safari viewport height issue */
-        @supports (-webkit-touch-callout: none) {
-            body, html {
-                height: -webkit-fill-available;
-            }
-            
-            body {
-                min-height: -webkit-fill-available;
             }
         }
     </style>
@@ -489,555 +516,320 @@
         <h1>Tools Hub</h1>
         <div class="stats" id="stats"></div>
         <div class="search-bar">
-            <div class="search-icon">🔍</div>
-            <input type="text" class="search-input" id="searchInput" placeholder="Search for tools...">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" id="searchInput" placeholder="Find your vibe...">
         </div>
+        <button class="theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
     </div>
-    
+
     <div class="container" id="categoryContainer">
         <!-- Categories will be generated here -->
     </div>
-    
+
     <div class="no-results" id="noResults">
-        No tools match your search. Try a different keyword.
+        No tools match your vibe. Try a different keyword! 😎
     </div>
-    
+
     <footer>
-        <p>© <span id="currentYear"></span> Mangukiya Ved. All rights reserved.</p>
+        <p>© <span id="currentYear"></span> Mangukiya Ved. All rights reserved. Built with 💖</p>
     </footer>
-    
+
     <script>
-        // Tool data with descriptions
+        // Updated tool data with Gen Z-friendly category names
         const tools = [
-            // PDF Craft
-            { 
-                icon: "🖼️", 
-                title: "Image to PDF", 
-                description: "Convert images to PDF documents easily.",
-                link: "image to pdf/imagetopdf.html", 
-                date: "2025-05-13", 
-                category: "PDF Craft", 
-                featured: true 
-            },
-            { 
-                icon: "📄", 
-                title: "PDF to Image", 
-                description: "Extract images from PDF files.",
-                link: "pdf to image/PDFtoIMAGE.html", 
-                date: "2025-05-13", 
-                category: "PDF Craft", 
-                featured: true 
-            },
-            { 
-                icon: "📑", 
-                title: "PDF Merger", 
-                description: "Combine multiple PDF files into one.",
-                link: "pdf merger/pdfMERGER.html", 
-                date: "2025-05-13", 
-                category: "PDF Craft", 
-                featured: true 
-            },
-            { 
-                icon: "✂️", 
-                title: "PDF Splitter", 
-                description: "Split PDF files into separate pages.",
-                link: "pdf splitter/pdfSPLITTER.html", 
-                date: "2025-05-13", 
-                category: "PDF Craft", 
-                featured: true 
-            },
-            { 
-                icon: "📝", 
-                title: "PDF to Text and Text to PDF", 
-                description: "Extract text from PDF documents.",
-                link: "texttopdf and pdf to text/texttopdf/pdftotext.html", 
-                date: "2025-05-13", 
-                category: "PDF Craft", 
-                featured: true 
-            },
-
-            // Calculation & Financial Tools
-            { 
-                icon: "🎂", 
-                title: "Age Calculator", 
-                description: "Calculate age based on birth date.",
-                link: "AgeCalculator.html", 
-                date: "2025-03-05", 
-                category: "Calculation & Financial Tools", 
-                featured: true 
-            },
-            { 
-                icon: "- +", 
-                title: "Calculator", 
-                description: "A simple calculator and percentage finder.",
-                link: "calculator.html", 
-                date: "2024-04-12", 
-                category: "Calculation & Financial Tools", 
-                featured: true 
-            },
-            { 
-                icon: "💰", 
-                title: "Discount Calculator", 
-                description: "Calculate price discounts and final amounts.",
-                link: "discount.html", 
-                date: "2025-02-19", 
-                category: "Calculation & Financial Tools" 
-            },
-            { 
-                icon: "📝", 
-                title: "GST Calculator", 
-                description: "Calculate GST for different rates.",
-                link: "gst.html", 
-                date: "2025-02-19", 
-                category: "Calculation & Financial Tools" 
-            },
-            { 
-                icon: "💱", 
-                title: "Currency Exchange", 
-                description: "A tool to convert currency values between different countries with real-time rates.",
-                link: "CurrencyEXC.html", 
-                date: "2025-01-26", 
-                category: "Calculation & Financial Tools" 
-            },
-            { 
-                icon: "💸", 
-                title: "Expense Tracker", 
-                description: "Enables tracking expenses with an initial amount entry.",
-                link: "Expense_Tracker.html", 
-                date: "2025-05-12", 
-                category: "Calculation & Financial Tools", 
-                featured: true 
-            },
-            { 
-                icon: "🏠", 
-                title: "Home Loan Calculator", 
-                description: "Helps you calculate EMI for home loans.",
-                link: "homeloan.html", 
-                date: "2025-02-19", 
-                category: "Calculation & Financial Tools" 
-            },
-            { 
-                icon: "📈", 
-                title: "Investment Calculator", 
-                description: "Calculate your investments and returns.",
-                link: "investment.html", 
-                date: "2025-02-19", 
-                category: "Calculation & Financial Tools" 
-            },
-            { 
-                icon: "💵", 
-                title: "Loan Calculator", 
-                description: "Helps in calculating loan payments.",
-                link: "loan.html", 
-                date: "2025-02-19", 
-                category: "Calculation & Financial Tools" 
-            },
-            { 
-                icon: "🧾", 
-                title: "Invoice & Bill Maker", 
-                description: "Create professional invoices and bills quickly.",
-                link: "comingsoon.html", 
-                date: "2025-05-13", 
-                category: "Calculation & Financial Tools", 
-                featured: true 
-            },
-
-            // Unit & Measurement Converters
-            { 
-                icon: "📏", 
-                title: "Area Converter", 
-                description: "Convert different area units easily.",
-                link: "areaconverter.html", 
-                date: "2025-02-19", 
-                category: "Unit & Measurement Converters" 
-            },
-            { 
-                icon: "📊", 
-                title: "Data Converter", 
-                description: "Convert KB, MB, GB, and other data units.",
-                link: "dataconverter.html", 
-                date: "2025-02-19", 
-                category: "Unit & Measurement Converters" 
-            },
-            { 
-                icon: "📏", 
-                title: "Length Converter", 
-                description: "Convert between meters, kilometers, feet, inches, etc.",
-                link: "lengthconverter.html", 
-                date: "2025-02-19", 
-                category: "Unit & Measurement Converters" 
-            },
-            { 
-                icon: "⚖️", 
-                title: "Mass Converter", 
-                description: "Convert kilograms, grams, pounds, etc.",
-                link: "massconverter.html", 
-                date: "2025-02-19", 
-                category: "Unit & Measurement Converters" 
-            },
-            { 
-                icon: "⚡", 
-                title: "Power Converter", 
-                description: "Convert watt, kilowatt, horsepower, etc.",
-                link: "powerconverter.html", 
-                date: "2025-02-19", 
-                category: "Unit & Measurement Converters" 
-            },
-            { 
-                icon: "🗜", 
-                title: "Pressure Converter", 
-                description: "Convert pressure units like bar, psi, pascal.",
-                link: "pressureconverter.html", 
-                date: "2025-02-19", 
-                category: "Unit & Measurement Converters" 
-            },
-            { 
-                icon: "🚀", 
-                title: "Speed Converter", 
-                description: "Convert speed between km/h, mph, m/s, etc.",
-                link: "speedconverter.html", 
-                date: "2025-02-19", 
-                category: "Unit & Measurement Converters" 
-            },
-            { 
-                icon: "🌡️", 
-                title: "Temperature Converter", 
-                description: "Convert Celsius, Fahrenheit, and Kelvin.",
-                link: "tempretureconverter.html", 
-                date: "2025-02-19", 
-                category: "Unit & Measurement Converters" 
-            },
-            { 
-                icon: "⏳", 
-                title: "Time Converter", 
-                description: "Convert time units like seconds, minutes, hours.",
-                link: "timeconverter.html", 
-                date: "2025-02-19", 
-                category: "Unit & Measurement Converters" 
-            },
-            { 
-                icon: "📦", 
-                title: "Volume Converter", 
-                description: "Convert between liters, milliliters, cubic meters, etc.",
-                link: "volumeconverter.html", 
-                date: "2025-02-19", 
-                category: "Unit & Measurement Converters" 
-            },
-
-            // Cryptography & Security Tools
-            { 
-                icon: "🔐", 
-                title: "Secret Code Generator", 
-                description: "AES encryption/decryption for secure messages.",
-                link: "text_to_secret_code_converter.html", 
-                date: "2024-10-22", 
-                category: "Cryptography & Security Tools", 
-                featured: true 
-            },
-            { 
-                icon: "🔢", 
-                title: "Text to Secret Number", 
-                description: "Encodes/decodes messages using numbers instead of letters.",
-                link: "Text_to_secret_numbers.html", 
-                date: "2024-11-03", 
-                category: "Cryptography & Security Tools" 
-            },
-            { 
-                icon: "😀", 
-                title: "Text to Emoji Cipher", 
-                description: "Converts text into emojis and allows reversing it back.",
-                link: "Text_to_emoji_language_converter.html", 
-                date: "2024-09-10", 
-                category: "Cryptography & Security Tools" 
-            },
-            { 
-                icon: "🔑", 
-                title: "World's Most Powerful Random Password Generator", 
-                description: "Generate strong, secure random passwords.",
-                link: "passwordgenerator.html", 
-                date: "2025-05-13", 
-                category: "Cryptography & Security Tools", 
-                featured: true 
-            },
-
-            // Utility & Miscellaneous Tools
-            { 
-                icon: "📄", 
-                title: "Upgraded Question Paper Maker", 
-                description: "Create advanced custom question papers with enhanced features.",
-                link: "questionpapermaker.html", 
-                date: "2025-05-13", 
-                category: "Utility & Miscellaneous Tools", 
-                featured: true 
-            },
-            { 
-                icon: "⏳", 
-                title: "Countdown Timer", 
-                description: "Allows users to set and run a timer.",
-                link: "countdown_timer.html", 
-                date: "2025-02-16", 
-                category: "Utility & Miscellaneous Tools" 
-            },
-            { 
-                icon: "🎨", 
-                title: "Advanced Whiteboard", 
-                description: "A feature-rich whiteboard with tools, themes, and an improved UI.",
-                link: "whiteboard.html", 
-                date: "2024-12-15", 
-                category: "Utility & Miscellaneous Tools", 
-                featured: true 
-            },
-            { 
-                icon: "🎲", 
-                title: "Number Guessing Game", 
-                description: "A fun game where you guess numbers with hints (too high/low).",
-                link: "number_guessing_game.html", 
-                date: "2024-07-18", 
-                category: "Utility & Miscellaneous Tools" 
-            },
-            { 
-                icon: "📱", 
-                title: "QR Code Maker", 
-                description: "Generate QR codes and simulate scanning.",
-                link: "QR_code_maker.html", 
-                date: "2024-08-05", 
-                category: "Utility & Miscellaneous Tools" 
-            },
-            { 
-                icon: "📋", 
-                title: "Instant Resume Maker", 
-                description: "Create professional resumes quickly and easily.",
-                link: "comingsoon.html", 
-                date: "2025-05-13", 
-                category: "Utility & Miscellaneous Tools", 
-                featured: true 
-            },
-            { 
-                icon: "🖼️", 
-                title: "Image Resizer & Cropper", 
-                description: "Resize and crop images with ease.",
-                link: "comingsoon.html", 
-                date: "2025-05-13", 
-                category: "Utility & Miscellaneous Tools", 
-                featured: true 
-            },
-
-            // Specialized Calculators & Tests
-            { 
-                icon: "🧮", 
-                title: "Custom Plot Area Finder", 
-                description: "Calculate the area of irregular land plots using side lengths.",
-                link: "area-2d.html", 
-                date: "2025-05-24", 
-                category: "Specialized Calculators & Tests", 
-                featured: true 
-            },
-            { 
-                icon: "⚖️", 
-                title: "BMI Calculator", 
-                description: "Calculate your Body Mass Index based on height and weight.",
-                link: "bmicalc.html", 
-                date: "2025-05-24", 
-                category: "Specialized Calculators & Tests", 
-                featured: true 
-            },
-            { 
-                icon: "⚡", 
-                title: "Professional Typing Master", 
-                description: "Test typing speed with customizable settings and real-time feedback.",
-                link: "WPM.html", 
-                date: "2025-05-24", 
-                category: "Specialized Calculators & Tests", 
-                featured: true 
-            }
+            { icon: "🖼️", title: "Image to PDF", description: "Turn your pics into PDFs like a pro.", link: "image to pdf/imagetopdf.html", date: "2025-05-13", category: "PDF Vibes", featured: true },
+            { icon: "📄", title: "PDF to Image", description: "Yo, extract images from PDFs in a snap.", link: "pdf to image/PDFtoIMAGE.html", date: "2025-05-13", category: "PDF Vibes", featured: true },
+            { icon: "📑", title: "PDF Merger", description: "Smash multiple PDFs into one epic file.", link: "pdf merger/pdfMERGER.html", date: "2025-05-13", category: "PDF Vibes", featured: true },
+            { icon: "✂️", title: "PDF Splitter", description: "Chop PDFs into pieces, easy peasy.", link: "pdf splitter/pdfSPLITTER.html", date: "2025-05-13", category: "PDF Vibes", featured: true },
+            { icon: "📝", title: "PDF to Text and Text to PDF", description: "Rip text from PDFs or make PDFs from text.", link: "texttopdf and pdf to text/texttopdf/pdftotext.html", date: "2025-05-13", category: "PDF Vibes", featured: true },
+            { icon: "🎂", title: "Age Calculator", description: "Find out how old you are, no cap.", link: "AgeCalculator.html", date: "2025-03-05", category: "Money & Math", featured: true },
+            { icon: "➕➖", title: "Calculator", description: "Basic math and percentages, on fleek.", link: "calculator.html", date: "2024-04-12", category: "Money & Math", featured: true },
+            { icon: "💰", title: "Discount Calculator", description: "Score deals by calculating discounts.", link: "discount.html", date: "2025-02-19", category: "Money & Math" },
+            { icon: "📝", title: "GST Calculator", description: "Figure out GST rates, no stress.", link: "gst.html", date: "2025-02-19", category: "Money & Math" },
+            { icon: "💱", title: "Currency Exchange", description: "Swap currencies with real-time rates.", link: "CurrencyEXC.html", date: "2025-01-26", category: "Money & Math" },
+            { icon: "💸", title: "Expense Tracker", description: "Track your cash flow like a boss.", link: "Expense_Tracker.html", date: "2025-05-12", category: "Money & Math", featured: true },
+            { icon: "🏠", title: "Home Loan Calculator", description: "Plan your home loan EMI, no sweat.", link: "homeloan.html", date: "2025-02-19", category: "Money & Math" },
+            { icon: "📈", title: "Investment Calculator", description: "Grow your money, check your returns.", link: "investment.html", date: "2025-02-19", category: "Money & Math" },
+            { icon: "💵", title: "Loan Calculator", description: "Crunch loan payments in seconds.", link: "loan.html", date: "2025-02-19", category: "Money & Math" },
+            { icon: "🧾", title: "Invoice & Bill Maker", description: "Craft slick invoices in a flash.", link: "comingsoon.html", date: "2025-05-13", category: "Money & Math", featured: true },
+            { icon: "📏", title: "Area Converter", description: "Switch up area units, no prob.", link: "areaconverter.html", date: "2025-02-19", category: "Unit Swaps" },
+            { icon: "📊", title: "Data Converter", description: "Convert KB, MB, GB, you name it.", link: "dataconverter.html", date: "2025-02-19", category: "Unit Swaps" },
+            { icon: "📏", title: "Length Converter", description: "Meters, feet, inches? We got you.", link: "lengthconverter.html", date: "2025-02-19", category: "Unit Swaps" },
+            { icon: "⚖️", title: "Mass Converter", description: "Kilos, pounds, grams, all day.", link: "massconverter.html", date: "2025-02-19", category: "Unit Swaps" },
+            { icon: "⚡", title: "Power Converter", description: "Watts, horsepower, it’s all here.", link: "powerconverter.html", date: "2025-02-19", category: "Unit Swaps" },
+            { icon: "🗜", title: "Pressure Converter", description: "Bar, psi, pascal, no biggie.", link: "pressureconverter.html", date: "2025-02-19", category: "Unit Swaps" },
+            { icon: "🚀", title: "Speed Converter", description: "Km/h, mph, m/s, you pick.", link: "speedconverter.html", date: "2025-02-19", category: "Unit Swaps" },
+            { icon: "🌡️", title: "Temperature Converter", description: "Celsius, Fahrenheit, Kelvin, sorted.", link: "tempretureconverter.html", date: "2025-02-19", category: "Unit Swaps" },
+            { icon: "⏳", title: "Time Converter", description: "Seconds, minutes, hours, done.", link: "timeconverter.html", date: "2025-02-19", category: "Unit Swaps" },
+            { icon: "📦", title: "Volume Converter", description: "Liters, gallons, cubic vibes.", link: "volumeconverter.html", date: "2025-02-19", category: "Unit Swaps" },
+            { icon: "🔐", title: "Secret Code Generator", description: "Lock up messages with AES encryption.", link: "text_to_secret_code_converter.html", date: "2024-10-22", category: "Crypto Crew", featured: true },
+            { icon: "🔢", title: "Text to Secret Number", description: "Turn text into numbers, super sneaky.", link: "Text_to_secret_numbers.html", date: "2024-11-03", category: "Crypto Crew" },
+            { icon: "😀", title: "Text to Emoji Cipher", description: "Text to emojis and back, so fun.", link: "Text_to_emoji_language_converter.html", date: "2024-09-10", category: "Crypto Crew" },
+            { icon: "🔑", title: "Epic Password Generator", description: "Create passwords that slap.", link: "passwordgenerator.html", date: "2025-05-13", category: "Crypto Crew", featured: true },
+            { icon: "📄", title: "Question Paper Maker", description: "Make dope question papers, upgraded.", link: "questionpapermaker.html", date: "2025-05-13", category: "Cool Utils", featured: true },
+            { icon: "⏳", title: "Countdown Timer", description: "Set timers that vibe with you.", link: "countdown_timer.html", date: "2025-02-16", category: "Cool Utils" },
+            { icon: "🎨", title: "Advanced Whiteboard", description: "Sketch with style, themes galore.", link: "whiteboard.html", date: "2024-12-15", category: "Cool Utils", featured: true },
+            { icon: "🎲", title: "Number Guessing Game", description: "Guess numbers, get hints, have fun.", link: "number_guessing_game.html", date: "2024-07-18", category: "Cool Utils" },
+            { icon: "📱", title: "QR Code Maker", description: "Generate QR codes, scan-ready.", link: "QR_code_maker.html", date: "2024-08-05", category: "Cool Utils" },
+            { icon: "📋", title: "Instant Resume Maker", description: "Build resumes that pop off.", link: "comingsoon.html", date: "2025-05-13", category: "Cool Utils", featured: true },
+            { icon: "🖼️", title: "Image Resizer & Cropper", description: "Tweak images like a pro.", link: "comingsoon.html", date: "2025-05-13", category: "Cool Utils", featured: true },
+            { icon: "🧮", title: "Plot Area Finder", description: "Calc areas for weird-shaped plots.", link: "area-2d.html", date: "2025-05-24", category: "Niche Calculators", featured: true },
+            { icon: "⚖️", title: "BMI Calculator", description: "Check your BMI, stay healthy.", link: "bmicalc.html", date: "2025-05-24", category: "Niche Calculators", featured: true },
+            { icon: "⚡", title: "Typing Master", description: "Test your typing speed, flex it.", link: "WPM.html", date: "2025-05-24", category: "Niche Calculators", featured: true }
         ];
 
-        // Category Icons
         const categoryIcons = {
-            "PDF Craft": "📄",
-            "Calculation & Financial Tools": "💰",
-            "Unit & Measurement Converters": "🔄",
-            "Cryptography & Security Tools": "🔒",
-            "Utility & Miscellaneous Tools": "🛠️",
-            "Specialized Calculators & Tests": "🧪"
+            "PDF Vibes": "fas fa-file-pdf",
+            "Money & Math": "fas fa-calculator",
+            "Unit Swaps": "fas fa-ruler",
+            "Crypto Crew": "fas fa-lock",
+            "Cool Utils": "fas fa-tools",
+            "Niche Calculators": "fas fa-flask"
         };
 
-        // Organize tools by category
         function organizeByCategory() {
-            const categories = {};
-            tools.forEach(tool => {
-                if (!categories[tool.category]) {
-                    categories[tool.category] = [];
-                }
-                categories[tool.category].push(tool);
-            });
-            return categories;
+            try {
+                const categories = {};
+                tools.forEach(tool => {
+                    if (!categories[tool.category]) {
+                        categories[tool.category] = [];
+                    }
+                    categories[tool.category].push(tool);
+                });
+                return categories;
+            } catch (error) {
+                console.error("Error organizing categories:", error);
+                return {};
+            }
         }
 
-        // Update stats display
         function updateStats() {
-            const categories = organizeByCategory();
-            const totalCategories = Object.keys(categories).length;
-            const totalTools = tools.length;
-            document.getElementById("stats").textContent = `${totalTools} Tools in ${totalCategories} Categories`;
+            try {
+                const categories = organizeByCategory();
+                const totalCategories = Object.keys(categories).length;
+                const totalTools = tools.length;
+                document.getElementById("stats").textContent = `${totalTools} Tools in ${totalCategories} Categories`;
+            } catch (error) {
+                console.error("Error updating stats:", error);
+                document.getElementById("stats").textContent = "Error loading stats";
+            }
         }
 
-        // Generate category containers and tool cards
         function generateCategories() {
-            const categories = organizeByCategory();
-            const container = document.getElementById("categoryContainer");
-            container.innerHTML = '';
-            
-            // Sort categories to put PDF Craft first
-            const sortedCategories = Object.keys(categories).sort((a, b) => {
-                if (a === "PDF Craft") return -1;
-                if (b === "PDF Craft") return 1;
-                return a.localeCompare(b);
-            });
+            try {
+                const categories = organizeByCategory();
+                const container = document.getElementById("categoryContainer");
+                if (!container) throw new Error("Category container not found");
+                container.innerHTML = '';
 
-            // Create DOM elements for each category
-            sortedCategories.forEach((categoryName, categoryIndex) => {
-                const categoryTools = categories[categoryName];
-                
-                const categoryDiv = document.createElement("div");
-                categoryDiv.classList.add("category");
-                categoryDiv.dataset.category = categoryName;
-                
-                const categoryHeader = document.createElement("div");
-                categoryHeader.classList.add("category-header");
-                categoryHeader.setAttribute("role", "button");
-                categoryHeader.setAttribute("aria-expanded", categoryIndex === 0 ? "true" : "false");
-                categoryHeader.setAttribute("tabindex", "0");
-                
-                const categoryTitle = document.createElement("div");
-                categoryTitle.classList.add("category-title");
-                categoryTitle.innerHTML = `<span class="category-icon">${categoryIcons[categoryName]}</span> ${categoryName}`;
-                
-                const arrow = document.createElement("div");
-                arrow.classList.add("arrow");
-                arrow.innerHTML = "›";
-                arrow.setAttribute("aria-hidden", "true");
-                
-                categoryHeader.appendChild(categoryTitle);
-                categoryHeader.appendChild(arrow);
-                
-                const toolsGrid = document.createElement("div");
-                toolsGrid.classList.add("tools-grid");
-                
-                // Make the first category expanded by default
-                if (categoryIndex === 0) {
-                    toolsGrid.classList.add("expanded");
-                    arrow.classList.add("down");
-                }
-                
-                // Add click event to toggle category
-                categoryHeader.addEventListener("click", () => {
-                    toolsGrid.classList.toggle("expanded");
-                    arrow.classList.toggle("down");
-                    categoryHeader.setAttribute("aria-expanded", 
-                        toolsGrid.classList.contains("expanded") ? "true" : "false");
+                const sortedCategories = Object.keys(categories).sort((a, b) => {
+                    if (a === "PDF Vibes") return -1;
+                    if (b === "PDF Vibes") return 1;
+                    return a.localeCompare(b);
                 });
-                
-                // Add keyboard support
-                categoryHeader.addEventListener("keydown", (e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        categoryHeader.click();
+
+                sortedCategories.forEach((categoryName, categoryIndex) => {
+                    const categoryTools = categories[categoryName];
+
+                    const categoryDiv = document.createElement("div");
+                    categoryDiv.classList.add("category");
+                    categoryDiv.dataset.category = categoryName;
+
+                    const categoryHeader = document.createElement("div");
+                    categoryHeader.classList.add("category-header");
+                    categoryHeader.setAttribute("role", "button");
+                    categoryHeader.setAttribute("aria-expanded", categoryIndex === 0 ? "true" : "false");
+                    categoryHeader.setAttribute("tabindex", "0");
+
+                    const categoryTitle = document.createElement("div");
+                    categoryTitle.classList.add("category-title");
+                    categoryTitle.innerHTML = `<i class="${categoryIcons[categoryName]} category-icon"></i> ${categoryName}`;
+
+                    const arrow = document.createElement("div");
+                    arrow.classList.add("arrow");
+                    arrow.innerHTML = "›";
+                    arrow.setAttribute("aria-hidden", "true");
+
+                    categoryHeader.appendChild(categoryTitle);
+                    categoryHeader.appendChild(arrow);
+
+                    const toolsGrid = document.createElement("div");
+                    toolsGrid.classList.add("tools-grid");
+
+                    if (categoryIndex === 0) {
+                        toolsGrid.classList.add("expanded");
+                        arrow.classList.add("down");
                     }
+
+                    categoryHeader.addEventListener("click", () => {
+                        toolsGrid.classList.toggle("expanded");
+                        arrow.classList.toggle("down");
+                        categoryHeader.setAttribute("aria-expanded", toolsGrid.classList.contains("expanded") ? "true" : "false");
+                    });
+
+                    categoryHeader.addEventListener("keydown", (e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            categoryHeader.click();
+                        }
+                    });
+
+                    categoryTools.forEach((tool, index) => {
+                        const toolCard = document.createElement("div");
+                        toolCard.classList.add("tool-card");
+                        if (tool.featured) {
+                            toolCard.classList.add("featured");
+                        }
+
+                        const toolLink = document.createElement("a");
+                        toolLink.href = tool.link;
+                        toolLink.classList.add("tool-button");
+                        toolLink.textContent = "Use Tool";
+                        toolLink.setAttribute("aria-label", `Use ${tool.title}`);
+
+                        const favoriteBtn = document.createElement("button");
+                        favoriteBtn.classList.add("favorite-btn");
+                        favoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
+                        favoriteBtn.setAttribute("aria-label", `Favorite ${tool.title}`);
+                        favoriteBtn.dataset.title = tool.title;
+
+                        const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+                        if (favorites.includes(tool.title)) {
+                            favoriteBtn.classList.add("favorited");
+                        }
+
+                        favoriteBtn.addEventListener("click", () => {
+                            const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+                            if (favorites.includes(tool.title)) {
+                                favoriteBtn.classList.remove("favorited");
+                                localStorage.setItem("favorites", JSON.stringify(favorites.filter(t => t !== tool.title)));
+                            } else {
+                                favoriteBtn.classList.add("favorited");
+                                favorites.push(tool.title);
+                                localStorage.setItem("favorites", JSON.stringify(favorites));
+                            }
+                        });
+
+                        toolCard.innerHTML = `
+                            <div class="tool-icon">${tool.icon}</div>
+                            <div class="tool-title">${tool.title}</div>
+                            <div class="tool-description">${tool.description}</div>
+                            <div class="last-updated">Updated: ${tool.date}</div>
+                        `;
+
+                        toolCard.appendChild(favoriteBtn);
+                        toolCard.appendChild(toolLink);
+                        toolsGrid.appendChild(toolCard);
+                    });
+
+                    categoryDiv.appendChild(categoryHeader);
+                    categoryDiv.appendChild(toolsGrid);
+                    container.appendChild(categoryDiv);
                 });
-                
-                // Create tool cards for this category
-                categoryTools.forEach((tool) => {
-                    const toolCard = document.createElement("div");
-                    toolCard.classList.add("tool-card");
-                    if (tool.featured) {
-                        toolCard.classList.add("featured");
-                    }
-                    
-                    const toolLink = document.createElement("a");
-                    toolLink.href = tool.link;
-                    toolLink.classList.add("tool-button");
-                    toolLink.textContent = "Use Tool";
-                    toolLink.setAttribute("aria-label", `Use ${tool.title}`);
-                    
-                    toolCard.innerHTML = `
-                        <div class="tool-icon">${tool.icon}</div>
-                        <div class="tool-title">${tool.title}</div>
-                        <div class="tool-description">${tool.description}</div>
-                        <div class="last-updated">Updated: ${tool.date}</div>
-                    `;
-                    
-                    toolCard.appendChild(toolLink);
-                    toolsGrid.appendChild(toolCard);
+
+                // Smooth scroll to category on click
+                document.querySelectorAll(".category-header").forEach(header => {
+                    header.addEventListener("click", () => {
+                        header.parentElement.scrollIntoView({ behavior: "smooth" });
+                    });
                 });
-                
-                categoryDiv.appendChild(categoryHeader);
-                categoryDiv.appendChild(toolsGrid);
-                container.appendChild(categoryDiv);
-            });
+            } catch (error) {
+                console.error("Error generating categories:", error);
+                document.getElementById("noResults").textContent = "Oops, something broke. Try refreshing!";
+                document.getElementById("noResults").style.display = "block";
+            }
         }
 
-        // Filter tools based on search input
         function filterTools() {
-            const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-            const categories = document.querySelectorAll(".category");
-            const noResults = document.getElementById("noResults");
-            let foundAny = false;
-            
-            categories.forEach(category => {
-                const toolCards = category.querySelectorAll(".tool-card");
-                let foundInCategory = false;
-                
-                toolCards.forEach(card => {
-                    const toolTitle = card.querySelector(".tool-title").textContent.toLowerCase();
-                    const toolDescription = card.querySelector(".tool-description").textContent.toLowerCase();
-                    
-                    if (toolTitle.includes(searchTerm) || toolDescription.includes(searchTerm)) {
-                        card.style.display = "flex";
-                        foundInCategory = true;
-                        foundAny = true;
+            try {
+                const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+                const categories = document.querySelectorAll(".category");
+                const noResults = document.getElementById("noResults");
+                let foundAny = false;
+
+                categories.forEach(category => {
+                    const toolCards = category.querySelectorAll(".tool-card");
+                    let foundInCategory = false;
+
+                    toolCards.forEach(card => {
+                        const toolTitle = card.querySelector(".tool-title").textContent.toLowerCase();
+                        const toolDescription = card.querySelector(".tool-description").textContent.toLowerCase();
+
+                        if (toolTitle.includes(searchTerm) || toolDescription.includes(searchTerm)) {
+                            card.style.display = "flex";
+                            foundInCategory = true;
+                            foundAny = true;
+                        } else {
+                            card.style.display = "none";
+                        }
+                    });
+
+                    if (foundInCategory) {
+                        category.style.display = "block";
+                        category.querySelector(".tools-grid").classList.add("expanded");
+                        category.querySelector(".arrow").classList.add("down");
+                        category.querySelector(".category-header").setAttribute("aria-expanded", "true");
                     } else {
-                        card.style.display = "none";
+                        category.style.display = "none";
                     }
                 });
-                
-                // Show/hide the entire category based on results
-                if (foundInCategory) {
-                    category.style.display = "block";
-                    // Ensure the category is expanded if it contains matching tools
-                    category.querySelector(".tools-grid").classList.add("expanded");
-                    category.querySelector(".arrow").classList.add("down");
-                    category.querySelector(".category-header").setAttribute("aria-expanded", "true");
+
+                noResults.style.display = foundAny ? "none" : "block";
+            } catch (error) {
+                console.error("Error filtering tools:", error);
+                document.getElementById("noResults").textContent = "Search broke, try again!";
+                document.getElementById("noResults").style.display = "block";
+            }
+        }
+
+        function toggleTheme() {
+            try {
+                const body = document.body;
+                const themeToggle = document.querySelector(".theme-toggle i");
+                if (body.dataset.theme === "dark") {
+                    body.dataset.theme = "light";
+                    themeToggle.classList.remove("fa-sun");
+                    themeToggle.classList.add("fa-moon");
+                    localStorage.setItem("theme", "light");
                 } else {
-                    category.style.display = "none";
+                    body.dataset.theme = "dark";
+                    themeToggle.classList.remove("fa-moon");
+                    themeToggle.classList.add("fa-sun");
+                    localStorage.setItem("theme", "dark");
                 }
-            });
-            
-            // Show/hide the "no results" message
-            noResults.style.display = foundAny ? "none" : "block";
+            } catch (error) {
+                console.error("Error toggling theme:", error);
+            }
         }
 
-        // Detect if device is touch-enabled
         function isTouchDevice() {
-            return (('ontouchstart' in window) ||
-                (navigator.maxTouchPoints > 0) ||
-                (navigator.msMaxTouchPoints > 0));
+            return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
         }
 
-        // Initialize the page
         window.addEventListener("DOMContentLoaded", () => {
-            generateCategories();
-            updateStats();
-            
-            // Setup search functionality
-            document.getElementById("searchInput").addEventListener("input", filterTools);
-            
-            // Set current year in footer
-            document.getElementById("currentYear").textContent = new Date().getFullYear();
-            
-            // Add touch device class if needed
-            if (isTouchDevice()) {
-                document.body.classList.add('touch-device');
+            try {
+                generateCategories();
+                updateStats();
+                document.getElementById("searchInput").addEventListener("input", filterTools);
+                document.getElementById("currentYear").textContent = new Date().getFullYear();
+                document.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
+
+                if (isTouchDevice()) {
+                    document.body.classList.add('touch-device');
+                }
+
+                const savedTheme = localStorage.getItem("theme");
+                if (savedTheme === "dark") {
+                    document.body.dataset.theme = "dark";
+                    document.querySelector(".theme-toggle i").classList.remove("fa-moon");
+                    document.querySelector(".theme-toggle i").classList.add("fa-sun");
+                }
+            } catch (error) {
+                console.error("Error initializing page:", error);
+                document.getElementById("noResults").textContent = "Page load failed, try refreshing!";
+                document.getElementById("noResults").style.display = "block";
             }
         });
     </script>

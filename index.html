@@ -19,6 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="favicon.png" type="image/png">
     <style>
         :root {
@@ -453,6 +454,261 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
 
+        /* Gallery Section */
+        .gallery-section {
+            padding: 4rem 0;
+            background-color: var(--background);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .gallery-item {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Developer Section */
+        .developer-section {
+            padding: 4rem 0;
+            background-color: var(--card-bg);
+        }
+
+        .developer-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .developer-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .developer-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        .developer-info {
+            text-align: center;
+        }
+
+        .dev-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: var(--text-dark);
+        }
+
+        .dev-title {
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            background: var(--primary-light);
+            border-radius: 20px;
+        }
+
+        .dev-info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.2rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dev-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.6rem;
+            background: var(--gray-100);
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            max-width: 280px;
+            width: 100%;
+        }
+
+        .dev-info-item:hover {
+            background: var(--primary-light);
+            transform: translateX(2px);
+        }
+
+        .dev-info-icon {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            border-radius: 6px;
+            margin-right: 0.6rem;
+            font-size: 0.9rem;
+        }
+
+        .dev-info-content {
+            flex: 1;
+        }
+
+        .dev-info-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-bottom: 0.1rem;
+        }
+
+        .dev-info-value {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .dev-info-value.age {
+            color: var(--accent);
+        }
+
+        .dev-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1.2rem;
+        }
+
+        .dev-skill {
+            background: var(--gray-100);
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .dev-skill:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .dev-skill i {
+            font-size: 0.8rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 4rem 0;
+            background-color: var(--gray-100);
+        }
+
+        .contact-section h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 1.2rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .contact-section h2::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+            margin: 0.4rem auto;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0.8rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+            width: 100%;
+            max-width: 260px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        .contact-label {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-value {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
         /* Footer */
         .footer {
             background-color: var(--text-dark);
@@ -465,38 +721,6 @@
             grid-template-columns: 1.5fr 1fr 1fr;
             gap: 2rem;
         }
-        /* Gallery Section */
-.gallery-section {
-    padding: 4rem 0;
-    background-color: var(--background);
-}
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 2rem;
-    margin-top: 2.5rem;
-}
-
-.gallery-item {
-    background-color: var(--card-bg);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
-}
-
-.gallery-item:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1);
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    display: block;
-}
 
         .footer-logo {
             display: flex;
@@ -573,6 +797,17 @@
             font-size: 0.9rem;
         }
 
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
         @media screen and (max-width: 1024px) {
             .footer-content {
                 grid-template-columns: 1fr;
@@ -599,6 +834,30 @@
 
             .cta-title {
                 font-size: 2rem;
+            }
+
+            .developer-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .contact-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .buttons-container {
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 260px;
             }
         }
 
@@ -631,12 +890,49 @@
             .cta-description {
                 font-size: 1.1rem;
             }
+
+            .developer-header h2 {
+                font-size: 1.6rem;
+            }
+
+            .dev-name {
+                font-size: 1.4rem;
+            }
+
+            .contact-section h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .contact-info {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .contact-item {
+                width: 220px;
+            }
+
+            .buttons-container {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .btn {
+                width: auto;
+                max-width: 200px;
+            }
         }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7399420147957761"
      crossorigin="anonymous"></script>
 </head>
 <body>
+    <!-- Particles -->
+    <div class="particles" id="particles-js"></div>
+
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <button class="mobile-menu-close" id="closeMenu">
@@ -726,36 +1022,37 @@
             </div>
         </div>
     </section>
+
     <!-- Gallery Section -->
-<section class="gallery-section" id="gallery">
-    <div class="container">
-        <div class="section-header">
-            <p class="section-subtitle">Visual Showcase</p>
-            <h2 class="section-title">Explore Our Platform</h2>
-            <p class="section-description">A glimpse into the features and tools of ProjectUnifyX through visuals.</p>
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Visual Showcase</p>
+                <h2 class="section-title">Explore Our Platform</h2>
+                <p class="section-description">A glimpse into the features and tools of ProjectUnifyX through visuals.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="1.jpg" alt="ProjectUnifyX Feature 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="2.jpg" alt="ProjectUnifyX Feature 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="3.jpg" alt="ProjectUnifyX Feature 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="4.jpg" alt="ProjectUnifyX Feature 4">
+                </div>
+                <div class="gallery-item">
+                    <img src="unifyxproject.netlify.app_ (1).png" alt="homepage">
+                </div>
+                <div class="gallery-item">
+                    <img src="ChatGPT Image Apr 24, 2025, 08_54_00 PM.png" alt="ProjectUnifyX Feature 4">
+                </div>
+            </div>
         </div>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="1.jpg" alt="ProjectUnifyX Feature 1">
-            </div>
-            <div class="gallery-item">
-                <img src="2.jpg" alt="ProjectUnifyX Feature 2">
-            </div>
-            <div class="gallery-item">
-                <img src="3.jpg" alt="ProjectUnifyX Feature 3">
-            </div>
-            <div class="gallery-item">
-                <img src="4.jpg" alt="ProjectUnifyX Feature 4">
-            </div>
-            <div class="gallery-item">
-                <img src="unifyxproject.netlify.app_ (1).png" alt="homepage">
-            </div>
-            <div class="gallery-item">
-                <img src="ChatGPT Image Apr 24, 2025, 08_54_00 PM.png" alt="ProjectUnifyX Feature 4">
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
     <!-- CTA Section -->
     <section class="cta-section">
@@ -767,6 +1064,103 @@
                     <a href="/AllTools.html" class="btn btn-light">Explore All Tools</a>
                     <a href="Copyright and Legal Terms.html" class="btn btn-transparent">Terms & Conditions</a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Developer Section -->
+    <section class="developer-section" id="developer">
+        <div class="container">
+            <div class="developer-header">
+                <h2>Meet the Developer</h2>
+                <p>The creative mind behind ProjectUnifyX</p>
+            </div>
+            
+            <div class="developer-info">
+                <h3 class="dev-name">Ved Mangukiya</h3>
+                <span class="dev-title">Full Stack Developer</span>
+                
+                <ul class="dev-info-list">
+                    <li class="dev-info-item">
+                        <div class="dev-info-icon"><i class="fas fa-hourglass-half"></i></div>
+                        <div class="dev-info-content">
+                            <div class="dev-info-label">Age</div>
+                            <div class="dev-info-value age" id="age-counter">Calculating...</div>
+                        </div>
+                    </li>
+                    <li class="dev-info-item">
+                        <div class="dev-info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="dev-info-content">
+                            <div class="dev-info-label">Location</div>
+                            <div class="dev-info-value">Surat, Gujarat, India</div>
+                        </div>
+                    </li>
+                    <li class="dev-info-item">
+                        <div class="dev-info-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="dev-info-content">
+                            <div class="dev-info-label">Education</div>
+                            <div class="dev-info-value">12th Standard (Commerce Stream)</div>
+                        </div>
+                    </li>
+                    <li class="dev-info-item">
+                        <div class="dev-info-icon"><i class="fas fa-heart"></i></div>
+                        <div class="dev-info-content">
+                            <div class="dev-info-label">Hobbies</div>
+                            <div class="dev-info-value">Swimming, Coding, Animation</div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <h4 style="color: var(--primary); margin-bottom: 0.8rem;">Skills & Expertise</h4>
+                <div class="dev-skills">
+                    <span class="dev-skill"><i class="fab fa-html5"></i> HTML</span>
+                    <span class="dev-skill"><i class="fab fa-css3-alt"></i> CSS</span>
+                    <span class="dev-skill"><i class="fab fa-js"></i> JavaScript</span>
+                    <span class="dev-skill"><i class="fas fa-code"></i> Web Development</span>
+                    <span class="dev-skill"><i class="fas fa-paint-brush"></i> UI/UX Design</span>
+                    <span class="dev-skill"><i class="fas fa-film"></i> Animation</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2>Contact Information</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">projectunifyx@gmail.com</div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <div class="contact-label">Location</div>
+                    <div class="contact-value">Surat, Gujarat, India</div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="contact-label">Owner</div>
+                    <div class="contact-value">Ved Mangukiya</div>
+                </div>
+            </div>
+
+            <div class="buttons-container">
+                <a href="mailto:projectunifyx@gmail.com?subject=Inquiry about ProjectUnifyX" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i> Contact Us
+                </a>
+                <button class="btn btn-primary" onclick="downloadPDF()">
+                    <i class="fas fa-file-pdf"></i> Download PDF
+                </button>
             </div>
         </div>
     </section>
@@ -809,7 +1203,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2025 Mangukiya Ved. All rights reserved.</p>
+                <p>© <span id="current-year"></span> Mangukiya Ved. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -912,6 +1306,102 @@
 
         // Load tools on page load
         loadTools();
+
+        // Set current year dynamically
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Function to download PDF
+        function downloadPDF() {
+            window.open('Terms & Conditions.pdf', '_blank');
+        }
+        
+        // Calculate and display age in real-time
+        function calculateAge() {
+            const birthday = new Date('2009-01-08T05:00:00');
+            const now = new Date();
+            const milliseconds = now - birthday;
+            const millisecondsInYear = 1000 * 60 * 60 * 24 * 365.25;
+            const years = Math.floor(milliseconds / millisecondsInYear);
+            document.getElementById('age-counter').textContent = `${years} years`;
+        }
+        
+        // Update age every second
+        calculateAge();
+        setInterval(calculateAge, 1000);
+        
+        // Particle system and section animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.developer-section, .contact-section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = 1;
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 80);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -40px 0px'
+            });
+            
+            sections.forEach(section => {
+                section.style.opacity = 0;
+                section.style.transform = 'translateY(15px)';
+                section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(section);
+            });
+            
+            class Particle {
+                constructor() {
+                    this.element = document.createElement('div');
+                    this.element.style.position = 'absolute';
+                    this.element.style.borderRadius = '50%';
+                    this.size = Math.random() * 3 + 1;
+                    this.element.style.width = `${this.size}px`;
+                    this.element.style.height = `${this.size}px`;
+                    const colors = ['#4f46e5', '#4338ca', '#f97316'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    this.element.style.background = color;
+                    this.element.style.opacity = Math.random() * 0.3 + 0.1;
+                    this.posX = Math.random() * window.innerWidth;
+                    this.posY = Math.random() * window.innerHeight;
+                    this.element.style.left = `${this.posX}px`;
+                    this.element.style.top = `${this.posY}px`;
+                    this.speedX = (Math.random() - 0.5) * 0.6;
+                    this.speedY = (Math.random() - 0.5) * 0.6;
+                    document.querySelector('.particles').appendChild(this.element);
+                }
+                
+                update() {
+                    this.posX += this.speedX;
+                    this.posY += this.speedY;
+                    if (this.posX < 0 || this.posX > window.innerWidth) {
+                        this.speedX = -this.speedX;
+                    }
+                    if (this.posY < 0 || this.posY > window.innerHeight) {
+                        this.speedY = -this.speedY;
+                    }
+                    this.element.style.left = `${this.posX}px`;
+                    this.element.style.top = `${this.posY}px`;
+                }
+            }
+            
+            const particles = [];
+            for (let i = 0; i < 25; i++) {
+                particles.push(new Particle());
+            }
+            
+            function animateParticles() {
+                particles.forEach(p => p.update());
+                requestAnimationFrame(animateParticles);
+            }
+            
+            animateParticles();
+        });
     </script>
 </body>
 </html>

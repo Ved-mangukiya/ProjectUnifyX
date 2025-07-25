@@ -6,22 +6,28 @@
     <title>ProjectUnifyX - Terms & Conditions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         :root {
-            --primary-color: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary-color: #10b981;
-            --accent-color: #f59e0b;
-            --background: #0f172a;
-            --card-bg: #1e293b;
-            --card-bg-hover: #334155;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --card-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.4);
-            --border-radius: 10px;
-            --transition-speed: 0.3s;
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --primary-light: #c7d2fe;
+            --accent: #f97316;
+            --background: #f9fafb;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --error: #e11d48;
+            --success: #10b981;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --border-radius: 12px;
+            --border-radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -31,24 +37,43 @@
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--background);
-            color: var(--text-primary);
+            color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        .glassmorphism {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        /* Floating particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
         }
         
+        /* Header */
         .header {
             position: relative;
-            padding: 2.5rem 0 5rem;
-            background: linear-gradient(135deg, #4338ca, #3730a3);
+            padding: 4rem 0 6rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             overflow: hidden;
         }
         
@@ -59,8 +84,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7z' fill='%234f46e5' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-            opacity: 0.4;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
         
         .wave {
@@ -68,608 +92,583 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 60px;
+            height: 80px;
+            z-index: 2;
         }
         
         .header-content {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 2rem;
             text-align: center;
+            position: relative;
+            z-index: 3;
         }
         
         .logo {
             display: inline-flex;
             align-items: center;
-            margin-bottom: 1.2rem;
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            transition: transform 0.3s ease;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
         }
         
         .logo:hover {
             transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15);
         }
         
         .logo-img {
-            width: 40px;
-            height: 40px;
-            margin-right: 0.5rem;
+            width: 48px;
+            height: 48px;
+            margin-right: 0.75rem;
+            border-radius: 8px;
         }
         
         .logo-text {
-            font-size: 1.6rem;
-            font-weight: 700;
-            background: linear-gradient(to right, #ffffff, #a5b4fc);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.025em;
         }
         
         .header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.6rem;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: white;
+            letter-spacing: -0.05em;
+            line-height: 1.1;
         }
         
         .header p {
-            font-size: 0.95rem;
-            max-width: 500px;
+            font-size: 1.25rem;
+            max-width: 600px;
             margin: 0 auto;
             color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
         }
         
+        /* Main container */
         .container {
-            max-width: 900px;
-            margin: -3rem auto 2rem;
-            padding: 0 1rem;
+            max-width: 1200px;
+            margin: -4rem auto 3rem;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
         }
         
+        /* Effective date card */
         .effective-date {
             background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 1.2rem;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--card-shadow);
-            border-top: 3px solid var(--secondary-color);
-            transition: transform var(--transition-speed) ease;
-        }
-        
-        .effective-date:hover {
-            transform: translateY(-4px);
-        }
-        
-        .date-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--secondary-color);
-            padding: 0.3rem 0.7rem;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.8rem;
-            margin-bottom: 0.6rem;
-        }
-        
-        .date-label i {
-            font-size: 0.9rem;
-        }
-        
-        .effective-date h2 {
-            font-size: 1.4rem;
-            margin-bottom: 0.6rem;
-        }
-        
-        .effective-date p {
-            font-size: 0.9rem;
-        }
-        
-        .sections-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-        
-        .section-card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 1.2rem;
-            box-shadow: var(--card-shadow);
-            transition: all var(--transition-speed) ease;
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-200);
             position: relative;
+            overflow: hidden;
         }
-        
-        .section-card:hover {
-            background: var(--card-bg-hover);
-            transform: translateY(-4px);
-        }
-        
-        .section-card::before {
+
+        .effective-date::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
         }
         
-        .section-card:hover::before {
-            transform: scaleX(1);
+        .date-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
         }
         
-        .section-number {
-            width: 35px;
-            height: 35px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        .effective-date h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .effective-date p {
+            font-size: 1rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        
+        /* Terms sections grid */
+        .terms-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .term-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .term-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: var(--transition);
+        }
+        
+        .term-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .term-card:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .term-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 1.125rem;
             font-weight: 700;
-            margin-bottom: 0.8rem;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 20px -8px var(--primary);
         }
         
-        .section-card h2 {
-            color: var(--text-primary);
-            font-size: 1.2rem;
-            margin-bottom: 0.6rem;
-            font-weight: 700;
+        .term-card h3 {
+            color: var(--text-dark);
+            font-size: 1.375rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            line-height: 1.3;
         }
         
-        .section-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+        .term-card p {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.7;
         }
         
+        /* Developer section */
         .developer-section {
-            margin: 2rem 0;
-            background: linear-gradient(135deg, var(--card-bg), rgba(30, 41, 59, 0.8));
-            border-radius: var(--border-radius);
-            padding: 1.5rem 1.2rem;
-            box-shadow: var(--card-shadow);
+            background: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .developer-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .developer-content {
+            position: relative;
+            z-index: 2;
         }
         
         .developer-header {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
         }
         
         .developer-header h2 {
-            font-size: 1.8rem;
+            font-size: 2.25rem;
             font-weight: 800;
-            margin-bottom: 0.6rem;
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.2;
         }
         
         .developer-header p {
-            color: var(--text-secondary);
-            max-width: 500px;
-            margin: 0 auto;
-            font-size: 0.9rem;
+            color: var(--text-light);
+            font-size: 1.125rem;
         }
         
         .developer-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .dev-details {
             text-align: center;
         }
         
         .dev-name {
-            font-size: 1.6rem;
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 0.6rem;
-            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
         }
         
         .dev-title {
-            font-size: 1rem;
-            color: var(--secondary-color);
-            font-weight: 600;
-            margin-bottom: 1.2rem;
             display: inline-block;
-            padding: 0.2rem 0.8rem;
-            background: rgba(16, 185, 129, 0.1);
-            border-radius: 40px;
+            background: linear-gradient(135deg, var(--accent), #ea580c);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px -4px var(--accent);
         }
         
-        .dev-info-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 1.2rem 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .dev-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
         
-        .dev-info-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.6rem;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 0.5rem 0.8rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            max-width: 280px;
-            width: 100%;
+        .stat-card {
+            background: var(--gray-100);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
         }
         
-        .dev-info-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(2px);
+        .stat-card:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
         
-        .dev-info-icon {
-            width: 30px;
-            height: 30px;
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--primary-color);
             color: white;
-            border-radius: 6px;
-            margin-right: 0.6rem;
-            font-size: 0.9rem;
+            font-size: 1.25rem;
         }
         
-        .dev-info-content {
-            flex: 1;
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
         }
         
-        .dev-info-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-bottom: 0.1rem;
+        .stat-value {
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: var(--text-dark);
         }
         
-        .dev-info-value {
+        .age-value {
+            color: var(--accent);
+        }
+        
+        .skills-section {
+            margin-top: 2rem;
+        }
+        
+        .skills-title {
+            color: var(--primary);
+            font-size: 1.25rem;
             font-weight: 600;
-            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            text-align: center;
         }
         
-        .dev-info-value.age {
-            color: var(--accent-color);
-        }
-        
-        .dev-skills {
+        .skills-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.75rem;
             justify-content: center;
-            margin-top: 1.2rem;
         }
         
-        .dev-skill {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 0.3rem 0.7rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
+        .skill-tag {
+            background: var(--card-bg);
+            border: 2px solid var(--gray-200);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
             font-weight: 500;
-            color: var(--text-primary);
+            color: var(--text-dark);
             display: flex;
             align-items: center;
-            gap: 0.3rem;
-            transition: all var(--transition-speed) ease;
+            gap: 0.5rem;
+            transition: var(--transition);
         }
         
-        .dev-skill:hover {
-            background: var(--primary-color);
+        .skill-tag:hover {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
             transform: translateY(-2px);
         }
         
-        .dev-skill i {
-            font-size: 0.8rem;
-        }
-
+        /* Contact section */
         .contact-section {
             background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 1.5rem 1.2rem;
-            margin-top: 1.5rem;
-            box-shadow: var(--card-shadow);
+            border-radius: var(--border-radius-lg);
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
         }
         
-        .contact-section h2 {
-            color: var(--primary-color);
-            font-size: 1.6rem;
-            margin-bottom: 1.2rem;
+        .contact-header {
             text-align: center;
+            margin-bottom: 2.5rem;
         }
         
-        .contact-section h2::after {
+        .contact-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+        }
+        
+        .contact-header::after {
             content: '';
             display: block;
-            width: 40px;
-            height: 2px;
-            background: var(--primary-color);
-            margin: 0.4rem auto;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            margin: 1rem auto;
+            border-radius: 2px;
         }
         
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
         }
         
-        .contact-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 0.8rem;
-            background: rgba(30, 41, 59, 0.5);
+        .contact-card {
+            background: var(--gray-100);
             border-radius: var(--border-radius);
-            transition: all var(--transition-speed) ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            width: 100%;
-            max-width: 260px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
         }
         
-        .contact-item:hover {
+        .contact-card:hover {
+            background: white;
             transform: translateY(-4px);
-            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
         }
         
         .contact-icon {
-            width: 45px;
-            height: 45px;
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: white;
-            border-radius: 50%;
-            margin-bottom: 0.8rem;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 20px -8px var(--primary);
         }
         
         .contact-label {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            margin-bottom: 0.3rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
         }
         
         .contact-value {
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 1.125rem;
+            color: var(--text-dark);
         }
         
-        .buttons-container {
+        .contact-actions {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.8rem;
+            gap: 1rem;
         }
         
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
+            gap: 0.75rem;
+            padding: 0.875rem 2rem;
+            border-radius: var(--border-radius);
             font-weight: 600;
+            font-size: 1rem;
             text-decoration: none;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            transition: all var(--transition-speed) ease;
+            transition: var(--transition);
             border: none;
             cursor: pointer;
-            font-size: 0.9rem;
-            width: 100%;
-            max-width: 260px;
-            text-align: center;
+            min-width: 200px;
         }
         
-        .btn:hover {
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 12px -4px var(--primary);
+        }
+        
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px -6px var(--primary);
         }
         
-        .btn i {
-            font-size: 1.1rem;
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--accent), #ea580c);
+            color: white;
+            box-shadow: 0 4px 12px -4px var(--accent);
         }
         
-        .email-btn {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -6px var(--accent);
         }
         
-        .download-btn {
-            background: linear-gradient(135deg, #7c3aed, #6d28d9);
-        }
-        
-        footer {
-            background-color: #0f172a;
-            padding: 1.5rem 1rem;
+        /* Footer */
+        .footer {
+            background: var(--card-bg);
+            padding: 2rem;
             text-align: center;
-            color: var(--text-muted);
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            border-top: 1px solid var(--gray-200);
         }
         
         .footer-content {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
         }
         
-        .footer-logo {
-            margin-bottom: 0.8rem;
-        }
-        
-        .footer-logo i {
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
         .footer-text {
-            margin-bottom: 0.8rem;
-            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
         }
         
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 0.6rem;
-            margin-top: 0.8rem;
+            gap: 1rem;
         }
         
         .social-link {
-            width: 32px;
-            height: 32px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-            border-radius: 50%;
-            transition: all 0.3s ease;
+            background: var(--gray-100);
+            color: var(--text-light);
+            border-radius: 12px;
+            transition: var(--transition);
+            text-decoration: none;
+            border: 1px solid var(--gray-200);
         }
         
         .social-link:hover {
-            background: var(--primary-color);
+            background: var(--primary);
             color: white;
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
-        /* Animations */
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.2); opacity: 0; }
-            100% { transform: scale(1); opacity: 0.7; }
-        }
-        
-        /* Media Queries */
+        /* Responsive design */
         @media (min-width: 768px) {
-            .header {
-                padding: 3rem 0 6rem;
+            .terms-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .header h1 {
-                font-size: 2.5rem;
+            .developer-info {
+                grid-template-columns: 1fr;
             }
             
-            .header p {
-                font-size: 1rem;
-            }
-            
-            .logo-img {
-                width: 48px;
-                height: 48px;
-            }
-            
-            .logo-text {
-                font-size: 1.8rem;
-            }
-            
-            .container {
-                margin: -4rem auto 3rem;
-            }
-            
-            .sections-container {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
-            
-            .effective-date {
-                padding: 1.5rem;
-            }
-            
-            .effective-date h2 {
-                font-size: 1.6rem;
-            }
-            
-            .effective-date p {
-                font-size: 0.95rem;
-            }
-            
-            .section-card {
-                padding: 1.5rem;
-            }
-            
-            .section-card h2 {
-                font-size: 1.3rem;
-            }
-            
-            .section-card p {
-                font-size: 0.95rem;
-            }
-            
-            .developer-section {
-                padding: 2rem 1.5rem;
-            }
-            
-            .developer-header h2 {
-                font-size: 2rem;
-            }
-            
-            .contact-section {
-                padding: 2rem 1.5rem;
-            }
-            
-            .contact-info {
+            .contact-actions {
                 flex-direction: row;
                 justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            .contact-item {
-                width: 220px;
-            }
-            
-            .buttons-container {
-                flex-direction: row;
-                justify-content: center;
-            }
-            
-            .btn {
-                width: auto;
-                max-width: 200px;
-            }
-            
-            .footer-text {
-                font-size: 0.9rem;
             }
         }
         
-        @media (min-width: 992px) {
+        @media (min-width: 1024px) {
+            .terms-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
             .header h1 {
-                font-size: 3rem;
+                font-size: 4rem;
             }
-            
-            .logo-text {
-                font-size: 2rem;
-            }
-            
-            .section-card h2 {
-                font-size: 1.4rem;
-            }
-            
-            .developer-header h2 {
-                font-size: 2.2rem;
-            }
-            
-            .dev-name {
-                font-size: 1.8rem;
-            }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div class="particles" id="particles-js"></div>
+    <div class="particles"></div>
 
     <header class="header">
         <div class="header-content">
@@ -678,153 +677,186 @@
                 <span class="logo-text">ProjectUnifyX</span>
             </div>
             <h1>Terms & Conditions</h1>
-            <p>Please review our terms carefully before using our services.</p>
+            <p>Understanding our commitment to transparency and user rights</p>
         </div>
         <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path fill="#0f172a" fill-opacity="1" d="M0,64L48,80C96,96,192,128,288,138.7C384,149,480,139,576,122.7C672,107,768,85,864,101.3C960,117,1056,171,1152,181.3C1248,192,1344,160,1392,144L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            <path fill="#f9fafb" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
         </svg>
     </header>
 
     <div class="container">
-        <div class="effective-date glassmorphism">
-            <div class="date-label"><i class="far fa-calendar-alt"></i> Last Updated</div>
+        <div class="effective-date fade-in">
+            <div class="date-badge">
+                <i class="far fa-calendar-alt"></i>
+                Last Updated
+            </div>
             <h2>Effective January 2025</h2>
-            <p>Welcome to ProjectUnifyX. By accessing our platform, you agree to comply with these Terms and Conditions. These guidelines govern your use of our services and outline your rights and responsibilities. Please read them carefully.</p>
+            <p>Welcome to ProjectUnifyX, your unified digital platform. By accessing our services, you acknowledge and agree to these Terms and Conditions. These comprehensive guidelines establish the framework for your interaction with our platform, ensuring clarity in our mutual rights and responsibilities.</p>
         </div>
 
-        <div class="sections-container">
-            <div class="section-card">
-                <div class="section-number">1</div>
-                <h2>Website Purpose</h2>
-                <p>ProjectUnifyX is designed as a unified platform that combines multiple services into a single super app. Our mission is to provide users with a seamless experience by integrating various functionalities under one digital roof.</p>
+        <div class="terms-grid">
+            <div class="term-card fade-in">
+                <div class="term-number">1</div>
+                <h3>Platform Purpose</h3>
+                <p>ProjectUnifyX serves as a comprehensive digital ecosystem, integrating multiple services into a seamless super app experience. Our platform is designed to revolutionize how users interact with various digital tools and services.</p>
             </div>
 
-            <div class="section-card">
-                <div class="section-number">2</div>
-                <h2>Services</h2>
-                <p>Our platform offers a dynamic range of services that will continuously evolve to meet user needs. The specific features and functionalities are designed to provide comprehensive solutions for various requirements in one convenient location.</p>
+            <div class="term-card fade-in">
+                <div class="term-number">2</div>
+                <h3>Service Offerings</h3>
+                <p>Our platform provides an evolving suite of integrated services designed to meet diverse user needs. These services are continuously enhanced and expanded to deliver maximum value and convenience.</p>
             </div>
 
-            <div class="section-card">
-                <div class="section-number">3</div>
-                <h2>User Responsibilities</h2>
-                <p>By using ProjectUnifyX, you commit to using it for lawful purposes only. You agree not to engage in any illegal activities or use our platform to promote such activities. You must refrain from actions that may harm, disrupt, or interfere with the operation of our services.</p>
+            <div class="term-card fade-in">
+                <div class="term-number">3</div>
+                <h3>User Obligations</h3>
+                <p>Users must utilize ProjectUnifyX exclusively for lawful purposes and refrain from any activities that could harm, disrupt, or compromise the integrity of our platform or other users' experiences.</p>
             </div>
 
-            <div class="section-card">
-                <div class="section-number">4</div>
-                <h2>Intellectual Property</h2>
-                <p>The concept and design of ProjectUnifyX are owned by Ved Mangukiya. Users are not permitted to share, reproduce, or distribute the website's ideas, name, or content without express permission from the owner.</p>
+            <div class="term-card fade-in">
+                <div class="term-number">4</div>
+                <h3>Intellectual Property</h3>
+                <p>All aspects of ProjectUnifyX, including its concept, design, and content, are the exclusive property of Ved Mangukiya. Unauthorized reproduction or distribution is strictly prohibited.</p>
             </div>
 
-            <div class="section-card">
-                <div class="section-number">5</div>
-                <h2>User-Generated Content</h2>
-                <p>Users must not post, share, or submit content that infringes upon the rights of others or violates any law. All shared content must adhere to our platform's community guidelines and standards.</p>
+            <div class="term-card fade-in">
+                <div class="term-number">5</div>
+                <h3>Content Guidelines</h3>
+                <p>All user-generated content must comply with our community standards and applicable laws. Users are responsible for ensuring their content respects the rights of others and maintains platform integrity.</p>
             </div>
 
-            <div class="section-card">
-                <div class="section-number">6</div>
-                <h2>Privacy and Data Collection</h2>
-                <p>ProjectUnifyX is currently a static website hosted on GitHub Pages and does not collect or store any personal data from users. As our services evolve, we will update our privacy policies accordingly.</p>
+            <div class="term-card fade-in">
+                <div class="term-number">6</div>
+                <h3>Privacy Protection</h3>
+                <p>As a static platform hosted on GitHub Pages, we currently do not collect personal data. Our privacy practices will evolve transparently as our services expand, with user privacy remaining paramount.</p>
             </div>
 
-            <div class="section-card">
-                <div class="section-number">7</div>
-                <h2>Third-Party Links and Services</h2>
-                <p>Our platform may include links to third-party websites or services. ProjectUnifyX does not control or endorse the content, services, or privacy practices of these external websites.</p>
+            <div class="term-card fade-in">
+                <div class="term-number">7</div>
+                <h3>Third-Party Integration</h3>
+                <p>Our platform may include connections to external services and websites. While we curate these integrations carefully, we cannot control or guarantee the practices of third-party providers.</p>
             </div>
 
-            <div class="section-card">
-                <div class="section-number">8</div>
-                <h2>Limitations of Liability</h2>
-                <p>You acknowledge that our services are provided "as is" without any warranties, either express or implied. We do not guarantee that the platform will be free from errors, interruptions, or other technical issues.</p>
+            <div class="term-card fade-in">
+                <div class="term-number">8</div>
+                <h3>Service Disclaimer</h3>
+                <p>ProjectUnifyX is provided "as is" without warranties of any kind. While we strive for excellence, we cannot guarantee uninterrupted service or complete freedom from technical issues.</p>
             </div>
 
-            <div class="section-card">
-                <div class="section-number">9</div>
-                <h2>Modifications to Terms</h2>
-                <p>We reserve the right to update these Terms and Conditions at any time. Your continued use of ProjectUnifyX after any changes indicates your acceptance of the new terms.</p>
+            <div class="term-card fade-in">
+                <div class="term-number">9</div>
+                <h3>Terms Evolution</h3>
+                <p>These Terms and Conditions may be updated to reflect platform improvements and legal requirements. Continued use of our platform constitutes acceptance of any modifications.</p>
             </div>
 
-            <div class="section-card">
-                <div class="section-number">10</div>
-                <h2>Governing Law</h2>
-                <p>This Agreement is governed by the laws of India, including the Indian Contract Act, 1872, and the Information Technology Act, 2000. Any disputes shall be subject to the jurisdiction of the courts in Surat, Gujarat, India.</p>
+            <div class="term-card fade-in">
+                <div class="term-number">10</div>
+                <h3>Legal Framework</h3>
+                <p>These terms are governed by Indian law, including the Indian Contract Act, 1872, and Information Technology Act, 2000. Legal disputes fall under the jurisdiction of Surat, Gujarat courts.</p>
             </div>
 
-            <div class="section-card">
-                <div class="section-number">11</div>
-                <h2>User Agreement</h2>
-                <p>By accessing or using ProjectUnifyX, you confirm that you have read, understood, and agree to be bound by these Terms and Conditions.</p>
+            <div class="term-card fade-in">
+                <div class="term-number">11</div>
+                <h3>Agreement Acceptance</h3>
+                <p>By accessing ProjectUnifyX, you confirm your understanding and acceptance of these comprehensive Terms and Conditions, establishing our mutual agreement.</p>
             </div>
         </div>
 
-        <section class="developer-section">
-            <div class="developer-header">
-                <h2>Meet the Developer</h2>
-                <p>The creative mind behind ProjectUnifyX</p>
-            </div>
-            
-            <div class="developer-info">
-                <h3 class="dev-name">Ved Mangukiya</h3>
-                <span class="dev-title">Full Stack Developer</span>
+        <section class="developer-section fade-in">
+            <div class="developer-content">
+                <div class="developer-header">
+                    <h2>Meet the Visionary</h2>
+                    <p>The innovative mind transforming digital experiences</p>
+                </div>
                 
-                <ul class="dev-info-list">
-                    <li class="dev-info-item">
-                        <div class="dev-info-icon"><i class="fas fa-hourglass-half"></i></div>
-                        <div class="dev-info-content">
-                            <div class="dev-info-label">Age</div>
-                            <div class="dev-info-value age" id="age-counter">Calculating...</div>
+                <div class="developer-info">
+                    <div class="dev-details">
+                        <h3 class="dev-name">Ved Mangukiya</h3>
+                        <span class="dev-title">Full Stack Developer & Founder</span>
+                        
+                        <div class="dev-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-birthday-cake"></i>
+                                </div>
+                                <div class="stat-label">Age</div>
+                                <div class="stat-value age-value" id="age-display">Calculating...</div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="stat-label">Location</div>
+                                <div class="stat-value">Surat, Gujarat</div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div class="stat-label">Education</div>
+                                <div class="stat-value">Currently in 12th Commerce</div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="stat-label">Interests</div>
+                                <div class="stat-value">Swimming & Animation</div>
+                            </div>
                         </div>
-                    </li>
-                    <li class="dev-info-item">
-                        <div class="dev-info-icon"><i class="fas fa-map-marker-alt"></i></div>
-                        <div class="dev-info-content">
-                            <div class="dev-info-label">Location</div>
-                            <div class="dev-info-value">Surat, Gujarat, India</div>
+                        
+                        <div class="skills-section">
+                            <h4 class="skills-title">Technical Expertise</h4>
+                            <div class="skills-grid">
+                                <span class="skill-tag">
+                                    <i class="fab fa-html5"></i>
+                                    HTML5
+                                </span>
+                                <span class="skill-tag">
+                                    <i class="fab fa-css3-alt"></i>
+                                    CSS3
+                                </span>
+                                <span class="skill-tag">
+                                    <i class="fab fa-js"></i>
+                                    JavaScript
+                                </span>
+                                <span class="skill-tag">
+                                    <i class="fas fa-code"></i>
+                                    Web Development
+                                </span>
+                                <span class="skill-tag">
+                                    <i class="fas fa-paint-brush"></i>
+                                    UI/UX Design
+                                </span>
+                                <span class="skill-tag">
+                                    <i class="fas fa-film"></i>
+                                    Animation
+                                </span>
+                            </div>
                         </div>
-                    </li>
-                    <li class="dev-info-item">
-                        <div class="dev-info-icon"><i class="fas fa-graduation-cap"></i></div>
-                        <div class="dev-info-content">
-                            <div class="dev-info-label">Education</div>
-                            <div class="dev-info-value">12th Standard (Commerce Stream)</div>
-                        </div>
-                    </li>
-                    <li class="dev-info-item">
-                        <div class="dev-info-icon"><i class="fas fa-heart"></i></div>
-                        <div class="dev-info-content">
-                            <div class="dev-info-label">Hobbies</div>
-                            <div class="dev-info-value">Swimming, Coding, Animation</div>
-                        </div>
-                    </li>
-                </ul>
-                
-                <h4 style="color: var(--secondary-color); margin-bottom: 0.8rem;">Skills & Expertise</h4>
-                <div class="dev-skills">
-                    <span class="dev-skill"><i class="fab fa-html5"></i> HTML</span>
-                    <span class="dev-skill"><i class="fab fa-css3-alt"></i> CSS</span>
-                    <span class="dev-skill"><i class="fab fa-js"></i> JavaScript</span>
-                    <span class="dev-skill"><i class="fas fa-code"></i> Web Development</span>
-                    <span class="dev-skill"><i class="fas fa-paint-brush"></i> UI/UX Design</span>
-                    <span class="dev-skill"><i class="fas fa-film"></i> Animation</span>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <div class="contact-section glassmorphism">
-            <h2>Contact Information</h2>
-            <div class="contact-info">
-                <div class="contact-item">
+        <div class="contact-section fade-in">
+            <div class="contact-header">
+                <h2>Get in Touch</h2>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-card">
                     <div class="contact-icon">
                         <i class="fas fa-envelope"></i>
                     </div>
-                    <div class="contact-label">Email</div>
+                    <div class="contact-label">Email Address</div>
                     <div class="contact-value">projectunifyx@gmail.com</div>
                 </div>
                 
-                <div class="contact-item">
+                <div class="contact-card">
                     <div class="contact-icon">
                         <i class="fas fa-map-marked-alt"></i>
                     </div>
@@ -832,141 +864,220 @@
                     <div class="contact-value">Surat, Gujarat, India</div>
                 </div>
                 
-                <div class="contact-item">
+                <div class="contact-card">
                     <div class="contact-icon">
                         <i class="fas fa-user-tie"></i>
                     </div>
-                    <div class="contact-label">Owner</div>
+                    <div class="contact-label">Founder</div>
                     <div class="contact-value">Ved Mangukiya</div>
                 </div>
             </div>
 
-            <div class="buttons-container">
-                <a href="mailto:projectunifyx@gmail.com?subject=Inquiry about ProjectUnifyX" class="btn email-btn">
-                    <i class="fas fa-envelope"></i> Contact Us
+            <div class="contact-actions">
+                <a href="mailto:projectunifyx@gmail.com?subject=Inquiry about ProjectUnifyX" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i>
+                    Send Email
                 </a>
-                <button class="btn download-btn" onclick="downloadPDF()">
-                    <i class="fas fa-file-pdf"></i> Download PDF
+                <button class="btn btn-secondary" onclick="downloadPDF()">
+                    <i class="fas fa-file-pdf"></i>
+                    Download PDF
                 </button>
             </div>
         </div>
     </div>
 
-    <footer>
+    <footer class="footer">
         <div class="footer-content">
-            
             <div class="footer-text">
-                © <span id="current-year"></span> Mangukiya Ved. All Rights Reserved.
+                © <span id="current-year"></span> Ved Mangukiya. All Rights Reserved. Built with passion for innovation.
             </div>
             <div class="social-links">
-                <a href="https://www.instagram.com/unify_x_project" class="social-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                <a href="https://www.instagram.com/unify_x_project" class="social-link" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://x.com/Unify_X_Project" class="social-link" target="_blank" aria-label="X (formerly Twitter)">
+                <a href="https://x.com/Unify_X_Project" class="social-link" target="_blank" aria-label="X">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                     </svg>
                 </a>
+                
             </div>
         </div>
     </footer>
 
     <script>
-        // Set current year dynamically
+        // Set current year
         document.getElementById('current-year').textContent = new Date().getFullYear();
         
-        // Function to download PDF
-        function downloadPDF() {
-            window.open('Terms & Conditions.pdf', '_blank');
-        }
-        
-        // Calculate and display age in real-time
-        function calculateAge() {
-            const birthday = new Date('2009-01-08T05:00:00');
+        // Calculate and display age
+        function updateAge() {
+            const birthDate = new Date('2009-01-08T05:00:00');
             const now = new Date();
-            const milliseconds = now - birthday;
-            const millisecondsInYear = 1000 * 60 * 60 * 24 * 365.25;
-            const years = Math.floor(milliseconds / millisecondsInYear);
-            document.getElementById('age-counter').textContent = `${years} years`;
+            const ageInMs = now - birthDate;
+            const ageInYears = Math.floor(ageInMs / (1000 * 60 * 60 * 24 * 365.25));
+            document.getElementById('age-display').textContent = `${ageInYears} years`;
         }
         
-        // Update age every second
-        calculateAge();
-        setInterval(calculateAge, 1000);
+        // Update age immediately and every second
+        updateAge();
+        setInterval(updateAge, 1000);
         
-        // Particle system
-        document.addEventListener('DOMContentLoaded', function() {
-            const sections = document.querySelectorAll('.section-card, .contact-section, .effective-date, .developer-section');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry, index) => {
-                    if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            entry.target.style.opacity = 1;
-                            entry.target.style.transform = 'translateY(0)';
-                        }, index * 80);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -40px 0px'
-            });
-            
-            sections.forEach(section => {
-                section.style.opacity = 0;
-                section.style.transform = 'translateY(15px)';
-                section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(section);
-            });
-            
-            class Particle {
-                constructor() {
-                    this.element = document.createElement('div');
-                    this.element.style.position = 'absolute';
-                    this.element.style.borderRadius = '50%';
-                    this.size = Math.random() * 3 + 1;
-                    this.element.style.width = `${this.size}px`;
-                    this.element.style.height = `${this.size}px`;
-                    const colors = ['#6366f1', '#4f46e5', '#10b981'];
-                    const color = colors[Math.floor(Math.random() * colors.length)];
-                    this.element.style.background = color;
-                    this.element.style.opacity = Math.random() * 0.3 + 0.1;
-                    this.posX = Math.random() * window.innerWidth;
-                    this.posY = Math.random() * window.innerHeight;
-                    this.element.style.left = `${this.posX}px`;
-                    this.element.style.top = `${this.posY}px`;
-                    this.speedX = (Math.random() - 0.5) * 0.6;
-                    this.speedY = (Math.random() - 0.5) * 0.6;
-                    document.querySelector('.particles').appendChild(this.element);
+        // Download PDF function
+        function downloadPDF() {
+            // Create a simple alert for now - replace with actual PDF download
+            alert('PDF download feature will be implemented soon!');
+            // window.open('Terms & Conditions.pdf', '_blank');
+        }
+        
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                    observer.unobserve(entry.target);
                 }
-                
-                update() {
-                    this.posX += this.speedX;
-                    this.posY += this.speedY;
-                    if (this.posX < 0 || this.posX > window.innerWidth) {
-                        this.speedX = -this.speedX;
-                    }
-                    if (this.posY < 0 || this.posY > window.innerHeight) {
-                        this.speedY = -this.speedY;
-                    }
-                    this.element.style.left = `${this.posX}px`;
-                    this.element.style.top = `${this.posY}px`;
-                }
-            }
-            
-            const particles = [];
-            for (let i = 0; i < 25; i++) {
-                particles.push(new Particle());
-            }
-            
-            function animateParticles() {
-                particles.forEach(p => p.update());
-                requestAnimationFrame(animateParticles);
-            }
-            
-            animateParticles();
+            });
+        }, observerOptions);
+        
+        // Observe all fade-in elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach(el => observer.observe(el));
         });
+        
+        // Floating particles animation
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const size = Math.random() * 6 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            
+            // Random colors from theme
+            const colors = ['var(--primary)', 'var(--accent)', 'var(--primary-light)'];
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            document.querySelector('.particles').appendChild(particle);
+            
+            // Remove particle after animation
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 25000);
+        }
+        
+        // Create particles periodically
+        setInterval(createParticle, 800);
+        
+        // Create initial particles
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createParticle, i * 200);
+        }
+        
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add hover effects to cards
+        document.querySelectorAll('.term-card, .contact-card, .stat-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Enhanced button interactions
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mousedown', function() {
+                this.style.transform = 'translateY(-1px) scale(0.98)';
+            });
+            
+            btn.addEventListener('mouseup', function() {
+                this.style.transform = 'translateY(-2px) scale(1)';
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+        
+        // Add loading state for PDF download
+        function downloadPDF() {
+            const btn = event.target.closest('.btn');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing...';
+            btn.style.pointerEvents = 'none';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.pointerEvents = 'auto';
+                
+                // Show success message
+                const successMsg = document.createElement('div');
+                successMsg.textContent = 'PDF download will be available soon!';
+                successMsg.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: var(--success);
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: var(--border-radius);
+                    box-shadow: var(--shadow-lg);
+                    z-index: 1000;
+                    font-weight: 600;
+                    animation: slideIn 0.3s ease;
+                `;
+                
+                document.body.appendChild(successMsg);
+                
+                setTimeout(() => {
+                    successMsg.style.animation = 'slideOut 0.3s ease forwards';
+                    setTimeout(() => successMsg.remove(), 300);
+                }, 3000);
+            }, 1500);
+        }
+        
+        // Add CSS animations for notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>

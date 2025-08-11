@@ -7,34 +7,72 @@
     <meta name="keywords" content="calculator, converter, financial tools, utility apps, cryptography, pdf tools, gen z">
     <meta name="author" content="Mangukiya Ved">
     <meta name="theme-color" content="#ff6f61">
-    <title>Tools Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Tools Hub - Absolutely Iconic ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-bg: #f9f9f9;
+            /* Professional Theme (default) */
+            --primary-bg: #f8f9fa;
             --card-bg: #ffffff;
-            --accent: #ff6f61;
-            --accent-dark: #e63946;
-            --text-primary: #2d2d2d;
-            --text-secondary: #6b7280;
-            --gradient: linear-gradient(135deg, #ff6f61, #ff9f43);
-            --shadow: 8px 8px 16px rgba(0, 0, 0, 0.1), -8px -8px 16px rgba(255, 255, 255, 0.9);
-            --shadow-inset: inset 4px 4px 8px rgba(0, 0, 0, 0.05), inset -4px -4px 8px rgba(255, 255, 255, 0.9);
-            --card-radius: 20px;
-            --button-radius: 12px;
-            --dark-bg: #2d2d2d;
-            --dark-card: #3a3a3a;
-            --dark-text: #f9f9f9;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --accent: #0d6efd;
+            --accent-dark: #0a58ca;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --gradient: linear-gradient(135deg, #0d6efd, #0d6efd);
+            --rainbow-gradient: linear-gradient(45deg, #0d6efd, #0d6efd);
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            --card-radius: 10px;
+            --button-radius: 5px;
+            --sparkle-color: transparent;
         }
 
         [data-theme="dark"] {
-            --primary-bg: #2d2d2d;
-            --card-bg: #3a3a3a;
-            --text-primary: #f9f9f9;
-            --text-secondary: #a0a0a0;
-            --shadow: 8px 8px 16px rgba(0, 0, 0, 0.4), -8px -8px 16px rgba(80, 80, 80, 0.2);
-            --shadow-inset: inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(80, 80, 80, 0.2);
+            --primary-bg: #212529;
+            --card-bg: #343a40;
+            --glass-bg: rgba(52, 58, 64, 0.9);
+            --text-primary: #f8f9fa;
+            --text-secondary: #adb5bd;
+        }
+
+        [data-mode="fun"] {
+            /* Fun Theme */
+            --primary-bg: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 25%, #fd79a8 50%, #a29bfe 75%, #6c5ce7 100%);
+            --card-bg: rgba(255, 255, 255, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --accent: #ff6f61;
+            --accent-dark: #e63946;
+            --text-primary: #2d3436;
+            --text-secondary: #636e72;
+            --gradient: linear-gradient(135deg, #ff6f61, #ffeaa7, #74b9ff, #a29bfe);
+            --rainbow-gradient: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --card-radius: 20px;
+            --button-radius: 15px;
+            --sparkle-color: #ffd700;
+        }
+
+        [data-mode="fun"][data-theme="dark"] {
+            --primary-bg: linear-gradient(135deg, #2d3436 0%, #636e72 25%, #74b9ff 50%, #a29bfe 75%, #6c5ce7 100%);
+            --card-bg: rgba(45, 52, 54, 0.8);
+            --glass-bg: rgba(45, 52, 54, 0.6);
+            --text-primary: #ddd;
+            --text-secondary: #b2bec3;
+        }
+
+        .rainbow-mode {
+            animation: rainbowBackground 3s ease infinite;
+        }
+
+        @keyframes rainbowBackground {
+            0% { background: linear-gradient(45deg, #ff6b6b, #4ecdc4); }
+            25% { background: linear-gradient(45deg, #4ecdc4, #45b7d1); }
+            50% { background: linear-gradient(45deg, #45b7d1, #96ceb4); }
+            75% { background: linear-gradient(45deg, #96ceb4, #feca57); }
+            100% { background: linear-gradient(45deg, #feca57, #ff6b6b); }
         }
 
         * {
@@ -44,25 +82,108 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             background: var(--primary-bg);
+            background-attachment: fixed;
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            transition: background 0.3s ease, color 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Floating Background Shapes */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        [data-mode="professional"] .floating-shapes {
+            display: none;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) { width: 80px; height: 80px; top: 10%; left: 10%; animation-delay: 0s; }
+        .shape:nth-child(2) { width: 60px; height: 60px; top: 20%; right: 20%; animation-delay: 2s; }
+        .shape:nth-child(3) { width: 100px; height: 100px; bottom: 20%; left: 15%; animation-delay: 4s; }
+        .shape:nth-child(4) { width: 40px; height: 40px; bottom: 10%; right: 10%; animation-delay: 6s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+            25% { transform: translateY(-20px) rotate(90deg); opacity: 0.5; }
+            50% { transform: translateY(-40px) rotate(180deg); opacity: 0.7; }
+            75% { transform: translateY(-20px) rotate(270deg); opacity: 0.5; }
+        }
+
+        /* Sparkle Effects */
+        .sparkle {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--sparkle-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            animation: sparkleAnim 2s ease-out forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) rotate(360deg);
+            }
+        }
+
+        /* Click Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
         }
 
         .header {
             padding: 3rem 2rem;
             text-align: center;
-            background: var(--gradient);
-            box-shadow: var(--shadow);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--glass-shadow);
             position: relative;
             z-index: 10;
             border-bottom-left-radius: 40px;
             border-bottom-right-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .logo-container {
@@ -75,56 +196,128 @@
 
         .logo {
             width: 120px;
-            height: auto;
+            height: 120px;
             transform-style: preserve-3d;
             transition: transform 0.5s ease;
+            cursor: pointer;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
         }
 
         .logo:hover {
-            transform: rotateY(20deg) scale(1.1);
+            transform: rotateY(360deg) scale(1.1);
+            animation: bounce 0.6s ease;
+        }
+
+        [data-mode="professional"] .logo:hover {
+            transform: none;
+            animation: none;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
 
         h1 {
+            font-family: 'Space Grotesk', sans-serif;
             font-size: 2.8rem;
             font-weight: 700;
-            color: #fff;
+            background: var(--rainbow-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        [data-mode="professional"] h1 {
+            animation: none;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        h1:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
         }
 
         .stats {
             font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-primary);
             margin-bottom: 1.5rem;
             letter-spacing: 0.5px;
+            font-weight: 500;
         }
 
         .search-bar {
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             max-width: 700px;
             margin: 0 auto;
             border-radius: 50px;
             padding: 0.8rem 1.5rem;
             display: flex;
             align-items: center;
-            box-shadow: var(--shadow);
+            box-shadow: var(--glass-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-bar::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--rainbow-gradient);
+            border-radius: 50px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        [data-mode="professional"] .search-bar::before {
+            opacity: 0 !important;
+        }
+
+        .search-bar:focus-within::before {
+            opacity: 1;
+            animation: shine 2s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
         .search-bar:hover {
-            transform: translateY(-3px);
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15), -10px -10px 20px rgba(255, 255, 255, 0.9);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
 
         .search-icon {
             font-size: 1.4rem;
             margin-right: 1rem;
-            color: var(--accent);
+            background: var(--rainbow-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             transition: transform 0.3s ease;
         }
 
         .search-bar:hover .search-icon {
-            transform: scale(1.2);
+            transform: scale(1.2) rotate(360deg);
         }
 
         .search-input {
@@ -135,6 +328,7 @@
             width: 100%;
             outline: none;
             font-weight: 400;
+            font-family: 'Poppins', sans-serif;
         }
 
         .search-input::placeholder {
@@ -145,16 +339,39 @@
             position: absolute;
             top: 1rem;
             right: 1rem;
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             padding: 0.8rem;
             cursor: pointer;
-            box-shadow: var(--shadow);
+            box-shadow: var(--glass-shadow);
             transition: all 0.3s ease;
+            color: var(--text-primary);
         }
 
         .theme-toggle:hover {
-            transform: rotate(360deg);
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        .easter-egg {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            padding: 0.8rem;
+            cursor: pointer;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .easter-egg:hover {
+            transform: rotate(360deg) scale(1.1);
         }
 
         .container {
@@ -162,21 +379,50 @@
             margin: 0 auto;
             padding: 2rem;
             flex: 1;
+            position: relative;
+            z-index: 5;
         }
 
         .category {
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: var(--card-radius);
             margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-            transition: all 0.4s ease;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            transform-style: preserve-3d;
+            opacity: 0;
+            animation: slideInUp 0.6s ease forwards;
+        }
+
+        [data-mode="professional"] .category {
+            animation: none;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .category:hover {
             transform: translateY(-8px) rotateX(5deg);
-            box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.15), -12px -12px 24px rgba(255, 255, 255, 0.9);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-mode="professional"] .category:hover {
+            transform: translateY(-5px);
         }
 
         .category-header {
@@ -185,9 +431,37 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            background: var(--gradient);
+            background: var(--rainbow-gradient);
+            background-size: 400% 400%;
             color: #fff;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: gradientShift 5s ease-in-out infinite;
+        }
+
+        [data-mode="professional"] .category-header {
+            animation: none;
+            background: var(--accent);
+        }
+
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        [data-mode="professional"] .category-header::before {
+            content: none;
+        }
+
+        .category-header:hover::before {
+            left: 100%;
         }
 
         .category-title {
@@ -196,6 +470,7 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         .category-icon {
@@ -209,7 +484,7 @@
 
         .arrow {
             font-size: 1.5rem;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .arrow.down {
@@ -223,7 +498,7 @@
             padding: 2rem;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.6s ease;
+            transition: max-height 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .tools-grid.expanded {
@@ -231,23 +506,31 @@
         }
 
         .tool-card {
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: var(--button-radius);
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             height: 100%;
-            box-shadow: var(--shadow-inset);
-            perspective: 1000px;
+            box-shadow: var(--glass-shadow);
+            transform-style: preserve-3d;
+            cursor: pointer;
         }
 
         .tool-card:hover {
-            transform: translateY(-5px) rotateX(5deg);
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15), -10px -10px 20px rgba(255, 255, 255, 0.9);
+            transform: translateY(-10px) rotateX(10deg) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-mode="professional"] .tool-card:hover {
+            transform: translateY(-5px);
         }
 
         .tool-card::before {
@@ -257,9 +540,13 @@
             left: 0;
             width: 100%;
             height: 6px;
-            background: var(--gradient);
+            background: var(--rainbow-gradient);
             opacity: 0;
             transition: opacity 0.3s ease;
+        }
+
+        [data-mode="professional"] .tool-card::before {
+            opacity: 0 !important;
         }
 
         .tool-card:hover::before {
@@ -269,12 +556,28 @@
         .tool-icon {
             font-size: 3.5rem;
             margin-bottom: 1rem;
-            color: var(--accent);
-            transition: transform 0.4s ease;
+            background: var(--rainbow-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
         }
 
         .tool-card:hover .tool-icon {
-            transform: scale(1.1) rotateY(15deg);
+            transform: scale(1.2) rotateY(15deg) rotateZ(5deg);
+            animation: iconBounce 0.6s ease;
+        }
+
+        [data-mode="professional"] .tool-card:hover .tool-icon {
+            transform: scale(1.1);
+            animation: none;
+        }
+
+        @keyframes iconBounce {
+            0%, 20%, 50%, 80%, 100% { transform: scale(1.2) translateY(0); }
+            40% { transform: scale(1.3) translateY(-10px); }
+            60% { transform: scale(1.25) translateY(-5px); }
         }
 
         .tool-title {
@@ -282,6 +585,11 @@
             font-weight: 600;
             margin-bottom: 0.8rem;
             text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(45deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .tool-description {
@@ -291,6 +599,7 @@
             text-align: center;
             line-height: 1.5;
             flex-grow: 1;
+            font-family: 'Poppins', sans-serif;
         }
 
         .last-updated {
@@ -301,7 +610,8 @@
         }
 
         .tool-button {
-            background: var(--gradient);
+            background: var(--rainbow-gradient);
+            background-size: 400% 400%;
             color: #fff;
             font-weight: 600;
             border: none;
@@ -317,11 +627,42 @@
             align-items: center;
             justify-content: center;
             min-height: 48px;
+            font-family: 'Space Grotesk', sans-serif;
+            position: relative;
+            overflow: hidden;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        [data-mode="professional"] .tool-button {
+            background: var(--accent);
+            animation: none;
+        }
+
+        .tool-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        [data-mode="professional"] .tool-button::before {
+            content: none;
+        }
+
+        .tool-button:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .tool-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
             filter: brightness(1.1);
         }
 
@@ -338,11 +679,29 @@
             font-size: 1.2rem;
             color: var(--text-secondary);
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.2);
+            color: var(--accent);
         }
 
         .favorite-btn.favorited {
             color: var(--accent);
+            animation: heartBeat 1s ease;
+        }
+
+        [data-mode="professional"] .favorite-btn.favorited {
+            animation: none;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1.1); }
+            75% { transform: scale(1.2); }
         }
 
         .no-results {
@@ -352,10 +711,11 @@
             font-size: 1.3rem;
             display: none;
             animation: fadeIn 0.5s ease;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         .featured::after {
-            content: '🔥 Hot';
+            content: '🔥 FIRE';
             position: absolute;
             top: 12px;
             right: 12px;
@@ -366,7 +726,24 @@
             padding: 0.4rem 0.8rem;
             border-radius: 20px;
             z-index: 1;
-            animation: pulse 2s infinite;
+            animation: fireGlow 2s infinite alternate;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        [data-mode="professional"] .featured::after {
+            animation: none;
+            box-shadow: none;
+        }
+
+        @keyframes fireGlow {
+            0% { 
+                box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
+                transform: scale(1);
+            }
+            100% { 
+                box-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+                transform: scale(1.05);
+            }
         }
 
         footer {
@@ -375,35 +752,38 @@
             text-align: center;
             color: var(--text-secondary);
             font-size: 1rem;
-            background: var(--card-bg);
-            box-shadow: var(--shadow);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--glass-shadow);
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 5;
+            font-family: 'Poppins', sans-serif;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Konami Code Success */
+        .konami-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: var(--rainbow-gradient);
+            color: white;
+            padding: 2rem 3rem;
+            border-radius: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            z-index: 10000;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        .konami-message.show {
+            transform: translate(-50%, -50%) scale(1);
         }
-
-        .category {
-            animation: fadeIn 0.6s ease forwards;
-            opacity: 0;
-        }
-
-        .category:nth-child(1) { animation-delay: 0.1s; }
-        .category:nth-child(2) { animation-delay: 0.2s; }
-        .category:nth-child(3) { animation-delay: 0.3s; }
-        .category:nth-child(4) { animation-delay: 0.4s; }
-        .category:nth-child(5) { animation-delay: 0.5s; }
-        .category:nth-child(6) { animation-delay: 0.6s; }
 
         /* Responsive Design */
         @media (min-width: 1200px) {
@@ -500,25 +880,65 @@
             }
         }
 
-        /* Touch Device Optimizations */
-        @media (hover: none) {
-            .category:hover, .tool-card:hover, .tool-button:hover, .theme-toggle:hover {
-                transform: none;
-            }
+        /* Smooth Scroll Indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .scroll-indicator:hover {
+            transform: scale(1.1);
+            background: var(--rainbow-gradient);
+        }
+
+        /* Category animations delay */
+        .category:nth-child(1) { animation-delay: 0.1s; }
+        .category:nth-child(2) { animation-delay: 0.2s; }
+        .category:nth-child(3) { animation-delay: 0.3s; }
+        .category:nth-child(4) { animation-delay: 0.4s; }
+        .category:nth-child(5) { animation-delay: 0.5s; }
+        .category:nth-child(6) { animation-delay: 0.6s; }
+
+        [data-mode="professional"] .category:nth-child(n) {
+            animation-delay: 0s;
         }
     </style>
 </head>
-<body>
+<body data-mode="professional">
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
     <div class="header">
         <div class="logo-container">
-            <img src="wlogo.png" alt="Tools Hub Logo" class="logo">
+            <svg class="logo" id="logo" width="120" height="120" viewBox="0 0 120 120">
+                <text x="60" y="60" text-anchor="middle" dominant-baseline="middle" font-size="80" fill="var(--accent)">✨</text>
+            </svg>
         </div>
-        <h1>Tools Hub</h1>
+        <h1 id="mainTitle">Tools Hub</h1>
         <div class="stats" id="stats"></div>
         <div class="search-bar">
             <i class="fas fa-search search-icon"></i>
-            <input type="text" class="search-input" id="searchInput" placeholder="Find your vibe...">
+            <input type="text" class="search-input" id="searchInput" placeholder="What's your vibe today? ✨">
         </div>
+        <button class="easter-egg" id="easterEgg" title="Easter Egg">🐣</button>
         <button class="theme-toggle" title="Toggle Theme">
             <i class="fas fa-moon"></i>
         </button>
@@ -529,65 +949,197 @@
     </div>
 
     <div class="no-results" id="noResults">
-        No tools match your vibe. Try a different keyword! 😎
+        No tools match your vibe bestie 💫 Try something else!
+    </div>
+
+    <div class="scroll-indicator" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
     </div>
 
     <footer>
-        <p>© <span id="currentYear"></span> Mangukiya Ved. All rights reserved. Built with 💖</p>
+        <p>© <span id="currentYear"></span> Mangukiya Ved. All rights reserved. Built with 💖 and absolutely iconic vibes ✨</p>
     </footer>
 
+    <!-- Konami Code Message -->
+    <div class="konami-message" id="konamiMessage">
+        🌈 RAINBOW MODE ACTIVATED! 🌈<br>
+        You found the secret! Absolutely iconic! 💅✨
+    </div>
+
     <script>
-        // Updated tool data with Gen Z-friendly category names
+        // Updated tool data with Gen Z vibes
         const tools = [
-            { icon: "🖼️", title: "Image to PDF", description: "Turn your pics into PDFs like a pro.", link: "image to pdf/imagetopdf.html", date: "2025-05-13", category: "PDF Vibes", featured: true },
-            { icon: "📄", title: "PDF to Image", description: "Yo, extract images from PDFs in a snap.", link: "pdf to image/PDFtoIMAGE.html", date: "2025-05-13", category: "PDF Vibes", featured: true },
-            { icon: "📑", title: "PDF Merger", description: "Smash multiple PDFs into one epic file.", link: "pdf merger/pdfMERGER.html", date: "2025-05-13", category: "PDF Vibes", featured: true },
-            { icon: "✂️", title: "PDF Splitter", description: "Chop PDFs into pieces, easy peasy.", link: "pdf splitter/pdfSPLITTER.html", date: "2025-05-13", category: "PDF Vibes", featured: true },
-            { icon: "📝", title: "PDF to Text and Text to PDF", description: "Rip text from PDFs or make PDFs from text.", link: "texttopdf and pdf to text/texttopdf/pdftotext.html", date: "2025-05-13", category: "PDF Vibes", featured: true },
-            { icon: "🎂", title: "Age Calculator", description: "Find out how old you are, no cap.", link: "AgeCalculator.html", date: "2025-03-05", category: "Money & Math", featured: true },
-            { icon: "➕➖", title: "Calculator", description: "Basic math and percentages, on fleek.", link: "calculator.html", date: "2024-04-12", category: "Money & Math", featured: true },
-            { icon: "💰", title: "Discount Calculator", description: "Score deals by calculating discounts.", link: "discount.html", date: "2025-02-19", category: "Money & Math" },
-            { icon: "📝", title: "GST Calculator", description: "Figure out GST rates, no stress.", link: "gst.html", date: "2025-02-19", category: "Money & Math" },
-            { icon: "💱", title: "Currency Exchange", description: "Swap currencies with real-time rates.", link: "CurrencyEXC.html", date: "2025-01-26", category: "Money & Math" },
-            { icon: "💸", title: "Expense Tracker", description: "Track your cash flow like a boss.", link: "Expense_Tracker.html", date: "2025-05-12", category: "Money & Math", featured: true },
-            { icon: "🏠", title: "Home Loan Calculator", description: "Plan your home loan EMI, no sweat.", link: "homeloan.html", date: "2025-02-19", category: "Money & Math" },
-            { icon: "📈", title: "Investment Calculator", description: "Grow your money, check your returns.", link: "investment.html", date: "2025-02-19", category: "Money & Math" },
-            { icon: "💵", title: "Loan Calculator", description: "Crunch loan payments in seconds.", link: "loan.html", date: "2025-02-19", category: "Money & Math" },
-            { icon: "🧾", title: "Invoice & Bill Maker", description: "Craft slick invoices in a flash.", link: "comingsoon.html", date: "2025-05-13", category: "Money & Math", featured: true },
-            { icon: "📏", title: "Area Converter", description: "Switch up area units, no prob.", link: "areaconverter.html", date: "2025-02-19", category: "Unit Swaps" },
-            { icon: "📊", title: "Data Converter", description: "Convert KB, MB, GB, you name it.", link: "dataconverter.html", date: "2025-02-19", category: "Unit Swaps" },
-            { icon: "📏", title: "Length Converter", description: "Meters, feet, inches? We got you.", link: "lengthconverter.html", date: "2025-02-19", category: "Unit Swaps" },
-            { icon: "⚖️", title: "Mass Converter", description: "Kilos, pounds, grams, all day.", link: "massconverter.html", date: "2025-02-19", category: "Unit Swaps" },
-            { icon: "⚡", title: "Power Converter", description: "Watts, horsepower, it’s all here.", link: "powerconverter.html", date: "2025-02-19", category: "Unit Swaps" },
-            { icon: "🗜", title: "Pressure Converter", description: "Bar, psi, pascal, no biggie.", link: "pressureconverter.html", date: "2025-02-19", category: "Unit Swaps" },
-            { icon: "🚀", title: "Speed Converter", description: "Km/h, mph, m/s, you pick.", link: "speedconverter.html", date: "2025-02-19", category: "Unit Swaps" },
-            { icon: "🌡️", title: "Temperature Converter", description: "Celsius, Fahrenheit, Kelvin, sorted.", link: "tempretureconverter.html", date: "2025-02-19", category: "Unit Swaps" },
-            { icon: "⏳", title: "Time Converter", description: "Seconds, minutes, hours, done.", link: "timeconverter.html", date: "2025-02-19", category: "Unit Swaps" },
-            { icon: "📦", title: "Volume Converter", description: "Liters, gallons, cubic vibes.", link: "volumeconverter.html", date: "2025-02-19", category: "Unit Swaps" },
-            { icon: "🔐", title: "Secret Code Generator", description: "Lock up messages with AES encryption.", link: "text_to_secret_code_converter.html", date: "2024-10-22", category: "Crypto Crew", featured: true },
-            { icon: "🔢", title: "Text to Secret Number", description: "Turn text into numbers, super sneaky.", link: "Text_to_secret_numbers.html", date: "2024-11-03", category: "Crypto Crew" },
-            { icon: "😀", title: "Text to Emoji Cipher", description: "Text to emojis and back, so fun.", link: "Text_to_emoji_language_converter.html", date: "2024-09-10", category: "Crypto Crew" },
-            { icon: "🔑", title: "Epic Password Generator", description: "Create passwords that slap.", link: "passwordgenerator.html", date: "2025-05-13", category: "Crypto Crew", featured: true },
-            { icon: "📄", title: "Question Paper Maker", description: "Make dope question papers, upgraded.", link: "questionpapermaker.html", date: "2025-05-13", category: "Cool Utils", featured: true },
-            { icon: "⏳", title: "Countdown Timer", description: "Set timers that vibe with you.", link: "countdown_timer.html", date: "2025-02-16", category: "Cool Utils" },
-            { icon: "🎨", title: "Advanced Whiteboard", description: "Sketch with style, themes galore.", link: "whiteboard.html", date: "2024-12-15", category: "Cool Utils", featured: true },
-            { icon: "🎲", title: "Number Guessing Game", description: "Guess numbers, get hints, have fun.", link: "number_guessing_game.html", date: "2024-07-18", category: "Cool Utils" },
-            { icon: "📱", title: "QR Code Maker", description: "Generate QR codes, scan-ready.", link: "QR_code_maker.html", date: "2024-08-05", category: "Cool Utils" },
-            { icon: "📋", title: "Instant Resume Maker", description: "Build resumes that pop off.", link: "comingsoon.html", date: "2025-05-13", category: "Cool Utils", featured: true },
-            { icon: "🖼️", title: "Image Resizer & Cropper", description: "Tweak images like a pro.", link: "comingsoon.html", date: "2025-05-13", category: "Cool Utils", featured: true },
-            { icon: "🧮", title: "Plot Area Finder", description: "Calc areas for weird-shaped plots.", link: "area-2d.html", date: "2025-05-24", category: "Niche Calculators", featured: true },
-            { icon: "⚖️", title: "BMI Calculator", description: "Check your BMI, stay healthy.", link: "bmicalc.html", date: "2025-05-24", category: "Niche Calculators", featured: true },
-            { icon: "⚡", title: "Typing Master", description: "Test your typing speed, flex it.", link: "WPM.html", date: "2025-05-24", category: "Niche Calculators", featured: true }
+            { icon: "🖼️", title: "Image to PDF", description: "Turn your pics into PDFs like the main character you are ✨", link: "image to pdf/imagetopdf.html", date: "2025-05-13", category: "PDF Power", featured: true },
+            { icon: "📄", title: "PDF to Image", description: "Extract images from PDFs - periodt, no printer 💅", link: "pdf to image/PDFtoIMAGE.html", date: "2025-05-13", category: "PDF Power", featured: true },
+            { icon: "📑", title: "PDF Merger", description: "Smash PDFs together like your favorite playlist 🎵", link: "pdf merger/pdfMERGER.html", date: "2025-05-13", category: "PDF Power", featured: true },
+            { icon: "✂️", title: "PDF Splitter", description: "Chop PDFs into bite-sized pieces, chef's kiss 👨‍🍳", link: "pdf splitter/pdfSPLITTER.html", date: "2025-05-13", category: "PDF Power", featured: true },
+            { icon: "📝", title: "PDF to Text", description: "Rip text from PDFs or create PDFs from text - slay 💯", link: "texttopdf and pdf to text/texttopdf/pdftotext.html", date: "2025-05-13", category: "PDF Power", featured: true },
+            { icon: "🎂", title: "Age Calculator", description: "Find out exactly how many years you've been iconic 👑", link: "AgeCalculator.html", date: "2025-03-05", category: "Numbers Game", featured: true },
+            { icon: "➕➖", title: "Calculator", description: "Basic math but make it aesthetic and functional ✨", link: "calculator.html", date: "2024-04-12", category: "Numbers Game", featured: true },
+            { icon: "💰", title: "Discount Calculator", description: "Calculate those sweet deals like the savvy shopper you are", link: "discount.html", date: "2025-02-19", category: "Numbers Game" },
+            { icon: "📝", title: "GST Calculator", description: "Figure out tax rates without the headache bestie", link: "gst.html", date: "2025-02-19", category: "Numbers Game" },
+            { icon: "💱", title: "Currency Exchange", description: "Swap currencies with real-time rates - globe trotter vibes 🌍", link: "CurrencyEXC.html", date: "2025-01-26", category: "Numbers Game" },
+            { icon: "💸", title: "Expense Tracker", description: "Track your coins like the financial queen you are 👸", link: "Expense_Tracker.html", date: "2025-05-12", category: "Numbers Game", featured: true },
+            { icon: "🏠", title: "Home Loan Calculator", description: "Plan your dream home EMI - manifest that house ✨", link: "homeloan.html", date: "2025-02-19", category: "Numbers Game" },
+            { icon: "📈", title: "Investment Calculator", description: "Grow your bag and check returns like a boss 💼", link: "investment.html", date: "2025-02-19", category: "Numbers Game" },
+            { icon: "💵", title: "Loan Calculator", description: "Crunch loan payments faster than your morning coffee ☕", link: "loan.html", date: "2025-02-19", category: "Numbers Game" },
+            { icon: "🧾", title: "Invoice & Bill Maker", description: "Craft invoices that absolutely serve professionalism 💼", link: "comingsoon.html", date: "2025-05-13", category: "Numbers Game", featured: true },
+            { icon: "📏", title: "Area Converter", description: "Switch area units like you switch your outfits 👗", link: "areaconverter.html", date: "2025-02-19", category: "Unit Flex" },
+            { icon: "📊", title: "Data Converter", description: "Convert KB, MB, GB - tech girl summer vibes 💻", link: "dataconverter.html", date: "2025-02-19", category: "Unit Flex" },
+            { icon: "📏", title: "Length Converter", description: "Meters, feet, inches - we speak all the languages 🌐", link: "lengthconverter.html", date: "2025-02-19", category: "Unit Flex" },
+            { icon: "⚖️", title: "Mass Converter", description: "Kilos, pounds, grams - weight conversion with no judgment 💕", link: "massconverter.html", date: "2025-02-19", category: "Unit Flex" },
+            { icon: "⚡", title: "Power Converter", description: "Watts, horsepower - channeling main character energy ⚡", link: "powerconverter.html", date: "2025-02-19", category: "Unit Flex" },
+            { icon: "🗜", title: "Pressure Converter", description: "Bar, psi, pascal - no pressure, just vibes 😌", link: "pressureconverter.html", date: "2025-02-19", category: "Unit Flex" },
+            { icon: "🚀", title: "Speed Converter", description: "Km/h, mph, m/s - fast like your typing speed 💨", link: "speedconverter.html", date: "2025-02-19", category: "Unit Flex" },
+            { icon: "🌡️", title: "Temperature Converter", description: "Celsius, Fahrenheit, Kelvin - hot like your takes 🔥", link: "tempretureconverter.html", date: "2025-02-19", category: "Unit Flex" },
+            { icon: "⏳", title: "Time Converter", description: "Seconds, minutes, hours - time flies when you're iconic ⏰", link: "timeconverter.html", date: "2025-02-19", category: "Unit Flex" },
+            { icon: "📦", title: "Volume Converter", description: "Liters, gallons - measuring that big energy 📏", link: "volumeconverter.html", date: "2025-02-19", category: "Unit Flex" },
+            { icon: "🔐", title: "Secret Code Generator", description: "Lock up messages with AES encryption - mysterious main character 🕵️‍♀️", link: "text_to_secret_code_converter.html", date: "2024-10-22", category: "Cyber Vibes", featured: true },
+            { icon: "🔢", title: "Text to Secret Number", description: "Turn text into numbers - secret agent vibes activated 🕶️", link: "Text_to_secret_numbers.html", date: "2024-11-03", category: "Cyber Vibes" },
+            { icon: "😀", title: "Text to Emoji Cipher", description: "Text to emojis and back - speak fluent Gen Z 💬", link: "Text_to_emoji_language_converter.html", date: "2024-09-10", category: "Cyber Vibes" },
+            { icon: "🔑", title: "Epic Password Generator", description: "Create passwords that absolutely slap and keep you secure 🛡️", link: "passwordgenerator.html", date: "2025-05-13", category: "Cyber Vibes", featured: true },
+            { icon: "📄", title: "Question Paper Maker", description: "Make question papers that are actually aesthetic ✨", link: "questionpapermaker.html", date: "2025-05-13", category: "Life Hacks", featured: true },
+            { icon: "⏳", title: "Countdown Timer", description: "Set timers with that perfect productivity girl vibe 📚", link: "countdown_timer.html", date: "2025-02-16", category: "Life Hacks" },
+            { icon: "🎨", title: "Advanced Whiteboard", description: "Sketch with style - artistic main character energy 🎭", link: "whiteboard.html", date: "2024-12-15", category: "Life Hacks", featured: true },
+            { icon: "🎲", title: "Number Guessing Game", description: "Guess numbers, get hints - brain training but fun 🧠", link: "number_guessing_game.html", date: "2024-07-18", category: "Life Hacks" },
+            { icon: "📱", title: "QR Code Maker", description: "Generate QR codes that are scan-ready and aesthetic 📲", link: "QR_code_maker.html", date: "2024-08-05", category: "Life Hacks" },
+            { icon: "📋", title: "Instant Resume Maker", description: "Build resumes that absolutely pop off and get you hired 💼", link: "comingsoon.html", date: "2025-05-13", category: "Life Hacks", featured: true },
+            { icon: "🖼️", title: "Image Resizer & Cropper", description: "Tweak images like a professional content creator 📸", link: "comingsoon.html", date: "2025-05-13", category: "Life Hacks", featured: true },
+            { icon: "🧮", title: "Plot Area Finder", description: "Calculate areas for weird-shaped plots like a geometry queen 👑", link: "area-2d.html", date: "2025-05-24", category: "Smart Calcs", featured: true },
+            { icon: "⚖️", title: "BMI Calculator", description: "Check your BMI with zero judgment, just health vibes 💪", link: "bmicalc.html", date: "2025-05-24", category: "Smart Calcs", featured: true },
+            { icon: "⚡", title: "Typing Master", description: "Test your typing speed and flex those WPM skills ⌨️", link: "WPM.html", date: "2025-05-24", category: "Smart Calcs", featured: true }
         ];
 
         const categoryIcons = {
-            "PDF Vibes": "fas fa-file-pdf",
-            "Money & Math": "fas fa-calculator",
-            "Unit Swaps": "fas fa-ruler",
-            "Crypto Crew": "fas fa-lock",
-            "Cool Utils": "fas fa-tools",
-            "Niche Calculators": "fas fa-flask"
+            "PDF Power": "fas fa-file-pdf",
+            "Numbers Game": "fas fa-calculator",
+            "Unit Flex": "fas fa-ruler",
+            "Cyber Vibes": "fas fa-lock",
+            "Life Hacks": "fas fa-magic",
+            "Smart Calcs": "fas fa-brain"
         };
+
+        const genZTitles = [
+            "Absolutely Iconic 💅",
+            "Tools Hub - Main Character Energy ✨",
+            "Your Digital Bestie 🌟",
+            "Serving Functionality 💯",
+            "That's So Fetch 💖",
+            "Peak Performance Vibes 🚀",
+            "Tools Hub - It's Giving Excellence ✨"
+        ];
+
+        const logoEmojis = ["✨", "🌟", "💫", "🔮", "🎭", "🎨", "🚀", "💎", "👑", "🌈"];
+        let logoIndex = 0;
+        let konamiSequence = [];
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+        let sparkleInterval;
+
+        // Sparkle Effects
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 2000);
+        }
+
+        function createRandomSparkles() {
+            sparkleInterval = setInterval(() => {
+                if (Math.random() < 0.3) {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    createSparkle(x, y);
+                }
+            }, 2000);
+        }
+
+        // Click Ripple Effect
+        function createRipple(e) {
+            const ripple = document.createElement('span');
+            const rect = e.currentTarget.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            e.currentTarget.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
+        }
+
+        // Konami Code Handler
+        function handleKonamiCode(e) {
+            konamiSequence.push(e.code);
+            konamiSequence = konamiSequence.slice(-10);
+            
+            if (konamiSequence.join(',') === konamiCode.join(',')) {
+                activateRainbowMode();
+                showKonamiMessage();
+                konamiSequence = [];
+            }
+        }
+
+        function activateRainbowMode() {
+            document.body.classList.add('rainbow-mode');
+            setTimeout(() => {
+                document.body.classList.remove('rainbow-mode');
+            }, 5000);
+        }
+
+        function showKonamiMessage() {
+            const message = document.getElementById('konamiMessage');
+            message.classList.add('show');
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+        }
+
+        // Logo Click Handler
+        function handleLogoClick() {
+            const logoText = document.querySelector('#logo text');
+            logoIndex = (logoIndex + 1) % logoEmojis.length;
+            logoText.textContent = logoEmojis[logoIndex];
+            
+            // Create sparkle explosion
+            const rect = document.getElementById('logo').getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const angle = (i / 8) * Math.PI * 2;
+                    const distance = 50;
+                    const x = centerX + Math.cos(angle) * distance;
+                    const y = centerY + Math.sin(angle) * distance;
+                    createSparkle(x, y);
+                }, i * 100);
+            }
+        }
+
+        // Title Click Handler
+        function handleTitleClick() {
+            const title = document.getElementById('mainTitle');
+            const randomTitle = genZTitles[Math.floor(Math.random() * genZTitles.length)];
+            title.textContent = randomTitle;
+            title.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                title.style.transform = 'scale(1)';
+            }, 300);
+        }
+
+        // Global Click Handler for Sparkles
+        function handleGlobalClick(e) {
+            if (Math.random() < 0.7) {
+                createSparkle(e.clientX + (Math.random() - 0.5) * 20, e.clientY + (Math.random() - 0.5) * 20);
+            }
+        }
 
         function organizeByCategory() {
             try {
@@ -610,10 +1162,10 @@
                 const categories = organizeByCategory();
                 const totalCategories = Object.keys(categories).length;
                 const totalTools = tools.length;
-                document.getElementById("stats").textContent = `${totalTools} Tools in ${totalCategories} Categories`;
+                document.getElementById("stats").textContent = `${totalTools} Iconic Tools Across ${totalCategories} Vibe Categories ✨`;
             } catch (error) {
                 console.error("Error updating stats:", error);
-                document.getElementById("stats").textContent = "Error loading stats";
+                document.getElementById("stats").textContent = "Error loading stats bestie 😅";
             }
         }
 
@@ -625,8 +1177,8 @@
                 container.innerHTML = '';
 
                 const sortedCategories = Object.keys(categories).sort((a, b) => {
-                    if (a === "PDF Vibes") return -1;
-                    if (b === "PDF Vibes") return 1;
+                    if (a === "PDF Power") return -1;
+                    if (b === "PDF Power") return 1;
                     return a.localeCompare(b);
                 });
 
@@ -663,10 +1215,16 @@
                         arrow.classList.add("down");
                     }
 
-                    categoryHeader.addEventListener("click", () => {
+                    categoryHeader.addEventListener("click", (e) => {
+                        createRipple(e);
                         toolsGrid.classList.toggle("expanded");
                         arrow.classList.toggle("down");
                         categoryHeader.setAttribute("aria-expanded", toolsGrid.classList.contains("expanded") ? "true" : "false");
+                        
+                        // Smooth scroll to category
+                        setTimeout(() => {
+                            categoryDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }, 100);
                     });
 
                     categoryHeader.addEventListener("keydown", (e) => {
@@ -686,8 +1244,10 @@
                         const toolLink = document.createElement("a");
                         toolLink.href = tool.link;
                         toolLink.classList.add("tool-button");
-                        toolLink.textContent = "Use Tool";
+                        toolLink.textContent = "Let's Go! 🚀";
                         toolLink.setAttribute("aria-label", `Use ${tool.title}`);
+
+                        toolLink.addEventListener("click", createRipple);
 
                         const favoriteBtn = document.createElement("button");
                         favoriteBtn.classList.add("favorite-btn");
@@ -700,7 +1260,8 @@
                             favoriteBtn.classList.add("favorited");
                         }
 
-                        favoriteBtn.addEventListener("click", () => {
+                        favoriteBtn.addEventListener("click", (e) => {
+                            e.stopPropagation();
                             const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
                             if (favorites.includes(tool.title)) {
                                 favoriteBtn.classList.remove("favorited");
@@ -709,6 +1270,22 @@
                                 favoriteBtn.classList.add("favorited");
                                 favorites.push(tool.title);
                                 localStorage.setItem("favorites", JSON.stringify(favorites));
+                                
+                                // Create heart explosion
+                                const rect = favoriteBtn.getBoundingClientRect();
+                                const centerX = rect.left + rect.width / 2;
+                                const centerY = rect.top + rect.height / 2;
+                                createSparkle(centerX, centerY);
+                            }
+                        });
+
+                        // Hover sparkles for tool cards
+                        toolCard.addEventListener("mouseenter", () => {
+                            if (document.body.dataset.mode === 'fun' && Math.random() < 0.8) {
+                                const rect = toolCard.getBoundingClientRect();
+                                const x = rect.left + Math.random() * rect.width;
+                                const y = rect.top + Math.random() * rect.height;
+                                createSparkle(x, y);
                             }
                         });
 
@@ -728,16 +1305,9 @@
                     categoryDiv.appendChild(toolsGrid);
                     container.appendChild(categoryDiv);
                 });
-
-                // Smooth scroll to category on click
-                document.querySelectorAll(".category-header").forEach(header => {
-                    header.addEventListener("click", () => {
-                        header.parentElement.scrollIntoView({ behavior: "smooth" });
-                    });
-                });
             } catch (error) {
                 console.error("Error generating categories:", error);
-                document.getElementById("noResults").textContent = "Oops, something broke. Try refreshing!";
+                document.getElementById("noResults").textContent = "Oops bestie, something broke! Try refreshing 💫";
                 document.getElementById("noResults").style.display = "block";
             }
         }
@@ -779,7 +1349,7 @@
                 noResults.style.display = foundAny ? "none" : "block";
             } catch (error) {
                 console.error("Error filtering tools:", error);
-                document.getElementById("noResults").textContent = "Search broke, try again!";
+                document.getElementById("noResults").textContent = "Search is broken bestie, try again! 💔";
                 document.getElementById("noResults").style.display = "block";
             }
         }
@@ -804,31 +1374,77 @@
             }
         }
 
-        function isTouchDevice() {
-            return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+        function toggleMode(e) {
+            createRipple(e);
+            const body = document.body;
+            const currentMode = body.dataset.mode;
+            const newMode = currentMode === 'professional' ? 'fun' : 'professional';
+            body.dataset.mode = newMode;
+
+            if (newMode === 'fun') {
+                createRandomSparkles();
+                document.addEventListener("keydown", handleKonamiCode);
+                document.addEventListener("click", handleGlobalClick);
+                document.getElementById("logo").addEventListener("click", handleLogoClick);
+                document.getElementById("mainTitle").addEventListener("click", handleTitleClick);
+            } else {
+                clearInterval(sparkleInterval);
+                document.removeEventListener("keydown", handleKonamiCode);
+                document.removeEventListener("click", handleGlobalClick);
+                document.getElementById("logo").removeEventListener("click", handleLogoClick);
+                document.getElementById("mainTitle").removeEventListener("click", handleTitleClick);
+                document.querySelectorAll('.sparkle').forEach(s => s.remove());
+                body.classList.remove('rainbow-mode');
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
 
         window.addEventListener("DOMContentLoaded", () => {
             try {
                 generateCategories();
                 updateStats();
+                
+                // Event Listeners
                 document.getElementById("searchInput").addEventListener("input", filterTools);
                 document.getElementById("currentYear").textContent = new Date().getFullYear();
                 document.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
+                document.getElementById("scrollToTop").addEventListener("click", scrollToTop);
+                document.getElementById("easterEgg").addEventListener("click", toggleMode);
+                
+                // Add ripple effect to buttons
+                document.querySelectorAll(".theme-toggle, .easter-egg").forEach(btn => {
+                    btn.addEventListener("click", createRipple);
+                });
 
-                if (isTouchDevice()) {
-                    document.body.classList.add('touch-device');
-                }
-
+                // Load saved theme
                 const savedTheme = localStorage.getItem("theme");
                 if (savedTheme === "dark") {
                     document.body.dataset.theme = "dark";
                     document.querySelector(".theme-toggle i").classList.remove("fa-moon");
                     document.querySelector(".theme-toggle i").classList.add("fa-sun");
                 }
+                
+                // Show scroll indicator when needed
+                window.addEventListener("scroll", () => {
+                    const scrollIndicator = document.getElementById("scrollToTop");
+                    if (window.scrollY > 300) {
+                        scrollIndicator.style.opacity = "1";
+                        scrollIndicator.style.pointerEvents = "auto";
+                    } else {
+                        scrollIndicator.style.opacity = "0";
+                        scrollIndicator.style.pointerEvents = "none";
+                    }
+                });
+
             } catch (error) {
                 console.error("Error initializing page:", error);
-                document.getElementById("noResults").textContent = "Page load failed, try refreshing!";
+                document.getElementById("noResults").textContent = "Page load failed bestie, try refreshing! 💔";
                 document.getElementById("noResults").style.display = "block";
             }
         });

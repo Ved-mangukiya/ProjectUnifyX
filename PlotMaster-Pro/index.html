@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#6366f1">
+    <title>📐 PlotMaster Pro - Civil Engineering Suite</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="logo-animation">📐</div>
+            <h2>PlotMaster Pro</h2>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p>Loading professional tools...</p>
+        </div>
+    </div>
+
+    <!-- App Container -->
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <div class="logo">
+                    <span class="logo-icon">📐</span>
+                    <span class="logo-text">PlotMaster Pro</span>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <button class="header-btn" id="saveBtn" title="Save Project">💾</button>
+                <button class="header-btn" id="exportBtn" title="Export">📤</button>
+                <button class="header-btn" id="settingsBtn" title="Settings">⚙️</button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-content">
+                <!-- Quick Tools -->
+                <div class="tool-section">
+                    <h3 class="section-title">Quick Tools</h3>
+                    <div class="tool-grid">
+                        <button class="tool-btn active" data-tool="polygon" title="Polygon Creator">
+                            <span class="tool-icon">⬟</span>
+                            <span class="tool-label">Polygon</span>
+                        </button>
+                        <button class="tool-btn" data-tool="measure" title="Measurement">
+                            <span class="tool-icon">📏</span>
+                            <span class="tool-label">Measure</span>
+                        </button>
+                        <button class="tool-btn" data-tool="divide" title="Plot Division">
+                            <span class="tool-icon">✂️</span>
+                            <span class="tool-label">Divide</span>
+                        </button>
+                        <button class="tool-btn" data-tool="3d" title="3D View">
+                            <span class="tool-icon">🏔️</span>
+                            <span class="tool-label">3D View</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plot Configuration -->
+                <div class="config-section">
+                    <h3 class="section-title">Plot Configuration</h3>
+                    
+                    <div class="form-group">
+                        <label for="numSides">Number of Sides</label>
+                        <input type="number" id="numSides" min="3" max="20" value="4" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="unitSystem">Units</label>
+                        <select id="unitSystem" class="form-select">
+                            <option value="meters">Meters (m)</option>
+                            <option value="feet">Feet (ft)</option>
+                            <option value="yards">Yards (yd)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="plotType">Plot Type</label>
+                        <select id="plotType" class="form-select">
+                            <option value="irregular">Irregular</option>
+                            <option value="regular">Regular</option>
+                            <option value="rectangle">Rectangle</option>
+                            <option value="circle">Circle</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn-primary" id="generateBtn">Generate Plot</button>
+                </div>
+
+                <!-- Side Inputs (Dynamic) -->
+                <div class="sides-section" id="sidesSection" style="display: none;">
+                    <h3 class="section-title">Side Lengths</h3>
+                    <div id="sideInputs" class="side-inputs"></div>
+                    <button class="btn-primary" id="calculateBtn">Calculate & Draw</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Canvas Area -->
+        <main class="main-canvas">
+            <!-- Canvas Toolbar -->
+            <div class="canvas-toolbar">
+                <div class="toolbar-group">
+                    <button class="toolbar-btn active" id="view2D" title="2D View">🗺️</button>
+                    <button class="toolbar-btn" id="view3D" title="3D View">🏔️</button>
+                </div>
+                
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" id="zoomIn" title="Zoom In">🔍</button>
+                    <button class="toolbar-btn" id="zoomOut" title="Zoom Out">🔎</button>
+                    <button class="toolbar-btn" id="fitScreen" title="Fit Screen">⊞</button>
+                </div>
+                
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" id="gridToggle" title="Toggle Grid">⊟</button>
+                    <button class="toolbar-btn" id="undoBtn" title="Undo">↶</button>
+                    <button class="toolbar-btn" id="redoBtn" title="Redo">↷</button>
+                </div>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="canvas-container" id="canvasContainer">
+                <canvas id="canvas2D" class="main-canvas-element"></canvas>
+                <canvas id="canvas3D" class="main-canvas-element" style="display: none;"></canvas>
+                
+                <!-- Canvas Overlay -->
+                <div class="canvas-overlay">
+                    <div class="coordinates-display" id="coordsDisplay">X: 0, Y: 0</div>
+                    <div class="scale-display" id="scaleDisplay">Scale: 1:1000</div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Results Panel -->
+        <div class="results-panel" id="resultsPanel">
+            <div class="panel-header">
+                <h3>Results</h3>
+                <button class="panel-toggle" id="resultsPanelToggle">📊</button>
+            </div>
+            
+            <div class="panel-content" id="resultsContent">
+                <div class="results-grid" id="resultsGrid">
+                    <!-- Dynamic results -->
+                </div>
+                
+                <div class="export-options">
+                    <button class="export-btn" data-format="pdf">📄 PDF</button>
+                    <button class="export-btn" data-format="image">🖼️ PNG</button>
+                    <button class="export-btn" data-format="excel">📊 Excel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Export Options</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="exportModalBody">
+                <!-- Export options will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts - Using CDN (NO DOWNLOADS NEEDED!) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

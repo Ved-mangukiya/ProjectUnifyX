@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Resizer & Cropper Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">
+                    <span class="logo-icon">📸</span>
+                    Photo Resizer Pro
+                </h1>
+                <div class="header-controls">
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <button class="help-btn" id="helpBtn" title="Keyboard Shortcuts">
+                        <span>❓</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Help Modal -->
+        <div class="modal" id="helpModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Keyboard Shortcuts</h3>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="shortcut-list">
+                        <div class="shortcut-item">
+                            <kbd>Ctrl + Z</kbd>
+                            <span>Undo</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Ctrl + Y</kbd>
+                            <span>Redo</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Ctrl + V</kbd>
+                            <span>Paste Image</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Arrow Keys</kbd>
+                            <span>Move Crop Area</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>R</kbd>
+                            <span>Rotate Right</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>F</kbd>
+                            <span>Flip Horizontal</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Escape</kbd>
+                            <span>Cancel Crop</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section class="upload-section" id="uploadSection">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">📁</div>
+                        <h2>Drop images here or click to browse</h2>
+                        <p>Supports PNG, JPG, WebP • Max 50MB per file</p>
+                        <button class="browse-btn" id="browseBtn">Browse Files</button>
+                        <div class="upload-options">
+                            <button class="paste-btn" id="pasteBtn">📋 Paste from Clipboard</button>
+                            <button class="batch-btn" id="batchBtn">📂 Batch Upload</button>
+                        </div>
+                    </div>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" multiple hidden>
+                <input type="file" id="batchInput" accept="image/*" multiple hidden>
+            </section>
+
+            <!-- Editor Section -->
+            <section class="editor-section" id="editorSection" style="display: none;">
+                <!-- Toolbar -->
+                <div class="toolbar">
+                    <div class="toolbar-group">
+                        <button class="tool-btn" id="undoBtn" title="Undo (Ctrl+Z)">↶</button>
+                        <button class="tool-btn" id="redoBtn" title="Redo (Ctrl+Y)">↷</button>
+                    </div>
+                    
+                    <div class="toolbar-group">
+                        <button class="tool-btn active" id="cropBtn" title="Crop">✂️</button>
+                        <button class="tool-btn" id="resizeBtn" title="Resize">📏</button>
+                        <button class="tool-btn" id="filtersBtn" title="Filters">🎨</button>
+                        <button class="tool-btn" id="textBtn" title="Add Text">📝</button>
+                    </div>
+
+                    <div class="toolbar-group">
+                        <button class="tool-btn" id="rotateLeftBtn" title="Rotate Left">↺</button>
+                        <button class="tool-btn" id="rotateRightBtn" title="Rotate Right">↻</button>
+                        <button class="tool-btn" id="flipHBtn" title="Flip Horizontal">↔️</button>
+                        <button class="tool-btn" id="flipVBtn" title="Flip Vertical">↕️</button>
+                    </div>
+
+                    <div class="toolbar-group">
+                        <button class="tool-btn" id="resetBtn" title="Reset">🔄</button>
+                        <button class="tool-btn" id="downloadBtn" title="Download">💾</button>
+                    </div>
+                </div>
+
+                <!-- Editor Main -->
+                <div class="editor-main">
+                    <!-- Left Panel -->
+                    <div class="left-panel">
+                        <!-- Crop Presets -->
+                        <div class="panel-section" id="cropPanel">
+                            <h3>Crop Presets</h3>
+                            <div class="preset-grid">
+                                <button class="preset-btn" data-ratio="free">Free Form</button>
+                                <button class="preset-btn" data-ratio="1:1">Square 1:1</button>
+                                <button class="preset-btn" data-ratio="4:3">Standard 4:3</button>
+                                <button class="preset-btn" data-ratio="16:9">Widescreen 16:9</button>
+                                <button class="preset-btn" data-ratio="3:4">Portrait 3:4</button>
+                                <button class="preset-btn" data-ratio="9:16">Story 9:16</button>
+                                <button class="preset-btn" data-ratio="21:9">Ultrawide 21:9</button>
+                                <button class="preset-btn" data-ratio="circle">Circle Crop</button>
+                            </div>
+                            
+                            <h4>Social Media</h4>
+                            <div class="preset-grid">
+                                <button class="preset-btn social" data-preset="instagram-post">IG Post 1080×1080</button>
+                                <button class="preset-btn social" data-preset="instagram-story">IG Story 1080×1920</button>
+                                <button class="preset-btn social" data-preset="facebook-cover">FB Cover 820×312</button>
+                                <button class="preset-btn social" data-preset="twitter-header">Twitter 1500×500</button>
+                                <button class="preset-btn social" data-preset="linkedin-banner">LinkedIn 1584×396</button>
+                                <button class="preset-btn social" data-preset="youtube-thumbnail">YouTube 1280×720</button>
+                            </div>
+
+                            <h4>Document Sizes</h4>
+                            <div class="preset-grid">
+                                <button class="preset-btn document" data-preset="a4">A4 210×297mm</button>
+                                <button class="preset-btn document" data-preset="letter">Letter 8.5×11"</button>
+                                <button class="preset-btn document" data-preset="business-card">Business Card</button>
+                                <button class="preset-btn document" data-preset="poster">Poster 18×24"</button>
+                            </div>
+
+                            <h4>Passport Photos</h4>
+                            <div class="preset-grid">
+                                <button class="preset-btn passport" data-preset="us-passport">US 2×2"</button>
+                                <button class="preset-btn passport" data-preset="indian-passport">Indian 35×45mm</button>
+                                <button class="preset-btn passport" data-preset="visa">Visa 33×48mm</button>
+                                <button class="preset-btn passport" data-preset="eu-passport">EU 35×45mm</button>
+                            </div>
+
+                            <div class="passport-options" id="passportOptions" style="display: none;">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="faceDetection"> Auto Center Face
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="backgroundRemoval"> Remove Background
+                                </label>
+                                <div class="background-color-picker" id="backgroundColorPicker" style="display: none;">
+                                    <label>Background Color:</label>
+                                    <input type="color" id="backgroundColor" value="#ffffff">
+                                </div>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="guidelinesOverlay"> Show Guidelines
+                                </label>
+                                <button class="generate-sheet-btn" id="generateSheetBtn">Generate Photo Sheet</button>
+                            </div>
+                        </div>
+
+                        <!-- Resize Options -->
+                        <div class="panel-section" id="resizePanel" style="display: none;">
+                            <h3>Resize Options</h3>
+                            
+                            <div class="resize-group">
+                                <h4>Custom Dimensions</h4>
+                                <div class="dimension-inputs">
+                                    <div class="input-group">
+                                        <label>Width (px)</label>
+                                        <input type="number" id="widthInput" min="1" max="8000">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Height (px)</label>
+                                        <input type="number" id="heightInput" min="1" max="8000">
+                                    </div>
+                                </div>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="maintainAspect" checked> Maintain Aspect Ratio
+                                </label>
+                            </div>
+
+                            <div class="resize-group">
+                                <h4>Percentage Scaling</h4>
+                                <div class="percentage-buttons">
+                                    <button class="percentage-btn" data-percent="25">25%</button>
+                                    <button class="percentage-btn" data-percent="50">50%</button>
+                                    <button class="percentage-btn" data-percent="75">75%</button>
+                                    <button class="percentage-btn" data-percent="100">100%</button>
+                                    <button class="percentage-btn" data-percent="125">125%</button>
+                                    <button class="percentage-btn" data-percent="150">150%</button>
+                                    <button class="percentage-btn" data-percent="200">200%</button>
+                                </div>
+                                <div class="custom-percentage">
+                                    <label>Custom Scale: <span id="percentageValue">100%</span></label>
+                                    <input type="range" id="percentageSlider" min="10" max="500" value="100">
+                                </div>
+                            </div>
+
+                            <div class="resize-group">
+                                <h4>File Compression</h4>
+                                <div class="compression-slider">
+                                    <label>Quality: <span id="qualityValue">90</span>%</label>
+                                    <input type="range" id="qualitySlider" min="10" max="100" value="90">
+                                </div>
+                                <div class="file-size-info">
+                                    <span>Estimated size: <span id="estimatedSize">--</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Filters Panel -->
+                        <div class="panel-section" id="filtersPanel" style="display: none;">
+                            <h3>Filters & Adjustments</h3>
+                            
+                            <div class="filter-group">
+                                <h4>Basic Adjustments</h4>
+                                <div class="slider-group">
+                                    <label>Brightness: <span id="brightnessValue">0</span></label>
+                                    <input type="range" id="brightnessSlider" min="-100" max="100" value="0">
+                                </div>
+                                <div class="slider-group">
+                                    <label>Contrast: <span id="contrastValue">0</span></label>
+                                    <input type="range" id="contrastSlider" min="-100" max="100" value="0">
+                                </div>
+                                <div class="slider-group">
+                                    <label>Saturation: <span id="saturationValue">0</span></label>
+                                    <input type="range" id="saturationSlider" min="-100" max="100" value="0">
+                                </div>
+                                <div class="slider-group">
+                                    <label>Blur: <span id="blurValue">0</span>px</label>
+                                    <input type="range" id="blurSlider" min="0" max="20" value="0">
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <h4>Quick Filters</h4>
+                                <div class="filter-buttons">
+                                    <button class="filter-btn" data-filter="none">Original</button>
+                                    <button class="filter-btn" data-filter="grayscale">Grayscale</button>
+                                    <button class="filter-btn" data-filter="sepia">Sepia</button>
+                                    <button class="filter-btn" data-filter="vintage">Vintage</button>
+                                    <button class="filter-btn" data-filter="cold">Cold</button>
+                                    <button class="filter-btn" data-filter="warm">Warm</button>
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <h4>Background</h4>
+                                <div class="background-options">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="addBackground"> Add Background Color
+                                    </label>
+                                    <div class="background-color-section" id="backgroundColorSection" style="display: none;">
+                                        <input type="color" id="backgroundColorPicker" value="#ffffff">
+                                        <div class="background-presets">
+                                            <button class="bg-preset" data-color="#ffffff" style="background: #ffffff;"></button>
+                                            <button class="bg-preset" data-color="#000000" style="background: #000000;"></button>
+                                            <button class="bg-preset" data-color="#ff0000" style="background: #ff0000;"></button>
+                                            <button class="bg-preset" data-color="#00ff00" style="background: #00ff00;"></button>
+                                            <button class="bg-preset" data-color="#0000ff" style="background: #0000ff;"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Text Panel -->
+                        <div class="panel-section" id="textPanel" style="display: none;">
+                            <h3>Add Text/Watermark</h3>
+                            
+                            <div class="text-group">
+                                <div class="input-group">
+                                    <label>Text Content</label>
+                                    <input type="text" id="textInput" placeholder="Enter text or watermark">
+                                </div>
+                                <div class="input-group">
+                                    <label>Font Family</label>
+                                    <select id="fontFamily">
+                                        <option value="Arial">Arial</option>
+                                        <option value="Inter">Inter</option>
+                                        <option value="Georgia">Georgia</option>
+                                        <option value="Times New Roman">Times New Roman</option>
+                                        <option value="Helvetica">Helvetica</option>
+                                        <option value="Courier New">Courier New</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Font Size: <span id="fontSizeValue">24</span>px</label>
+                                    <input type="range" id="fontSizeSlider" min="8" max="200" value="24">
+                                </div>
+                                <div class="input-group">
+                                    <label>Text Color</label>
+                                    <input type="color" id="textColor" value="#000000">
+                                </div>
+                                <div class="input-group">
+                                    <label>Opacity: <span id="textOpacityValue">100</span>%</label>
+                                    <input type="range" id="textOpacitySlider" min="0" max="100" value="100">
+                                </div>
+                            </div>
+
+                            <div class="text-group">
+                                <h4>Text Position</h4>
+                                <div class="position-grid">
+                                    <button class="position-btn" data-position="top-left">↖️</button>
+                                    <button class="position-btn" data-position="top-center">⬆️</button>
+                                    <button class="position-btn" data-position="top-right">↗️</button>
+                                    <button class="position-btn" data-position="middle-left">⬅️</button>
+                                    <button class="position-btn active" data-position="center">⚫</button>
+                                    <button class="position-btn" data-position="middle-right">➡️</button>
+                                    <button class="position-btn" data-position="bottom-left">↙️</button>
+                                    <button class="position-btn" data-position="bottom-center">⬇️</button>
+                                    <button class="position-btn" data-position="bottom-right">↘️</button>
+                                </div>
+                            </div>
+
+                            <div class="text-group">
+                                <h4>Text Style</h4>
+                                <div class="style-options">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="textBold"> Bold
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="textItalic"> Italic
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="textShadow"> Drop Shadow
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="textOutline"> Outline
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button class="add-text-btn" id="addTextBtn">Add Text</button>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Area -->
+                    <div class="canvas-area">
+                        <div class="canvas-container" id="canvasContainer">
+                            <canvas id="mainCanvas"></canvas>
+                            <canvas id="cropCanvas"></canvas>
+                            <div class="canvas-overlay" id="canvasOverlay"></div>
+                        </div>
+                        
+                        <!-- Image Info -->
+                        <div class="image-info" id="imageInfo">
+                            <div class="info-item">
+                                <span class="info-label">Original:</span>
+                                <span id="originalSize">--</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Current:</span>
+                                <span id="currentSize">--</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">File Size:</span>
+                                <span id="fileSize">--</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Format:</span>
+                                <span id="fileFormat">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel -->
+                    <div class="right-panel">
+                        <!-- Download Options -->
+                        <div class="panel-section">
+                            <h3>Download Options</h3>
+                            
+                            <div class="format-group">
+                                <h4>File Format</h4>
+                                <div class="format-buttons">
+                                    <button class="format-btn active" data-format="png">PNG</button>
+                                    <button class="format-btn" data-format="jpg">JPG</button>
+                                    <button class="format-btn" data-format="webp">WebP</button>
+                                </div>
+                            </div>
+
+                            <div class="dpi-group">
+                                <h4>DPI/Quality</h4>
+                                <div class="dpi-buttons">
+                                    <button class="dpi-btn" data-dpi="72">72 DPI (Web)</button>
+                                    <button class="dpi-btn" data-dpi="150">150 DPI (Print)</button>
+                                    <button class="dpi-btn active" data-dpi="300">300 DPI (High)</button>
+                                </div>
+                            </div>
+
+                            <div class="metadata-group">
+                                <h4>Metadata</h4>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="keepMetadata"> Keep EXIF Data
+                                </label>
+                            </div>
+
+                            <div class="download-buttons">
+                                <button class="download-single-btn" id="downloadSingleBtn">Download Image</button>
+                                <button class="download-zip-btn" id="downloadZipBtn" style="display: none;">Download as ZIP</button>
+                            </div>
+                        </div>
+
+                        <!-- Batch Operations -->
+                        <div class="panel-section" id="batchPanel" style="display: none;">
+                            <h3>Batch Operations</h3>
+                            
+                            <div class="batch-list" id="batchList">
+                                <!-- Batch items will be added here -->
+                            </div>
+
+                            <div class="batch-controls">
+                                <button class="batch-apply-btn" id="batchApplyBtn">Apply to All</button>
+                                <button class="batch-clear-btn" id="batchClearBtn">Clear All</button>
+                            </div>
+                        </div>
+
+                        <!-- History -->
+                        <div class="panel-section">
+                            <h3>History</h3>
+                            <div class="history-list" id="historyList">
+                                <div class="history-item">Original Image</div>
+                            </div>
+                            <button class="clear-history-btn" id="clearHistoryBtn">Clear History</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar" id="progressBar" style="display: none;">
+            <div class="progress-fill" id="progressFill"></div>
+            <span class="progress-text" id="progressText">Processing...</span>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
